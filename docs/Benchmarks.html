@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Decision Modeling - 3&nbsp; Tools For Working With Time Series Data</title>
+<title>Decision Modeling - 4&nbsp; The Forecasting Process (Benchamarks)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -49,8 +49,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Benchmarks.html" rel="next">
-<link href="./Simulation.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./Tools2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -89,7 +89,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchamarks)</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -129,12 +129,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></a>
+  <a href="./Tools2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchamarks)</span></a>
+  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchamarks)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -151,11 +151,10 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-wrangling-with-tidyverse." id="toc-data-wrangling-with-tidyverse." class="nav-link active" data-scroll-target="#data-wrangling-with-tidyverse."><span class="toc-section-number">3.1</span>  Data Wrangling With tidyverse.</a></li>
-  <li><a href="#the-avocado-data-set" id="toc-the-avocado-data-set" class="nav-link" data-scroll-target="#the-avocado-data-set"><span class="toc-section-number">3.2</span>  The Avocado Data Set</a></li>
-  <li><a href="#chipotle-wants-you-to-forecast-avocado-prices" id="toc-chipotle-wants-you-to-forecast-avocado-prices" class="nav-link" data-scroll-target="#chipotle-wants-you-to-forecast-avocado-prices"><span class="toc-section-number">3.3</span>  Chipotle Wants You to Forecast Avocado Prices</a></li>
-  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">3.4</span>  Lessons Learned in This Chapter</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">3.5</span>  Readings</a></li>
+  <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link active" data-scroll-target="#benchmarks"><span class="toc-section-number">4.1</span>  Benchmarks</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="toc-section-number">4.2</span>  Accuracy</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">4.3</span>  Leasons Learned</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">4.4</span>  Readings</a></li>
   </ul>
 </nav>
     </div>
@@ -164,7 +163,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchamarks)</span></h1>
 </div>
 
 
@@ -179,33 +178,28 @@ div.csl-indent {
 
 </header>
 
-<hr>
-<p>In this module, we will be learning tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data. Consequently, we will first learn how to get the data ready for analysis by using dplyr and tidyr. Secondly, we will plot the data to identify the trend, seasonality or cyclical behavior. To plot our time series, we will be learning the ggplot2 package in R. Lastly, since time series deals with dates, we will introduce a package called lubridate, that helps us parse and manipulate dates.</p>
-<section id="data-wrangling-with-tidyverse." class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="data-wrangling-with-tidyverse."><span class="header-section-number">3.1</span> Data Wrangling With tidyverse.</h2>
-<p>tidyverse is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (dplyr and tidyr) that we will be using to transform our data and get it ready for analysis. dplyr will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. tidyr will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, tidyverse allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user.</p>
+<p>This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series’s variation, leaving a small random error. We will ensure that we do not overfit a model to a training set by assessing its accuracy using a test set.</p>
+<section id="benchmarks" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="benchmarks"><span class="header-section-number">4.1</span> Benchmarks</h2>
+<p>Perhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediciton sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:</p>
+<p>We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:</p>
+<p>One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:</p>
+<p>Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, excercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:</p>
 </section>
-<section id="the-avocado-data-set" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="the-avocado-data-set"><span class="header-section-number">3.2</span> The Avocado Data Set</h2>
-<p>The avocado data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers’ cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g.&nbsp;greenskins) are not included in this data.</p>
+<section id="accuracy" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">4.2</span> Accuracy</h2>
+<p>We will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE’s but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn’t simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively.</p>
 </section>
-<section id="chipotle-wants-you-to-forecast-avocado-prices" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="chipotle-wants-you-to-forecast-avocado-prices"><span class="header-section-number">3.3</span> Chipotle Wants You to Forecast Avocado Prices</h2>
-<p>Chipotle is an American chain specializing in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of Chipotle’s best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados a day, amounting to more than 44,000 pounds of avocados annually. Chipotle wants you to develop a model to forecast the price of avocados. This model will allow the company to</p>
-</section>
-<section id="lessons-learned-in-this-chapter" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">3.4</span> Lessons Learned in This Chapter</h2>
-<p>In this module you have been introduced to data wrangling etc.</p>
+<section id="leasons-learned" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">4.3</span> Leasons Learned</h2>
+<p>In this module you have been introduced to the general procedure in forecasting time series.</p>
 <ul>
-<li><p>renaming, selecting and filtering variables.</p></li>
-<li><p>plotting using ggplot.</p></li>
-<li><p>handling dates with lubridate.</p></li>
+<li>Learning how create forecasts with simple heuristics.</li>
 </ul>
 </section>
-<section id="readings" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">3.5</span> Readings</h2>
-<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> chapter 1 and chapter 2.<br>
-tidy data: https://vita.had.co.nz/papers/tidy-data.pdf</p>
+<section id="readings" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="readings"><span class="header-section-number">4.4</span> Readings</h2>
+<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> chapter 5.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -351,13 +345,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Simulation.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></span>
+      <a href="./Tools2.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Benchmarks.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchamarks)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Decision Modeling - 3&nbsp; Tools For Working With Time Series Data</title>
+<title>Decision Modeling - 2&nbsp; Simulation in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,25 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
 </style>
 
 
@@ -49,8 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Benchmarks.html" rel="next">
-<link href="./Simulation.html" rel="prev">
+<link href="./Tools2.html" rel="next">
+<link href="./Tools.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -89,7 +70,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -124,12 +105,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></a>
+  <a href="./Simulation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></a>
+  <a href="./Tools2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -147,24 +128,14 @@ div.csl-indent {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#data-wrangling-with-tidyverse." id="toc-data-wrangling-with-tidyverse." class="nav-link active" data-scroll-target="#data-wrangling-with-tidyverse."><span class="toc-section-number">3.1</span>  Data Wrangling With tidyverse.</a></li>
-  <li><a href="#the-avocado-data-set" id="toc-the-avocado-data-set" class="nav-link" data-scroll-target="#the-avocado-data-set"><span class="toc-section-number">3.2</span>  The Avocado Data Set</a></li>
-  <li><a href="#chipotle-wants-you-to-forecast-avocado-prices" id="toc-chipotle-wants-you-to-forecast-avocado-prices" class="nav-link" data-scroll-target="#chipotle-wants-you-to-forecast-avocado-prices"><span class="toc-section-number">3.3</span>  Chipotle Wants You to Forecast Avocado Prices</a></li>
-  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">3.4</span>  Lessons Learned in This Chapter</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">3.5</span>  Readings</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></h1>
 </div>
 
 
@@ -179,41 +150,8 @@ div.csl-indent {
 
 </header>
 
-<hr>
-<p>In this module, we will be learning tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data. Consequently, we will first learn how to get the data ready for analysis by using dplyr and tidyr. Secondly, we will plot the data to identify the trend, seasonality or cyclical behavior. To plot our time series, we will be learning the ggplot2 package in R. Lastly, since time series deals with dates, we will introduce a package called lubridate, that helps us parse and manipulate dates.</p>
-<section id="data-wrangling-with-tidyverse." class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="data-wrangling-with-tidyverse."><span class="header-section-number">3.1</span> Data Wrangling With tidyverse.</h2>
-<p>tidyverse is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (dplyr and tidyr) that we will be using to transform our data and get it ready for analysis. dplyr will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. tidyr will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, tidyverse allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user.</p>
-</section>
-<section id="the-avocado-data-set" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="the-avocado-data-set"><span class="header-section-number">3.2</span> The Avocado Data Set</h2>
-<p>The avocado data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers’ cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g.&nbsp;greenskins) are not included in this data.</p>
-</section>
-<section id="chipotle-wants-you-to-forecast-avocado-prices" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="chipotle-wants-you-to-forecast-avocado-prices"><span class="header-section-number">3.3</span> Chipotle Wants You to Forecast Avocado Prices</h2>
-<p>Chipotle is an American chain specializing in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of Chipotle’s best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados a day, amounting to more than 44,000 pounds of avocados annually. Chipotle wants you to develop a model to forecast the price of avocados. This model will allow the company to</p>
-</section>
-<section id="lessons-learned-in-this-chapter" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">3.4</span> Lessons Learned in This Chapter</h2>
-<p>In this module you have been introduced to data wrangling etc.</p>
-<ul>
-<li><p>renaming, selecting and filtering variables.</p></li>
-<li><p>plotting using ggplot.</p></li>
-<li><p>handling dates with lubridate.</p></li>
-</ul>
-</section>
-<section id="readings" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">3.5</span> Readings</h2>
-<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> chapter 1 and chapter 2.<br>
-tidy data: https://vita.had.co.nz/papers/tidy-data.pdf</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-FPP3" class="csl-entry" role="doc-biblioentry">
-Hyndman, Rob. 2021. <span>“Forecasting Principles and Practice.”</span> <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.
-</div>
-</div>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -351,13 +289,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Simulation.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></span>
+      <a href="./Tools.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tools for Working With Simulation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Benchmarks.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchamarks)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Tools2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

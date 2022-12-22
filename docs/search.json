@@ -2,37 +2,37 @@
   {
     "objectID": "Tools2.html#data-wrangling-with-tidyverse.",
     "href": "Tools2.html#data-wrangling-with-tidyverse.",
-    "title": "1  Tools For Working With Time Series Data",
-    "section": "1.1 Data Wrangling With tidyverse.",
-    "text": "1.1 Data Wrangling With tidyverse.\ntidyverse is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (dplyr and tidyr) that we will be using to transform our data and get it ready for analysis. dplyr will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. tidyr will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, tidyverse allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user."
+    "title": "3  Tools For Working With Time Series Data",
+    "section": "3.1 Data Wrangling With tidyverse.",
+    "text": "3.1 Data Wrangling With tidyverse.\ntidyverse is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (dplyr and tidyr) that we will be using to transform our data and get it ready for analysis. dplyr will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. tidyr will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, tidyverse allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user."
   },
   {
     "objectID": "Tools2.html#the-avocado-data-set",
     "href": "Tools2.html#the-avocado-data-set",
-    "title": "1  Tools For Working With Time Series Data",
-    "section": "1.2 The Avocado Data Set",
-    "text": "1.2 The Avocado Data Set\nThe avocado data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers’ cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g. greenskins) are not included in this data."
+    "title": "3  Tools For Working With Time Series Data",
+    "section": "3.2 The Avocado Data Set",
+    "text": "3.2 The Avocado Data Set\nThe avocado data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers’ cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g. greenskins) are not included in this data."
   },
   {
     "objectID": "Tools2.html#chipotle-wants-you-to-forecast-avocado-prices",
     "href": "Tools2.html#chipotle-wants-you-to-forecast-avocado-prices",
-    "title": "1  Tools For Working With Time Series Data",
-    "section": "1.3 Chipotle Wants You to Forecast Avocado Prices",
-    "text": "1.3 Chipotle Wants You to Forecast Avocado Prices\nChipotle is an American chain specializing in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of Chipotle’s best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados a day, amounting to more than 44,000 pounds of avocados annually. Chipotle wants you to develop a model to forecast the price of avocados. This model will allow the company to"
+    "title": "3  Tools For Working With Time Series Data",
+    "section": "3.3 Chipotle Wants You to Forecast Avocado Prices",
+    "text": "3.3 Chipotle Wants You to Forecast Avocado Prices\nChipotle is an American chain specializing in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of Chipotle’s best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados a day, amounting to more than 44,000 pounds of avocados annually. Chipotle wants you to develop a model to forecast the price of avocados. This model will allow the company to"
   },
   {
     "objectID": "Tools2.html#lessons-learned-in-this-chapter",
     "href": "Tools2.html#lessons-learned-in-this-chapter",
-    "title": "1  Tools For Working With Time Series Data",
-    "section": "1.4 Lessons Learned in This Chapter",
-    "text": "1.4 Lessons Learned in This Chapter\nIn this module you have been introduced to data wrangling etc.\n\nrenaming, selecting and filtering variables.\nplotting using ggplot.\nhandling dates with lubridate."
+    "title": "3  Tools For Working With Time Series Data",
+    "section": "3.4 Lessons Learned in This Chapter",
+    "text": "3.4 Lessons Learned in This Chapter\nIn this module you have been introduced to data wrangling etc.\n\nrenaming, selecting and filtering variables.\nplotting using ggplot.\nhandling dates with lubridate."
   },
   {
     "objectID": "Tools2.html#readings",
     "href": "Tools2.html#readings",
-    "title": "1  Tools For Working With Time Series Data",
-    "section": "1.5 Readings",
-    "text": "1.5 Readings\nHyndman (2021) chapter 1 and chapter 2.\ntidy data: https://vita.had.co.nz/papers/tidy-data.pdf\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
+    "title": "3  Tools For Working With Time Series Data",
+    "section": "3.5 Readings",
+    "text": "3.5 Readings\nHyndman (2021) chapter 1 and chapter 2.\ntidy data: https://vita.had.co.nz/papers/tidy-data.pdf\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
   },
   {
     "objectID": "index.html",
@@ -47,5 +47,33 @@
     "title": "References",
     "section": "",
     "text": "Hyndman, Rob. 2021. “Forecasting Principles and Practice.”\nhttps://otexts.com/fpp3/."
+  },
+  {
+    "objectID": "Benchmarks.html#benchmarks",
+    "href": "Benchmarks.html#benchmarks",
+    "title": "4  The Forecasting Process (Benchamarks)",
+    "section": "4.1 Benchmarks",
+    "text": "4.1 Benchmarks\nPerhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediciton sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:\nWe can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:\nOne could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:\nLastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, excercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:"
+  },
+  {
+    "objectID": "Benchmarks.html#accuracy",
+    "href": "Benchmarks.html#accuracy",
+    "title": "4  The Forecasting Process (Benchamarks)",
+    "section": "4.2 Accuracy",
+    "text": "4.2 Accuracy\nWe will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE’s but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn’t simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively."
+  },
+  {
+    "objectID": "Benchmarks.html#leasons-learned",
+    "href": "Benchmarks.html#leasons-learned",
+    "title": "4  The Forecasting Process (Benchamarks)",
+    "section": "4.3 Leasons Learned",
+    "text": "4.3 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series.\n\nLearning how create forecasts with simple heuristics."
+  },
+  {
+    "objectID": "Benchmarks.html#readings",
+    "href": "Benchmarks.html#readings",
+    "title": "4  The Forecasting Process (Benchamarks)",
+    "section": "4.4 Readings",
+    "text": "4.4 Readings\nHyndman (2021) chapter 5.\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
   }
 ]

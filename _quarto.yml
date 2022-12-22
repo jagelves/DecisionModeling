@@ -9,8 +9,9 @@ book:
   chapters:
     - index.qmd
     - Tools.qmd
-    - Simulation
+    - Simulation.qmd
     - Tools2.qmd
+    - Benchmarks.qmd
     - references.qmd
 
 bibliography: references.bib
