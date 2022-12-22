@@ -1,0 +1,4 @@
+# Describing Time Series Data
+
+This module will describe the Time Series with descriptive statistics, plots, and classical decomposition. We will first learn how to use tsibbles. tsibbles are data structures similar to data frames but with a time component that allows us to analyze the time series and retrieve its features. We can calculate several features from a time series like the mean, median, and quantiles that are basic in describing a series. However, we can also use features to test for randomness or the trending of a series. Finally, we will decompose a time series into seasonality, trend, and error. These components are essential for describing a series and play an important role in forecasting.
+
