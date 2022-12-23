@@ -75,5 +75,19 @@
     "title": "4  The Forecasting Process (Benchamarks)",
     "section": "4.4 Readings",
     "text": "4.4 Readings\nHyndman (2021) chapter 5.\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
+  },
+  {
+    "objectID": "Tools.html#r-basics",
+    "href": "Tools.html#r-basics",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.1 R Basics",
+    "text": "1.1 R Basics\nObjects, vectors, data frames"
+  },
+  {
+    "objectID": "Tools.html#r-intermediate",
+    "href": "Tools.html#r-intermediate",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.2 R Intermediate",
+    "text": "1.2 R Intermediate\nLoops and conditionals\nrandom number generators"
   }
 ]
