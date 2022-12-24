@@ -6,7 +6,7 @@ We will be using R to conduct business simulation. But before we jump into build
 
 ## R Basics
 
-Objects, vectors, data frames
+Objects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An **object** is a piece of data that can be stored in a variable. It can be as simple as a single integer or letter. **Vectors** are one-dimensional arrays of data. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Lastly, a **data frame**, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record.
 
 ## R Intermediate
 
