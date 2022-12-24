@@ -20,6 +20,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -132,8 +151,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#r-basics" id="toc-r-basics" class="nav-link active" data-scroll-target="#r-basics"><span class="toc-section-number">1.1</span>  R Basics</a></li>
-  <li><a href="#r-intermediate" id="toc-r-intermediate" class="nav-link" data-scroll-target="#r-intermediate"><span class="toc-section-number">1.2</span>  R Intermediate</a></li>
+  <li><a href="#storing-our-data-in-r" id="toc-storing-our-data-in-r" class="nav-link active" data-scroll-target="#storing-our-data-in-r"><span class="toc-section-number">1.1</span>  Storing Our Data in R</a></li>
+  <li><a href="#automating-the-trial-process-in-r" id="toc-automating-the-trial-process-in-r" class="nav-link" data-scroll-target="#automating-the-trial-process-in-r"><span class="toc-section-number">1.2</span>  Automating The Trial Process in R</a></li>
+  <li><a href="#generating-random-numbers-in-r" id="toc-generating-random-numbers-in-r" class="nav-link" data-scroll-target="#generating-random-numbers-in-r"><span class="toc-section-number">1.3</span>  Generating Random Numbers in R</a></li>
+  <li><a href="#company-x-want-your-help" id="toc-company-x-want-your-help" class="nav-link" data-scroll-target="#company-x-want-your-help"><span class="toc-section-number">1.4</span>  Company X Want Your Help</a></li>
+  <li><a href="#leasons-learned-in-this-chapter" id="toc-leasons-learned-in-this-chapter" class="nav-link" data-scroll-target="#leasons-learned-in-this-chapter"><span class="toc-section-number">1.5</span>  Leasons Learned In This Chapter</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">1.6</span>  Readings</a></li>
   </ul>
 </nav>
     </div>
@@ -159,16 +182,33 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Business simulation is a type of computer-based modeling that allows us to experiment and analyze different business scenarios and strategies. It is a cost-effective way to explore and test business decisions in production, marketing, finance, and operations, among many other business areas.</p>
 <p>We will be using R to conduct business simulation. But before we jump into building our simulation models, we need to learn the tools that allow us to perform this analysis. In this module, we will introduce the building blocks of our computer simulation models. In the next module, we will apply these tools to business problems.</p>
-<section id="r-basics" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="r-basics"><span class="header-section-number">1.1</span> R Basics</h2>
-<p>Objects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An <strong>object</strong> is a piece of data that can be stored in a variable. It can be as simple as a single integer or letter. <strong>Vectors</strong> are one-dimensional arrays of data. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Lastly, a <strong>data frame</strong>, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record.</p>
+<section id="storing-our-data-in-r" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="storing-our-data-in-r"><span class="header-section-number">1.1</span> Storing Our Data in R</h2>
+<p>Objects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An <strong>object</strong> is a piece of data that can be stored in a variable. It can be as simple as a single integer or as output of regression analysis. <strong>Vectors</strong> are one-dimensional arrays of data that cn be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Lastly, a <strong>data frame</strong>, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record.</p>
 </section>
-<section id="r-intermediate" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="r-intermediate"><span class="header-section-number">1.2</span> R Intermediate</h2>
-<p>Loops and conditionals</p>
-<p>random number generators</p>
+<section id="automating-the-trial-process-in-r" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="automating-the-trial-process-in-r"><span class="header-section-number">1.2</span> Automating The Trial Process in R</h2>
+<p>Loops and conditionals are two important control structures in the R programming language that allow you to execute specific blocks of code based on certain conditions. A loop is a programming construct that allows you to repeat a block of code a specified number of times or until a certain condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a certain condition is true. Conditionals, on the other hand, allow you to execute different blocks of code based on whether a certain condition is true or false. The most common type of conditional in R is the if-else statement, which executes one block of code if a condition is true and a different block of code if the condition is false. By using loops and conditionals, you can create more complex and powerful programs in R.</p>
+</section>
+<section id="generating-random-numbers-in-r" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="generating-random-numbers-in-r"><span class="header-section-number">1.3</span> Generating Random Numbers in R</h2>
+</section>
+<section id="company-x-want-your-help" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="company-x-want-your-help"><span class="header-section-number">1.4</span> Company X Want Your Help</h2>
+</section>
+<section id="leasons-learned-in-this-chapter" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="leasons-learned-in-this-chapter"><span class="header-section-number">1.5</span> Leasons Learned In This Chapter</h2>
+</section>
+<section id="readings" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="readings"><span class="header-section-number">1.6</span> Readings</h2>
+<p><span class="citation" data-cites="HOP">Grolemund (<a href="references.html#ref-HOP" role="doc-biblioref">2014</a>)</span> Chapters 1 and 2.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-HOP" class="csl-entry" role="doc-biblioentry">
+Grolemund, Garret. 2014. <span>“Hands-on Programming with r.”</span> <a href="https://jjallaire.github.io/hopr/#license">https://jjallaire.github.io/hopr/#license</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

@@ -81,7 +81,7 @@
     "href": "Tools.html#r-basics",
     "title": "1  Tools for Working With Simulation",
     "section": "1.1 R Basics",
-    "text": "1.1 R Basics\nObjects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An object is a piece of data that can be stored in a variable. It can be as simple as a single integer or letter. Vectors are one-dimensional arrays of data. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Lastly, a data frame, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record."
+    "text": "1.1 R Basics\nObjects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An object is a piece of data that can be stored in a variable. It can be as simple as a single integer or as output of regression analysis. Vectors are one-dimensional arrays of data that cn be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Lastly, a data frame, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record."
   },
   {
     "objectID": "Tools.html#r-intermediate",
@@ -89,5 +89,47 @@
     "title": "1  Tools for Working With Simulation",
     "section": "1.2 R Intermediate",
     "text": "1.2 R Intermediate\nLoops and conditionals\nrandom number generators"
+  },
+  {
+    "objectID": "Tools.html#readings",
+    "href": "Tools.html#readings",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.6 Readings",
+    "text": "1.6 Readings\nGrolemund (2014) Chapters 1 and 2.\n\n\n\n\nGrolemund, Garret. 2014. “Hands-on Programming with r.” https://jjallaire.github.io/hopr/#license."
+  },
+  {
+    "objectID": "Tools.html#storing-our-data-in-r",
+    "href": "Tools.html#storing-our-data-in-r",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.1 Storing Our Data in R",
+    "text": "1.1 Storing Our Data in R\nObjects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An object is a piece of data that can be stored in a variable. It can be as simple as a single integer or as output of regression analysis. Vectors are one-dimensional arrays of data that cn be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Lastly, a data frame, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record."
+  },
+  {
+    "objectID": "Tools.html#automating-the-trial-process-in-r",
+    "href": "Tools.html#automating-the-trial-process-in-r",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.2 Automating The Trial Process in R",
+    "text": "1.2 Automating The Trial Process in R\nLoops and conditionals are two important control structures in the R programming language that allow you to execute specific blocks of code based on certain conditions. A loop is a programming construct that allows you to repeat a block of code a specified number of times or until a certain condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a certain condition is true. Conditionals, on the other hand, allow you to execute different blocks of code based on whether a certain condition is true or false. The most common type of conditional in R is the if-else statement, which executes one block of code if a condition is true and a different block of code if the condition is false. By using loops and conditionals, you can create more complex and powerful programs in R."
+  },
+  {
+    "objectID": "Tools.html#generating-random-numbers-in-r",
+    "href": "Tools.html#generating-random-numbers-in-r",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.3 Generating Random Numbers in R",
+    "text": "1.3 Generating Random Numbers in R"
+  },
+  {
+    "objectID": "Tools.html#company-x-want-your-help",
+    "href": "Tools.html#company-x-want-your-help",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.4 Company X Want Your Help",
+    "text": "1.4 Company X Want Your Help"
+  },
+  {
+    "objectID": "Tools.html#leasons-learned-in-this-chapter",
+    "href": "Tools.html#leasons-learned-in-this-chapter",
+    "title": "1  Tools for Working With Simulation",
+    "section": "1.5 Leasons Learned In This Chapter",
+    "text": "1.5 Leasons Learned In This Chapter"
   }
 ]
