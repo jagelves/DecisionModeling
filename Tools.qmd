@@ -6,24 +6,64 @@ We will be using R to conduct business simulation. But before we jump into build
 
 ## Storing Our Data in R
 
-Objects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An **object** is a piece of data that can be stored in a variable. It can be as simple as a single integer or as output of regression analysis. **Vectors** are one-dimensional arrays of data that cn be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Lastly, a **data frame**, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record.
+Objects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An **object** is a piece of data that can be stored in a variable. It can be as simple as a single integer or as output of regression analysis. For example, the code below creates an object *x* that stores the number $5$.
 
-## Automating The Trial Process in R
+```{r}
+x<-5
+```
 
-Loops and conditionals are two important control structures in the R programming language that allow you to execute specific blocks of code based on certain conditions. A loop is a programming construct that allows you to repeat a block of code a specified number of times or until a certain condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a certain condition is true.
+**Vectors** are one-dimensional arrays of data that cn be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, and logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Below, the vector *Books* stores the titles of $5$ monster classics a bookstore plans to release:
 
-![](images/Loop.png){fig-align="center"}
+```{r}
+books<-c("Frankenstein","Dracula","Moby Dick",
+         "War Of The Worlds","Beowulf")
+```
 
-Conditionals, on the other hand, allow you to execute different blocks of code based on whether a certain condition is true or false. The most common type of conditional in R is the if-else statement, which executes one block of code if a condition is true and a different block of code if the condition is false. By using loops and conditionals, you can create more complex and powerful programs in R.
+Lastly, a **data frame**, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record. You can think of a data frame as a collection of vectors that are related to each other. We can easily construct a data frame by combining one or more vectors:
 
-![](images/Conditional.png){fig-align="center"}
+```{r}
+data.frame(Bookss=c("Frankenstein","Dracula",
+                     "Moby Dick",
+                     "War Of The Worlds","Beowulf"), 
+           Price=c(9.5,5.78,6.34,5.67,2.45))
+```
 
 ## Generating Random Numbers in R
 
-## Company X Want Your Help
+There are several functions available in R that can be used to generate random numbers. These functions allow us to easily create random numbers based on a specific probability distribution. For instance, the `rbinom()` function generates random numbers based on the binomial distribution, while the `rnorm()` function generates random numbers based on the normal distribution. By using these functions, we can efficiently generate random numbers that follow a specific probability distribution, which can be useful for a variety of applications.
 
-## Leasons Learned In This Chapter
+For example, the binomial distribution may be useful in estimating the probability that a certain number of customers respond to a marketing campaign, or that a given number of defective products being produced in a batch of products. In the absence of data, we can generate data using these random number generators. 
+
+Let's assume the bookstore is unsure how many customers will buy the books at the prices listed. Before, they send the catalogs they decide to get an rough idea on the demand. They figure that the probability that a customer would buy any of the title at the given prices is 0.70. We can now modify our data frame as follows:
+
+```{r}
+data.frame(Books=c("Frankenstein","Dracula",
+                     "Moby Dick",
+                     "War Of The Worlds","Beowulf"), 
+           Price=c(9.5,5.78,6.34,5.67,2.45),
+           Demand=rbinom(5,100,0.7))
+```
+
+
+## Using Loops and Conditional in R
+
+Loops and conditionals will allow us to iterate the simulation several times so that we can get a better understanding on how the random variables affect our model. They will allow us to generate outcome distributions and summary statistics like means and standard deviations. What are loops and conditionals?
+
+Loops and conditionals are two important control structures in the R programming language that allow you to execute specific blocks of code based on certain conditions. 
+
+A **loop** is a programming construct that allows you to repeat a block of code a specified number of times or until a certain condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a certain condition is true.
+
+![](images/Loop.png){fig-align="center"}
+
+**Conditionals** allow you to execute different blocks of code based on whether a certain condition is true or false. The most common type of conditional in R is the if-else statement, which executes one block of code if a condition is true and a different block of code if the condition is false.
+
+![](images/Conditional.png){fig-align="center"}
+
+
+## Company X Wants Your Help
+
+## Lessons Learned In This Chapter
 
 ## Readings
 
-@HOP Chapters 1 and 2.
+@HOP Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 9.3, 9.4, 9.5 (Loops),
