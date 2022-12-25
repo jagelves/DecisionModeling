@@ -30,20 +30,21 @@ data.frame(Bookss=c("Frankenstein","Dracula",
 
 ## Generating Random Numbers in R
 
-There are several functions available in R that can be used to generate random numbers. These functions allow us to easily create random numbers based on a specific probability distribution. For instance, the `rbinom()` function generates random numbers based on the binomial distribution, while the `rnorm()` function generates random numbers based on the normal distribution. By using these functions, we can efficiently generate random numbers that follow a specific probability distribution, which can be useful for a variety of applications.
+There are several functions available in R that can be used to generate random numbers. These functions are based on a specific probability distribution. For instance, the `rbinom()` function generates random numbers based on the binomial distribution, while the `rnorm()` function generates random numbers based on the normal distribution. By using these functions, we can efficiently generate random numbers that follow a specific probability distribution, which can be useful for a variety of applications.
 
 For example, the binomial distribution may be useful in estimating the probability that a certain number of customers respond to a marketing campaign, or that a given number of defective products being produced in a batch of products. In the absence of data, we can generate data using these random number generators. 
 
-Let's assume the bookstore is unsure how many customers will buy the books at the prices listed. Before, they send the catalogs they decide to get an rough idea on the demand. They figure that the probability that a customer would buy any of the title at the given prices is 0.70. We can now modify our data frame as follows:
+Assume a bookstore is unsure how many customers will buy their Monster Classic Series at list price. Their plan is to send 100 catalogs by mail to potential customers. Before they send the catalogs, they decide to get an rough idea on demand. Past data reveals that the probability a customer would buy any of the titles at the given prices is 0.70. Let's modify our data frame by simulating demand with the `rbinom()` function.
 
 ```{r}
-data.frame(Books=c("Frankenstein","Dracula",
+(MS<-data.frame(Books=c("Frankenstein","Dracula",
                      "Moby Dick",
                      "War Of The Worlds","Beowulf"), 
            Price=c(9.5,5.78,6.34,5.67,2.45),
-           Demand=rbinom(5,100,0.7))
+           Demand=rbinom(5,100,0.7)))
 ```
 
+As you can see, the `rbinom()` function has yielded $5$ simulated outcomes from the binomial experiment with a probability of $0.7$. We can now use this data to perform analysis on the profitability of the Monster Series.
 
 ## Using Loops and Conditional in R
 
@@ -53,17 +54,49 @@ Loops and conditionals are two important control structures in the R programming
 
 A **loop** is a programming construct that allows you to repeat a block of code a specified number of times or until a certain condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a certain condition is true.
 
-![](images/Loop.png){fig-align="center"}
+![](images/Loop.png)
 
 **Conditionals** allow you to execute different blocks of code based on whether a certain condition is true or false. The most common type of conditional in R is the if-else statement, which executes one block of code if a condition is true and a different block of code if the condition is false.
 
 ![](images/Conditional.png){fig-align="center"}
 
+Let's go back to our simple example and assume that the bookstore has more insight on the demand of the books. In particular, assume that if the book is either Frankenstein or Dracula, the probability of a customer buying is 0.9 (the probability of the other books remains at 0.7). We can now modify our demand simulation using a loop and a conditional.
+
+```{r}
+demand<-c()
+
+for (i in MS$Books){
+  if (i=="Frankenstein"| i=="Dracula"){
+    p=0.9
+  }
+  else {p=0.7}
+  demand<-c(demand,rbinom(1,100,p))
+}
+
+print(demand)
+```
+
+Note that the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, then the random binomial number is drawn with the probability set at $0.9$, if not the it is drawn with probability $0.7$. The for loop, goes through all the books in the series one by one and adds a simulated demand.
+
+Here is our data frame with the new simulated values.
+
+```{r}
+(MS<-data.frame(Books=c("Frankenstein","Dracula",
+                     "Moby Dick",
+                     "War Of The Worlds","Beowulf"), 
+           Price=c(9.5,5.78,6.34,5.67,2.45),
+           Demand=demand))
+```
+
 
 ## Company X Wants Your Help
+
+
 
 ## Lessons Learned In This Chapter
 
 ## Readings
 
-@HOP Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 9.3, 9.4, 9.5 (Loops),
+@HOP Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).
+
+@GelvesBS Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables).
