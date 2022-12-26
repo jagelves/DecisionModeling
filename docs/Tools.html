@@ -218,7 +218,7 @@ div.csl-indent {
   <li><a href="#storing-our-data-in-r" id="toc-storing-our-data-in-r" class="nav-link active" data-scroll-target="#storing-our-data-in-r"><span class="toc-section-number">1.1</span>  Storing Our Data in R</a></li>
   <li><a href="#generating-random-numbers-in-r" id="toc-generating-random-numbers-in-r" class="nav-link" data-scroll-target="#generating-random-numbers-in-r"><span class="toc-section-number">1.2</span>  Generating Random Numbers in R</a></li>
   <li><a href="#using-loops-and-conditional-in-r" id="toc-using-loops-and-conditional-in-r" class="nav-link" data-scroll-target="#using-loops-and-conditional-in-r"><span class="toc-section-number">1.3</span>  Using Loops and Conditional in R</a></li>
-  <li><a href="#company-x-wants-your-help" id="toc-company-x-wants-your-help" class="nav-link" data-scroll-target="#company-x-wants-your-help"><span class="toc-section-number">1.4</span>  Company X Wants Your Help</a></li>
+  <li><a href="#the-va-deaprtment-of-transportation-wants-your-services" id="toc-the-va-deaprtment-of-transportation-wants-your-services" class="nav-link" data-scroll-target="#the-va-deaprtment-of-transportation-wants-your-services"><span class="toc-section-number">1.4</span>  The VA Deaprtment of Transportation Wants Your Services</a></li>
   <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">1.5</span>  Lessons Learned In This Chapter</a></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">1.6</span>  Readings</a></li>
   </ul>
@@ -286,11 +286,11 @@ div.csl-indent {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span><span class="fu">rbinom</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="fl">0.7</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     70
-2           Dracula  5.78     64
-3         Moby Dick  6.34     66
-4 War Of The Worlds  5.67     66
-5           Beowulf  2.45     69</code></pre>
+1      Frankenstein  9.50     61
+2           Dracula  5.78     70
+3         Moby Dick  6.34     76
+4 War Of The Worlds  5.67     56
+5           Beowulf  2.45     68</code></pre>
 </div>
 </div>
 <p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. We can now use this data to perform analysis on the profitability of the Monster Series.</p>
@@ -325,7 +325,7 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(demand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 87 88 72 75 73</code></pre>
+<pre><code>[1] 90 84 63 75 70</code></pre>
 </div>
 </div>
 <p>In the code above, the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, then the random binomial number is drawn with the probability <span class="math inline">\(0.9\)</span>, if not the it is drawn with probability <span class="math inline">\(0.7\)</span>. The for loop, goes through all the books in the series one by one and adds a simulated demand. Below is our data frame with the new simulated values.</p>
@@ -337,16 +337,17 @@ div.csl-indent {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span>demand))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     87
-2           Dracula  5.78     88
-3         Moby Dick  6.34     72
+1      Frankenstein  9.50     90
+2           Dracula  5.78     84
+3         Moby Dick  6.34     63
 4 War Of The Worlds  5.67     75
-5           Beowulf  2.45     73</code></pre>
+5           Beowulf  2.45     70</code></pre>
 </div>
 </div>
 </section>
-<section id="company-x-wants-your-help" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="company-x-wants-your-help"><span class="header-section-number">1.4</span> Company X Wants Your Help</h2>
+<section id="the-va-deaprtment-of-transportation-wants-your-services" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="the-va-deaprtment-of-transportation-wants-your-services"><span class="header-section-number">1.4</span> The VA Deaprtment of Transportation Wants Your Services</h2>
+<p>The VA ferry crossing the James River was first established in 1925. The ferry transports vehicles&nbsp;back and forth from Jamestown to Scotland in a 15-minute ride. The VA Department of Transportation wants you to simulate the daily demand for the ferry so that they schedule the expected staff and number of ferries to run.</p>
 </section>
 <section id="lessons-learned-in-this-chapter" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">1.5</span> Lessons Learned In This Chapter</h2>
