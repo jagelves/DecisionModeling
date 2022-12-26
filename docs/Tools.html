@@ -244,27 +244,27 @@ div.csl-indent {
 
 </header>
 
-<p>Business simulation is a type of computer-based modeling that allows us to experiment and analyze different business scenarios and strategies. It is a cost-effective way to explore and test business decisions in production, marketing, finance, and operations, among many other.</p>
-<p>We will be using R to conduct business simulation. But before we jump into building our simulation models, we need to learn the tools that allow us to perform this analysis. In this module, we will introduce the building blocks of our computer simulation models. In the next module, we will apply these tools to business problems.</p>
+<p>Business simulation is a type of computer-based modeling that allows us to experiment and analyze different business scenarios and strategies. It’s appeal comes from being a cost-effective way to explore and test business decisions in production, marketing, finance, and operations, among many other.</p>
+<p>We will be using R to conduct business simulation. But before we jump into building our simulation models, we’ll need to learn the tools that allow us to perform this analysis. In this module, we introduce the building blocks of our computer simulation models. In the next module, we will apply these tools to business problems.</p>
 <section id="storing-our-data-in-r" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="storing-our-data-in-r"><span class="header-section-number">1.1</span> Storing Our Data in R</h2>
-<p>Objects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An <strong>object</strong> is a piece of data that can be stored in a variable. It can be as simple as a single integer or as informative as the output in regression analysis. For example, the code below creates an object <em>x</em> that stores the number <span class="math inline">\(5\)</span>.</p>
+<p>Objects, vectors and data frames are all important in the R programming language. They are particularly useful when storing and manipulating data in R. An <strong>object</strong> is a piece of data that can be stored in a variable. It can be as simple as a single integer or as informative as the output in regression analysis. For example, the code below creates an object <em>x</em> that stores the number <span class="math inline">\(5\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Vectors</strong> are one-dimensional arrays of data that can be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, or logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Below, the vector <em>Books</em> stores the titles of <span class="math inline">\(5\)</span> monster classics a bookstore plans to release:</p>
+<p><strong>Vectors</strong> are one-dimensional arrays of data that can be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, or logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Below, the vector <em>Books</em> stores the titles of <span class="math inline">\(5\)</span> monster classics a bookstore plans to release as characters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>books<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"Frankenstein"</span>,<span class="st">"Dracula"</span>,<span class="st">"Moby Dick"</span>,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>         <span class="st">"War Of The Worlds"</span>,<span class="st">"Beowulf"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Lastly, a <strong>data frame</strong>, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record. You can think of a data frame as a collection of vectors that are related to each other. We can easily construct a data frame by combining one or more vectors by using the <code>data.frame()</code> function in R.</p>
+<p>Lastly, a <strong>data frame</strong>, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record. You can think of a data frame as a collection of vectors that are related to each other. We can easily construct a data frame by combining one or more vectors using the <code>data.frame()</code> function in R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Bookss=</span><span class="fu">c</span>(<span class="st">"Frankenstein"</span>,<span class="st">"Dracula"</span>,</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">Books=</span><span class="fu">c</span>(<span class="st">"Frankenstein"</span>,<span class="st">"Dracula"</span>,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Moby Dick"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"War Of The Worlds"</span>,<span class="st">"Beowulf"</span>), </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">Price=</span><span class="fu">c</span>(<span class="fl">9.5</span>,<span class="fl">5.78</span>,<span class="fl">6.34</span>,<span class="fl">5.67</span>,<span class="fl">2.45</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             Bookss Price
+<pre><code>              Books Price
 1      Frankenstein  9.50
 2           Dracula  5.78
 3         Moby Dick  6.34
@@ -276,7 +276,7 @@ div.csl-indent {
 <section id="generating-random-numbers-in-r" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="generating-random-numbers-in-r"><span class="header-section-number">1.2</span> Generating Random Numbers in R</h2>
 <p>There are several functions available in R that can be used to <strong>generate random numbers</strong>. These functions are based on a specific probability distribution. For instance, the <code>rbinom()</code> function generates random numbers based on the binomial distribution, while the <code>rnorm()</code> function generates random numbers based on the normal distribution. By using these functions, we can efficiently generate random numbers that follow a specific probability distribution, which can be useful for a variety of applications.</p>
-<p>For example, the <strong>binomial distribution</strong> may be useful in estimating the probability that a certain number of customers respond to a marketing campaign. However, as we will see below, we can also use the distribution to generate random customers who either responded or not responded to the the campaign.</p>
+<p>For example, the <strong>binomial distribution</strong> may be useful in estimating the probability that a certain number of customers respond to a marketing campaign. However, as we will see below, we can also use the distribution to generate random customers who either responded or not responded to the campaign.</p>
 <p>Assume the bookstore is unsure on how many customers will buy their Monster Classic Series at list price. Their plan is to send <span class="math inline">\(100\)</span> catalogs by mail to potential customers. Before they send the catalogs, they decide to get an rough idea on demand. Past data reveals that the probability a customer would buy any of the titles at the given prices is <span class="math inline">\(0.70\)</span>. Let’s modify our data frame by simulating demand with the <code>rbinom()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(MS<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">Books=</span><span class="fu">c</span>(<span class="st">"Frankenstein"</span>,<span class="st">"Dracula"</span>,</span>
@@ -286,18 +286,18 @@ div.csl-indent {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span><span class="fu">rbinom</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="fl">0.7</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     61
-2           Dracula  5.78     70
-3         Moby Dick  6.34     76
-4 War Of The Worlds  5.67     56
+1      Frankenstein  9.50     68
+2           Dracula  5.78     66
+3         Moby Dick  6.34     67
+4 War Of The Worlds  5.67     72
 5           Beowulf  2.45     68</code></pre>
 </div>
 </div>
-<p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. We can now use this data to perform analysis on the profitability of the Monster Series.</p>
+<p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. The bookstore can now use this data to perform analysis on the profitability of the Monster Series it desires.</p>
 </section>
 <section id="using-loops-and-conditional-in-r" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="using-loops-and-conditional-in-r"><span class="header-section-number">1.3</span> Using Loops and Conditional in R</h2>
-<p>Loops and conditionals will allow us to iterate the simulation several times so that we can get a better understanding on how the random variables affect our model. They allow us to generate outcome distributions and summary statistics like means and standard deviations of variables of interest in our simulation model. What are loops and conditionals?</p>
+<p>Loops and conditionals will allow us to iterate the simulation several times so that we can get a better understanding on how the random variables affect our model. For example, they will allow us to generate summary statistics like means and standard deviations of variables of interest in our simulation model. What are loops and conditionals?</p>
 <p>Loops and conditionals are two important control structures in the R programming language that allow you to execute specific blocks of code based on certain conditions.</p>
 <p>A <strong>loop</strong> is a programming construct that allows you to repeat a block of code a specified number of times or until a certain condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a certain condition is true.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -325,7 +325,7 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(demand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 90 84 63 75 70</code></pre>
+<pre><code>[1] 91 93 78 70 76</code></pre>
 </div>
 </div>
 <p>In the code above, the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, then the random binomial number is drawn with the probability <span class="math inline">\(0.9\)</span>, if not the it is drawn with probability <span class="math inline">\(0.7\)</span>. The for loop, goes through all the books in the series one by one and adds a simulated demand. Below is our data frame with the new simulated values.</p>
@@ -337,11 +337,11 @@ div.csl-indent {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span>demand))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     90
-2           Dracula  5.78     84
-3         Moby Dick  6.34     63
-4 War Of The Worlds  5.67     75
-5           Beowulf  2.45     70</code></pre>
+1      Frankenstein  9.50     91
+2           Dracula  5.78     93
+3         Moby Dick  6.34     78
+4 War Of The Worlds  5.67     70
+5           Beowulf  2.45     76</code></pre>
 </div>
 </div>
 </section>

@@ -1,3 +1,3 @@
 # Preface {.unnumbered}
 
-This book is based on a couple of topic in Decision Modeling. It first deals with simulation and then with time series models. In both topics it introduces the tools and packages in R needed to perform each analysis. Special attention is given to business applications.
+This book is based on a couple of topics in Decision Modeling. It first deals with business simulation models and then with time series models. In both topics it introduces the tools and packages in R needed to perform each analysis. Special attention is given to business applications.

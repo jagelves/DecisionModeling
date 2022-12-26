@@ -1,28 +1,28 @@
 # Tools for Working With Simulation
 
-Business simulation is a type of computer-based modeling that allows us to experiment and analyze different business scenarios and strategies. It is a cost-effective way to explore and test business decisions in production, marketing, finance, and operations, among many other.
+Business simulation is a type of computer-based modeling that allows us to experiment and analyze different business scenarios and strategies. It's appeal comes from being a cost-effective way to explore and test business decisions in production, marketing, finance, and operations, among many other.
 
-We will be using R to conduct business simulation. But before we jump into building our simulation models, we need to learn the tools that allow us to perform this analysis. In this module, we will introduce the building blocks of our computer simulation models. In the next module, we will apply these tools to business problems.
+We will be using R to conduct business simulation. But before we jump into building our simulation models, we'll need to learn the tools that allow us to perform this analysis. In this module, we introduce the building blocks of our computer simulation models. In the next module, we will apply these tools to business problems.
 
 ## Storing Our Data in R
 
-Objects, vectors and data frames are all important in the R programming language. They mainly help us store and manipulate data. An **object** is a piece of data that can be stored in a variable. It can be as simple as a single integer or as informative as the output in regression analysis. For example, the code below creates an object *x* that stores the number $5$.
+Objects, vectors and data frames are all important in the R programming language. They are particularly useful when storing and manipulating data in R. An **object** is a piece of data that can be stored in a variable. It can be as simple as a single integer or as informative as the output in regression analysis. For example, the code below creates an object *x* that stores the number $5$.
 
 ```{r}
 x<-5
 ```
 
-**Vectors** are one-dimensional arrays of data that can be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, or logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Below, the vector *Books* stores the titles of $5$ monster classics a bookstore plans to release:
+**Vectors** are one-dimensional arrays of data that can be stored in an object. Vectors can contain elements of various data types, such as numerical values, character strings, or logical values (i.e., TRUE or FALSE). However, every component of the vector must be the same data type. Below, the vector *Books* stores the titles of $5$ monster classics a bookstore plans to release as characters.
 
 ```{r}
 books<-c("Frankenstein","Dracula","Moby Dick",
          "War Of The Worlds","Beowulf")
 ```
 
-Lastly, a **data frame**, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record. You can think of a data frame as a collection of vectors that are related to each other. We can easily construct a data frame by combining one or more vectors by using the `data.frame()` function in R.
+Lastly, a **data frame**, is a two-dimensional data table with rows and columns. Each column in a data frame represents a different variable, and each row represents a single observation or record. You can think of a data frame as a collection of vectors that are related to each other. We can easily construct a data frame by combining one or more vectors using the `data.frame()` function in R.
 
 ```{r}
-data.frame(Bookss=c("Frankenstein","Dracula",
+data.frame(Books=c("Frankenstein","Dracula",
                      "Moby Dick",
                      "War Of The Worlds","Beowulf"), 
            Price=c(9.5,5.78,6.34,5.67,2.45))
@@ -32,7 +32,7 @@ data.frame(Bookss=c("Frankenstein","Dracula",
 
 There are several functions available in R that can be used to **generate random numbers**. These functions are based on a specific probability distribution. For instance, the `rbinom()` function generates random numbers based on the binomial distribution, while the `rnorm()` function generates random numbers based on the normal distribution. By using these functions, we can efficiently generate random numbers that follow a specific probability distribution, which can be useful for a variety of applications.
 
-For example, the **binomial distribution** may be useful in estimating the probability that a certain number of customers respond to a marketing campaign. However, as we will see below, we can also use the distribution to generate random customers who either responded or not responded to the the campaign.
+For example, the **binomial distribution** may be useful in estimating the probability that a certain number of customers respond to a marketing campaign. However, as we will see below, we can also use the distribution to generate random customers who either responded or not responded to the campaign.
 
 Assume the bookstore is unsure on how many customers will buy their Monster Classic Series at list price. Their plan is to send $100$ catalogs by mail to potential customers. Before they send the catalogs, they decide to get an rough idea on demand. Past data reveals that the probability a customer would buy any of the titles at the given prices is $0.70$. Let's modify our data frame by simulating demand with the `rbinom()` function.
 
@@ -44,11 +44,11 @@ Assume the bookstore is unsure on how many customers will buy their Monster Clas
            Demand=rbinom(5,100,0.7)))
 ```
 
-As you can see, the `rbinom()` function has yielded $5$ simulated outcomes from the binomial experiment with a probability of $0.7$. We can now use this data to perform analysis on the profitability of the Monster Series.
+As you can see, the `rbinom()` function has yielded $5$ simulated outcomes from the binomial experiment with a probability of $0.7$. The bookstore can now use this data to perform analysis on the profitability of the Monster Series it desires.
 
 ## Using Loops and Conditional in R
 
-Loops and conditionals will allow us to iterate the simulation several times so that we can get a better understanding on how the random variables affect our model. They allow us to generate outcome distributions and summary statistics like means and standard deviations of variables of interest in our simulation model. What are loops and conditionals?
+Loops and conditionals will allow us to iterate the simulation several times so that we can get a better understanding on how the random variables affect our model. For example, they will allow us to generate summary statistics like means and standard deviations of variables of interest in our simulation model. What are loops and conditionals?
 
 Loops and conditionals are two important control structures in the R programming language that allow you to execute specific blocks of code based on certain conditions. 
 
