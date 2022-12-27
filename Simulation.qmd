@@ -1,1 +1,11 @@
 # Simulation in R
+
+## Inputs, Calculated, and Objective
+
+## Law of Large Numbers
+
+## The Flaw of Averages
+
+## The Newsvendor Problem
+
+## Sensitivity Analysis

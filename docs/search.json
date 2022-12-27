@@ -39,7 +39,7 @@
     "href": "index.html",
     "title": "Decision Modeling",
     "section": "",
-    "text": "Preface\nThis book is based on a couple of topic in Decision Modeling. It first deals with simulation and then with time series models. In both topics it introduces the tools and packages in R needed to perform each analysis. Special attention is given to business applications."
+    "text": "Preface\nThis book is based on a couple of topics in Decision Modeling. It first deals with business simulation models and then with time series models. In both topics it introduces the tools and packages in R needed to perform each analysis. Special attention is given to business applications."
   },
   {
     "objectID": "references.html",
@@ -159,5 +159,40 @@
     "title": "1  Tools for Working With Simulation",
     "section": "1.4 The VA Deaprtment of Transportation Wants Your Services",
     "text": "1.4 The VA Deaprtment of Transportation Wants Your Services\nThe VA ferry crossing the James River was first established in 1925. The ferry transports vehicles back and forth from Jamestown to Scotland in a 15-minute ride. The VA Department of Transportation wants you to simulate the daily demand for the ferry so that they schedule the expected staff and number of ferries to run."
+  },
+  {
+    "objectID": "Simulation.html#inputs-calculated-and-objective",
+    "href": "Simulation.html#inputs-calculated-and-objective",
+    "title": "2  Simulation in R",
+    "section": "2.1 Inputs, Calculated, and Objective",
+    "text": "2.1 Inputs, Calculated, and Objective"
+  },
+  {
+    "objectID": "Simulation.html#law-of-large-numbers",
+    "href": "Simulation.html#law-of-large-numbers",
+    "title": "2  Simulation in R",
+    "section": "2.2 Law of Large Numbers",
+    "text": "2.2 Law of Large Numbers"
+  },
+  {
+    "objectID": "Simulation.html#the-flaw-of-averages",
+    "href": "Simulation.html#the-flaw-of-averages",
+    "title": "2  Simulation in R",
+    "section": "2.3 The Flaw of Averages",
+    "text": "2.3 The Flaw of Averages"
+  },
+  {
+    "objectID": "Simulation.html#the-newsvendor-problem",
+    "href": "Simulation.html#the-newsvendor-problem",
+    "title": "2  Simulation in R",
+    "section": "2.4 The Newsvendor Problem",
+    "text": "2.4 The Newsvendor Problem"
+  },
+  {
+    "objectID": "Simulation.html#sensitivity-analysis",
+    "href": "Simulation.html#sensitivity-analysis",
+    "title": "2  Simulation in R",
+    "section": "2.5 Sensitivity Analysis",
+    "text": "2.5 Sensitivity Analysis"
   }
 ]
