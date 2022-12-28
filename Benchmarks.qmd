@@ -1,4 +1,4 @@
-# The Forecasting Process (Benchamarks)
+# The Forecasting Process (Benchmarks)
 
 This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. We will ensure that we do not overfit a model to a training set by assessing its accuracy using a test set.
 
@@ -12,22 +12,16 @@ One could also predict weight by observing your weight during a period and avera
 
 Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, excercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:
 
-
 ## Accuracy
 
-We will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE's but then find the square root, we have caluclated the RMSE. 
-If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn't simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively.  
-
+We will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE's but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn't simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively.
 
 ## Leasons Learned
 
-In this module you have been introduced to the general procedure in forecasting time series.  
+In this module you have been introduced to the general procedure in forecasting time series.
 
--   Learning how create forecasts with simple heuristics. 
- 
-
+-   Learning how create forecasts with simple heuristics.
 
 ## Readings
 
 @FPP3 chapter 5.
-

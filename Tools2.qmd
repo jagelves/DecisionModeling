@@ -1,7 +1,5 @@
 # Tools For Working With Time Series Data
 
-------------------------------------------------------------------------
-
 In this module, we will be learning tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data. Consequently, we will first learn how to get the data ready for analysis by using dplyr and tidyr. Secondly, we will plot the data to identify the trend, seasonality or cyclical behavior. To plot our time series, we will be learning the ggplot2 package in R. Lastly, since time series deals with dates, we will introduce a package called lubridate, that helps us parse and manipulate dates.
 
 ## Data Wrangling With tidyverse.
