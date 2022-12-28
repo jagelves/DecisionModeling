@@ -1,24 +1,26 @@
 # Simulation in R
 
-In this module we will introduce how to build a business simulation model using R. We will start by creating the model structure in R. We will then use R to simulate the output of the model several times so that our outcome is robust. Finally, we will modify some of the models inputs, so that we can get an idea of how changing factors in the environment affect our outcome.
+In this module we will build our first business simulation model using R. We will start by identifying and establishing the model structure in R. We will then simulate the output of the model several times so that our outcome is robust. Finally, we will modify some of the models inputs, so that we can get an idea of how changing factors in the environment affect our outcome.
 
-## A Restaurant Needs Your Help
+## Roll With It Sushi Needs Your Help
 
-Renowned for serving the freshest sushi in the city, Roll With It Sushi is hosting a yellow-tail festival. They purchase the fish at the market and discard any unsold fish at the end of the day. However, they are unsure of how many people will attend the event. To ensure they have enough sushi and budget appropriately, they want to estimate the total cost and amount of sushi needed. Based on past events, they expect at least 20 people to attend and have the capacity to seat up to 50 guests. They anticipate the most likely attendance to be around 30 people.
+Renowned for serving the freshest sushi in the city, Roll With It Sushi is hosting a yellow-tail festival. Every morning, the Sous-Chef purchases fish at the market. Any unsold fish at the end of the day gets discarded. 
 
-Roll With It Sushi can purchase any quantity of yellow-tail from the fresh market at 9 dollars for 16 ounces (which is divisible). Each guest at the festival is entitled to 5 ounces of sushi. If the sushi runs out, Sushi X has promised to serve their famous Miso soup, which cost them a total of 300 dollars for the event. Given that the festival charges 20 dollars per entry, how much yellow-tail would you recommend Sushi X purchase to maximize expected profits?
+The restaurant has contacted you because they are unsure of how many people will attend the event and worry how this will impact their business financially. To ensure they have enough sushi and budget appropriately, they want to estimate the total cost and amount of sushi needed. Based on past events, they expect at least 20 people to attend and have the capacity to seat up to 50 guests. They anticipate the most likely attendance to be around 30 people.
+
+Roll With It Sushi can purchase any quantity of yellow-tail from the fresh market at 9 dollars for 16 ounces (which is divisible). Each guest at the festival is entitled to 5 ounces of sushi. If the sushi runs out, some customers will not be happy. However, the restaurant has promised to serve their famous Miso soup to every attendee. The cost of making the soup for 50 guests is 300 dollars. Given that the festival charges 20 dollars per entry, how much yellow-tail would you recommend Sushi X purchase to maximize expected profits?
 
 ## Model Framework
 
-When creating our simulation models it is important to identify the following parts:  
+There is alot of information provided by the restaurant and our task is to take that information and organize/classify in such a way that we can create a simulation model. In general, the information can be classified in following parts:
 
-- The **inputs** have given fixed values, at least for the purposes of the model.  
+-   The **inputs** have given fixed values, at least for the purposes of the model.
 
-- The **decision variables** are those a decision maker controls.
+-   The **decision variables** are those a decision maker controls.
 
-- The **calculated values** transform inputs and decision variables to other values that are helpful in describing our model.
+-   The **calculated values** transform inputs and decision variables to other values that are helpful in describing our model.
 
-- The **outputs** are the ultimate values of interest; they are determined by the inputs, decision variables and/or the calculated values.
+-   The **outputs** are the ultimate values of interest; they are determined by the inputs, decision variables and/or the calculated values. Below, you can see how we can add this into R.
 
 ```{r}
 library(extraDistr)
@@ -36,10 +38,15 @@ Profit<-Entry_Fee*Attendance-Order_Oz*Price_Fish_Oz-Price_Miso #Outcome
 
 ```
 
+Note the use of the extradistr package. The rtriang. How the inputs create a framework. The decision variable change to see how it affects the output. Discuss if some inputs are changeable.
 
 ## Law of Large Numbers
 
-The law of large numbers is a statistical principle that states that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of observations increases, the estimate of the population mean becomes more and more accurate. This occurs because the law of large numbers states that the average of a large number of independent and identically distributed (iid) random variables will tend towards the expected value of the distribution. The law of large numbers is a fundamental principle of probability theory that is used to make predictions about the behavior of large groups or populations based on the behavior of smaller samples.
+Above we have run the simulation once. The problem with this is that this is just one state of the world, and it is not really describing the set o possible outcomes. We want to provide the restaurant with a set of eventualities. Worst case scenarios, bets case scenarios, most likely outcomes for their decision. 
+
+Additionally, if we provide an average we want to make sure that the average is not biased. The law of large numbers is a statistical principle that states that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of observations increases, the estimate of the population mean becomes more and more accurate.
+
+The code below repeats the simulation not once, or twice, but several times. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 100 times for illustration.
 
 ```{r}
 n<-100
@@ -72,6 +79,3 @@ Sensitivity analysis is a tool used in decision-making to assess the robustness 
 There are several types of sensitivity analysis, including one-way sensitivity analysis, which involves varying one input variable at a time while holding all other variables constant, and two-way sensitivity analysis, which involves varying two input variables simultaneously. Sensitivity analysis can also be used to evaluate the uncertainty of the output by analyzing the range of possible outcomes given different assumptions about the input variables.
 
 Sensitivity analysis is a useful tool for decision-makers because it helps to identify the key drivers of the model or decision and allows for a more informed and comprehensive analysis of the potential risks and benefits. However, it is important to note that sensitivity analysis is only as reliable as the assumptions and data used in the model, and it should be used in conjunction with other tools and techniques to provide a more complete understanding of the problem at hand.
-
-
-

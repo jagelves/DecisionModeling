@@ -195,7 +195,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#a-restaurant-needs-your-help" id="toc-a-restaurant-needs-your-help" class="nav-link active" data-scroll-target="#a-restaurant-needs-your-help"><span class="toc-section-number">2.1</span>  A Restaurant Needs Your Help</a></li>
+  <li><a href="#roll-with-it-sushi-needs-your-help" id="toc-roll-with-it-sushi-needs-your-help" class="nav-link active" data-scroll-target="#roll-with-it-sushi-needs-your-help"><span class="toc-section-number">2.1</span>  Roll With It Sushi Needs Your Help</a></li>
   <li><a href="#model-framework" id="toc-model-framework" class="nav-link" data-scroll-target="#model-framework"><span class="toc-section-number">2.2</span>  Model Framework</a></li>
   <li><a href="#law-of-large-numbers" id="toc-law-of-large-numbers" class="nav-link" data-scroll-target="#law-of-large-numbers"><span class="toc-section-number">2.3</span>  Law of Large Numbers</a></li>
   <li><a href="#the-flaw-of-averages" id="toc-the-flaw-of-averages" class="nav-link" data-scroll-target="#the-flaw-of-averages"><span class="toc-section-number">2.4</span>  The Flaw of Averages</a></li>
@@ -224,20 +224,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>In this module we will introduce how to build a business simulation model using R. We will start by creating the model structure in R. We will then use R to simulate the output of the model several times so that our outcome is robust. Finally, we will modify some of the models inputs, so that we can get an idea of how changing factors in the environment affect our outcome.</p>
-<section id="a-restaurant-needs-your-help" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="a-restaurant-needs-your-help"><span class="header-section-number">2.1</span> A Restaurant Needs Your Help</h2>
-<p>Renowned for serving the freshest sushi in the city, Roll With It Sushi is hosting a yellow-tail festival. They purchase the fish at the market and discard any unsold fish at the end of the day. However, they are unsure of how many people will attend the event. To ensure they have enough sushi and budget appropriately, they want to estimate the total cost and amount of sushi needed. Based on past events, they expect at least 20 people to attend and have the capacity to seat up to 50 guests. They anticipate the most likely attendance to be around 30 people.</p>
-<p>Roll With It Sushi can purchase any quantity of yellow-tail from the fresh market at 9 dollars for 16 ounces (which is divisible). Each guest at the festival is entitled to 5 ounces of sushi. If the sushi runs out, Sushi X has promised to serve their famous Miso soup, which cost them a total of 300 dollars for the event. Given that the festival charges 20 dollars per entry, how much yellow-tail would you recommend Sushi X purchase to maximize expected profits?</p>
+<p>In this module we will build our first business simulation model using R. We will start by identifying and establishing the model structure in R. We will then simulate the output of the model several times so that our outcome is robust. Finally, we will modify some of the models inputs, so that we can get an idea of how changing factors in the environment affect our outcome.</p>
+<section id="roll-with-it-sushi-needs-your-help" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="roll-with-it-sushi-needs-your-help"><span class="header-section-number">2.1</span> Roll With It Sushi Needs Your Help</h2>
+<p>Renowned for serving the freshest sushi in the city, Roll With It Sushi is hosting a yellow-tail festival. Every morning, the Sous-Chef purchases fish at the market. Any unsold fish at the end of the day gets discarded.</p>
+<p>The restaurant has contacted you because they are unsure of how many people will attend the event and worry how this will impact their business financially. To ensure they have enough sushi and budget appropriately, they want to estimate the total cost and amount of sushi needed. Based on past events, they expect at least 20 people to attend and have the capacity to seat up to 50 guests. They anticipate the most likely attendance to be around 30 people.</p>
+<p>Roll With It Sushi can purchase any quantity of yellow-tail from the fresh market at 9 dollars for 16 ounces (which is divisible). Each guest at the festival is entitled to 5 ounces of sushi. If the sushi runs out, some customers will not be happy. However, the restaurant has promised to serve their famous Miso soup to every attendee. The cost of making the soup for 50 guests is 300 dollars. Given that the festival charges 20 dollars per entry, how much yellow-tail would you recommend Sushi X purchase to maximize expected profits?</p>
 </section>
 <section id="model-framework" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="model-framework"><span class="header-section-number">2.2</span> Model Framework</h2>
-<p>When creating our simulation models it is important to identify the following parts:</p>
+<p>There is alot of information provided by the restaurant and our task is to take that information and organize/classify in such a way that we can create a simulation model. In general, the information can be classified in following parts:</p>
 <ul>
 <li><p>The <strong>inputs</strong> have given fixed values, at least for the purposes of the model.</p></li>
 <li><p>The <strong>decision variables</strong> are those a decision maker controls.</p></li>
 <li><p>The <strong>calculated values</strong> transform inputs and decision variables to other values that are helpful in describing our model.</p></li>
-<li><p>The <strong>outputs</strong> are the ultimate values of interest; they are determined by the inputs, decision variables and/or the calculated values.</p></li>
+<li><p>The <strong>outputs</strong> are the ultimate values of interest; they are determined by the inputs, decision variables and/or the calculated values. Below, you can see how we can add this into R.</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(extraDistr)</span>
@@ -253,10 +254,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Profit<span class="ot">&lt;-</span>Entry_Fee<span class="sc">*</span>Attendance<span class="sc">-</span>Order_Oz<span class="sc">*</span>Price_Fish_Oz<span class="sc">-</span>Price_Miso <span class="co">#Outcome</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Note the use of the extradistr package. The rtriang. How the inputs create a framework. The decision variable change to see how it affects the output. Discuss if some inputs are changeable.</p>
 </section>
 <section id="law-of-large-numbers" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="law-of-large-numbers"><span class="header-section-number">2.3</span> Law of Large Numbers</h2>
-<p>The law of large numbers is a statistical principle that states that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of observations increases, the estimate of the population mean becomes more and more accurate. This occurs because the law of large numbers states that the average of a large number of independent and identically distributed (iid) random variables will tend towards the expected value of the distribution. The law of large numbers is a fundamental principle of probability theory that is used to make predictions about the behavior of large groups or populations based on the behavior of smaller samples.</p>
+<p>Above we have run the simulation once. The problem with this is that this is just one state of the world, and it is not really describing the set o possible outcomes. We want to provide the restaurant with a set of eventualities. Worst case scenarios, bets case scenarios, most likely outcomes for their decision.</p>
+<p>Additionally, if we provide an average we want to make sure that the average is not biased. The law of large numbers is a statistical principle that states that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of observations increases, the estimate of the population mean becomes more and more accurate.</p>
+<p>The code below repeats the simulation not once, or twice, but several times. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 100 times for illustration.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">100</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>V_Order_Oz<span class="ot">&lt;-</span><span class="fu">rep</span>(Order_Oz,n)</span>
@@ -272,7 +276,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(V_Profit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 289.2</code></pre>
+<pre><code>[1] 268.2</code></pre>
 </div>
 </div>
 </section>
