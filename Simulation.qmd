@@ -131,7 +131,7 @@ Profits<-c(Profits,mean(V_Profit))
 (results<-data.frame(Order=Order_Oz,Profits=Profits))
 ```
 
-The result table suggests that 160 ounces is not optimal.
+The result table suggests that 160 ounces is not optimal. This once again highlights that using average attendance is not a good estimate of how much fish we should order. The table suggests instead that 210 ounces should be ordered (this feeds about 42 people).
 
 ## Sensitivity Analysis
 
