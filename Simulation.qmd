@@ -1,26 +1,32 @@
 # Simulation in R
 
-In this module we will build our first business simulation model using R. We will start by identifying and establishing the model structure in R. We will then simulate the output of the model several times so that our outcome is robust. Finally, we will modify some of the models inputs, so that we can get an idea of how changing factors in the environment affect our outcome.
+In this module we will build our first business simulation model using R. We will start by defining and identifying the parts of the model as this provides the basic structure. We will then iterate our model several times so that we can obtain the distribution of expected outcomes. Finally, we will modify some of the model's inputs, so that we can see how robust the model is to changes of parameters.
 
 ## Roll With It Sushi Needs Your Help
 
 Renowned for serving the freshest sushi in the city, Roll With It Sushi is hosting a yellow-tail festival. Every morning, the Sous-Chef purchases fish at the market. Any unsold fish at the end of the day gets discarded. 
 
-The restaurant has contacted you because they are unsure of how many people will attend the event and worry how this will impact their business financially. To ensure they have enough sushi and budget appropriately, they want to estimate the total cost and amount of sushi needed. Based on past events, they expect at least 20 people to attend and have the capacity to seat up to 50 guests. They anticipate the most likely attendance to be around 30 people.
+The restaurant has contacted you because they are still determining how many people will attend the event and worry about how this will impact their business financially. To ensure they have enough sushi and budget appropriately, they want to estimate the total cost and amount of fish needed. Based on past events, they expect at least 20 people to attend and have the capacity to seat up to 50 guests. They anticipate the most likely attendance to be around 30 people.
 
-Roll With It Sushi can purchase any quantity of yellow-tail from the fresh market at 9 dollars for 16 ounces (which is divisible). Each guest at the festival is entitled to 5 ounces of sushi. If the sushi runs out, some customers will not be happy. However, the restaurant has promised to serve their famous Miso soup to every attendee. The cost of making the soup for 50 guests is 300 dollars. Given that the festival charges 20 dollars per entry, how much yellow-tail would you recommend Sushi X purchase to maximize expected profits?
+Roll With It Sushi can purchase any quantity of yellow-tail from the fresh market at 9 dollars for 16 ounces (divisible). Each guest at the festival is entitled to 5 ounces of fish. If the sushi runs out, some customers will not be happy. However, the restaurant has promised to refund their entry fee. Additionally, they have promised to serve their famous Miso soup to every attendee. The cost of making a batch for up to 50 guests is 300 dollars. 
+
+Given that the festival charges 20 dollars per entry, how much yellow-tail would you recommend the restaurant to purchase to maximize expected profits?
 
 ## Model Framework
 
-There is alot of information provided by the restaurant and our task is to take that information and organize/classify in such a way that we can create a simulation model. In general, the information can be classified in following parts:
+The restaurant provides you with a lot of information. Your task is to organize/classify it so that you can create a model. In general, for many business problems, the data will be classified into the following parts:
 
--   The **inputs** have given fixed values, at least for the purposes of the model.
+-   The **inputs** have given fixed values and provide the model's basic structure. These are values that are most likely to be given and determined.
 
--   The **decision variables** are those a decision maker controls.
+-   The **decision variables** are values the decision maker controls. We are usually interested in finding the optimal level of this variable.
 
--   The **calculated values** transform inputs and decision variables to other values that are helpful in describing our model.
+-   The **calculated values** transform inputs and decision variables to other values that help describe our model. These make the model more informative and often are required to derive outputs.
 
--   The **outputs** are the ultimate values of interest; they are determined by the inputs, decision variables and/or the calculated values. Below, you can see how we can add this into R.
+-   The **random variables** are the primary source of uncertainty in the model. They are often modeled by sampling probability distributions.
+
+-   The **outputs** are the ultimate values of interest; the inputs, decision variables, random variables, or calculated values determine them.  
+
+Below, you can see how we can classify and input the information in R.
 
 ```{r}
 library(extraDistr)
@@ -32,13 +38,19 @@ Entry_Fee<-20 # Input
 Fish_Entitled_Oz<-5 #Input
 
 Attendance<-round(rtriang(1,20,50,30),0) # Random Variable
-Consumption<-Attendance*Fish_Entitled_Oz # Calculated 
 
-Profit<-Entry_Fee*Attendance-Order_Oz*Price_Fish_Oz-Price_Miso #Outcome
+Consumption<-Attendance*Fish_Entitled_Oz # Calculated 
+Available<-Order_Oz/Fish_Entitled_Oz # Calculated
+
+Profit<-min(Consumption,Available)*Entry_Fee-Order_Oz*Price_Fish_Oz-Price_Miso #Outcome
 
 ```
 
-Note the use of the extradistr package. The rtriang. How the inputs create a framework. The decision variable change to see how it affects the output. Discuss if some inputs are changeable.
+In the model above, you can see how the inputs have fixed values given to us by the restaurant (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). Calculated variables combine inputs, the decision variable, and the random variable to provide insight on how much is fish is expected to be both consumed and be available. They also ultimately help us determine the output, which is our guide in knowing whether our decision is the "best".
+
+Note how the decision variable (Order_Oz) affects directly our outcome (Profit). We can see that it decreases the restaurant's profit as a cost, but also affects revenue through the amount of fish available. This is the heart of the problem. We don't know how many people will attend, so if the restaurant orders too much fish their profits will go down because their costs are large. However, if they order too little then they will have to issue refunds, which decrease their revenue.
+
+The problem illustrated above is called the news vendor problem. The news vendor problem is a classic decision-making problem in operations research and economics that involves deciding how much of a product to order (and sometimes at what price to sell it). The problem is called the "news vendor" problem because it was originally used to model the decision-making process of a newspaper vendor trying to decide how many copies of a newspaper to order and at what price to sell them.
 
 ## Law of Large Numbers
 
@@ -67,10 +79,6 @@ mean(V_Profit)
 ## The Flaw of Averages
 
 The flaw of averages, also known as the "law of averages fallacy," is the idea that the average value of a particular characteristic in a population can be used to represent the value of that characteristic for individual members of the population. This is often not the case because the average value can be misleading and does not take into account the variability and distribution of the characteristic within the population. For example, if a group of people has an average height of 5'10", it does not mean that every individual in the group is exactly 5'10" tall. Some people may be shorter, while others may be taller. The flaw of averages can lead to inaccurate assumptions and incorrect conclusions, particularly when making predictions or decisions based on the average value. It is important to consider the distribution and variability of the characteristic within the population when making predictions or decisions, rather than relying solely on the average value.
-
-## The Newsvendor Problem
-
-The news vendor problem is a classic decision-making problem in operations research and economics that involves deciding how much of a product to order and at what price to sell it. The problem is called the "news vendor" problem because it was originally used to model the decision-making process of a newspaper vendor trying to decide how many copies of a newspaper to order and at what price to sell them. In the news vendor problem, there are two main factors that influence the decision: the demand for the product and the cost of the product. The demand for the product is uncertain, as it depends on various factors such as the weather, the competition, and the price of the product. The cost of the product is also uncertain, as it may vary based on factors such as production costs, transportation costs, and discounts. The goal of the news vendor is to maximize profits by ordering the optimal amount of the product and setting the optimal price. The news vendor must make this decision based on incomplete information about the demand and cost of the product, which makes the problem challenging and requires the use of probabilistic models and optimization techniques.
 
 ## Sensitivity Analysis
 
