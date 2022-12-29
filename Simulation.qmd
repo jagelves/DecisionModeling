@@ -81,9 +81,11 @@ Available<-V_Order_Oz
 V_Profit<-pmin(Consumption,Available)/V_Fish_Entitled_Oz*V_Entry_Fee-V_Order_Oz*V_Price_Fish_Oz-V_Price_Miso
 ```
 
-## Recommendation
 
-There are a couple of things that are now evident. It seems likely that the restaurant would make on average a profit of about 234 dollars if they order 160 ounces of fish. We can now inform the restaurant that it is likely they will make a profit if they order 160 ounces. There are a couple of questions left unanswered. First, 234 dollars are expected of profits, what are the other possible outcomes when ordering 160 ounces? Secondly, is there another amount of fish that would give them a higher expected profit?
+There are a couple of things that are now evident. It seems likely that the restaurant would make on average a profit of about 211.5 dollars if they order 160 ounces of fish. There are however, a couple of questions left unanswered. First, what are the other possible profit when ordering 160 ounces? Second, is there another amount of fish that would give them a higher expected profit?
+
+
+## Flaw Of Averages
 
 To answer the first question we can generate a histogram of all the results of our simulation model. We can then report this to the restaurant and make them aware of all of the possible outcomes of ordering 160 ounces of fish. Below, we show the histogram of our model's outcomes.
 
@@ -95,6 +97,8 @@ abline(v=mean(V_Profit), lwd=2)
 As you can see most of the outcomes are close to 250 dollars. So a better recommendation to the restaurant would be to inform them that when ordering 160 ounces, they will most likely get a profit of 250 dollars. There is a small risk of them making less that 100 dollars, but that they should not expect more than 250 dollars. The average in this case seems to be a poor predictor of what is expected as its frequency is not very large as shown in the histogram. This result is commonly known as the flaw of averages.
 
 The flaw of averages, also known as the "law of averages fallacy," is the idea that the average value of a particular characteristic in a population can be used to represent the value of that characteristic for individual members of the population. This is often not the case because the average value can be misleading and does not take into account the variability and distribution of the characteristic within the population.
+
+## Optimal Order Amount
 
 Now to answer the main question, what should be the amount ordered of fish? To answer this question we will substitute several possible order options into our model and then retrieve the one that gives us the highest expected profit. We can easily do this in R with a loop. Below is the code:
 
@@ -127,10 +131,7 @@ Profits<-c(Profits,mean(V_Profit))
 (results<-data.frame(Order=Order_Oz,Profits=Profits))
 ```
 
-
-## The Flaw of Averages
-
-The flaw of averages, also known as the "law of averages fallacy," is the idea that the average value of a particular characteristic in a population can be used to represent the value of that characteristic for individual members of the population. This is often not the case because the average value can be misleading and does not take into account the variability and distribution of the characteristic within the population. For example, if a group of people has an average height of 5'10", it does not mean that every individual in the group is exactly 5'10" tall. Some people may be shorter, while others may be taller. The flaw of averages can lead to inaccurate assumptions and incorrect conclusions, particularly when making predictions or decisions based on the average value. It is important to consider the distribution and variability of the characteristic within the population when making predictions or decisions, rather than relying solely on the average value.
+The result table suggests that 160 ounces is not optimal.
 
 ## Sensitivity Analysis
 
