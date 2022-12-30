@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Decision Modeling - 3&nbsp; Tools For Working With Time Series Data</title>
+<title>Decision Modeling - 4&nbsp; Time Series Tools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
@@ -89,7 +152,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Time Series Tools</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -119,22 +182,27 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tools for Working With Simulation</span></a>
+  <a href="./Decisions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Decisions Under Uncertainty</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></a>
+  <a href="./Tools.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tools for Working With Simulation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></a>
+  <a href="./Simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulation in R</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></a>
+  <a href="./Tools2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Time Series Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -151,11 +219,11 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#data-wrangling-with-tidyverse." id="toc-data-wrangling-with-tidyverse." class="nav-link active" data-scroll-target="#data-wrangling-with-tidyverse."><span class="toc-section-number">3.1</span>  Data Wrangling With tidyverse.</a></li>
-  <li><a href="#the-avocado-data-set" id="toc-the-avocado-data-set" class="nav-link" data-scroll-target="#the-avocado-data-set"><span class="toc-section-number">3.2</span>  The Avocado Data Set</a></li>
-  <li><a href="#chipotle-wants-you-to-forecast-avocado-prices" id="toc-chipotle-wants-you-to-forecast-avocado-prices" class="nav-link" data-scroll-target="#chipotle-wants-you-to-forecast-avocado-prices"><span class="toc-section-number">3.3</span>  Chipotle Wants You to Forecast Avocado Prices</a></li>
-  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">3.4</span>  Lessons Learned in This Chapter</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">3.5</span>  Readings</a></li>
+  <li><a href="#the-avocado-data-set" id="toc-the-avocado-data-set" class="nav-link active" data-scroll-target="#the-avocado-data-set"><span class="toc-section-number">4.1</span>  The Avocado Data Set</a></li>
+  <li><a href="#data-wrangling-with-tidyverse." id="toc-data-wrangling-with-tidyverse." class="nav-link" data-scroll-target="#data-wrangling-with-tidyverse."><span class="toc-section-number">4.2</span>  Data Wrangling With tidyverse.</a></li>
+  <li><a href="#chipotle-wants-you-to-forecast-avocado-prices" id="toc-chipotle-wants-you-to-forecast-avocado-prices" class="nav-link" data-scroll-target="#chipotle-wants-you-to-forecast-avocado-prices"><span class="toc-section-number">4.3</span>  Chipotle Wants You to Forecast Avocado Prices</a></li>
+  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">4.4</span>  Lessons Learned in This Chapter</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">4.5</span>  Readings</a></li>
   </ul>
 </nav>
     </div>
@@ -164,7 +232,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Time Series Tools</span></h1>
 </div>
 
 
@@ -179,21 +247,73 @@ div.csl-indent {
 
 </header>
 
-<p>In this module, we will be learning tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data. Consequently, we will first learn how to get the data ready for analysis by using dplyr and tidyr. Secondly, we will plot the data to identify the trend, seasonality or cyclical behavior. To plot our time series, we will be learning the ggplot2 package in R. Lastly, since time series deals with dates, we will introduce a package called lubridate, that helps us parse and manipulate dates.</p>
-<section id="data-wrangling-with-tidyverse." class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="data-wrangling-with-tidyverse."><span class="header-section-number">3.1</span> Data Wrangling With tidyverse.</h2>
-<p>tidyverse is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (dplyr and tidyr) that we will be using to transform our data and get it ready for analysis. dplyr will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. tidyr will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, tidyverse allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user.</p>
-</section>
-<section id="the-avocado-data-set" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="the-avocado-data-set"><span class="header-section-number">3.2</span> The Avocado Data Set</h2>
+<p>In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data. Consequently, we will first learn how to get the data ready for analysis using <code>dplyr</code> and <code>tidyr</code>. Secondly, we will plot the data to identify the trend, seasonality, or cyclical behavior. To graph our time series, we will be learning the <code>ggplot2</code> package in R. Lastly, since time series deals with dates, we will introduce a package called <code>lubridate</code>, that helps us parse and manipulate dates.</p>
+<section id="the-avocado-data-set" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="the-avocado-data-set"><span class="header-section-number">4.1</span> The Avocado Data Set</h2>
 <p>The avocado data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers’ cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g.&nbsp;greenskins) are not included in this data.</p>
 </section>
-<section id="chipotle-wants-you-to-forecast-avocado-prices" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="chipotle-wants-you-to-forecast-avocado-prices"><span class="header-section-number">3.3</span> Chipotle Wants You to Forecast Avocado Prices</h2>
+<section id="data-wrangling-with-tidyverse." class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="data-wrangling-with-tidyverse."><span class="header-section-number">4.2</span> Data Wrangling With tidyverse.</h2>
+<p><code>tidyverse</code> is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (<code>dplyr</code> and <code>tidyr</code>) that we will be using to transform our data and get it ready for analysis. <code>dplyr</code> will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. <code>tidyr</code> will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, <code>tidyverse</code> allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user. Below we load the library.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+✔ readr   2.1.3      ✔ forcats 0.5.2 
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+</div>
+<p>As you can see, several packages were attached (loaded) when we write <code>library(tidyverse)</code>. As mentioned, both <code>tidyr</code> and <code>dplyr</code> are part of this overall package. Now that the package is loaded wee can import our data by using the <code>read_csv()</code> function from the <code>readr</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>avocado<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/avocado2020.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 33045 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (3): date, type, geography
+dbl (10): average_price, total_volume, 4046, 4225, 4770, total_bags, small_b...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>The function imports the data a a tibble (a data structure similar to a data frame). There are three variables that are classified as character, while the rest are double. At this point you can preview the data with either the <code>spec()</code> or <code>glimpse()</code> commands.</p>
+<p>When using <code>dplyr</code> it’s always helpful to use piping. Generally speaking, piping allows us to chain functions. Piping (<code>%&gt;%</code>) passes the object on the left of the pipe as the first argument to the right of the pipe. We can illustrate this by using the <code>select()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>avocado <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(average_price,geography)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(average_price)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33,045 × 2
+   average_price geography           
+           &lt;dbl&gt; &lt;chr&gt;               
+ 1          3.25 San Francisco       
+ 2          3.17 Tampa               
+ 3          3.12 San Francisco       
+ 4          3.05 Miami/Ft. Lauderdale
+ 5          3.04 Raleigh/Greensboro  
+ 6          3.03 Las Vegas           
+ 7          3    San Francisco       
+ 8          3    Raleigh/Greensboro  
+ 9          2.99 San Francisco       
+10          2.99 Jacksonville        
+# … with 33,035 more rows</code></pre>
+</div>
+</div>
+<p>There is a lot to unpack in this line of code. Let’s start with the functions used. Both the <code>select()</code> and <code>arrange()</code> function are part of the <code>dplyr</code> package. As the name indicated the <code>select()</code> function selects variables from a tibble or data frame. The <code>arrange()</code> function sorts the data. By default it will sort in ascending order, hence we have used the <code>desc()</code> function to use descending order.</p>
+<p>Now, let’s focus on the entire code reading it from left to right. <em>avocado</em> is the tibble that contains all of the data. Since it is to the left of the pipe (%&gt;%), it passes as the first argument of the <code>select()</code> function. That is why you don’t see <em>avocado</em> as the first argument listed in the <code>select()</code> function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the <code>arrange()</code> function that follows the second pipe. That data frame is sorted in descending order so that the highest average avocado price is displayed first.</p>
+<p>This example highlights the use of <code>dplyr</code> functions to transform your data. There are however plenty of other functions you can use. To find out more we recommend reading <span class="citation" data-cites="R4DS">Wickham (<a href="references.html#ref-R4DS" role="doc-biblioref">2017</a>)</span> chapter x.</p>
+</section>
+<section id="chipotle-wants-you-to-forecast-avocado-prices" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="chipotle-wants-you-to-forecast-avocado-prices"><span class="header-section-number">4.3</span> Chipotle Wants You to Forecast Avocado Prices</h2>
 <p>Chipotle is an American chain specializing in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of Chipotle’s best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados a day, amounting to more than 44,000 pounds of avocados annually. Chipotle wants you to develop a model to forecast the price of avocados. This model will allow the company to</p>
 </section>
-<section id="lessons-learned-in-this-chapter" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">3.4</span> Lessons Learned in This Chapter</h2>
+<section id="lessons-learned-in-this-chapter" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">4.4</span> Lessons Learned in This Chapter</h2>
 <p>In this module you have been introduced to data wrangling etc.</p>
 <ul>
 <li><p>renaming, selecting and filtering variables.</p></li>
@@ -201,8 +321,8 @@ div.csl-indent {
 <li><p>handling dates with lubridate.</p></li>
 </ul>
 </section>
-<section id="readings" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">3.5</span> Readings</h2>
+<section id="readings" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">4.5</span> Readings</h2>
 <p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> chapter 1 and chapter 2.<br>
 tidy data: https://vita.had.co.nz/papers/tidy-data.pdf</p>
 
@@ -210,6 +330,9 @@ tidy data: https://vita.had.co.nz/papers/tidy-data.pdf</p>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
 <div id="ref-FPP3" class="csl-entry" role="doc-biblioentry">
 Hyndman, Rob. 2021. <span>“Forecasting Principles and Practice.”</span> <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.
+</div>
+<div id="ref-R4DS" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley. 2017. <span>“R for Data Science.”</span> <a href="https://r4ds.hadley.nz">https://r4ds.hadley.nz</a>.
 </div>
 </div>
 </section>
@@ -351,12 +474,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./Simulation.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulation in R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Benchmarks.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

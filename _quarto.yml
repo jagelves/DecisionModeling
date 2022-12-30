@@ -9,6 +9,7 @@ book:
   cover-image: cover.png
   chapters:
     - index.qmd
+    - Decisions.qmd
     - Tools.qmd
     - Simulation.qmd
     - Tools2.qmd

@@ -1,14 +1,40 @@
-# Tools For Working With Time Series Data
+# Time Series Tools
 
-In this module, we will be learning tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data. Consequently, we will first learn how to get the data ready for analysis by using dplyr and tidyr. Secondly, we will plot the data to identify the trend, seasonality or cyclical behavior. To plot our time series, we will be learning the ggplot2 package in R. Lastly, since time series deals with dates, we will introduce a package called lubridate, that helps us parse and manipulate dates.
-
-## Data Wrangling With tidyverse.
-
-tidyverse is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (dplyr and tidyr) that we will be using to transform our data and get it ready for analysis. dplyr will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. tidyr will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, tidyverse allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user.
+In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data. Consequently, we will first learn how to get the data ready for analysis using `dplyr` and `tidyr`. Secondly, we will plot the data to identify the trend, seasonality, or cyclical behavior. To graph our time series, we will be learning the `ggplot2` package in R. Lastly, since time series deals with dates, we will introduce a package called `lubridate`, that helps us parse and manipulate dates.
 
 ## The Avocado Data Set
 
 The avocado data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers' cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g. greenskins) are not included in this data.
+
+## Data Wrangling With tidyverse.
+
+`tidyverse` is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (`dplyr` and `tidyr`) that we will be using to transform our data and get it ready for analysis. `dplyr` will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. `tidyr` will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, `tidyverse` allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user. Below we load the library.
+
+```{r}
+library(tidyverse)
+```
+
+As you can see, several packages were attached (loaded) when we write  `library(tidyverse)`. As mentioned, both `tidyr` and `dplyr` are part of this overall package. Now that the package is loaded wee can import our data by using the `read_csv()` function from the `readr` package.
+
+```{r}
+avocado<-read_csv("https://jagelves.github.io/Data/avocado2020.csv")
+```
+
+The function imports the data a a tibble (a data structure similar to a data frame). There are three variables that are classified as character, while the rest are double. At this point you can preview the data with either the `spec()` or `glimpse()` commands.
+
+When using `dplyr` it's always helpful to use piping. Generally speaking, piping allows us to chain functions. Piping (`%>%`) passes the object on the left of the pipe as the first argument to the right of the pipe. We can illustrate this by using the `select()` function.
+
+```{r}
+avocado %>% select(c(average_price,geography)) %>%
+  arrange(desc(average_price)) 
+```
+
+There is a lot to unpack in this line of code. Let's start with the functions used. Both the `select()` and `arrange()` function are part of the `dplyr` package. As the name indicated the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data. By default it will sort in ascending order, hence we have used the `desc()` function to use descending order.
+
+Now, let's focus on the entire code reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. That data frame is sorted in descending order so that the highest average avocado price is displayed first.
+
+This example highlights the use of `dplyr` functions to transform your data. There are however plenty of other functions you can use. To find out more we recommend reading @R4DS chapter x.
+
 
 ## Chipotle Wants You to Forecast Avocado Prices
 
