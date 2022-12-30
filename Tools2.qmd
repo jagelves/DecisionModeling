@@ -33,8 +33,31 @@ There is a lot to unpack in this line of code. Let's start with the functions us
 
 Now, let's focus on the entire code reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. That data frame is sorted in descending order so that the highest average avocado price is displayed first.
 
-This example highlights the use of `dplyr` functions to transform your data. There are however plenty of other functions you can use. To find out more we recommend reading @R4DS chapter x.
+This example highlights the use of `dplyr` functions to transform your data. There are plenty of other functions you can use, but are outside the scope of this book. To find out more we recommend reading @R4DS chapter 4. For now we will use one more data transformation technique to retrieve average price of organic avocados for California up to 2018.
 
+```{r}
+avocado %>% filter(geography=="California", type=="organic",year<=2018) %>%
+  select(date, average_price) -> cali
+```
+
+Whereas the `select()` function chooses particular variables, the `filter()` function chooses rows of the tibble that meet the conditions listed.
+
+## Visualizing The Data
+
+To visualize the data we will be using `ggplot2`. One of the main functions in `ggplot2` is the `aes()` function. This function sets the plotting canvas and determines which variables are to be plotted. The `geom_line()` function specifies the type of plot. In time series we will use the line plot regularly. Below you can see the code to create a line plot of the average price of avocados for California.
+
+```{r}
+cali$date=as.Date(cali$date)
+cali_plot<-ggplot(data=cali) + 
+    geom_line(mapping=aes(x=date,y=average_price))
+```
+
+The plot is nowd save in an object called *cali_plot*. You can either just type *cali_plot* in the console, or as we do below, use the `plotly` library to make the graph interactive.
+
+```{r}
+library(plotly,quietly = T,warn.conflicts = F)
+ggplotly(cali_plot)
+```
 
 ## Chipotle Wants You to Forecast Avocado Prices
 
