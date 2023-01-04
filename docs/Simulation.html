@@ -189,6 +189,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./ETSARIMA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ETS and ARIMA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
   </div>
 </li>
@@ -269,7 +279,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Profit<span class="ot">&lt;-</span><span class="fu">min</span>(Consumption,Available)<span class="sc">/</span>Fish_Entitled_Oz<span class="sc">*</span>Entry_Fee<span class="sc">-</span>Order_Oz<span class="sc">*</span>Price_Fish_Oz<span class="sc">-</span>Price_Miso <span class="co">#Outcome</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and it seems like the they have little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the <code>rtraing()</code> function from the <code>extraDistr</code> package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit, an upper limit, and a most likely case for attendance. Note also the use of the <code>set.seed()</code> function. This allows you to replicate the random numbers generated.</p>
+<p>In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and it seems like the they have little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the <code>rtriang()</code> function from the <code>extraDistr</code> package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit, an upper limit, and a most likely case for attendance. Note also the use of the <code>set.seed()</code> function. This allows you to replicate the random numbers generated.</p>
 <p>The calculated variables combine inputs, the decision variable, and the random variable to provide insight on how much is fish is expected to be both consumed and available. They also help us determine the output, which is our main guide in knowing whether the decision of ordering <span class="math inline">\(x\)</span> ounces of fish is the “best”.</p>
 </section>
 <section id="the-news-vendor-problem" class="level2" data-number="3.3">

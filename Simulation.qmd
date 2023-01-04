@@ -47,7 +47,7 @@ Profit<-min(Consumption,Available)/Fish_Entitled_Oz*Entry_Fee-Order_Oz*Price_Fis
 
 ```
 
-In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and it seems like the they have little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the `rtraing()` function from the `extraDistr` package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit, an upper limit, and a most likely case for attendance. Note also the use of the `set.seed()` function. This allows you to replicate the random numbers generated.
+In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and it seems like the they have little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the `rtriang()` function from the `extraDistr` package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit, an upper limit, and a most likely case for attendance. Note also the use of the `set.seed()` function. This allows you to replicate the random numbers generated.
 
 The calculated variables combine inputs, the decision variable, and the random variable to provide insight on how much is fish is expected to be both consumed and available. They also help us determine the output, which is our main guide in knowing whether the decision of ordering $x$ ounces of fish is the "best".
 
@@ -138,7 +138,6 @@ This table suggests that 160 ounces is not optimal. Once again highlighting that
 
 Sensitivity analysis is a tool used in decision-making to assess the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables. It is often used in financial, economic, and engineering contexts to evaluate the feasibility and risk of different scenarios or to identify potential areas of improvement.
 
-
 ## Lessons Learned In This Chapter
 
 -   Understanding the Parts of a Simulation Model.
@@ -151,6 +150,6 @@ Sensitivity analysis is a tool used in decision-making to assess the robustness 
 
 ## Readings
 
-These reading will help you review the concepts and theory necessary for completing this module. 
+These reading will help you review the concepts and theory necessary for completing this module.
 
 ADD SOME ARTICLE ON SIMULATION
