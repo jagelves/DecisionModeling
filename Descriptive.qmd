@@ -4,13 +4,11 @@ This module will describe the Time Series with descriptive statistics, plots, an
 
 ## Using tsibbles to analyze time series
 
-tsibbles (time series tibbles), are data structures used to analyze time series as it groups data into different components. Mainly, there are measurements (such as prices, weights, and deliveries), keys (also referred to as dimensions like locations, types, and marital status), and a time index (the variable measuring time). The index is what tells R that it can treat data as a time series. 
-When dealing with indices, we always ensure that the time intervals are the same throughout the data (daily, monthly, or yearly) and that these do not jump from one to the other (e.g., yearly to daily). Also, we make sure that there are no gaps in our time series. These two assumptions are necessary when implementing the techniques covered in this course. 
+tsibbles (time series tibbles), are data structures used to analyze time series as it groups data into different components. Mainly, there are measurements (such as prices, weights, and deliveries), keys (also referred to as dimensions like locations, types, and marital status), and a time index (the variable measuring time). The index is what tells R that it can treat data as a time series. When dealing with indices, we always ensure that the time intervals are the same throughout the data (daily, monthly, or yearly) and that these do not jump from one to the other (e.g., yearly to daily). Also, we make sure that there are no gaps in our time series. These two assumptions are necessary when implementing the techniques covered in this course.
 
 ## Describing your time series
 
 Simple features are retrieved from your time series to understand it better. A mean can be informative of the series level, and quantiles display the distribution of the values. More relevant to time series are autocorrelations, moving averages, and trends. Autocorrelations are central to the analysis of time series. They measure the time dependencies between periods (i.e., how strong one period influences another). We will learn how to model these later in the course. Moving averages are flexible given that they can capture short-term and long-term trends. We will use the features() function to retrieve these statistics.
-
 
 ## Decomposition
 
@@ -18,14 +16,12 @@ The classical decomposition of a time series consists of teasing out three main 
 
 ## Lessons Learned
 
-In this module you have been introduced to several techniques used in describing your time series.  
+In this module you have been introduced to several techniques used in describing your time series.
 
--   Learning how to use tsibbles and extract features of the time series. 
+-   Learning how to use tsibbles and extract features of the time series.
 
--   plotting with autoplot(). 
+-   plotting with autoplot().
 
--   autocorrelation and trends using moving averages. 
+-   autocorrelation and trends using moving averages.
 
--  time series decomposition. 
-
-
+-   time series decomposition.

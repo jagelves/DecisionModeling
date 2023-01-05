@@ -51,30 +51,30 @@
   {
     "objectID": "Benchmarks.html#benchmarks",
     "href": "Benchmarks.html#benchmarks",
-    "title": "4  The Forecasting Process (Benchmarks)",
-    "section": "4.1 Benchmarks",
-    "text": "4.1 Benchmarks\nPerhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediciton sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:\nWe can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:\nOne could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:\nLastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, excercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:"
+    "title": "5  The Forecasting Process (Benchmarks)",
+    "section": "5.1 Benchmarks",
+    "text": "5.1 Benchmarks\nPerhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:\n\n\\(\\hat y_{T+h}=y_T\\)\n\nWe can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:\n\n\\(\\hat y_{T+h}=y_T+h(\\frac{y_t-y_1}{T-1})\\)\n\nOne could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:\nLastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, excercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:"
   },
   {
     "objectID": "Benchmarks.html#accuracy",
     "href": "Benchmarks.html#accuracy",
-    "title": "4  The Forecasting Process (Benchmarks)",
-    "section": "4.2 Accuracy",
-    "text": "4.2 Accuracy\nWe will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE’s but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn’t simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively."
+    "title": "5  The Forecasting Process (Benchmarks)",
+    "section": "5.2 Accuracy",
+    "text": "5.2 Accuracy\nWe will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE’s but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn’t simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively."
   },
   {
     "objectID": "Benchmarks.html#leasons-learned",
     "href": "Benchmarks.html#leasons-learned",
-    "title": "4  The Forecasting Process (Benchmarks)",
-    "section": "4.3 Leasons Learned",
-    "text": "4.3 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series.\n\nLearning how create forecasts with simple heuristics."
+    "title": "5  The Forecasting Process (Benchmarks)",
+    "section": "5.3 Leasons Learned",
+    "text": "5.3 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series.\n\nLearning how create forecasts with simple heuristics."
   },
   {
     "objectID": "Benchmarks.html#readings",
     "href": "Benchmarks.html#readings",
-    "title": "4  The Forecasting Process (Benchmarks)",
-    "section": "4.4 Readings",
-    "text": "4.4 Readings\nHyndman (2021) chapter 5.\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
+    "title": "5  The Forecasting Process (Benchmarks)",
+    "section": "5.4 Readings",
+    "text": "5.4 Readings\nHyndman (2021) chapter 5.\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
   },
   {
     "objectID": "Tools.html#r-basics",

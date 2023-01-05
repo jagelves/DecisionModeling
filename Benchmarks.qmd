@@ -1,16 +1,37 @@
 # The Forecasting Process (Benchmarks)
 
-This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. We will ensure that we do not overfit a model to a training set by assessing its accuracy using a test set.
+This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. We will ensure that we do not over fit a model to a training set by assessing its accuracy using a test set.
 
 ## Benchmarks
 
-Perhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediciton sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:
+Perhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:
+
+<center>
+$\hat y_{T+h}=y_T$  
+
+</center>
+
 
 We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:
 
+<center>
+$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$  
+
+</center>
+
 One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:
 
-Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, excercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:
+<center>
+$\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$  
+
+</center>
+
+Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:
+
+<center>
+$\hat y_{T+h}=b_0+b_1(T+h)$  
+
+</center>
 
 ## Accuracy
 

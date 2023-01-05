@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Decision Modeling - 4&nbsp; The Forecasting Process (Benchmarks)</title>
+<title>Decision Modeling - 5&nbsp; The Forecasting Process (Benchmarks)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -49,7 +49,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./ETSARIMA.html" rel="next">
 <link href="./Tools2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -80,6 +80,7 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -89,7 +90,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -119,22 +120,37 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Tools for Working With Simulation</span></a>
+  <a href="./Decisions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Decisions Under Uncertainty</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simulation in R</span></a>
+  <a href="./Tools.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tools for Working With Simulation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></a>
+  <a href="./Simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulation in R</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></a>
+  <a href="./Tools2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Time Series Tools</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ETSARIMA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ETS and ARIMA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Model Selection</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -151,10 +167,10 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link active" data-scroll-target="#benchmarks"><span class="toc-section-number">4.1</span>  Benchmarks</a></li>
-  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="toc-section-number">4.2</span>  Accuracy</a></li>
-  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">4.3</span>  Leasons Learned</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">4.4</span>  Readings</a></li>
+  <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link active" data-scroll-target="#benchmarks"><span class="toc-section-number">5.1</span>  Benchmarks</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="toc-section-number">5.2</span>  Accuracy</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">5.3</span>  Leasons Learned</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">5.4</span>  Readings</a></li>
   </ul>
 </nav>
     </div>
@@ -163,7 +179,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Forecasting Process (Benchmarks)</span></h1>
 </div>
 
 
@@ -179,26 +195,32 @@ div.csl-indent {
 </header>
 
 <p>This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series’s variation, leaving a small random error. We will ensure that we do not overfit a model to a training set by assessing its accuracy using a test set.</p>
-<section id="benchmarks" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="benchmarks"><span class="header-section-number">4.1</span> Benchmarks</h2>
-<p>Perhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediciton sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:</p>
+<section id="benchmarks" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="benchmarks"><span class="header-section-number">5.1</span> Benchmarks</h2>
+<p>Perhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:</p>
+<center>
+<p><span class="math inline">\(\hat y_{T+h}=y_T\)</span></p>
+</center>
 <p>We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:</p>
+<center>
+<p><span class="math inline">\(\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})\)</span></p>
+</center>
 <p>One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:</p>
 <p>Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, excercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:</p>
 </section>
-<section id="accuracy" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">4.2</span> Accuracy</h2>
+<section id="accuracy" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">5.2</span> Accuracy</h2>
 <p>We will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE’s but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn’t simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively.</p>
 </section>
-<section id="leasons-learned" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">4.3</span> Leasons Learned</h2>
+<section id="leasons-learned" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">5.3</span> Leasons Learned</h2>
 <p>In this module you have been introduced to the general procedure in forecasting time series.</p>
 <ul>
 <li>Learning how create forecasts with simple heuristics.</li>
 </ul>
 </section>
-<section id="readings" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="readings"><span class="header-section-number">4.4</span> Readings</h2>
+<section id="readings" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="readings"><span class="header-section-number">5.4</span> Readings</h2>
 <p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> chapter 5.</p>
 
 
@@ -346,12 +368,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./Tools2.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Tools For Working With Time Series Data</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Time Series Tools</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ETSARIMA.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ETS and ARIMA</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
