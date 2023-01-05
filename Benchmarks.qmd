@@ -33,9 +33,62 @@ $\hat y_{T+h}=b_0+b_1(T+h)$
 
 </center>
 
+## Predicting the Avocado Data
+
+Let's apply the forecasting methods to the average prices for avocados in California. Start by loading the `fpp3` package and importing the data from https://jagelves.github.io/Data/CaliforniaAvocado.csv. Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function.
+```{r warning=FALSE, echo=FALSE,message=FALSE}
+library(tidyverse, quietly = T, warn.conflicts = F)
+library(fpp3, quietly=T, warn.conflicts = F)
+cali<-read_csv("https://jagelves.github.io/Data/CaliforniaAvocado.csv")
+```
+
+
+```{r}
+cali %>%
+  as_tsibble(key=c(geography),
+             index=date, regular=T) -> calits
+```
+
+We'll create a time variable so that we can run the Least Squares method. An object with the fit of every method discussed above is then created with the model function.
+
+```{r}
+calits  %>% mutate(time=1:n()) -> calits
+
+fit <- model(calits,mean=MEAN(average_price),
+              Naive=NAIVE(average_price),
+              Drift=RW(average_price~drift()),
+              LS=TSLM(average_price~date))
+
+```
+
+```{r}
+augment(fit)
+```
+
+```{r}
+coef(fit)
+```
+```{r}
+calits %>% autoplot(average_price) + theme_classic() + 
+  geom_line(aes(y = .fitted), col="red",
+            data = augment(fit) %>% filter(`.model`=="LS"))
+```
 ## Accuracy
 
 We will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE's but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn't simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively.
+
+```{r}
+accuracy(fit)
+```
+```{r}
+cali_fc<- fit %>% forecast(h=4)
+
+cali_fc %>% autoplot(level=NULL) + theme_classic() + 
+  autolayer(calits, average_price) + 
+  geom_line(aes(y = .fitted), col="#D55E00",
+          data = augment(fit) %>% filter(`.model`=="mean"))
+```
+
 
 ## Leasons Learned
 
