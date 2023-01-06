@@ -1,4 +1,4 @@
-# The Forecasting Process (Benchmarks)
+# Model Benchmarks
 
 This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. We will ensure that we do not over fit a model to a training set by assessing its accuracy using a test set.
 
@@ -80,19 +80,28 @@ calits %>% autoplot(average_price) + theme_classic() +
 ```
 ## Accuracy
 
-We will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE's but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn't simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively.
+We will assess the fit of the benchmarks by comparing the fitted values against actual values. Generally, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Formally:
 
-```{r}
+How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since the measures are the smallest. We have highlighted these results and made the table more appealing by using the `gt` library.
+```{r, results=FALSE}
 accuracy(fit)
 ```
-```{r}
-cali_fc<- fit %>% forecast(h=4)
 
-cali_fc %>% autoplot(level=NULL) + theme_classic() + 
-  autolayer(calits, average_price) + 
-  geom_line(aes(y = .fitted), col="#D55E00",
-          data = augment(fit) %>% filter(`.model`=="mean"))
+```{r, echo=FALSE}
+accuracy(fit) %>% gt() %>%
+  cols_align("center") %>% 
+  tab_header(title = md("Model Fit")) %>% 
+  tab_style(locations = cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "normal"))) %>% 
+  fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE,ACF1),
+             decimals = 2) %>% 
+  tab_style_body(
+    style = cell_fill(color="lightgreen"),
+    values = "Naive",
+    targets ="row")
 ```
+
 
 
 ## Leasons Learned

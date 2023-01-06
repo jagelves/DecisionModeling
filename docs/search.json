@@ -51,28 +51,28 @@
   {
     "objectID": "Benchmarks.html#benchmarks",
     "href": "Benchmarks.html#benchmarks",
-    "title": "5  The Forecasting Process (Benchmarks)",
+    "title": "5  Model Benchmarks",
     "section": "5.1 Benchmarks",
     "text": "5.1 Benchmarks\nPerhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:\n\n\\(\\hat y_{T+h}=y_T\\)\n\nWe can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:\n\n\\(\\hat y_{T+h}=y_T+h(\\frac{y_t-y_1}{T-1})\\)\n\nOne could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:\n\n\\(\\hat y_{T+h}=\\frac{(y_1+y_2+...+y_T)}{T}\\)\n\nLastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:\n\n\\(\\hat y_{T+h}=b_0+b_1(T+h)\\)"
   },
   {
     "objectID": "Benchmarks.html#accuracy",
     "href": "Benchmarks.html#accuracy",
-    "title": "5  The Forecasting Process (Benchmarks)",
+    "title": "5  Model Benchmarks",
     "section": "5.3 Accuracy",
-    "text": "5.3 Accuracy\nWe will assess the fit of our models by comparing the fitted values against actual values. How far the fitted values are from the actual values will determine how well our model fits the data. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Utlimately, how we decide to aggregate our errors will determine our measure of accuracy. For example is we follow the same procedure as the one for MSE’s but then find the square root, we have caluclated the RMSE. If we are to determine the ability of our model to predict values, we will instead compare forecasted values (derived from a training set) to a test value (or values). The training set is data that will allow us to fine-tune our model. On the other hand, the test set was not used to develop the model. By following this procedure, we ensure that our model doesn’t simply replicate the behavior in the training set but instead teases out the essential factors in the series that will allow us to forecast general tendencies effectively.\n\naccuracy(fit)\n\n# A tibble: 4 × 11\n  geography .model .type        ME  RMSE    MAE     MPE  MAPE  MASE RMSSE   ACF1\n  <chr>     <chr>  <chr>     <dbl> <dbl>  <dbl>   <dbl> <dbl> <dbl> <dbl>  <dbl>\n1 Californ… mean   Trai…  4.02e-17 0.270 0.216  -2.50   12.9   2.25 2.02   0.863\n2 Californ… Naive  Trai…  4.66e- 3 0.134 0.0961 -0.0280  5.72  1    1     -0.188\n3 Californ… Drift  Trai… -1.63e-17 0.134 0.0963 -0.308   5.73  1.00 0.999 -0.188\n4 Californ… LS     Trai… -5.41e-18 0.246 0.194  -2.00   11.3   2.02 1.84   0.847\n\n\n\ncali_fc<- fit %>% forecast(h=4)\n\ncali_fc %>% autoplot(level=NULL) + theme_classic() + \n  autolayer(calits, average_price) + \n  geom_line(aes(y = .fitted), col=\"#D55E00\",\n          data = augment(fit) %>% filter(`.model`==\"mean\"))"
+    "text": "5.3 Accuracy\nWe will assess the fit of the benchmarks by comparing the fitted values against actual values. Generally, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Formally:\nHow we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since the measures are the smallest. We have highlighted these results and made the table more appealing by using the gt library.\n\naccuracy(fit)\n\n\n\n\n\n\n\n  \n    \n      Model Fit\n    \n    \n  \n  \n    \n      geography\n      .model\n      .type\n      ME\n      RMSE\n      MAE\n      MPE\n      MAPE\n      MASE\n      RMSSE\n      ACF1\n    \n  \n  \n    California\nmean\nTraining\n0.00\n0.27\n0.22\n−2.50\n12.94\n2.25\n2.02\n0.86\n    California\nNaive\nTraining\n0.00\n0.13\n0.10\n−0.03\n5.72\n1.00\n1.00\n−0.19\n    California\nDrift\nTraining\n0.00\n0.13\n0.10\n−0.31\n5.73\n1.00\n1.00\n−0.19\n    California\nLS\nTraining\n0.00\n0.25\n0.19\n−2.00\n11.34\n2.02\n1.84\n0.85"
   },
   {
     "objectID": "Benchmarks.html#leasons-learned",
     "href": "Benchmarks.html#leasons-learned",
-    "title": "5  The Forecasting Process (Benchmarks)",
+    "title": "5  Model Benchmarks",
     "section": "5.4 Leasons Learned",
     "text": "5.4 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series.\n\nLearning how create forecasts with simple heuristics."
   },
   {
     "objectID": "Benchmarks.html#readings",
     "href": "Benchmarks.html#readings",
-    "title": "5  The Forecasting Process (Benchmarks)",
+    "title": "5  Model Benchmarks",
     "section": "5.5 Readings",
     "text": "5.5 Readings\nHyndman (2021) chapter 5.\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
   },
@@ -345,7 +345,7 @@
   {
     "objectID": "Benchmarks.html#predicting-the-avocado-data",
     "href": "Benchmarks.html#predicting-the-avocado-data",
-    "title": "5  The Forecasting Process (Benchmarks)",
+    "title": "5  Model Benchmarks",
     "section": "5.2 Predicting the Avocado Data",
     "text": "5.2 Predicting the Avocado Data\nLet’s apply the forecasting methods to the average prices for avocados in California. Start by loading the fpp3 package and importing the data from https://jagelves.github.io/Data/CaliforniaAvocado.csv. Recall, that we can create a tsibble from the csv file by using the as_tsibble() function.\n\n\n\n\ncali %>%\n  as_tsibble(key=c(geography),\n             index=date, regular=T) -> calits\n\nThe model() function can run the models discussed in section 5.1. We save this to an object called fit.\n\nfit <- model(calits,mean=MEAN(average_price),\n              Naive=NAIVE(average_price),\n              Drift=RW(average_price~drift()),\n              LS=TSLM(average_price~date))\n\nTo explore the model coefficients, we can use the coef() function. We have used the gt package to make the table visually appealing.\n\n\n\n\n\n\n  \n    \n      Model Coefficients For The Avocado Data\n    \n    \n  \n  \n    \n      geography\n      .model\n      term\n      estimate\n      std.error\n      statistic\n      p.value\n    \n  \n  \n    California\nmean\nmean\n1.70\n0.02\n89.85\n0.00\n    California\nDrift\nb\n0.00\n0.01\n0.50\n0.62\n    California\nLS\n(Intercept)\n−2.94\n0.72\n−4.11\n0.00\n    California\nLS\ndate\n0.00\n0.00\n6.49\n0.00\n  \n  \n  \n\n\n\n\n\ncalits %>% autoplot(average_price) + theme_classic() + \n  geom_line(aes(y = .fitted), col=\"red\",\n            data = augment(fit) %>% filter(`.model`==\"LS\"))"
   },
