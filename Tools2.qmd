@@ -1,14 +1,14 @@
 # Time Series Tools
 
-In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data.
+In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. We should also carefully inspect the data and any general patterns it might exhibit. By following this procedure, we will ensure that the data is cleaned and ready for analysis.
 
-We will first learn how to get the data ready for analysis using `dplyr` and `tidyr`. Secondly, we will plot the data to identify the trend, seasonality, or cyclical behavior. To graph our time series, we will be learning the `ggplot2` package in R. Lastly, since time series deals with dates, we will introduce a package called `lubridate`, that helps us parse and manipulate dates.
+We will first learn how to get the data ready for analysis using `dplyr`. We will also introduce a package called `lubridate`, that helps us parse and manipulate dates. Secondly, we will plot the data to identify the trend, seasonality, or cyclical behavior. To graph our time series, we will be learning the `ggplot2`, and `fpp3` packages. This last package is essential for time series analysis.
 
 ## The Avocado Data Set
 
-The avocado data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers' cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g. greenskins) are not included in this data.
+To demonstrate these tools, we will be using the avocado data set. This data is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers' cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. The Product Lookup codes (PLUs) in the data are only for Hass avocados. Other avocados (e.g. greenskins) are not included in this data.
 
-You will notice that the data is weekly. However, there is an entry for 01/01/2018, that is right after 12/31/2017. Also, there are missing dates from 12/02/2018-12/31/2018.
+**Note:** When inspecting the data you will notice that each entry is recorded weekly. However, there is an entry for 01/01/2018, that is right after 12/31/2017. This is a single observation that is not weekly. You will also note that there are missing dates from 12/02/2018-12/31/2018.
 
 ## Loading tidyverse and Inspecting the Data.
 
@@ -30,10 +30,10 @@ The function imports the data as a tibble (a data structure similar to a data fr
 spec(avocado)
 ```
 
-You will notice that the *date* variable is of type character. To coerce this variable to a date we can use the `lubridate` package. Specifically, since the *date* variable is formatted as month/day/year we will use the `mdy()` function.
+You will notice that the *date* variable is of type character. To coerce this variable to a date we can use the `lubridate` package. Specifically, since the *date* variable is formatted as month/day/year we will use the `mdy()` function. You can learn more about this package in @R4DS chapter 19.
 
-```{r}
-library(lubridate, warn.conflicts = F, quietly = T)
+```{r, message=FALSE, warning=FALSE}
+library(lubridate)
 avocado$date<-mdy(avocado$date)
 ```
 
@@ -43,18 +43,20 @@ When using `dplyr` it's always helpful to use piping. Generally speaking, piping
 
 ```{r}
 avocado %>% select(c(average_price,geography)) %>%
-  arrange(desc(average_price))
+  arrange(desc(average_price)) %>% head(5)
 ```
 
-There is a lot to unpack in this line of code. Let's start with the functions used. Both the `select()` and `arrange()` functions are part of the `dplyr` package. As the name indicates, the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data. By default it will sort in ascending order, hence we have used the `desc()` function to use descending order.
+There is a lot to unpack in this line of code. Let's start with the functions used. Both the `select()` and `arrange()` functions are part of the `dplyr` package. As the name indicates, the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data in ascending order. Hence we have used the `desc()` function to sort in descending order.
 
-Now, let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%\>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. That data frame is sorted in descending order so that the highest average avocado price is displayed first. As noted in section 4.1, there is an additional date in the data set that is between weeks (2018-01-01). We can remove this observation by using the `filter()` function.
+Now, let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%\>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. The data frame is sorted in descending order so that the highest average avocado price is displayed first. Finally, the `head()` function is used to retrieve the top 5 entries.  
+
+As noted in section 4.1, there is an additional date in the data set that is between weeks (2018-01-01). We can remove this observation by using the `filter()` function.
 
 ```{r}
 avocado %>% filter(date!=ymd("2018-01-01")) -> avocado
 ```
 
-You should notice that whereas the `select()` function chooses particular variables, the `filter()` function chooses rows of the tibble that meet the conditions listed. Note also that the filtered data set is assigned (`->`) to *avocado* overwriting the older object.
+You should notice that whereas the `select()` function chooses particular variables (i.e, columns), the `filter()` function chooses rows of the tibble that meet the conditions listed. Note also that the filtered data set is assigned (`->`) to *avocado* overwriting the older object.
 
 These examples highlight the use of `dplyr` functions to transform your data. There are plenty of other functions you can use, but learning these are outside the scope of this book. To find out more, we recommend reading @R4DS chapter 4. For now we will use one more data transformation technique to retrieve average price of organic avocados for California for the period 2015-2018.
 
@@ -67,45 +69,47 @@ avocado %>%
 
 ## Visualizing The Data
 
-To visualize the data we will be using `ggplot2`. One of the main functions in `ggplot2` is the `aes()` function. This function sets the plotting canvas and determines which variables are to be plotted. The `geom_line()` function specifies the type of plot. In time series we will use the line plot regularly. Below you can see the code to create a line plot of the average price of avocados for California.
+To visualize the data we will be using `ggplot2`. One of the main functions in `ggplot2` is the `aes()` function. This function sets the plotting canvas and determines which variables are to be plotted. The `geom_line()` function specifies the type of plot. In time series we will use the line plot regularly. To learn more about the `ggplot` package you can refer to @R4DS chapter 2. Below you can see the code to create a line plot of the average price of avocados for California.
 
 ```{r}
 ggplot(data=cali) + 
   geom_line(mapping=aes(x=date,y=average_price, group=geography),color="black") +
-  theme_classic() + labs(x="",y="Average Price", 
-                         title="Organic Avocado Price in California", subtitle="2015-2018")  
+  theme_classic() + 
+  labs(x="",
+       y="Average Price", 
+       title="Organic Avocado Price in California",
+       subtitle="2015-2018")  
 ```
 
-The graph shows that the average price of avocados in California has been increasing. The average price reached a maximum of about 2.6 in 2017 and was at a minimum in in the spring of 2015. There seems to be seasonal patterns with low prices at the beginning of the year and peaks mid year.
+The graph shows that the average price of avocados in California has been increasing. The average price reached a maximum of about 2.6 in 2017 and was at a minimum in the spring of 2015. The plot also indicates a seasonal pattern with low prices at the beginning of the year and peaks mid-year.
 
-## tsibbles and Decomposition
+## tsibbles
 
-When dealing with time series, we will be using a data structure called a tsibble (time series tibble). These are defined by a time index (i.e., the date), and some keys (i.e., some dimensions). In the *avocado* data set we are mostly interested in the average price of the avocados. These are classified by location (geography) and type (e.g., organic and conventional). tsibbles, as well a variety of packages that help us analyze time series are all part of the `fpp3` package.
+All though tibbles are a great data structure, when dealing with time series, there is a time component that is crucial when analyzing  the data. As a consequence, we will be using a data structure called a tsibble (time series tibble). tsibbles are defined by a time index (i.e., the date), and some keys (i.e., some dimensions). In the *avocado* data set we are mainly interested in the average price of the avocados. You will note however that they are classified by location (geography) and type (e.g., organic and conventional). tsibbles, as well a variety of packages that help us analyze time series, are part of the `fpp3` package. Below we load the package, and coerce our avocado tibble to a tsibble.
 
-```{r}
-library(fpp3, quietly = T, warn.conflicts = F)
+```{r, results=FALSE, warning=FALSE, message=FALSE}
+library(fpp3)
 avocado %>%
   as_tsibble(key=c(type, geography),
            index=date, regular=T) %>%
   filter_index("2015-01-04"~"2018-12-02")-> avocadots
 ```
 
-Note that the `as_tsibble()` function was called with the parameter *regular* set at true since the data is weekly. filter_index() is a helpful function that allows you to determine windows for analysis. Since there are some missing dates in December 2018, we limit the analysis to 2015-2018.
+Note that the `as_tsibble()` function was called with the parameter *regular* set at true indicating that the date has no gaps and occurs every week. The function `filter_index()` is called as it allows us to determine the window for analysis. As noted in section 5.1, there are some missing dates in December 2018. We limit the analysis to 2015-2018.
 
-We can now specify the tsibble for analysis, by using `dplyr`.
+Recall, that we are interested in the average price of avocados for California. We can specify the tsibble for analysis, by using `dplyr`.
 
 ```{r}
 avocadots %>% filter(geography=="California", type=="organic") %>%
-  select(date,geography,average_price,total_volume) %>%
-  filter_index("2015-01-04"~"2018-12-02")-> calits
+  select(date,geography,average_price,total_volume) -> calits
 ```
 
-## Decomposition
+## Time Series Decomposition
 
-As mentioned above, the avocado data for California seems to have a trend and a seasonal pattern. There are methods available to tease out these components. STL (Season Trend decomposition using LOESS) decomposes the series into a trend, seasonality, and an error (unexplained) component. It is easy to run in R by using the command below:
+As highlighted in section 4.4, the average price of avocados in California seems to have a trend and a seasonal pattern. There are methods available to tease out these components and make them more apparent. STL (Season Trend decomposition using LOESS) decomposes the series into a trend, seasonality, and an error (unexplained) component. It is easy to run this method in R by using the `fpp3` package.
 
 ```{r}
-calits %>% filter_index("2015-01-04"~"2018-12-02") %>%
+calits %>%
   model(STL(average_price~trend(window=200)+
               season(window=52), robust=TRUE)) %>%
   components() %>% autoplot()+ theme_classic()
@@ -114,7 +118,7 @@ calits %>% filter_index("2015-01-04"~"2018-12-02") %>%
 
 As shown above, the trend is increasing and the seasonal component confirms low levels at the beginning of the year and high levels in the summer.
 
-The decomposition itself is constructed by first finding a moving average of the series to track the trend. As you can see the window in the trend is set to a high window so that moving average tracks the general trend and not the small fluctuations of the series. This trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly). The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component (Series-Trend-Seasonal=Error).
+The decomposition itself is constructed in several steps. First, a moving average of the series is calculated to track the trend. As you can see the `window()` function in the trend is set to a high value so that the moving average reflects the general trend of the series and not the small fluctuations. The trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly) for the de-trended series. The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component (Series-Trend-Seasonal=Error). In the end, each component can be graphed and displayed in a graph as illustrated above.
 
 ## Chipotle Wants You to Forecast Avocado Prices
 
@@ -126,13 +130,13 @@ In this module you have been introduced to data wrangling, plotting and tsibbles
 
 -   handling dates with lubridate.
 
--   renaming, selecting and filtering variables.
+-   selecting and filtering variables.
 
 -   plotting using ggplot.
 
--   Creating and managing tsibbles
+-   creating and working with tsibbles
 
--   Decomposing a series using STL.
+-   decomposing a series using STL.
 
 ## Readings
 
