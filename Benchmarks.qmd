@@ -36,7 +36,7 @@ $\hat y_{T+h}=b_0+b_1(T+h)$
 ## Predicting the Avocado Data
 
 Let's apply the forecasting methods to the average prices for avocados in California. Start by loading the `fpp3` package and importing the data from https://jagelves.github.io/Data/CaliforniaAvocado.csv. Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function.
-```{r warning=FALSE, echo=FALSE,message=FALSE}
+```{r warning=FALSE, echo=FALSE, message=FALSE}
 library(tidyverse, quietly = T, warn.conflicts = F)
 library(fpp3, quietly=T, warn.conflicts = F)
 cali<-read_csv("https://jagelves.github.io/Data/CaliforniaAvocado.csv")
@@ -49,25 +49,30 @@ cali %>%
              index=date, regular=T) -> calits
 ```
 
-We'll create a time variable so that we can run the Least Squares method. An object with the fit of every method discussed above is then created with the model function.
+The `model()` function can run the models discussed in section 5.1. We save this to an object called *fit*.
 
 ```{r}
-calits  %>% mutate(time=1:n()) -> calits
-
 fit <- model(calits,mean=MEAN(average_price),
               Naive=NAIVE(average_price),
               Drift=RW(average_price~drift()),
               LS=TSLM(average_price~date))
-
 ```
 
-```{r}
-augment(fit)
+To explore the model coefficients, we can use the `coef()` function. We have used the `gt` package to make the table visually appealing. 
+
+```{r ,echo=FALSE}
+library(gt)
+coef(fit)%>% gt() %>% 
+  cols_align("center") %>% 
+  tab_header(title = 
+               md("Model Coefficients For The Avocado Data")) %>% tab_style(locations =                                                    cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(statistic,estimate,std.error,p.value),
+             decimals = 2)
 ```
 
-```{r}
-coef(fit)
-```
+
 ```{r}
 calits %>% autoplot(average_price) + theme_classic() + 
   geom_line(aes(y = .fitted), col="red",

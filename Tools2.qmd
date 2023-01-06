@@ -1,6 +1,6 @@
 # Time Series Tools
 
-In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data.  
+In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. Additionally, we should understand the data structure and any general patterns the data might be exhibiting. This will inform us of the type of analysis we should perform on the data.
 
 We will first learn how to get the data ready for analysis using `dplyr` and `tidyr`. Secondly, we will plot the data to identify the trend, seasonality, or cyclical behavior. To graph our time series, we will be learning the `ggplot2` package in R. Lastly, since time series deals with dates, we will introduce a package called `lubridate`, that helps us parse and manipulate dates.
 
@@ -18,7 +18,7 @@ You will notice that the data is weekly. However, there is an entry for 01/01/20
 library(tidyverse)
 ```
 
-As you can see, several packages were attached (loaded) when we write  `library(tidyverse)`. As mentioned, both `tidyr` and `dplyr` are part of this overall package. Now that the package is loaded we can import our data by using the `read_csv()` function from the `readr` package.
+As you can see, several packages were attached (loaded) when we write `library(tidyverse)`. As mentioned, both `tidyr` and `dplyr` are part of this overall package. Now that the package is loaded we can import our data by using the `read_csv()` function from the `readr` package.
 
 ```{r}
 avocado<-read_csv("https://jagelves.github.io/Data/avocado2020.csv")
@@ -37,37 +37,30 @@ library(lubridate, warn.conflicts = F, quietly = T)
 avocado$date<-mdy(avocado$date)
 ```
 
-We can confirm that the type of the variable has now been coerced by using the `class()` function.
-
-```{r}
-class(avocado$date)
-```
-
-
 ## Piping and dplyr
 
 When using `dplyr` it's always helpful to use piping. Generally speaking, piping allows us to chain functions. Piping (`%>%`) passes the object on the left of the pipe as the first argument to the right of the pipe. We can illustrate this by using the `select()` and `arrange()` functions.
 
 ```{r}
 avocado %>% select(c(average_price,geography)) %>%
-  arrange(desc(average_price)) 
+  arrange(desc(average_price))
 ```
+
 There is a lot to unpack in this line of code. Let's start with the functions used. Both the `select()` and `arrange()` functions are part of the `dplyr` package. As the name indicates, the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data. By default it will sort in ascending order, hence we have used the `desc()` function to use descending order.
 
-Now, let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. That data frame is sorted in descending order so that the highest average avocado price is displayed first. The `filter()` function is used below:
+Now, let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%\>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. That data frame is sorted in descending order so that the highest average avocado price is displayed first. As noted in section 4.1, there is an additional date in the data set that is between weeks (2018-01-01). We can remove this observation by using the `filter()` function.
 
 ```{r}
 avocado %>% filter(date!=ymd("2018-01-01")) -> avocado
 ```
 
-Whereas the `select()` function chooses particular variables, the `filter()` function chooses rows of the tibble that meet the conditions listed.
+You should notice that whereas the `select()` function chooses particular variables, the `filter()` function chooses rows of the tibble that meet the conditions listed. Note also that the filtered data set is assigned (`->`) to *avocado* overwriting the older object.
 
 These examples highlight the use of `dplyr` functions to transform your data. There are plenty of other functions you can use, but learning these are outside the scope of this book. To find out more, we recommend reading @R4DS chapter 4. For now we will use one more data transformation technique to retrieve average price of organic avocados for California for the period 2015-2018.
 
 ```{r}
 avocado %>% 
-  filter(date!=ymd("2018-01-01"), 
-         geography=="California", type=="organic", 
+  filter(geography=="California", type=="organic", 
          year<=2018) %>%
   select(date, average_price, geography) -> cali
 ```
@@ -100,6 +93,7 @@ avocado %>%
 Note that the `as_tsibble()` function was called with the parameter *regular* set at true since the data is weekly. filter_index() is a helpful function that allows you to determine windows for analysis. Since there are some missing dates in December 2018, we limit the analysis to 2015-2018.
 
 We can now specify the tsibble for analysis, by using `dplyr`.
+
 ```{r}
 avocadots %>% filter(geography=="California", type=="organic") %>%
   select(date,geography,average_price,total_volume) %>%
@@ -117,6 +111,7 @@ calits %>% filter_index("2015-01-04"~"2018-12-02") %>%
   components() %>% autoplot()+ theme_classic()
 
 ```
+
 As shown above, the trend is increasing and the seasonal component confirms low levels at the beginning of the year and high levels in the summer.
 
 The decomposition itself is constructed by first finding a moving average of the series to track the trend. As you can see the window in the trend is set to a high window so that moving average tracks the general trend and not the small fluctuations of the series. This trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly). The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component (Series-Trend-Seasonal=Error).
@@ -138,7 +133,6 @@ In this module you have been introduced to data wrangling, plotting and tsibbles
 -   Creating and managing tsibbles
 
 -   Decomposing a series using STL.
-
 
 ## Readings
 
