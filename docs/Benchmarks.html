@@ -258,18 +258,18 @@ div.csl-indent {
 
 </header>
 
-<p>This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series’s variation, leaving a small random error. We will ensure that we do not over fit a model to a training set by assessing its accuracy using a test set.</p>
+<p>This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series’s variation, leaving a small random error.</p>
 <section id="benchmarks" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="benchmarks"><span class="header-section-number">5.1</span> Benchmarks</h2>
-<p>Perhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:</p>
+<p>One of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. If you consider the task of predicting your weight, a good heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:</p>
 <center>
 <p><span class="math inline">\(\hat y_{T+h}=y_T\)</span></p>
 </center>
-<p>We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:</p>
+<p>where <span class="math inline">\(\hat y_{T+h}\)</span> is the predicted value for <span class="math inline">\(h\)</span> periods ahead, and <span class="math inline">\(y_T\)</span> is the value observed at the current time period <span class="math inline">\(T\)</span>. We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). Once again, if we think about weight, we note that as kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:</p>
 <center>
 <p><span class="math inline">\(\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})\)</span></p>
 </center>
-<p>One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:</p>
+<p>where <span class="math inline">\(h(\frac{y_t-y_1}{T-1})\)</span> can be thought as the average increase of <span class="math inline">\(y\)</span> from period <span class="math inline">\(1\)</span> to the current period <span class="math inline">\(T\)</span>. One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Formally:</p>
 <center>
 <p><span class="math inline">\(\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}\)</span></p>
 </center>
@@ -280,32 +280,35 @@ div.csl-indent {
 </section>
 <section id="predicting-the-avocado-data" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="predicting-the-avocado-data"><span class="header-section-number">5.2</span> Predicting the Avocado Data</h2>
-<p>Let’s apply the forecasting methods to the average prices for avocados in California. Start by loading the <code>fpp3</code> package and importing the data from https://jagelves.github.io/Data/CaliforniaAvocado.csv. Recall, that we can create a tsibble from the csv file by using the <code>as_tsibble()</code> function.</p>
+<p>Let’s apply the forecasting methods to the average prices for avocados in California. Start by loading the <code>fpp3</code> package and importing the data https://jagelves.github.io/Data/CaliforniaAvocado.csv.</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cali<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/CaliforniaAvocado.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Recall, that we can create a tsibble from the csv file by using the <code>as_tsibble()</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span><span class="fu">c</span>(geography),</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">index=</span>date, <span class="at">regular=</span>T) <span class="ot">-&gt;</span> calits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span><span class="fu">c</span>(geography),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">index=</span>date, <span class="at">regular=</span>T) <span class="ot">-&gt;</span> calits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>model()</code> function can run the models discussed in section 5.1. We save this to an object called <em>fit</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">model</span>(calits,<span class="at">mean=</span><span class="fu">MEAN</span>(average_price),</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">Naive=</span><span class="fu">NAIVE</span>(average_price),</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">Drift=</span><span class="fu">RW</span>(average_price<span class="sc">~</span><span class="fu">drift</span>()),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span>date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">model</span>(calits,<span class="at">mean=</span><span class="fu">MEAN</span>(average_price),</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">Naive=</span><span class="fu">NAIVE</span>(average_price),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">Drift=</span><span class="fu">RW</span>(average_price<span class="sc">~</span><span class="fu">drift</span>()),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span>date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To explore the model coefficients, we can use the <code>coef()</code> function. We have used the <code>gt</code> package to make the table visually appealing.</p>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="clvcnszafb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="bgjohfmciz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#clvcnszafb) .gt_table {
+:where(#bgjohfmciz) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -330,7 +333,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_heading {
+:where(#bgjohfmciz) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -342,12 +345,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_caption {
+:where(#bgjohfmciz) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#clvcnszafb) .gt_title {
+:where(#bgjohfmciz) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -359,7 +362,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#clvcnszafb) .gt_subtitle {
+:where(#bgjohfmciz) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -371,13 +374,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#clvcnszafb) .gt_bottom_border {
+:where(#bgjohfmciz) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_col_headings {
+:where(#bgjohfmciz) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -392,7 +395,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_col_heading {
+:where(#bgjohfmciz) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -412,7 +415,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#clvcnszafb) .gt_column_spanner_outer {
+:where(#bgjohfmciz) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -424,15 +427,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#clvcnszafb) .gt_column_spanner_outer:first-child {
+:where(#bgjohfmciz) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#clvcnszafb) .gt_column_spanner_outer:last-child {
+:where(#bgjohfmciz) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#clvcnszafb) .gt_column_spanner {
+:where(#bgjohfmciz) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -444,7 +447,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#clvcnszafb) .gt_group_heading {
+:where(#bgjohfmciz) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -470,7 +473,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#clvcnszafb) .gt_empty_group_heading {
+:where(#bgjohfmciz) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -485,15 +488,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#clvcnszafb) .gt_from_md > :first-child {
+:where(#bgjohfmciz) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#clvcnszafb) .gt_from_md > :last-child {
+:where(#bgjohfmciz) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#clvcnszafb) .gt_row {
+:where(#bgjohfmciz) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -512,7 +515,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#clvcnszafb) .gt_stub {
+:where(#bgjohfmciz) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -525,7 +528,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#clvcnszafb) .gt_stub_row_group {
+:where(#bgjohfmciz) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -539,11 +542,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#clvcnszafb) .gt_row_group_first td {
+:where(#bgjohfmciz) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#clvcnszafb) .gt_summary_row {
+:where(#bgjohfmciz) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -553,16 +556,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#clvcnszafb) .gt_first_summary_row {
+:where(#bgjohfmciz) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_first_summary_row.thick {
+:where(#bgjohfmciz) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#clvcnszafb) .gt_last_summary_row {
+:where(#bgjohfmciz) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -572,7 +575,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_grand_summary_row {
+:where(#bgjohfmciz) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -582,7 +585,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#clvcnszafb) .gt_first_grand_summary_row {
+:where(#bgjohfmciz) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -592,11 +595,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_striped {
+:where(#bgjohfmciz) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#clvcnszafb) .gt_table_body {
+:where(#bgjohfmciz) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -605,7 +608,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_footnotes {
+:where(#bgjohfmciz) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -619,7 +622,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_footnote {
+:where(#bgjohfmciz) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -628,7 +631,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#clvcnszafb) .gt_sourcenotes {
+:where(#bgjohfmciz) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -642,7 +645,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#clvcnszafb) .gt_sourcenote {
+:where(#bgjohfmciz) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -650,64 +653,64 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#clvcnszafb) .gt_left {
+:where(#bgjohfmciz) .gt_left {
   text-align: left;
 }
 
-:where(#clvcnszafb) .gt_center {
+:where(#bgjohfmciz) .gt_center {
   text-align: center;
 }
 
-:where(#clvcnszafb) .gt_right {
+:where(#bgjohfmciz) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#clvcnszafb) .gt_font_normal {
+:where(#bgjohfmciz) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#clvcnszafb) .gt_font_bold {
+:where(#bgjohfmciz) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#clvcnszafb) .gt_font_italic {
+:where(#bgjohfmciz) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#clvcnszafb) .gt_super {
+:where(#bgjohfmciz) .gt_super {
   font-size: 65%;
 }
 
-:where(#clvcnszafb) .gt_footnote_marks {
+:where(#bgjohfmciz) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#clvcnszafb) .gt_asterisk {
+:where(#bgjohfmciz) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#clvcnszafb) .gt_indent_1 {
+:where(#bgjohfmciz) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#clvcnszafb) .gt_indent_2 {
+:where(#bgjohfmciz) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#clvcnszafb) .gt_indent_3 {
+:where(#bgjohfmciz) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#clvcnszafb) .gt_indent_4 {
+:where(#bgjohfmciz) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#clvcnszafb) .gt_indent_5 {
+:where(#bgjohfmciz) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -766,9 +769,9 @@ div.csl-indent {
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>calits <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(average_price) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted), <span class="at">col=</span><span class="st">"red"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">augment</span>(fit) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="st">`</span><span class="at">.model</span><span class="st">`</span><span class="sc">==</span><span class="st">"LS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>calits <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(average_price) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted), <span class="at">col=</span><span class="st">"red"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">augment</span>(fit) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="st">`</span><span class="at">.model</span><span class="st">`</span><span class="sc">==</span><span class="st">"LS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Benchmarks_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -779,17 +782,17 @@ div.csl-indent {
 <p>We will assess the fit of the benchmarks by comparing the fitted values against actual values. Generally, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Formally:</p>
 <p>How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since the measures are the smallest. We have highlighted these results and made the table more appealing by using the <code>gt</code> library.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="tpzqbfvqtk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="yysannhxby" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#tpzqbfvqtk) .gt_table {
+:where(#yysannhxby) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -814,7 +817,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_heading {
+:where(#yysannhxby) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -826,12 +829,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_caption {
+:where(#yysannhxby) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#tpzqbfvqtk) .gt_title {
+:where(#yysannhxby) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -843,7 +846,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#tpzqbfvqtk) .gt_subtitle {
+:where(#yysannhxby) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -855,13 +858,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#tpzqbfvqtk) .gt_bottom_border {
+:where(#yysannhxby) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_col_headings {
+:where(#yysannhxby) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -876,7 +879,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_col_heading {
+:where(#yysannhxby) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -896,7 +899,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#tpzqbfvqtk) .gt_column_spanner_outer {
+:where(#yysannhxby) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -908,15 +911,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#tpzqbfvqtk) .gt_column_spanner_outer:first-child {
+:where(#yysannhxby) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#tpzqbfvqtk) .gt_column_spanner_outer:last-child {
+:where(#yysannhxby) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#tpzqbfvqtk) .gt_column_spanner {
+:where(#yysannhxby) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -928,7 +931,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#tpzqbfvqtk) .gt_group_heading {
+:where(#yysannhxby) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -954,7 +957,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#tpzqbfvqtk) .gt_empty_group_heading {
+:where(#yysannhxby) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -969,15 +972,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#tpzqbfvqtk) .gt_from_md > :first-child {
+:where(#yysannhxby) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#tpzqbfvqtk) .gt_from_md > :last-child {
+:where(#yysannhxby) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#tpzqbfvqtk) .gt_row {
+:where(#yysannhxby) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -996,7 +999,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#tpzqbfvqtk) .gt_stub {
+:where(#yysannhxby) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1009,7 +1012,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#tpzqbfvqtk) .gt_stub_row_group {
+:where(#yysannhxby) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1023,11 +1026,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#tpzqbfvqtk) .gt_row_group_first td {
+:where(#yysannhxby) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#tpzqbfvqtk) .gt_summary_row {
+:where(#yysannhxby) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1037,16 +1040,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#tpzqbfvqtk) .gt_first_summary_row {
+:where(#yysannhxby) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_first_summary_row.thick {
+:where(#yysannhxby) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#tpzqbfvqtk) .gt_last_summary_row {
+:where(#yysannhxby) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1056,7 +1059,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_grand_summary_row {
+:where(#yysannhxby) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1066,7 +1069,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#tpzqbfvqtk) .gt_first_grand_summary_row {
+:where(#yysannhxby) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1076,11 +1079,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_striped {
+:where(#yysannhxby) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#tpzqbfvqtk) .gt_table_body {
+:where(#yysannhxby) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1089,7 +1092,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_footnotes {
+:where(#yysannhxby) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1103,7 +1106,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_footnote {
+:where(#yysannhxby) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1112,7 +1115,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#tpzqbfvqtk) .gt_sourcenotes {
+:where(#yysannhxby) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1126,7 +1129,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#tpzqbfvqtk) .gt_sourcenote {
+:where(#yysannhxby) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1134,64 +1137,64 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#tpzqbfvqtk) .gt_left {
+:where(#yysannhxby) .gt_left {
   text-align: left;
 }
 
-:where(#tpzqbfvqtk) .gt_center {
+:where(#yysannhxby) .gt_center {
   text-align: center;
 }
 
-:where(#tpzqbfvqtk) .gt_right {
+:where(#yysannhxby) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#tpzqbfvqtk) .gt_font_normal {
+:where(#yysannhxby) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#tpzqbfvqtk) .gt_font_bold {
+:where(#yysannhxby) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#tpzqbfvqtk) .gt_font_italic {
+:where(#yysannhxby) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#tpzqbfvqtk) .gt_super {
+:where(#yysannhxby) .gt_super {
   font-size: 65%;
 }
 
-:where(#tpzqbfvqtk) .gt_footnote_marks {
+:where(#yysannhxby) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#tpzqbfvqtk) .gt_asterisk {
+:where(#yysannhxby) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#tpzqbfvqtk) .gt_indent_1 {
+:where(#yysannhxby) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#tpzqbfvqtk) .gt_indent_2 {
+:where(#yysannhxby) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#tpzqbfvqtk) .gt_indent_3 {
+:where(#yysannhxby) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#tpzqbfvqtk) .gt_indent_4 {
+:where(#yysannhxby) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#tpzqbfvqtk) .gt_indent_5 {
+:where(#yysannhxby) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

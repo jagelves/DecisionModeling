@@ -1,10 +1,11 @@
 # Model Benchmarks
 
-This module will introduce the forecasting procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. We will ensure that we do not over fit a model to a training set by assessing its accuracy using a test set.
+This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error.
 
 ## Benchmarks
 
-Perhaps one of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. Your weight tomorrow is predicted to be the same as the weight observed today. Mathematically:
+One of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. If you consider the task of predicting your weight, a good heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:
+
 
 <center>
 $\hat y_{T+h}=y_T$  
@@ -12,14 +13,14 @@ $\hat y_{T+h}=y_T$
 </center>
 
 
-We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). As kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:
+where $\hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). Once again, if we think about weight, we note that as kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:
 
 <center>
 $\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$  
 
 </center>
 
-One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Mathematically:
+where $h(\frac{y_t-y_1}{T-1})$ can be thought as the average increase of $y$ from period $1$ to the current period $T$. One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Formally:
 
 <center>
 $\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$  
@@ -35,21 +36,21 @@ $\hat y_{T+h}=b_0+b_1(T+h)$
 
 ## Predicting the Avocado Data
 
-Let's apply the forecasting methods to the average prices for avocados in California. Start by loading the `fpp3` package and importing the data from https://jagelves.github.io/Data/CaliforniaAvocado.csv. Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function.
-```{r warning=FALSE, echo=FALSE, message=FALSE}
-library(tidyverse, quietly = T, warn.conflicts = F)
-library(fpp3, quietly=T, warn.conflicts = F)
+Let's apply the forecasting methods to the average prices for avocados in California. Start by loading the `fpp3` package and importing the data https://jagelves.github.io/Data/CaliforniaAvocado.csv. 
+```{r warning=FALSE, echo=TRUE, message=FALSE}
+library(tidyverse)
+library(fpp3)
 cali<-read_csv("https://jagelves.github.io/Data/CaliforniaAvocado.csv")
 ```
 
-
+Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function.  
 ```{r}
 cali %>%
   as_tsibble(key=c(geography),
              index=date, regular=T) -> calits
 ```
 
-The `model()` function can run the models discussed in section 5.1. We save this to an object called *fit*.
+Now we will use the `model()` function can to run the benchmarks discussed in section 5.1. We have save the models to an object called *fit*.
 
 ```{r}
 fit <- model(calits,mean=MEAN(average_price),
@@ -58,7 +59,7 @@ fit <- model(calits,mean=MEAN(average_price),
               LS=TSLM(average_price~date))
 ```
 
-To explore the model coefficients, we can use the `coef()` function. We have used the `gt` package to make the table visually appealing. 
+To explore the model coefficients, we use the `coef()` function. To make the output table visually appealing you can format by using the `gt` package. 
 
 ```{r ,echo=FALSE}
 library(gt)
@@ -71,18 +72,27 @@ coef(fit)%>% gt() %>%
   fmt_number(columns =c(statistic,estimate,std.error,p.value),
              decimals = 2)
 ```
+The table illustrates the estimates for all the models discussed. Note that he Naive method has no estimate, as it is simply the previous periods observed value. Below we illustrate the least squares model by the red line and the Naive model by the orange line.
 
-
-```{r}
+```{r, warning=FALSE}
 calits %>% autoplot(average_price) + theme_classic() + 
   geom_line(aes(y = .fitted), col="red",
-            data = augment(fit) %>% filter(`.model`=="LS"))
+            data = augment(fit) %>% filter(`.model`=="LS")) +
+geom_line(aes(y = .fitted), col="orange",
+            data = augment(fit) %>% filter(`.model`=="Naive"))
 ```
 ## Accuracy
 
-We will assess the fit of the benchmarks by comparing the fitted values against actual values. Generally, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Formally:
+We will assess the fit of the benchmarks by comparing the fitted values against actual values. Generally, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).
 
-How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since the measures are the smallest. We have highlighted these results and made the table more appealing by using the `gt` library.
+<center>
+$MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T-1}$  
+
+</center>
+
+
+How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and made the table more appealing using the `gt` library.  
+
 ```{r, results=FALSE}
 accuracy(fit)
 ```

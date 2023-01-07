@@ -1,1 +1,21 @@
 # ETS and ARIMA
+
+## Preliminaries
+
+### The autocorrelation function {.unnumbered}
+
+A tool for analysis of time-series. The correlation coefficient is given by 𝜌_𝑌𝑋=𝜎_𝑋𝑌/(𝜎_𝑋 𝜎_𝑌 )
+
+For two random variable that are 𝑘 periods apart we have:
+
+𝜌_(𝑌_𝑡,𝑌_(𝑡−𝑘) )=(𝐶𝑜𝑣(𝑌_𝑡,𝑌_(𝑡−𝑘)))/(𝑠𝑑(𝑌_𝑡 )𝑠𝑑(𝑌_(𝑡−𝑘)))
+
+
+## The ar model
+
+## The ma model
+
+## The arima model
+
+
+
