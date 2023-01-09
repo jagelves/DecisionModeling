@@ -231,8 +231,8 @@ div.csl-indent {
    
   <ul>
   <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link active" data-scroll-target="#benchmarks"><span class="toc-section-number">5.1</span>  Benchmarks</a></li>
-  <li><a href="#predicting-the-avocado-data" id="toc-predicting-the-avocado-data" class="nav-link" data-scroll-target="#predicting-the-avocado-data"><span class="toc-section-number">5.2</span>  Predicting the Avocado Data</a></li>
-  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="toc-section-number">5.3</span>  Accuracy</a></li>
+  <li><a href="#modeling-the-the-average-price-of-avocados" id="toc-modeling-the-the-average-price-of-avocados" class="nav-link" data-scroll-target="#modeling-the-the-average-price-of-avocados"><span class="toc-section-number">5.2</span>  Modeling the the Average Price of Avocados</a></li>
+  <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="toc-section-number">5.3</span>  Model Fit</a></li>
   <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">5.4</span>  Leasons Learned</a></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">5.5</span>  Readings</a></li>
   </ul>
@@ -258,57 +258,57 @@ div.csl-indent {
 
 </header>
 
-<p>This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error). In general, accuracy measures compare the fitted values with the actual values. A good model will account for most of the series’s variation, leaving a small random error.</p>
+<p>This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naïve, LS, Mean, and Drift). We will then calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error, among others). In general the accuracy measures compare the fitted values with the actual values. As an initial rule, a good model will account for most of the series’s variation, leaving a small random error. In the end, we will use the model with the best accuracy to generate a forecast of our series.</p>
 <section id="benchmarks" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="benchmarks"><span class="header-section-number">5.1</span> Benchmarks</h2>
-<p>One of the most intuitive (but Naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A Naive prediction sets the prediction of a future period to the value of the preceding period. If you consider the task of predicting your weight, a good heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:</p>
+<p>One of the most intuitive (but Naïve) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A <strong>Naive prediction</strong> sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:</p>
 <center>
-<p><span class="math inline">\(\hat y_{T+h}=y_T\)</span></p>
+<span class="math inline">\(\hat y_{T+h}=y_T\)</span>
 </center>
-<p>where <span class="math inline">\(\hat y_{T+h}\)</span> is the predicted value for <span class="math inline">\(h\)</span> periods ahead, and <span class="math inline">\(y_T\)</span> is the value observed at the current time period <span class="math inline">\(T\)</span>. We can adjust the Naive prediction by accounting for some natural drift (an increase or decrease). Once again, if we think about weight, we note that as kids grow, we might expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. Mathematically we would say:</p>
+<p>where <span class="math inline">\(\hat y_{T+h}\)</span> is the predicted value for <span class="math inline">\(h\)</span> periods ahead, and <span class="math inline">\(y_T\)</span> is the value observed at the current time period <span class="math inline">\(T\)</span>. We can adjust the Naive prediction by accounting for some natural <strong>drift</strong> (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would “drift” the naïve prediction upward. Mathematically we would write:</p>
 <center>
-<p><span class="math inline">\(\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})\)</span></p>
+<span class="math inline">\(\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})\)</span>
 </center>
-<p>where <span class="math inline">\(h(\frac{y_t-y_1}{T-1})\)</span> can be thought as the average increase of <span class="math inline">\(y\)</span> from period <span class="math inline">\(1\)</span> to the current period <span class="math inline">\(T\)</span>. One could also predict weight by observing your weight during a period and averaging the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean can be a good predictor of your future weight. Formally:</p>
+<p>where <span class="math inline">\(h(\frac{y_t-y_1}{T-1})\)</span> can be thought as the average increase of <span class="math inline">\(y\)</span> from period <span class="math inline">\(1\)</span> to the current period <span class="math inline">\(T\)</span>. One could also predict weight by observing your weight during a period and <strong>averaging</strong> the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean could be a good predictor of your future weight. Formally:</p>
 <center>
-<p><span class="math inline">\(\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}\)</span></p>
+<span class="math inline">\(\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}\)</span>
 </center>
-<p>Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward trend of our weight. Formally:</p>
+<p>Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward <strong>trend</strong> of our weight. Formally:</p>
 <center>
-<p><span class="math inline">\(\hat y_{T+h}=b_0+b_1(T+h)\)</span></p>
+<span class="math inline">\(\hat y_{T+h}=b_0+b_1(T+h)\)</span>
 </center>
 </section>
-<section id="predicting-the-avocado-data" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="predicting-the-avocado-data"><span class="header-section-number">5.2</span> Predicting the Avocado Data</h2>
-<p>Let’s apply the forecasting methods to the average prices for avocados in California. Start by loading the <code>fpp3</code> package and importing the data https://jagelves.github.io/Data/CaliforniaAvocado.csv.</p>
+<section id="modeling-the-the-average-price-of-avocados" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="modeling-the-the-average-price-of-avocados"><span class="header-section-number">5.2</span> Modeling the the Average Price of Avocados</h2>
+<p>Let’s apply the forecasting methods to the average prices for avocados in California. Start by loading the <code>fpp3</code> package and importing the data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cali<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/CaliforniaAvocado.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Recall, that we can create a tsibble from the csv file by using the <code>as_tsibble()</code> function.</p>
+<p>Recall, that we can create a tsibble from the csv file by using the <code>as_tsibble()</code> function. Recall that the index is set to the <em>date</em> variable which is recorded weekly.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span><span class="fu">c</span>(geography),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">index=</span>date, <span class="at">regular=</span>T) <span class="ot">-&gt;</span> calits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>model()</code> function can run the models discussed in section 5.1. We save this to an object called <em>fit</em>.</p>
+<p>Now we will use the <code>model()</code> function to run the benchmarks discussed in section 5.1. We have saved the models to an object called <em>fit</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">model</span>(calits,<span class="at">mean=</span><span class="fu">MEAN</span>(average_price),</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">Naive=</span><span class="fu">NAIVE</span>(average_price),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">Drift=</span><span class="fu">RW</span>(average_price<span class="sc">~</span><span class="fu">drift</span>()),</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span>date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To explore the model coefficients, we can use the <code>coef()</code> function. We have used the <code>gt</code> package to make the table visually appealing.</p>
+<p>To explore the model coefficients, we use the <code>coef()</code> function. To make the output table visually appealing, you can format by using the <code>gt</code> package.</p>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="bgjohfmciz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ojlizntxdp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#bgjohfmciz) .gt_table {
+:where(#ojlizntxdp) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -333,7 +333,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_heading {
+:where(#ojlizntxdp) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -345,12 +345,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_caption {
+:where(#ojlizntxdp) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#bgjohfmciz) .gt_title {
+:where(#ojlizntxdp) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -362,7 +362,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#bgjohfmciz) .gt_subtitle {
+:where(#ojlizntxdp) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -374,13 +374,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#bgjohfmciz) .gt_bottom_border {
+:where(#ojlizntxdp) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_col_headings {
+:where(#ojlizntxdp) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -395,7 +395,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_col_heading {
+:where(#ojlizntxdp) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -415,7 +415,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#bgjohfmciz) .gt_column_spanner_outer {
+:where(#ojlizntxdp) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -427,15 +427,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#bgjohfmciz) .gt_column_spanner_outer:first-child {
+:where(#ojlizntxdp) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#bgjohfmciz) .gt_column_spanner_outer:last-child {
+:where(#ojlizntxdp) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#bgjohfmciz) .gt_column_spanner {
+:where(#ojlizntxdp) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -447,7 +447,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#bgjohfmciz) .gt_group_heading {
+:where(#ojlizntxdp) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -473,7 +473,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#bgjohfmciz) .gt_empty_group_heading {
+:where(#ojlizntxdp) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -488,15 +488,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#bgjohfmciz) .gt_from_md > :first-child {
+:where(#ojlizntxdp) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#bgjohfmciz) .gt_from_md > :last-child {
+:where(#ojlizntxdp) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#bgjohfmciz) .gt_row {
+:where(#ojlizntxdp) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -515,7 +515,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#bgjohfmciz) .gt_stub {
+:where(#ojlizntxdp) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -528,7 +528,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#bgjohfmciz) .gt_stub_row_group {
+:where(#ojlizntxdp) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -542,11 +542,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#bgjohfmciz) .gt_row_group_first td {
+:where(#ojlizntxdp) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#bgjohfmciz) .gt_summary_row {
+:where(#ojlizntxdp) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -556,16 +556,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#bgjohfmciz) .gt_first_summary_row {
+:where(#ojlizntxdp) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_first_summary_row.thick {
+:where(#ojlizntxdp) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#bgjohfmciz) .gt_last_summary_row {
+:where(#ojlizntxdp) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -575,7 +575,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_grand_summary_row {
+:where(#ojlizntxdp) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -585,7 +585,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#bgjohfmciz) .gt_first_grand_summary_row {
+:where(#ojlizntxdp) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -595,11 +595,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_striped {
+:where(#ojlizntxdp) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#bgjohfmciz) .gt_table_body {
+:where(#ojlizntxdp) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -608,7 +608,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_footnotes {
+:where(#ojlizntxdp) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -622,7 +622,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_footnote {
+:where(#ojlizntxdp) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -631,7 +631,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#bgjohfmciz) .gt_sourcenotes {
+:where(#ojlizntxdp) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -645,7 +645,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#bgjohfmciz) .gt_sourcenote {
+:where(#ojlizntxdp) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -653,71 +653,71 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#bgjohfmciz) .gt_left {
+:where(#ojlizntxdp) .gt_left {
   text-align: left;
 }
 
-:where(#bgjohfmciz) .gt_center {
+:where(#ojlizntxdp) .gt_center {
   text-align: center;
 }
 
-:where(#bgjohfmciz) .gt_right {
+:where(#ojlizntxdp) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#bgjohfmciz) .gt_font_normal {
+:where(#ojlizntxdp) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#bgjohfmciz) .gt_font_bold {
+:where(#ojlizntxdp) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#bgjohfmciz) .gt_font_italic {
+:where(#ojlizntxdp) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#bgjohfmciz) .gt_super {
+:where(#ojlizntxdp) .gt_super {
   font-size: 65%;
 }
 
-:where(#bgjohfmciz) .gt_footnote_marks {
+:where(#ojlizntxdp) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#bgjohfmciz) .gt_asterisk {
+:where(#ojlizntxdp) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#bgjohfmciz) .gt_indent_1 {
+:where(#ojlizntxdp) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#bgjohfmciz) .gt_indent_2 {
+:where(#ojlizntxdp) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#bgjohfmciz) .gt_indent_3 {
+:where(#ojlizntxdp) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#bgjohfmciz) .gt_indent_4 {
+:where(#ojlizntxdp) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#bgjohfmciz) .gt_indent_5 {
+:where(#ojlizntxdp) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <td colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">Model Coefficients For The Avocado Data</td>
+      <td colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Model Coefficients For The Avocado Data</strong></td>
     </tr>
     
   </thead>
@@ -768,31 +768,37 @@ div.csl-indent {
 </div>
 </div>
 </div>
+<p>The table illustrates the estimates for all the models discussed. Note that the Naïve method has no estimate, as it is simply the previous period’s observed value. Below we illustrate the least squares model by the red line and the Naive model by the orange line.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>calits <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(average_price) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted), <span class="at">col=</span><span class="st">"red"</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">augment</span>(fit) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="st">`</span><span class="at">.model</span><span class="st">`</span><span class="sc">==</span><span class="st">"LS"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">augment</span>(fit) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="st">`</span><span class="at">.model</span><span class="st">`</span><span class="sc">==</span><span class="st">"LS"</span>)) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted), <span class="at">col=</span><span class="st">"orange"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">augment</span>(fit) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="st">`</span><span class="at">.model</span><span class="st">`</span><span class="sc">==</span><span class="st">"Naive"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Benchmarks_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
-<section id="accuracy" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">5.3</span> Accuracy</h2>
-<p>We will assess the fit of the benchmarks by comparing the fitted values against actual values. Generally, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE). Formally:</p>
-<p>How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since the measures are the smallest. We have highlighted these results and made the table more appealing by using the <code>gt</code> library.</p>
+<section id="model-fit" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="model-fit"><span class="header-section-number">5.3</span> Model Fit</h2>
+<p>The model fit will be assessed by comparing the fitted values against actual values. In general, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).</p>
+<center>
+<span class="math inline">\(MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T}\)</span>
+</center>
+<p>How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and made the table more appealing using the <code>gt</code> library.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="yysannhxby" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="acyuspdtuy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#yysannhxby) .gt_table {
+:where(#acyuspdtuy) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -817,7 +823,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_heading {
+:where(#acyuspdtuy) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -829,12 +835,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_caption {
+:where(#acyuspdtuy) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#yysannhxby) .gt_title {
+:where(#acyuspdtuy) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -846,7 +852,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#yysannhxby) .gt_subtitle {
+:where(#acyuspdtuy) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -858,13 +864,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#yysannhxby) .gt_bottom_border {
+:where(#acyuspdtuy) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_col_headings {
+:where(#acyuspdtuy) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -879,7 +885,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_col_heading {
+:where(#acyuspdtuy) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -899,7 +905,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#yysannhxby) .gt_column_spanner_outer {
+:where(#acyuspdtuy) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -911,15 +917,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#yysannhxby) .gt_column_spanner_outer:first-child {
+:where(#acyuspdtuy) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#yysannhxby) .gt_column_spanner_outer:last-child {
+:where(#acyuspdtuy) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#yysannhxby) .gt_column_spanner {
+:where(#acyuspdtuy) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -931,7 +937,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#yysannhxby) .gt_group_heading {
+:where(#acyuspdtuy) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -957,7 +963,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#yysannhxby) .gt_empty_group_heading {
+:where(#acyuspdtuy) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -972,15 +978,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#yysannhxby) .gt_from_md > :first-child {
+:where(#acyuspdtuy) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#yysannhxby) .gt_from_md > :last-child {
+:where(#acyuspdtuy) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#yysannhxby) .gt_row {
+:where(#acyuspdtuy) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -999,7 +1005,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#yysannhxby) .gt_stub {
+:where(#acyuspdtuy) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1012,7 +1018,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#yysannhxby) .gt_stub_row_group {
+:where(#acyuspdtuy) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1026,11 +1032,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#yysannhxby) .gt_row_group_first td {
+:where(#acyuspdtuy) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#yysannhxby) .gt_summary_row {
+:where(#acyuspdtuy) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1040,16 +1046,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#yysannhxby) .gt_first_summary_row {
+:where(#acyuspdtuy) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_first_summary_row.thick {
+:where(#acyuspdtuy) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#yysannhxby) .gt_last_summary_row {
+:where(#acyuspdtuy) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1059,7 +1065,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_grand_summary_row {
+:where(#acyuspdtuy) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1069,7 +1075,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#yysannhxby) .gt_first_grand_summary_row {
+:where(#acyuspdtuy) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1079,11 +1085,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_striped {
+:where(#acyuspdtuy) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#yysannhxby) .gt_table_body {
+:where(#acyuspdtuy) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1092,7 +1098,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_footnotes {
+:where(#acyuspdtuy) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1106,7 +1112,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_footnote {
+:where(#acyuspdtuy) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1115,7 +1121,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#yysannhxby) .gt_sourcenotes {
+:where(#acyuspdtuy) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1129,7 +1135,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#yysannhxby) .gt_sourcenote {
+:where(#acyuspdtuy) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1137,64 +1143,64 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#yysannhxby) .gt_left {
+:where(#acyuspdtuy) .gt_left {
   text-align: left;
 }
 
-:where(#yysannhxby) .gt_center {
+:where(#acyuspdtuy) .gt_center {
   text-align: center;
 }
 
-:where(#yysannhxby) .gt_right {
+:where(#acyuspdtuy) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#yysannhxby) .gt_font_normal {
+:where(#acyuspdtuy) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#yysannhxby) .gt_font_bold {
+:where(#acyuspdtuy) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#yysannhxby) .gt_font_italic {
+:where(#acyuspdtuy) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#yysannhxby) .gt_super {
+:where(#acyuspdtuy) .gt_super {
   font-size: 65%;
 }
 
-:where(#yysannhxby) .gt_footnote_marks {
+:where(#acyuspdtuy) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#yysannhxby) .gt_asterisk {
+:where(#acyuspdtuy) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#yysannhxby) .gt_indent_1 {
+:where(#acyuspdtuy) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#yysannhxby) .gt_indent_2 {
+:where(#acyuspdtuy) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#yysannhxby) .gt_indent_3 {
+:where(#acyuspdtuy) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#yysannhxby) .gt_indent_4 {
+:where(#acyuspdtuy) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#yysannhxby) .gt_indent_5 {
+:where(#acyuspdtuy) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
