@@ -6,19 +6,27 @@ This module will introduce the modeling procedure by illustrating the process wi
 
 One of the most intuitive (but Naïve) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A **Naive prediction** sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:
 
-<center>$\hat y_{T+h}=y_T$</center>
+<center>$\hat y_{T+h}=y_T$
+
+</center>
 
 where $\hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural **drift** (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would "drift" the naïve prediction upward. Mathematically we would write:
 
-<center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$</center>
+<center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$
+
+</center>
 
 where $h(\frac{y_t-y_1}{T-1})$ can be thought as the average increase of $y$ from period $1$ to the current period $T$. One could also predict weight by observing your weight during a period and **averaging** the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean could be a good predictor of your future weight. Formally:
 
-<center>$\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$</center>
+<center>$\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$
+
+</center>
 
 Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of a diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward **trend** of our weight. Formally:
 
-<center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>
+<center>$\hat y_{T+h}=b_0+b_1(T+h)$
+
+</center>
 
 ## Modeling the the Average Price of Avocados
 
@@ -72,7 +80,7 @@ geom_line(aes(y = .fitted), col="orange",
 
 ## Model Fit
 
-The model fit will be assessed by comparing the fitted values against actual values. In general, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).
+The model fit will be assessed by comparing the fitted values against actual values. In general, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).  
 
 <center>$MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T}$</center>
 
