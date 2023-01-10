@@ -1,16 +1,19 @@
 # ETS and ARIMA
 
-In this section we will be introducing the ETS and ARIMA models. These two models are essential in any forecaster's toolbox. Before learning about the ARIMA model a few concepts have to be introduced such as stationarity, autocorrelation and lags. We wil then study the ARIMA model and learn how to model a time series.
+In this section we will be introducing the ARIMA and ETS models. These two models are essential in any forecaster's toolbox as they perform well in forecasting series with time dependencies and seasonality. Before learning about the ARIMA models, a few concepts have to be introduced such as stationarity, autocorrelation and lags. We will then study the ARIMA model and learn how to model a time series.
 
 ## Preliminaries
 
+### Stationarity {.unnumbered}
+
+
 ### The autocorrelation function {.unnumbered}
 
-Autocorrelations are important in time series analysis since they basically indicate the degree of similarity between a time series and a lagged version of itself (a previous period). This is useful for identifying patterns and trends in the data, but mainly for predicting future values. For example, if a time series exhibits a strong positive autocorrelation at a lag of k time periods, it is likely that the value at time t+k will be similar to the value at time t. Formally we can write the autocorrelation as:
+Autocorrelations are essential in time series analysis since they indicate the degree of similarity between a time series and a lagged version of itself (a previous period). They help identify patterns and trends in the data allowing us to predict future values of the series. For example, suppose a time series exhibits a strong positive autocorrelation at a lag of $k$ periods. In such a case, the value at time $t+k$ will likely be similar to that at time $t$. Formally we can write the autocorrelation as:
 
 <center>$\rho_{y_t,y_{t-k}}=\frac{cov(y_t,y_{y-k})}{sd(y_t)sd(y_{t-k})}$</center>
 
-We can use this metric to identify which periods are influential for our targeted forecasted periods. As a consequence, we can illustrate a function of a series and it's correlation with its lags to identify/quantify crucial periods. To construct an autocorrelation function start by loading the data and coercing the period variable to a date.
+We can use this metric to identify which periods are influential for our targeted forecast periods. As a consequence, we can illustrate a function of a series and it's correlation with its lags to identify/quantify crucial periods. To construct an **autocorrelation function** (ACF) start by loading the data and coercing the period variable to a date.
 
 ```{r, message=FALSE, warning=FALSE}
 library(fpp3)
@@ -25,21 +28,61 @@ The autocorrelation function can now be constructed by using the `ACF()` functio
 
 ```{r}
 deliveries %>%
-  as_tsibble(index=period, regular=T) %>% ACF(lag_max = 12) %>%
-  autoplot()+theme_classic()
+  as_tsibble(index=period, regular=T) %>% ACF(lag_max = 12, deliveries) %>% autoplot()+theme_classic()
 ```
 
-The plot shows that the series is correlated with the first lag the strongest, and that there is a continuous decay as the lags get larger.
+The plot shows that the the correlation of the series with its first lag strongest, and that there is continuous decay as the lags get larger.
 
 ### The partial autocorrelation function {.unnumbered}
 
-The **partial autocorrelation function** (PACF) is a summary of the relationships between an observation in a time series with observations at prior time steps, with the relationships of intervening observations removed. The sample partial autocorrelation at lag k is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.
+As with the ACF, the **partial autocorrelation function** (PACF) summarizes the relationships between a series and its lags. However, the relationships of intervening lags are removed. The sample partial autocorrelation at lag $k$ is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.
 
-In other words when we calculate the autocorrelation between $y_t$ and $y_{t+k}$, information flows from $t$ to $t+k$, so that indirectly $\rho_k$  accounts for the contribution of the random variables between $t$ and $t+k$. 
+Formally speaking, when we calculate the autocorrelation between $y_t$ and $y_{t+k}$, information flows from $t$ to $t+k$, so that indirectly $\rho_k$  accounts for the contribution of lags between $t$ and $t+k$. A series of regressions would allow us to calculate the PACF. Luckily, R calculates these easily for us as shown below:
+
+```{r}
+deliveries %>%
+  as_tsibble(index=period, regular=T) %>% PACF(lag_max = 12, deliveries) %>% autoplot()+theme_classic()
+```
+
+The graph shows that the series has a strong correlation only with its first lag when we net the effect. In other words, if lag 2 or 3 seemed to have been correlated with the series (see ACF), it was mainly because the influence of lag 1 on the series.
 
 
-## The ar model
+## The AR(p) model
 
-## The ma model
+In the previous section we identified the deliveries of Tesla cars to have a decaying ACF and a single significant spike (at lag 1) in the PACF. This pattern can be generated by an AR(1) model. Specifically, an AR(1) model is of the form:
+
+<center>
+$y_t=c+\phi y_{t-1}+ \epsilon_t$
+</center>
+
+Note that this model just uses the first lag of the series as the single independent variable. We can easily simulate some data based on this model using R:
+
+```{r}
+y<-c(0)
+phi<-0.7
+const<-1
+nrep<-100
+
+for (i in 2:nrep){
+y[i]=const+phi*y[i-1]+rnorm(1,0,0.5)
+}
+```
+
+Now we can use the data to see what the ACF looks like.
+
+```{r}
+tsibble(y=y,period=seq(1,length(y)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_classic()
+```
+
+Note the resemblance of the ACF of the simulated variable to that of the deliveries of Tesla. Now let's take a look at the PACF.
+
+```{r}
+tsibble(y=y,period=seq(1,length(y)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_classic()
+```
+
+Once again, if you compare the PACF to the one in the deliveries of Tesla you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero.
+
+
+## The MA(q) model
 
 ## The arima model

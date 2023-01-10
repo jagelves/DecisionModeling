@@ -213,10 +213,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link active" data-scroll-target="#preliminaries"><span class="toc-section-number">6.1</span>  Preliminaries</a>
   <ul class="collapse">
+  <li><a href="#stationarity" id="toc-stationarity" class="nav-link" data-scroll-target="#stationarity">Stationarity</a></li>
   <li><a href="#the-autocorrelation-function" id="toc-the-autocorrelation-function" class="nav-link" data-scroll-target="#the-autocorrelation-function">The autocorrelation function</a></li>
   <li><a href="#the-partial-autocorrelation-function" id="toc-the-partial-autocorrelation-function" class="nav-link" data-scroll-target="#the-partial-autocorrelation-function">The partial autocorrelation function</a></li>
   </ul></li>
-  <li><a href="#the-ar-model" id="toc-the-ar-model" class="nav-link" data-scroll-target="#the-ar-model"><span class="toc-section-number">6.2</span>  The ar model</a></li>
+  <li><a href="#the-arp-model" id="toc-the-arp-model" class="nav-link" data-scroll-target="#the-arp-model"><span class="toc-section-number">6.2</span>  The AR(p) model</a></li>
   <li><a href="#the-ma-model" id="toc-the-ma-model" class="nav-link" data-scroll-target="#the-ma-model"><span class="toc-section-number">6.3</span>  The ma model</a></li>
   <li><a href="#the-arima-model" id="toc-the-arima-model" class="nav-link" data-scroll-target="#the-arima-model"><span class="toc-section-number">6.4</span>  The arima model</a></li>
   </ul>
@@ -242,16 +243,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>In this section we will be introducing the ETS and ARIMA models. These two models are essential in any forecaster’s toolbox. Before learning about the ARIMA model a few concepts have to be introduced such as stationarity, autocorrelation and lags. We wil then study the ARIMA model and learn how to model a time series.</p>
+<p>In this section we will be introducing the ARIMA and ETS models. These two models are essential in any forecaster’s toolbox as they perform well in forecasting series with time dependencies and seasonality. Before learning about the ARIMA models, a few concepts have to be introduced such as stationarity, autocorrelation and lags. We will then study the ARIMA model and learn how to model a time series.</p>
 <section id="preliminaries" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="preliminaries"><span class="header-section-number">6.1</span> Preliminaries</h2>
+<section id="stationarity" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="stationarity">Stationarity</h3>
+</section>
 <section id="the-autocorrelation-function" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="the-autocorrelation-function">The autocorrelation function</h3>
-<p>Autocorrelations are important in time series analysis since they basically indicate the degree of similarity between a time series and a lagged version of itself (a previous period). This is useful for identifying patterns and trends in the data, but mainly for predicting future values. For example, if a time series exhibits a strong positive autocorrelation at a lag of k time periods, it is likely that the value at time t+k will be similar to the value at time t. Formally we can write the autocorrelation as:</p>
+<p>Autocorrelations are essential in time series analysis since they indicate the degree of similarity between a time series and a lagged version of itself (a previous period). They help identify patterns and trends in the data allowing us to predict future values of the series. For example, suppose a time series exhibits a strong positive autocorrelation at a lag of <span class="math inline">\(k\)</span> periods. In such a case, the value at time <span class="math inline">\(t+k\)</span> will likely be similar to that at time <span class="math inline">\(t\)</span>. Formally we can write the autocorrelation as:</p>
 <center>
 <span class="math inline">\(\rho_{y_t,y_{t-k}}=\frac{cov(y_t,y_{y-k})}{sd(y_t)sd(y_{t-k})}\)</span>
 </center>
-<p>We can use this metric to identify which periods are influential for our targeted forecasted periods. As a consequence, we can illustrate a function of a series and it’s correlation with its lags to identify/quantify crucial periods. To construct an autocorrelation function start by loading the data and coercing the period variable to a date.</p>
+<p>We can use this metric to identify which periods are influential for our targeted forecast periods. As a consequence, we can illustrate a function of a series and it’s correlation with its lags to identify/quantify crucial periods. To construct an <strong>autocorrelation function</strong> (ACF) start by loading the data and coercing the period variable to a date.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -262,25 +266,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The autocorrelation function can now be constructed by using the <code>ACF()</code> function and plotting it with <code>autoplot()</code> as shown below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Response variable not specified, automatically selected `var = ...1`</code></pre>
-</div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, period) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ETSARIMA_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The plot shows that the series is correlated with the first lag the strongest, and that there is a continuous decay as the lags get larger.</p>
+<p>The plot shows that the the correlation of the series with its first lag strongest, and that there is continuous decay as the lags get larger.</p>
 </section>
 <section id="the-partial-autocorrelation-function" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="the-partial-autocorrelation-function">The partial autocorrelation function</h3>
-<p>The <strong>partial autocorrelation function</strong> (PACF) is a summary of the relationships between an observation in a time series with observations at prior time steps, with the relationships of intervening observations removed. The sample partial autocorrelation at lag k is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.</p>
-<p>In other words when we calculate the autocorrelation between <span class="math inline">\(y_t\)</span> and <span class="math inline">\(y_{t+k}\)</span>, information flows from <span class="math inline">\(t\)</span> to <span class="math inline">\(t+k\)</span>, so that indirectly <span class="math inline">\(\rho_k\)</span> accounts for the contribution of the random variables between <span class="math inline">\(t\)</span> and <span class="math inline">\(t+k\)</span>.</p>
+<p>As with the ACF, the <strong>partial autocorrelation function</strong> (PACF) summarizes the relationships between a series and its lags. However, the relationships of intervening lags are removed. The sample partial autocorrelation at lag <span class="math inline">\(k\)</span> is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.</p>
+<p>Formally speaking, when we calculate the autocorrelation between <span class="math inline">\(y_t\)</span> and <span class="math inline">\(y_{t+k}\)</span>, information flows from <span class="math inline">\(t\)</span> to <span class="math inline">\(t+k\)</span>, so that indirectly <span class="math inline">\(\rho_k\)</span> accounts for the contribution of lags between <span class="math inline">\(t\)</span> and <span class="math inline">\(t+k\)</span>. A series of regressions would allow us to calculate the PACF. Luckily, R calculates these easily for us as shown below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, period) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ETSARIMA_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The graph shows that the series has a strong correlation only with its first lag when we net the effect. In other words, if lag 2 or 3 seemed to have been correlated with the series (see ACF), it was mainly because the influence of lag 1 on the series.</p>
 </section>
 </section>
-<section id="the-ar-model" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="the-ar-model"><span class="header-section-number">6.2</span> The ar model</h2>
+<section id="the-arp-model" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="the-arp-model"><span class="header-section-number">6.2</span> The AR(p) model</h2>
+<p>In the previous section we identified the deliveries of Tesla cars to have a decaying ACF and a single significant spike (at lag 1) in the PACF. This pattern can be generated by an AR(1) model. Specifically, an AR(1) model is of the form:</p>
+<center>
+<span class="math inline">\(y_t=c+\phi y_{t-1}+ \epsilon_t\)</span>
+</center>
+<p>If we generate some data from this model, and plot the ACF here is the result:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>phi<span class="ot">&lt;-</span><span class="fl">0.7</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>const<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nrep<span class="ot">&lt;-</span><span class="dv">100</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nrep){</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>y[i]<span class="ot">=</span>const<span class="sc">+</span>phi<span class="sc">*</span>y[i<span class="dv">-1</span>]<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y))) <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(y,<span class="at">index=</span>period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tsibble: 100 x 2 [1]
+# Key:       y [100]
+       y period
+   &lt;dbl&gt;  &lt;int&gt;
+ 1  0         1
+ 2  1.16      2
+ 3  1.46     30
+ 4  1.75     32
+ 5  1.83     29
+ 6  1.86     40
+ 7  1.87      5
+ 8  1.92     35
+ 9  1.99     31
+10  2.07     34
+# … with 90 more rows</code></pre>
+</div>
+</div>
 </section>
 <section id="the-ma-model" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="the-ma-model"><span class="header-section-number">6.3</span> The ma model</h2>
