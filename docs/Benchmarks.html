@@ -233,8 +233,9 @@ div.csl-indent {
   <li><a href="#benchmarks" id="toc-benchmarks" class="nav-link active" data-scroll-target="#benchmarks"><span class="toc-section-number">5.1</span>  Benchmarks</a></li>
   <li><a href="#modeling-the-the-average-price-of-avocados" id="toc-modeling-the-the-average-price-of-avocados" class="nav-link" data-scroll-target="#modeling-the-the-average-price-of-avocados"><span class="toc-section-number">5.2</span>  Modeling the the Average Price of Avocados</a></li>
   <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="toc-section-number">5.3</span>  Model Fit</a></li>
-  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">5.4</span>  Leasons Learned</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">5.5</span>  Readings</a></li>
+  <li><a href="#forecast" id="toc-forecast" class="nav-link" data-scroll-target="#forecast"><span class="toc-section-number">5.4</span>  Forecast</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">5.5</span>  Leasons Learned</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">5.6</span>  Readings</a></li>
   </ul>
 </nav>
     </div>
@@ -258,14 +259,14 @@ div.csl-indent {
 
 </header>
 
-<p>This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naïve, LS, Mean, and Drift). We will then calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error, among others). In general the accuracy measures compare the fitted values with the actual values. As an initial rule, a good model will account for most of the series’s variation, leaving a small random error. In the end, we will use the model with the best accuracy to generate a forecast of our series.</p>
+<p>This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will then calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error, among others). In general, these accuracy measures compare the fitted values with the actual values. As an initial rule, a good model will account for most of the series’s variation, leaving a small random error. In the end, we will use the model with the best accuracy to generate a forecast of our series.</p>
 <section id="benchmarks" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="benchmarks"><span class="header-section-number">5.1</span> Benchmarks</h2>
-<p>One of the most intuitive (but Naïve) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A <strong>Naive prediction</strong> sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:</p>
+<p>One of the most intuitive (but naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A <strong>naive prediction</strong> sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:</p>
 <center>
 <p><span class="math inline">\(\hat y_{T+h}=y_T\)</span></p>
 </center>
-<p>where <span class="math inline">\(\hat y_{T+h}\)</span> is the predicted value for <span class="math inline">\(h\)</span> periods ahead, and <span class="math inline">\(y_T\)</span> is the value observed at the current time period <span class="math inline">\(T\)</span>. We can adjust the Naive prediction by accounting for some natural <strong>drift</strong> (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would “drift” the naïve prediction upward. Mathematically we would write:</p>
+<p>where <span class="math inline">\(\hat y_{T+h}\)</span> is the predicted value for <span class="math inline">\(h\)</span> periods ahead, and <span class="math inline">\(y_T\)</span> is the value observed at the current time period <span class="math inline">\(T\)</span>. We can adjust the Naive prediction by accounting for some natural <strong>drift</strong> (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would “drift” the naive prediction upward. Mathematically we would write:</p>
 <center>
 <p><span class="math inline">\(\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})\)</span></p>
 </center>
@@ -303,12 +304,12 @@ div.csl-indent {
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="octeznnvxj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="tykrlgzuax" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#octeznnvxj) .gt_table {
+:where(#tykrlgzuax) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -333,7 +334,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_heading {
+:where(#tykrlgzuax) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -345,12 +346,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_caption {
+:where(#tykrlgzuax) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#octeznnvxj) .gt_title {
+:where(#tykrlgzuax) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -362,7 +363,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#octeznnvxj) .gt_subtitle {
+:where(#tykrlgzuax) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -374,13 +375,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#octeznnvxj) .gt_bottom_border {
+:where(#tykrlgzuax) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_col_headings {
+:where(#tykrlgzuax) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -395,7 +396,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_col_heading {
+:where(#tykrlgzuax) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -415,7 +416,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#octeznnvxj) .gt_column_spanner_outer {
+:where(#tykrlgzuax) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -427,15 +428,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#octeznnvxj) .gt_column_spanner_outer:first-child {
+:where(#tykrlgzuax) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#octeznnvxj) .gt_column_spanner_outer:last-child {
+:where(#tykrlgzuax) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#octeznnvxj) .gt_column_spanner {
+:where(#tykrlgzuax) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -447,7 +448,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#octeznnvxj) .gt_group_heading {
+:where(#tykrlgzuax) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -473,7 +474,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#octeznnvxj) .gt_empty_group_heading {
+:where(#tykrlgzuax) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -488,15 +489,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#octeznnvxj) .gt_from_md > :first-child {
+:where(#tykrlgzuax) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#octeznnvxj) .gt_from_md > :last-child {
+:where(#tykrlgzuax) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#octeznnvxj) .gt_row {
+:where(#tykrlgzuax) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -515,7 +516,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#octeznnvxj) .gt_stub {
+:where(#tykrlgzuax) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -528,7 +529,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#octeznnvxj) .gt_stub_row_group {
+:where(#tykrlgzuax) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -542,11 +543,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#octeznnvxj) .gt_row_group_first td {
+:where(#tykrlgzuax) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#octeznnvxj) .gt_summary_row {
+:where(#tykrlgzuax) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -556,16 +557,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#octeznnvxj) .gt_first_summary_row {
+:where(#tykrlgzuax) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_first_summary_row.thick {
+:where(#tykrlgzuax) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#octeznnvxj) .gt_last_summary_row {
+:where(#tykrlgzuax) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -575,7 +576,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_grand_summary_row {
+:where(#tykrlgzuax) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -585,7 +586,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#octeznnvxj) .gt_first_grand_summary_row {
+:where(#tykrlgzuax) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -595,11 +596,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_striped {
+:where(#tykrlgzuax) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#octeznnvxj) .gt_table_body {
+:where(#tykrlgzuax) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -608,7 +609,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_footnotes {
+:where(#tykrlgzuax) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -622,7 +623,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_footnote {
+:where(#tykrlgzuax) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -631,7 +632,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#octeznnvxj) .gt_sourcenotes {
+:where(#tykrlgzuax) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -645,7 +646,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#octeznnvxj) .gt_sourcenote {
+:where(#tykrlgzuax) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -653,64 +654,64 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#octeznnvxj) .gt_left {
+:where(#tykrlgzuax) .gt_left {
   text-align: left;
 }
 
-:where(#octeznnvxj) .gt_center {
+:where(#tykrlgzuax) .gt_center {
   text-align: center;
 }
 
-:where(#octeznnvxj) .gt_right {
+:where(#tykrlgzuax) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#octeznnvxj) .gt_font_normal {
+:where(#tykrlgzuax) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#octeznnvxj) .gt_font_bold {
+:where(#tykrlgzuax) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#octeznnvxj) .gt_font_italic {
+:where(#tykrlgzuax) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#octeznnvxj) .gt_super {
+:where(#tykrlgzuax) .gt_super {
   font-size: 65%;
 }
 
-:where(#octeznnvxj) .gt_footnote_marks {
+:where(#tykrlgzuax) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#octeznnvxj) .gt_asterisk {
+:where(#tykrlgzuax) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#octeznnvxj) .gt_indent_1 {
+:where(#tykrlgzuax) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#octeznnvxj) .gt_indent_2 {
+:where(#tykrlgzuax) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#octeznnvxj) .gt_indent_3 {
+:where(#tykrlgzuax) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#octeznnvxj) .gt_indent_4 {
+:where(#tykrlgzuax) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#octeznnvxj) .gt_indent_5 {
+:where(#tykrlgzuax) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -768,7 +769,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The table illustrates the estimates for all the models discussed. Note that the Naïve method has no estimate, as it is simply the previous period’s observed value. Below we illustrate the least squares model by the red line and the Naive model by the orange line.</p>
+<p>The table illustrates the estimates for all the models discussed. Note that the naive method has no estimate, as it is simply the previous period’s observed value. Below we illustrate the least squares model by the red line and the Naive model by the orange line.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>calits <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(average_price) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted), <span class="at">col=</span><span class="st">"red"</span>,</span>
@@ -793,12 +794,12 @@ div.csl-indent {
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="domemsuxdc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="njjaoynzap" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#domemsuxdc) .gt_table {
+:where(#njjaoynzap) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -823,7 +824,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_heading {
+:where(#njjaoynzap) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -835,12 +836,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_caption {
+:where(#njjaoynzap) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#domemsuxdc) .gt_title {
+:where(#njjaoynzap) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -852,7 +853,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#domemsuxdc) .gt_subtitle {
+:where(#njjaoynzap) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -864,13 +865,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#domemsuxdc) .gt_bottom_border {
+:where(#njjaoynzap) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_col_headings {
+:where(#njjaoynzap) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -885,7 +886,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_col_heading {
+:where(#njjaoynzap) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -905,7 +906,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#domemsuxdc) .gt_column_spanner_outer {
+:where(#njjaoynzap) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -917,15 +918,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#domemsuxdc) .gt_column_spanner_outer:first-child {
+:where(#njjaoynzap) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#domemsuxdc) .gt_column_spanner_outer:last-child {
+:where(#njjaoynzap) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#domemsuxdc) .gt_column_spanner {
+:where(#njjaoynzap) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -937,7 +938,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#domemsuxdc) .gt_group_heading {
+:where(#njjaoynzap) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -963,7 +964,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#domemsuxdc) .gt_empty_group_heading {
+:where(#njjaoynzap) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -978,15 +979,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#domemsuxdc) .gt_from_md > :first-child {
+:where(#njjaoynzap) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#domemsuxdc) .gt_from_md > :last-child {
+:where(#njjaoynzap) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#domemsuxdc) .gt_row {
+:where(#njjaoynzap) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1005,7 +1006,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#domemsuxdc) .gt_stub {
+:where(#njjaoynzap) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1018,7 +1019,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#domemsuxdc) .gt_stub_row_group {
+:where(#njjaoynzap) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1032,11 +1033,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#domemsuxdc) .gt_row_group_first td {
+:where(#njjaoynzap) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#domemsuxdc) .gt_summary_row {
+:where(#njjaoynzap) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1046,16 +1047,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#domemsuxdc) .gt_first_summary_row {
+:where(#njjaoynzap) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_first_summary_row.thick {
+:where(#njjaoynzap) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#domemsuxdc) .gt_last_summary_row {
+:where(#njjaoynzap) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1065,7 +1066,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_grand_summary_row {
+:where(#njjaoynzap) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1075,7 +1076,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#domemsuxdc) .gt_first_grand_summary_row {
+:where(#njjaoynzap) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1085,11 +1086,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_striped {
+:where(#njjaoynzap) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#domemsuxdc) .gt_table_body {
+:where(#njjaoynzap) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1098,7 +1099,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_footnotes {
+:where(#njjaoynzap) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1112,7 +1113,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_footnote {
+:where(#njjaoynzap) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1121,7 +1122,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#domemsuxdc) .gt_sourcenotes {
+:where(#njjaoynzap) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1135,7 +1136,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#domemsuxdc) .gt_sourcenote {
+:where(#njjaoynzap) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1143,87 +1144,87 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#domemsuxdc) .gt_left {
+:where(#njjaoynzap) .gt_left {
   text-align: left;
 }
 
-:where(#domemsuxdc) .gt_center {
+:where(#njjaoynzap) .gt_center {
   text-align: center;
 }
 
-:where(#domemsuxdc) .gt_right {
+:where(#njjaoynzap) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#domemsuxdc) .gt_font_normal {
+:where(#njjaoynzap) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#domemsuxdc) .gt_font_bold {
+:where(#njjaoynzap) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#domemsuxdc) .gt_font_italic {
+:where(#njjaoynzap) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#domemsuxdc) .gt_super {
+:where(#njjaoynzap) .gt_super {
   font-size: 65%;
 }
 
-:where(#domemsuxdc) .gt_footnote_marks {
+:where(#njjaoynzap) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#domemsuxdc) .gt_asterisk {
+:where(#njjaoynzap) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#domemsuxdc) .gt_indent_1 {
+:where(#njjaoynzap) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#domemsuxdc) .gt_indent_2 {
+:where(#njjaoynzap) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#domemsuxdc) .gt_indent_3 {
+:where(#njjaoynzap) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#domemsuxdc) .gt_indent_4 {
+:where(#njjaoynzap) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#domemsuxdc) .gt_indent_5 {
+:where(#njjaoynzap) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <td colspan="11" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">Model Fit</td>
+      <td colspan="11" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Model Fit</strong></td>
     </tr>
     
   </thead>
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="geography">geography</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id=".model">.model</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id=".type">.type</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="ME">ME</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="RMSE">RMSE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="MAE">MAE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="MPE">MPE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="MAPE">MAPE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="MASE">MASE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="RMSSE">RMSSE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: normal;" scope="col" id="ACF1">ACF1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="geography">geography</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".model">.model</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".type">.type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="ME">ME</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="RMSE">RMSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MAE">MAE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MPE">MPE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MAPE">MAPE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MASE">MASE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="RMSSE">RMSSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="ACF1">ACF1</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -1279,15 +1280,30 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="leasons-learned" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">5.4</span> Leasons Learned</h2>
+<section id="forecast" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="forecast"><span class="header-section-number">5.4</span> Forecast</h2>
+<p>The forecast of the series is obtained by using the <code>forecast()</code> function and specifying the number of periods (<span class="math inline">\(h\)</span>) needed to be forecasted. We can easily do this in R with the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>calits_fc<span class="ot">&lt;-</span>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>calits_fc <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(calits, average_price)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Benchmarks_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The graph illustrates the forecasts of the four methods. Note how the mean model performs poorly for this series, given that the series exhibit an upward trend. It is also apparent that none of these methods takes into account the seasonal pattern discussed in Section 4. In the next chapter, we will be looking at two models that model both the trends and seasonality of the data.</p>
+</section>
+<section id="leasons-learned" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">5.5</span> Leasons Learned</h2>
 <p>In this module you have been introduced to the general procedure in forecasting time series.</p>
 <ul>
 <li>Learning how create forecasts with simple heuristics.</li>
 </ul>
 </section>
-<section id="readings" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">5.5</span> Readings</h2>
+<section id="readings" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="readings"><span class="header-section-number">5.6</span> Readings</h2>
 <p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> chapter 5.</p>
 
 

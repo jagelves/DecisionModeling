@@ -1,16 +1,16 @@
 # Model Benchmarks
 
-This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naïve, LS, Mean, and Drift). We will then calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error, among others). In general the accuracy measures compare the fitted values with the actual values. As an initial rule, a good model will account for most of the series's variation, leaving a small random error. In the end, we will use the model with the best accuracy to generate a forecast of our series.
+This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). We will then calculate accuracy measures for each of these benchmarks (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error, among others). In general, these accuracy measures compare the fitted values with the actual values. As an initial rule, a good model will account for most of the series's variation, leaving a small random error. In the end, we will use the model with the best accuracy to generate a forecast of our series.
 
 ## Benchmarks
 
-One of the most intuitive (but Naïve) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A **Naive prediction** sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:
+One of the most intuitive (but naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A **naive prediction** sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:
 
 <center>$\hat y_{T+h}=y_T$
 
 </center>
 
-where $\hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural **drift** (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would "drift" the naïve prediction upward. Mathematically we would write:
+where $\hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural **drift** (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would "drift" the naive prediction upward. Mathematically we would write:
 
 <center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$
 
@@ -58,7 +58,7 @@ To explore the model coefficients, we use the `coef()` function. To make the out
 
 ```{r ,echo=FALSE}
 library(gt)
-coef(fit)%>% gt() %>% 
+coef(fit) %>% gt() %>% 
   cols_align("center") %>% 
   tab_header(title = 
                md("**Model Coefficients For The Avocado Data**")) %>% tab_style(locations =                                                    cells_column_labels(columns = everything()),
@@ -68,7 +68,7 @@ coef(fit)%>% gt() %>%
              decimals = 2)
 ```
 
-The table illustrates the estimates for all the models discussed. Note that the Naïve method has no estimate, as it is simply the previous period's observed value. Below we illustrate the least squares model by the red line and the Naive model by the orange line.
+The table illustrates the estimates for all the models discussed. Note that the naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the least squares model by the red line and the Naive model by the orange line.
 
 ```{r, warning=FALSE}
 calits %>% autoplot(average_price) + theme_classic() + 
@@ -93,10 +93,10 @@ accuracy(fit)
 ```{r, echo=FALSE}
 accuracy(fit) %>% gt() %>%
   cols_align("center") %>% 
-  tab_header(title = md("Model Fit")) %>% 
+  tab_header(title = md("**Model Fit**")) %>% 
   tab_style(locations = cells_column_labels(columns = everything()),
   style = list(cell_borders(sides = "bottom", weight = px(3)),
-    cell_text(weight = "normal"))) %>% 
+    cell_text(weight = "bold"))) %>% 
   fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE,ACF1),
              decimals = 2) %>% 
   tab_style_body(
@@ -104,6 +104,21 @@ accuracy(fit) %>% gt() %>%
     values = "Naive",
     targets ="row")
 ```
+
+## Forecast
+
+The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) needed to be forecasted. We can easily do this in R with the following code:
+
+```{r}
+calits_fc<-fit %>% forecast(h=8)
+```
+
+```{r, warning=FALSE}
+calits_fc %>% autoplot(level=NULL) + theme_classic() + 
+  autolayer(calits, average_price)
+```
+
+The graph illustrates the forecasts of the four methods. Note how the mean model performs poorly for this series, given that the series exhibit an upward trend. It is also apparent that none of these methods takes into account the seasonal pattern discussed in Section 4. In the next chapter, we will be looking at two models that model both the trends and seasonality of the data.
 
 ## Leasons Learned
 

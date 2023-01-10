@@ -214,6 +214,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#preliminaries" id="toc-preliminaries" class="nav-link active" data-scroll-target="#preliminaries"><span class="toc-section-number">6.1</span>  Preliminaries</a>
   <ul class="collapse">
   <li><a href="#the-autocorrelation-function" id="toc-the-autocorrelation-function" class="nav-link" data-scroll-target="#the-autocorrelation-function">The autocorrelation function</a></li>
+  <li><a href="#the-partial-autocorrelation-function" id="toc-the-partial-autocorrelation-function" class="nav-link" data-scroll-target="#the-partial-autocorrelation-function">The partial autocorrelation function</a></li>
   </ul></li>
   <li><a href="#the-ar-model" id="toc-the-ar-model" class="nav-link" data-scroll-target="#the-ar-model"><span class="toc-section-number">6.2</span>  The ar model</a></li>
   <li><a href="#the-ma-model" id="toc-the-ma-model" class="nav-link" data-scroll-target="#the-ma-model"><span class="toc-section-number">6.3</span>  The ma model</a></li>
@@ -247,7 +248,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="the-autocorrelation-function" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="the-autocorrelation-function">The autocorrelation function</h3>
 <p>Autocorrelations are important in time series analysis since they basically indicate the degree of similarity between a time series and a lagged version of itself (a previous period). This is useful for identifying patterns and trends in the data, but mainly for predicting future values. For example, if a time series exhibits a strong positive autocorrelation at a lag of k time periods, it is likely that the value at time t+k will be similar to the value at time t. Formally we can write the autocorrelation as:</p>
-<p><span class="math inline">\(\rho_{y_t,y_{t-k}}=\frac{cov(y_t,y_{y-k})}{sd(y_t)sd(y_{t-k})}\)</span></p>
+<center>
+<span class="math inline">\(\rho_{y_t,y_{t-k}}=\frac{cov(y_t,y_{y-k})}{sd(y_t)sd(y_{t-k})}\)</span>
+</center>
 <p>We can use this metric to identify which periods are influential for our targeted forecasted periods. As a consequence, we can illustrate a function of a series and it’s correlation with its lags to identify/quantify crucial periods. To construct an autocorrelation function start by loading the data and coercing the period variable to a date.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
@@ -269,6 +272,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>The plot shows that the series is correlated with the first lag the strongest, and that there is a continuous decay as the lags get larger.</p>
+</section>
+<section id="the-partial-autocorrelation-function" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="the-partial-autocorrelation-function">The partial autocorrelation function</h3>
+<p>The <strong>partial autocorrelation function</strong> (PACF) is a summary of the relationships between an observation in a time series with observations at prior time steps, with the relationships of intervening observations removed. The sample partial autocorrelation at lag k is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.</p>
+<p>In other words when we calculate the autocorrelation between <span class="math inline">\(y_t\)</span> and <span class="math inline">\(y_{t+k}\)</span>, information flows from <span class="math inline">\(t\)</span> to <span class="math inline">\(t+k\)</span>, so that indirectly <span class="math inline">\(\rho_k\)</span> accounts for the contribution of the random variables between <span class="math inline">\(t\)</span> and <span class="math inline">\(t+k\)</span>.</p>
 </section>
 </section>
 <section id="the-ar-model" class="level2" data-number="6.2">
