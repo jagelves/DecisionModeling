@@ -117,16 +117,19 @@ The graph illustrates the forecasts of the four methods. Note how the mean model
 
 Overfitting can happen when a model is too flexible, meaning that it has too many parameters or degrees of freedom. This can lead to the model fitting to the random fluctuations or noise in the data, rather than the underlying pattern. As a result, the model will perform well on the training data, but will not generalize well to new data.
 
-To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we observe its performance in a new subset of the data that was not used in estimating the model. This second subset of data left out for testing the model is called the **test set**. The code below applies this method:
+To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we observe its performance in a new subset of the data that was not used in estimating the model. This second subset of data left out for testing the model is called the **test set**. 
+
+The model was estimated for the four benchmarks for the period between 2015-01-04~2018-06-02. We will call this our training set. For our test set we'll use the 2018-06-02~2018-12-02 period. The code below creates the test set.
 
 
-```{r, echo=FALSE, results='hide'}
+```{r, results='hide'}
 cali %>%
   as_tsibble(key=c(geography),
              index=date, regular=T) %>%
   filter_index("2018-06-02"~"2018-12-02")-> calitst
 ```
 
+Now we can plot the data with the forecast, and the the test set with the code below.
 
 ```{r}
 calits_fc %>% autoplot(level=NULL) + theme_classic() + 
