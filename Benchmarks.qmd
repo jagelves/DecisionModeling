@@ -35,7 +35,8 @@ Recall, that we can create a tsibble from the csv file by using the `as_tsibble(
 ```{r}
 cali %>%
   as_tsibble(key=c(geography),
-             index=date, regular=T) -> calits
+             index=date, regular=T) %>%
+  filter_index("2015-01-04"~"2018-06-02")-> calits
 ```
 
 Now we will use the `model()` function to run the benchmarks discussed in section $5.1$. We have saved the models to an object called *fit*.
@@ -99,10 +100,10 @@ accuracy(fit) %>% gt() %>%
 
 ## Forecast
 
-The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) ahead we need to forecast. We can easily forecast eight quarters of data in R with the following code:
+The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) ahead we need to forecast. We can easily forecast 30 weeks of data in R with the following code:
 
 ```{r}
-calits_fc<-fit %>% forecast(h=8)
+calits_fc<-fit %>% forecast(h=30)
 ```
 
 ```{r, warning=FALSE}
@@ -118,8 +119,35 @@ Overfitting can happen when a model is too flexible, meaning that it has too man
 
 To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we observe its performance in a new subset of the data that was not used in estimating the model. This second subset of data left out for testing the model is called the **test set**. The code below applies this method:
 
-```{r}
 
+```{r, echo=FALSE, results='hide'}
+cali %>%
+  as_tsibble(key=c(geography),
+             index=date, regular=T) %>%
+  filter_index("2018-06-02"~"2018-12-02")-> calitst
+```
+
+
+```{r}
+calits_fc %>% autoplot(level=NULL) + theme_classic() + 
+  autolayer(calits, average_price) + autolayer(calitst, average_price)
+```
+
+The graph shows how the LS method does well with the test data. This can be confirmed by obtaining the accuracy measures against the test set.
+
+```{r, warning=FALSE}
+accuracy(calits_fc, calitst) %>% gt() %>%
+  cols_align("center") %>% 
+  tab_header(title = md("**Model Fit**")) %>% 
+  tab_style(locations = cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE,ACF1),
+             decimals = 2) %>% 
+  tab_style_body(
+    style = cell_fill(color="lightgreen"),
+    values = "LS",
+    targets ="row")
 ```
 
 ## Leasons Learned

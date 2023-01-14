@@ -48,7 +48,7 @@ avocado %>% select(c(average_price,geography)) %>%
 
 There is a lot to unpack in this line of code. Let's start with the functions used. Both the `select()` and `arrange()` functions are part of the `dplyr` package. As the name indicates, the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data in ascending order. Hence we have used the `desc()` function to sort in descending order.
 
-Now, let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%\>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. The data frame is sorted in descending order so that the highest average avocado price is displayed first. Finally, the `head()` function is used to retrieve the top 5 entries.  
+Now, let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%\>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. The data frame is sorted in descending order so that the highest average avocado price is displayed first. Finally, the `head()` function is used to retrieve the top 5 entries.
 
 As noted in section 4.1, there is an additional date in the data set that is between weeks (2018-01-01). We can remove this observation by using the `filter()` function.
 
@@ -85,7 +85,7 @@ The graph shows that the average price of avocados in California has been increa
 
 ## tsibbles
 
-All though tibbles are a great data structure, when dealing with time series, there is a time component that is crucial when analyzing  the data. As a consequence, we will be using a data structure called a tsibble (time series tibble). tsibbles are defined by a time index (i.e., the date), and some keys (i.e., some dimensions). In the *avocado* data set we are mainly interested in the average price of the avocados. You will note however that they are classified by location (geography) and type (e.g., organic and conventional). tsibbles, as well a variety of packages that help us analyze time series, are part of the `fpp3` package. Below we load the package, and coerce our avocado tibble to a tsibble.
+All though tibbles are a great data structure, when dealing with time series, there is a time component that is crucial when analyzing the data. As a consequence, we will be using a data structure called a tsibble (time series tibble). tsibbles are defined by a time index (i.e., the date), and some keys (i.e., some dimensions). In the *avocado* data set we are mainly interested in the average price of the avocados. You will note however that they are classified by location (geography) and type (e.g., organic and conventional). tsibbles, as well a variety of packages that help us analyze time series, are part of the `fpp3` package. Below we load the package, and coerce our avocado tibble to a tsibble.
 
 ```{r, results=FALSE, warning=FALSE, message=FALSE}
 library(fpp3)
