@@ -166,6 +166,12 @@ In this module you have been introduced to the general procedure in forecasting 
 
 -   Learning how create forecasts with simple heuristics.
 
+-   Assessing the fit of the model with accuracy measures
+
+-   Forecasting a time series
+
+-   Creating a test set and train set to avoid overfitting
+
 ## Readings
 
 @FPP3 chapter 5.

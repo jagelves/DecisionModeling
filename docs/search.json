@@ -67,7 +67,7 @@
     "href": "Benchmarks.html#leasons-learned",
     "title": "5  Model Benchmarks",
     "section": "5.6 Leasons Learned",
-    "text": "5.6 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series.\n\nLearning how create forecasts with simple heuristics."
+    "text": "5.6 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series.\n\nLearning how create forecasts with simple heuristics.\nAssessing the fit of the model with accuracy measures\nForecasting a time series\nCreating a test set and train set to avoid overfitting"
   },
   {
     "objectID": "Benchmarks.html#readings",
