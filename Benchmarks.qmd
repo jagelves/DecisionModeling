@@ -30,7 +30,7 @@ library(fpp3)
 cali<-read_csv("https://jagelves.github.io/Data/CaliforniaAvocado.csv")
 ```
 
-Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function. The index argument is set to the *date* variable which is recorded weekly. The `filter_index()` function is used so that we can focus our analysis for the period of 2015-01-04~2018-06-02.
+Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function. The index argument is set to the *date* variable which is recorded weekly. The `filter_index()` function is used so that we can focus our analysis for the period of 2015-01-04\~2018-06-02.
 
 ```{r}
 cali %>%
@@ -61,6 +61,7 @@ coef(fit) %>% gt() %>%
   fmt_number(columns =c(statistic,estimate,std.error,p.value),
              decimals = 2)
 ```
+
 You'll notice that the table records the estimates for all the models discussed is Section $5.1$. However, the naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the fir of the least squares model by the red line and the Naive model by the orange line.
 
 ```{r, warning=FALSE}
@@ -115,12 +116,11 @@ The graph illustrates the forecasts of the four methods. Note how the mean model
 
 ## Overfitting
 
-Overfitting can happen when a model is overly flexible and complex. This can lead to the model fitting to the random fluctuations or noise in the data, rather than the underlying pattern.  
+Overfitting can happen when a model is overly flexible and complex. This can lead to the model fitting to the random fluctuations or noise in the data, rather than the underlying pattern.
 
-To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the **test set**. 
+To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the **test set**.
 
-Recall that our avocado price models were estimated for the period between 2015-01-04~2018-06-02. We will call this our training set. For our test set we'll use the 2018-06-02~2018-12-02 period. The code below creates the test set.
-
+Recall that our avocado price models were estimated for the period between 2015-01-04\~2018-06-02. We will call this our training set. For our test set we'll use the 2018-06-02\~2018-12-02 period. The code below creates the test set.
 
 ```{r, results='hide'}
 cali %>%

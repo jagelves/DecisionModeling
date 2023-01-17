@@ -2,8 +2,8 @@
 
 Our objective is to develop a model where decisions interact with probabilities and outcomes. This framework will help us make better decisions on average.
 
-
 ## Expected Value
+
 When playing a gamble several times there is an amount that we are expected to win or lose on average.
 
 Expected Value is the average outcome from an uncertain gamble. It is calculated as a weighted (probabilities) average of values.
@@ -14,9 +14,7 @@ The EV allows us to rank decisions that involve uncertainty.
 
 To solve decision trees we use backward induction:
 
-Start at the end of the tree (right).
-Choose the branch that leads to the highest payoff for each of the last decision nodes.
-Repeat procedure while moving backwards to the initial node.
+Start at the end of the tree (right). Choose the branch that leads to the highest payoff for each of the last decision nodes. Repeat procedure while moving backwards to the initial node.
 
 To solve decision trees with uncertainty use the folding-back procedure. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision.
 
@@ -28,19 +26,15 @@ Empirical: The empirical method of assigning probabilities is appropriate when
 
 We can solve this problem several ways:
 
-Drawing a decision tree by hand and using the folding-back procedure
-Using an Excel spreadsheet 
-
+Drawing a decision tree by hand and using the folding-back procedure Using an Excel spreadsheet
 
 ## Bayes' Theorem
 
 How does new information affect our prior expectations?
 
-The Expected Value of Information (EVI):
-The increase in the expected value that the information generates (i.e. is what we gain by getting the information for free).
+The Expected Value of Information (EVI): The increase in the expected value that the information generates (i.e. is what we gain by getting the information for free).
 
-The Expected Value of Free and Perfect Information:
-The increase in the expected value that the perfect information generates (i.e. is what we gain by getting the free and accurate information).
+The Expected Value of Free and Perfect Information: The increase in the expected value that the perfect information generates (i.e. is what we gain by getting the free and accurate information).
 
 ## Readings
 
@@ -48,8 +42,6 @@ The increase in the expected value that the perfect information generates (i.e. 
 
 -   Learn how to use the Expected Value and Decisions Trees to evaluate different alternatives.
 
--   Learn how to apply Bayes’ Theorem to correctly update the probabilities in your model.
+-   Learn how to apply Bayes' Theorem to correctly update the probabilities in your model.
 
 -   Learn how to model different Risk Profiles.
-
-
