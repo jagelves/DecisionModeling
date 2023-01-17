@@ -260,7 +260,7 @@ div.csl-indent {
 
 </header>
 
-<p>This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of the benchmarks to the data will be assessed using accuracy measures (e.g., Mean Error, Mean Absolute Error, Root Mean Squared Error, among others). In general, these accuracy measures compare the fitted values with the actual values. As an initial rule, a good model will account for most of the series’s variation, leaving a small random error. In the end, we will use the model with the best accuracy to generate a forecast of our series.</p>
+<p>This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with the actual values. A good model will account for most of the series’s variation, leaving a small random error. Lastly, to avoid overffiting the models, we will use the model with the best accuracy on a training set to generate the forecast of our series.</p>
 <section id="benchmarks" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="benchmarks"><span class="header-section-number">5.1</span> Benchmarks</h2>
 <p>One of the most intuitive (but naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A <strong>naive prediction</strong> sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:</p>
@@ -282,36 +282,36 @@ div.csl-indent {
 </section>
 <section id="modeling-the-the-average-price-of-avocados" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="modeling-the-the-average-price-of-avocados"><span class="header-section-number">5.2</span> Modeling the the Average Price of Avocados</h2>
-<p>Let’s apply the forecasting methods to the average prices for avocados in California. Start by loading the <code>fpp3</code> package and importing the data.</p>
+<p>Let’s apply these four models to forecast the average price of avocados in California. We’ll start by loading the <code>tidyverse</code> and <code>fpp3</code> packages and importing the data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>cali<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/CaliforniaAvocado.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Recall, that we can create a tsibble from the csv file by using the <code>as_tsibble()</code> function. The index argument is set to the <em>date</em> variable which is recorded weekly.</p>
+<p>Recall, that we can create a tsibble from the csv file by using the <code>as_tsibble()</code> function. The index argument is set to the <em>date</em> variable which is recorded weekly. The <code>filter_index()</code> function is used so that we can focus our analysis for the period of 2015-01-04~2018-06-02.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span><span class="fu">c</span>(geography),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">index=</span>date, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">"2015-01-04"</span><span class="sc">~</span><span class="st">"2018-06-02"</span>)<span class="ot">-&gt;</span> calits_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we will use the <code>model()</code> function to run the benchmarks discussed in section <span class="math inline">\(5.1\)</span>. We have saved the models to an object called <em>fit</em>.</p>
+<p>Now we can use the <code>model()</code> function to run the benchmarks discussed in section <span class="math inline">\(5.1\)</span>. We have saved the models to an object called <em>fit</em>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">model</span>(calits_train,<span class="at">mean=</span><span class="fu">MEAN</span>(average_price),</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">Naive=</span><span class="fu">NAIVE</span>(average_price),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">Drift=</span><span class="fu">RW</span>(average_price<span class="sc">~</span><span class="fu">drift</span>()),</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span>date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To explore the coefficients of the models estimated, we use the <code>coef()</code> function. To make the output table visually appealing, you can format by using the <a href="https://gt.rstudio.com"><code>gt</code></a> package.</p>
+<p>To explore the coefficients of the models estimated, we use the <code>coef()</code> function. The output table has been enhanced visually by using the <a href="https://gt.rstudio.com"><code>gt</code></a> package.</p>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="pkidshsybq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qvdttxwpsk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#pkidshsybq) .gt_table {
+:where(#qvdttxwpsk) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -336,7 +336,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_heading {
+:where(#qvdttxwpsk) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -348,12 +348,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_caption {
+:where(#qvdttxwpsk) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#pkidshsybq) .gt_title {
+:where(#qvdttxwpsk) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -365,7 +365,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#pkidshsybq) .gt_subtitle {
+:where(#qvdttxwpsk) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -377,13 +377,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#pkidshsybq) .gt_bottom_border {
+:where(#qvdttxwpsk) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_col_headings {
+:where(#qvdttxwpsk) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -398,7 +398,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_col_heading {
+:where(#qvdttxwpsk) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -418,7 +418,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#pkidshsybq) .gt_column_spanner_outer {
+:where(#qvdttxwpsk) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -430,15 +430,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#pkidshsybq) .gt_column_spanner_outer:first-child {
+:where(#qvdttxwpsk) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#pkidshsybq) .gt_column_spanner_outer:last-child {
+:where(#qvdttxwpsk) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#pkidshsybq) .gt_column_spanner {
+:where(#qvdttxwpsk) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -450,7 +450,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#pkidshsybq) .gt_group_heading {
+:where(#qvdttxwpsk) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -476,7 +476,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#pkidshsybq) .gt_empty_group_heading {
+:where(#qvdttxwpsk) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -491,15 +491,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#pkidshsybq) .gt_from_md > :first-child {
+:where(#qvdttxwpsk) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#pkidshsybq) .gt_from_md > :last-child {
+:where(#qvdttxwpsk) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#pkidshsybq) .gt_row {
+:where(#qvdttxwpsk) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -518,7 +518,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#pkidshsybq) .gt_stub {
+:where(#qvdttxwpsk) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -531,7 +531,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pkidshsybq) .gt_stub_row_group {
+:where(#qvdttxwpsk) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -545,11 +545,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#pkidshsybq) .gt_row_group_first td {
+:where(#qvdttxwpsk) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#pkidshsybq) .gt_summary_row {
+:where(#qvdttxwpsk) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -559,16 +559,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pkidshsybq) .gt_first_summary_row {
+:where(#qvdttxwpsk) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_first_summary_row.thick {
+:where(#qvdttxwpsk) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#pkidshsybq) .gt_last_summary_row {
+:where(#qvdttxwpsk) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -578,7 +578,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_grand_summary_row {
+:where(#qvdttxwpsk) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -588,7 +588,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pkidshsybq) .gt_first_grand_summary_row {
+:where(#qvdttxwpsk) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -598,11 +598,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_striped {
+:where(#qvdttxwpsk) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#pkidshsybq) .gt_table_body {
+:where(#qvdttxwpsk) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -611,7 +611,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_footnotes {
+:where(#qvdttxwpsk) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -625,7 +625,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_footnote {
+:where(#qvdttxwpsk) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -634,7 +634,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pkidshsybq) .gt_sourcenotes {
+:where(#qvdttxwpsk) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -648,7 +648,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pkidshsybq) .gt_sourcenote {
+:where(#qvdttxwpsk) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -656,64 +656,64 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pkidshsybq) .gt_left {
+:where(#qvdttxwpsk) .gt_left {
   text-align: left;
 }
 
-:where(#pkidshsybq) .gt_center {
+:where(#qvdttxwpsk) .gt_center {
   text-align: center;
 }
 
-:where(#pkidshsybq) .gt_right {
+:where(#qvdttxwpsk) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#pkidshsybq) .gt_font_normal {
+:where(#qvdttxwpsk) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#pkidshsybq) .gt_font_bold {
+:where(#qvdttxwpsk) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#pkidshsybq) .gt_font_italic {
+:where(#qvdttxwpsk) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#pkidshsybq) .gt_super {
+:where(#qvdttxwpsk) .gt_super {
   font-size: 65%;
 }
 
-:where(#pkidshsybq) .gt_footnote_marks {
+:where(#qvdttxwpsk) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#pkidshsybq) .gt_asterisk {
+:where(#qvdttxwpsk) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#pkidshsybq) .gt_indent_1 {
+:where(#qvdttxwpsk) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#pkidshsybq) .gt_indent_2 {
+:where(#qvdttxwpsk) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#pkidshsybq) .gt_indent_3 {
+:where(#qvdttxwpsk) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#pkidshsybq) .gt_indent_4 {
+:where(#qvdttxwpsk) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#pkidshsybq) .gt_indent_5 {
+:where(#qvdttxwpsk) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -771,7 +771,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The table records the estimates for all the models discussed. Note that the naive method has no estimate, as it is simply the previous period’s observed value. Below we illustrate the least squares model by the red line and the Naive model by the orange line.</p>
+<p>You’ll notice that the table records the estimates for all the models discussed is Section <span class="math inline">\(5.1\)</span>. However, the naive method has no estimate, as it is simply the previous period’s observed value. Below we illustrate the fir of the least squares model by the red line and the Naive model by the orange line.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(average_price) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted), <span class="at">col=</span><span class="st">"red"</span>,</span>
@@ -789,19 +789,19 @@ div.csl-indent {
 <center>
 <span class="math inline">\(MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T}\)</span>
 </center>
-<p>How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and and once again made the table more appealing by using the <code>gt</code> library.</p>
+<p>How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but we then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and and once again made the table more appealing by using the <code>gt</code> library.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="pcxcibagze" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mmjvnvkwsv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#pcxcibagze) .gt_table {
+:where(#mmjvnvkwsv) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -826,7 +826,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_heading {
+:where(#mmjvnvkwsv) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -838,12 +838,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_caption {
+:where(#mmjvnvkwsv) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#pcxcibagze) .gt_title {
+:where(#mmjvnvkwsv) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -855,7 +855,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#pcxcibagze) .gt_subtitle {
+:where(#mmjvnvkwsv) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -867,13 +867,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#pcxcibagze) .gt_bottom_border {
+:where(#mmjvnvkwsv) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_col_headings {
+:where(#mmjvnvkwsv) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -888,7 +888,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_col_heading {
+:where(#mmjvnvkwsv) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -908,7 +908,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#pcxcibagze) .gt_column_spanner_outer {
+:where(#mmjvnvkwsv) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -920,15 +920,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#pcxcibagze) .gt_column_spanner_outer:first-child {
+:where(#mmjvnvkwsv) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#pcxcibagze) .gt_column_spanner_outer:last-child {
+:where(#mmjvnvkwsv) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#pcxcibagze) .gt_column_spanner {
+:where(#mmjvnvkwsv) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -940,7 +940,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#pcxcibagze) .gt_group_heading {
+:where(#mmjvnvkwsv) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -966,7 +966,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#pcxcibagze) .gt_empty_group_heading {
+:where(#mmjvnvkwsv) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -981,15 +981,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#pcxcibagze) .gt_from_md > :first-child {
+:where(#mmjvnvkwsv) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#pcxcibagze) .gt_from_md > :last-child {
+:where(#mmjvnvkwsv) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#pcxcibagze) .gt_row {
+:where(#mmjvnvkwsv) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1008,7 +1008,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#pcxcibagze) .gt_stub {
+:where(#mmjvnvkwsv) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1021,7 +1021,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pcxcibagze) .gt_stub_row_group {
+:where(#mmjvnvkwsv) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1035,11 +1035,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#pcxcibagze) .gt_row_group_first td {
+:where(#mmjvnvkwsv) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#pcxcibagze) .gt_summary_row {
+:where(#mmjvnvkwsv) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1049,16 +1049,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pcxcibagze) .gt_first_summary_row {
+:where(#mmjvnvkwsv) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_first_summary_row.thick {
+:where(#mmjvnvkwsv) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#pcxcibagze) .gt_last_summary_row {
+:where(#mmjvnvkwsv) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1068,7 +1068,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_grand_summary_row {
+:where(#mmjvnvkwsv) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1078,7 +1078,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pcxcibagze) .gt_first_grand_summary_row {
+:where(#mmjvnvkwsv) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1088,11 +1088,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_striped {
+:where(#mmjvnvkwsv) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#pcxcibagze) .gt_table_body {
+:where(#mmjvnvkwsv) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1101,7 +1101,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_footnotes {
+:where(#mmjvnvkwsv) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1115,7 +1115,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_footnote {
+:where(#mmjvnvkwsv) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1124,7 +1124,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pcxcibagze) .gt_sourcenotes {
+:where(#mmjvnvkwsv) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1138,7 +1138,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#pcxcibagze) .gt_sourcenote {
+:where(#mmjvnvkwsv) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1146,64 +1146,64 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#pcxcibagze) .gt_left {
+:where(#mmjvnvkwsv) .gt_left {
   text-align: left;
 }
 
-:where(#pcxcibagze) .gt_center {
+:where(#mmjvnvkwsv) .gt_center {
   text-align: center;
 }
 
-:where(#pcxcibagze) .gt_right {
+:where(#mmjvnvkwsv) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#pcxcibagze) .gt_font_normal {
+:where(#mmjvnvkwsv) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#pcxcibagze) .gt_font_bold {
+:where(#mmjvnvkwsv) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#pcxcibagze) .gt_font_italic {
+:where(#mmjvnvkwsv) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#pcxcibagze) .gt_super {
+:where(#mmjvnvkwsv) .gt_super {
   font-size: 65%;
 }
 
-:where(#pcxcibagze) .gt_footnote_marks {
+:where(#mmjvnvkwsv) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#pcxcibagze) .gt_asterisk {
+:where(#mmjvnvkwsv) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#pcxcibagze) .gt_indent_1 {
+:where(#mmjvnvkwsv) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#pcxcibagze) .gt_indent_2 {
+:where(#mmjvnvkwsv) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#pcxcibagze) .gt_indent_3 {
+:where(#mmjvnvkwsv) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#pcxcibagze) .gt_indent_4 {
+:where(#mmjvnvkwsv) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#pcxcibagze) .gt_indent_5 {
+:where(#mmjvnvkwsv) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1295,20 +1295,20 @@ div.csl-indent {
 <p><img src="Benchmarks_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The graph illustrates the forecasts of the four methods. Note how the mean model performs poorly for this series, given that the series exhibit an upward trend. It is also apparent that none of these methods takes into account the seasonal pattern discussed in Section 4. In the next chapter, we will be looking at two models that model both the trends and seasonality of the data.</p>
+<p>The graph illustrates the forecasts of the four methods. Note how the mean model performs poorly for this series, since the series exhibits an upward trend. It is also apparent that the LS model accounts for the trend but does not take into account the seasonal pattern discussed in Section <span class="math inline">\(4.6\)</span>. In the next chapter, we will be looking at two models that account for trend and seasonality.</p>
 </section>
 <section id="overfitting" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="overfitting"><span class="header-section-number">5.5</span> Overfitting</h2>
-<p>Overfitting can happen when a model is too flexible, meaning that it has too many parameters or degrees of freedom. This can lead to the model fitting to the random fluctuations or noise in the data, rather than the underlying pattern. As a result, the model will perform well on the training data, but will not generalize well to new data.</p>
-<p>To overcome this problem, we usually have a <strong>training set</strong> or subset of the data that we use to estimate the model’s parameters. Once the model is estimated, we observe its performance in a new subset of the data that was not used in estimating the model. This second subset of data left out for testing the model is called the <strong>test set</strong>.</p>
-<p>The model was estimated for the four benchmarks for the period between 2015-01-04~2018-06-02. We will call this our training set. For our test set we’ll use the 2018-06-02~2018-12-02 period. The code below creates the test set.</p>
+<p>Overfitting can happen when a model is overly flexible and complex. This can lead to the model fitting to the random fluctuations or noise in the data, rather than the underlying pattern.</p>
+<p>To overcome this problem, we usually have a <strong>training set</strong> or subset of the data that we use to estimate the model’s parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the <strong>test set</strong>.</p>
+<p>Recall that our avocado price models were estimated for the period between 2015-01-04~2018-06-02. We will call this our training set. For our test set we’ll use the 2018-06-02~2018-12-02 period. The code below creates the test set.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span><span class="fu">c</span>(geography),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">index=</span>date, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">"2018-06-02"</span><span class="sc">~</span><span class="st">"2018-12-02"</span>)<span class="ot">-&gt;</span> calits_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we can plot the data with the forecast, and the the test set with the code below.</p>
+<p>Now we can plot the training set, the forecast, and the test set with by using the code below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>calits_fc <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(calits_train, average_price) <span class="sc">+</span> <span class="fu">autolayer</span>(calits_test, average_price)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1335,12 +1335,12 @@ div.csl-indent {
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">targets =</span><span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="vtextczsna" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lhabxnxtix" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#vtextczsna) .gt_table {
+:where(#lhabxnxtix) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1365,7 +1365,7 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_heading {
+:where(#lhabxnxtix) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1377,12 +1377,12 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_caption {
+:where(#lhabxnxtix) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#vtextczsna) .gt_title {
+:where(#lhabxnxtix) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1394,7 +1394,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-:where(#vtextczsna) .gt_subtitle {
+:where(#lhabxnxtix) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1406,13 +1406,13 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-:where(#vtextczsna) .gt_bottom_border {
+:where(#lhabxnxtix) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_col_headings {
+:where(#lhabxnxtix) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1427,7 +1427,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_col_heading {
+:where(#lhabxnxtix) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1447,7 +1447,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#vtextczsna) .gt_column_spanner_outer {
+:where(#lhabxnxtix) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1459,15 +1459,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-:where(#vtextczsna) .gt_column_spanner_outer:first-child {
+:where(#lhabxnxtix) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#vtextczsna) .gt_column_spanner_outer:last-child {
+:where(#lhabxnxtix) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#vtextczsna) .gt_column_spanner {
+:where(#lhabxnxtix) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1479,7 +1479,7 @@ div.csl-indent {
   width: 100%;
 }
 
-:where(#vtextczsna) .gt_group_heading {
+:where(#lhabxnxtix) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1505,7 +1505,7 @@ div.csl-indent {
   text-align: left;
 }
 
-:where(#vtextczsna) .gt_empty_group_heading {
+:where(#lhabxnxtix) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1520,15 +1520,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-:where(#vtextczsna) .gt_from_md > :first-child {
+:where(#lhabxnxtix) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#vtextczsna) .gt_from_md > :last-child {
+:where(#lhabxnxtix) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#vtextczsna) .gt_row {
+:where(#lhabxnxtix) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1547,7 +1547,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-:where(#vtextczsna) .gt_stub {
+:where(#lhabxnxtix) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1560,7 +1560,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#vtextczsna) .gt_stub_row_group {
+:where(#lhabxnxtix) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1574,11 +1574,11 @@ div.csl-indent {
   vertical-align: top;
 }
 
-:where(#vtextczsna) .gt_row_group_first td {
+:where(#lhabxnxtix) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#vtextczsna) .gt_summary_row {
+:where(#lhabxnxtix) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1588,16 +1588,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#vtextczsna) .gt_first_summary_row {
+:where(#lhabxnxtix) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_first_summary_row.thick {
+:where(#lhabxnxtix) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#vtextczsna) .gt_last_summary_row {
+:where(#lhabxnxtix) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1607,7 +1607,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_grand_summary_row {
+:where(#lhabxnxtix) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1617,7 +1617,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#vtextczsna) .gt_first_grand_summary_row {
+:where(#lhabxnxtix) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1627,11 +1627,11 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_striped {
+:where(#lhabxnxtix) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#vtextczsna) .gt_table_body {
+:where(#lhabxnxtix) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1640,7 +1640,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_footnotes {
+:where(#lhabxnxtix) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1654,7 +1654,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_footnote {
+:where(#lhabxnxtix) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1663,7 +1663,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#vtextczsna) .gt_sourcenotes {
+:where(#lhabxnxtix) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1677,7 +1677,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-:where(#vtextczsna) .gt_sourcenote {
+:where(#lhabxnxtix) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1685,64 +1685,64 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-:where(#vtextczsna) .gt_left {
+:where(#lhabxnxtix) .gt_left {
   text-align: left;
 }
 
-:where(#vtextczsna) .gt_center {
+:where(#lhabxnxtix) .gt_center {
   text-align: center;
 }
 
-:where(#vtextczsna) .gt_right {
+:where(#lhabxnxtix) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#vtextczsna) .gt_font_normal {
+:where(#lhabxnxtix) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#vtextczsna) .gt_font_bold {
+:where(#lhabxnxtix) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#vtextczsna) .gt_font_italic {
+:where(#lhabxnxtix) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#vtextczsna) .gt_super {
+:where(#lhabxnxtix) .gt_super {
   font-size: 65%;
 }
 
-:where(#vtextczsna) .gt_footnote_marks {
+:where(#lhabxnxtix) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#vtextczsna) .gt_asterisk {
+:where(#lhabxnxtix) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#vtextczsna) .gt_indent_1 {
+:where(#lhabxnxtix) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#vtextczsna) .gt_indent_2 {
+:where(#lhabxnxtix) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#vtextczsna) .gt_indent_3 {
+:where(#lhabxnxtix) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#vtextczsna) .gt_indent_4 {
+:where(#lhabxnxtix) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#vtextczsna) .gt_indent_5 {
+:where(#lhabxnxtix) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1820,6 +1820,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
+<p>Note also that the Naive method although good, is no longer the best model. This is partly because it chases the series fluctuations closely and always makes a mistake when forecasting one period ahead.</p>
 </section>
 <section id="leasons-learned" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">5.6</span> Leasons Learned</h2>
