@@ -218,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#the-partial-autocorrelation-function" id="toc-the-partial-autocorrelation-function" class="nav-link" data-scroll-target="#the-partial-autocorrelation-function">The partial autocorrelation function</a></li>
   </ul></li>
   <li><a href="#the-arp-model" id="toc-the-arp-model" class="nav-link" data-scroll-target="#the-arp-model"><span class="toc-section-number">6.2</span>  The AR(p) model</a></li>
-  <li><a href="#forecast-and-residuals" id="toc-forecast-and-residuals" class="nav-link" data-scroll-target="#forecast-and-residuals"><span class="toc-section-number">6.3</span>  Forecast and Residuals</a></li>
+  <li><a href="#modeling-and-residuals" id="toc-modeling-and-residuals" class="nav-link" data-scroll-target="#modeling-and-residuals"><span class="toc-section-number">6.3</span>  Modeling and Residuals</a></li>
   <li><a href="#the-maq-model" id="toc-the-maq-model" class="nav-link" data-scroll-target="#the-maq-model"><span class="toc-section-number">6.4</span>  The MA(q) model</a></li>
   <li><a href="#the-arimapiq-model" id="toc-the-arimapiq-model" class="nav-link" data-scroll-target="#the-arimapiq-model"><span class="toc-section-number">6.5</span>  The ARIMA(p,i,q) model</a></li>
   </ul>
@@ -282,15 +282,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To test whether a series is stationary or not we can use the <code>unitroot_kpss</code> feature. In general, a low p-value allows us to reject the null of hypothesis of stationarity.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(deliveries, <span class="at">features =</span> <span class="fu">c</span>(unitroot_kpss)) <span class="sc">%&gt;%</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(deliveries, <span class="at">features =</span> <span class="fu">c</span>(unitroot_kpss, unitroot_ndiffs)) <span class="sc">%&gt;%</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="ddigsezisn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="apqgegmejr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#ddigsezisn) .gt_table {
+:where(#apqgegmejr) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -315,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_heading {
+:where(#apqgegmejr) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -327,12 +327,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_caption {
+:where(#apqgegmejr) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#ddigsezisn) .gt_title {
+:where(#apqgegmejr) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -344,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#ddigsezisn) .gt_subtitle {
+:where(#apqgegmejr) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -356,13 +356,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#ddigsezisn) .gt_bottom_border {
+:where(#apqgegmejr) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_col_headings {
+:where(#apqgegmejr) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -377,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_col_heading {
+:where(#apqgegmejr) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -397,7 +397,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#ddigsezisn) .gt_column_spanner_outer {
+:where(#apqgegmejr) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -409,15 +409,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#ddigsezisn) .gt_column_spanner_outer:first-child {
+:where(#apqgegmejr) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#ddigsezisn) .gt_column_spanner_outer:last-child {
+:where(#apqgegmejr) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#ddigsezisn) .gt_column_spanner {
+:where(#apqgegmejr) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -429,7 +429,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#ddigsezisn) .gt_group_heading {
+:where(#apqgegmejr) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   text-align: left;
 }
 
-:where(#ddigsezisn) .gt_empty_group_heading {
+:where(#apqgegmejr) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -470,15 +470,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#ddigsezisn) .gt_from_md > :first-child {
+:where(#apqgegmejr) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#ddigsezisn) .gt_from_md > :last-child {
+:where(#apqgegmejr) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#ddigsezisn) .gt_row {
+:where(#apqgegmejr) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -497,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#ddigsezisn) .gt_stub {
+:where(#apqgegmejr) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -510,7 +510,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ddigsezisn) .gt_stub_row_group {
+:where(#apqgegmejr) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -524,11 +524,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#ddigsezisn) .gt_row_group_first td {
+:where(#apqgegmejr) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#ddigsezisn) .gt_summary_row {
+:where(#apqgegmejr) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -538,16 +538,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ddigsezisn) .gt_first_summary_row {
+:where(#apqgegmejr) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_first_summary_row.thick {
+:where(#apqgegmejr) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#ddigsezisn) .gt_last_summary_row {
+:where(#apqgegmejr) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -557,7 +557,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_grand_summary_row {
+:where(#apqgegmejr) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -567,7 +567,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ddigsezisn) .gt_first_grand_summary_row {
+:where(#apqgegmejr) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -577,11 +577,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_striped {
+:where(#apqgegmejr) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#ddigsezisn) .gt_table_body {
+:where(#apqgegmejr) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -590,7 +590,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_footnotes {
+:where(#apqgegmejr) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -604,7 +604,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_footnote {
+:where(#apqgegmejr) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -613,7 +613,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ddigsezisn) .gt_sourcenotes {
+:where(#apqgegmejr) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -627,7 +627,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#ddigsezisn) .gt_sourcenote {
+:where(#apqgegmejr) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -635,64 +635,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#ddigsezisn) .gt_left {
+:where(#apqgegmejr) .gt_left {
   text-align: left;
 }
 
-:where(#ddigsezisn) .gt_center {
+:where(#apqgegmejr) .gt_center {
   text-align: center;
 }
 
-:where(#ddigsezisn) .gt_right {
+:where(#apqgegmejr) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#ddigsezisn) .gt_font_normal {
+:where(#apqgegmejr) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#ddigsezisn) .gt_font_bold {
+:where(#apqgegmejr) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#ddigsezisn) .gt_font_italic {
+:where(#apqgegmejr) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#ddigsezisn) .gt_super {
+:where(#apqgegmejr) .gt_super {
   font-size: 65%;
 }
 
-:where(#ddigsezisn) .gt_footnote_marks {
+:where(#apqgegmejr) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#ddigsezisn) .gt_asterisk {
+:where(#apqgegmejr) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#ddigsezisn) .gt_indent_1 {
+:where(#apqgegmejr) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#ddigsezisn) .gt_indent_2 {
+:where(#apqgegmejr) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#ddigsezisn) .gt_indent_3 {
+:where(#apqgegmejr) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#ddigsezisn) .gt_indent_4 {
+:where(#apqgegmejr) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#ddigsezisn) .gt_indent_5 {
+:where(#apqgegmejr) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -702,11 +702,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="kpss_stat">kpss_stat</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="kpss_pvalue">kpss_pvalue</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ndiffs">ndiffs</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="kpss_stat" class="gt_row gt_right">0.9465391</td>
-<td headers="kpss_pvalue" class="gt_row gt_right">0.01</td></tr>
+<td headers="kpss_pvalue" class="gt_row gt_right">0.01</td>
+<td headers="ndiffs" class="gt_row gt_right">2</td></tr>
   </tbody>
   
   
@@ -714,7 +716,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>The p-value confirms that Tesla deliveries are non-stationary for a <span class="math inline">\(5\)</span>% confidence level. However, it can’t be rejected at the <span class="math inline">\(1\)</span>% level. I what follows we’ll try to model the series by assuming that the time series is stationary.</p>
+<p>The test reports a p-value of 0.01 when it is below 0.01 and 0.1 when it is above 0.1. Hence, the p-value confirms that Tesla deliveries are non-stationary and that two differences are required to make the data stationary.</p>
 </section>
 <section id="the-autocorrelation-function" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="the-autocorrelation-function">The autocorrelation function</h3>
@@ -722,48 +724,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <center>
 <span class="math inline">\(\rho_{y_t,y_{t-k}}=\frac{cov(y_t,y_{y-k})}{sd(y_t)sd(y_{t-k})}\)</span>
 </center>
-<p>We can use this metric to identify which periods are influential for our targeted forecast periods. As a consequence, we can illustrate a function of a series and it’s correlation with its lags to identify/quantify crucial periods. To construct an <strong>autocorrelation function</strong> (ACF) start by loading the data and coercing the period variable to a date.</p>
+<p>We can use this metric to identify which periods are influential for our targeted forecast periods. As a consequence, we can illustrate a function of a series and it’s correlation with its lags to identify/quantify crucial periods. This time let’s inspect personal income growth in the state of California. Below we load the data and create the train and test sets.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>deliveries<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/tsla_deliveries.csv"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>deliveries<span class="sc">$</span>period<span class="ot">&lt;-</span><span class="fu">yearquarter</span>(deliveries<span class="sc">$</span>period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>PI<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/PersonalIncome.csv"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>PI <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>Date) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="dv">1970</span><span class="sc">~</span><span class="dv">2005</span>) <span class="ot">-&gt;</span> PI_train</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>PI <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>Date) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="dv">2006</span><span class="sc">~</span><span class="dv">2021</span>) <span class="ot">-&gt;</span> PI_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The autocorrelation function can now be constructed by using the <code>ACF()</code> function and plotting it with <code>autoplot()</code> as shown below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>deliveries_train <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, deliveries) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>PI_train <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>,PI_Growth) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The plot shows that the correlation of the series with its first lag is strongest, and that there is continuous decay in the strength of the correlation as the lags get larger.</p>
+<p>The plot shows that the correlation of the series with its first lag is strongest, and that there is continuous decay in the strength of the correlation as the lags get larger. The blue lines which autocorrelations are statistically different from zero (significant) at the 5% level. As you can, lags 1-4 are statistically significant.</p>
 </section>
 <section id="the-partial-autocorrelation-function" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="the-partial-autocorrelation-function">The partial autocorrelation function</h3>
 <p>As with the ACF, the <strong>partial autocorrelation function</strong> (PACF) summarizes the relationships between a series and its lags. However, the relationships of intervening lags are removed. The sample partial autocorrelation at lag <span class="math inline">\(k\)</span> is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.</p>
 <p>Formally speaking, when we calculate the autocorrelation between <span class="math inline">\(y_t\)</span> and <span class="math inline">\(y_{t+k}\)</span>, information flows from <span class="math inline">\(t\)</span> to <span class="math inline">\(t+k\)</span>, so that indirectly <span class="math inline">\(\rho_k\)</span> accounts for the contribution of lags between <span class="math inline">\(t\)</span> and <span class="math inline">\(t+k\)</span>. A series of regressions would allow us to calculate the PACF. Luckily, R calculates these easily for us as shown below:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>deliveries_train <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, deliveries) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>PI_train <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>,PI_Growth) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The graph shows that the series has a strong correlation only with its first lag. Specifically, lag 2 and 3 seemed to have been correlated with the series (see ACF), but this was mainly because of the influence of lag 1.</p>
+<p>The graph shows that the series has a strong correlation only with its first lag. Specifically, lag 2, 3, and 4 seemed to have been correlated with the series (see ACF), but this was mainly because of the influence of lag 1.</p>
 </section>
 </section>
 <section id="the-arp-model" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-arp-model"><span class="header-section-number">6.2</span> The AR(p) model</h2>
-<p>In the previous section we identified the deliveries of Tesla cars to have a decaying ACF and a single significant spike (at lag 1) in the PACF. This pattern can be generated with an AR(1) model. Specifically, an AR(1) model is of the form:</p>
+<p>In the previous section, we identified the growth of personal income in California to have a decaying ACF and a single significant spike (at lag 1) in the PACF. These results can be generated with an AR(1) model. Specifically, an AR(1) model is of the form:</p>
 <center>
 <span class="math inline">\(y_t=c+\phi y_{t-1}+ \epsilon_t\)</span>
 </center>
-<p>Note that this model just uses the first lag of the series as the single independent variable. We can easily simulate some data based on this model using R:</p>
+<p>Note that this model just uses the first lag of the series as the single independent variable. We can easily simulate some data based on this model using R.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>phi<span class="ot">&lt;-</span><span class="fl">0.7</span></span>
@@ -778,23 +781,86 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Note the resemblance of the ACF of the simulated variable to that of the deliveries of Tesla. Now let’s take a look at the PACF.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Once again, if you compare the PACF to the one in the deliveries of Tesla you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. We can model Tesla deliveries with an AR(1) process.</p>
+<p>Once again, if you compare the PACF to the one in personal income growth you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. We can model personal consumption growth with an AR(1) process.</p>
 </section>
-<section id="forecast-and-residuals" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="forecast-and-residuals"><span class="header-section-number">6.3</span> Forecast and Residuals</h2>
-<p>Let’s forecast the deliveries of Tesla using the AR(1) model. We can do this by first creating a train set and using the <code>model()</code> function.</p>
+<section id="modeling-and-residuals" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="modeling-and-residuals"><span class="header-section-number">6.3</span> Modeling and Residuals</h2>
+<p>Let’s model personal consumption using the AR(1) model. We’ll also estimate the Random Walk with drift to compare. We can do this by using the <code>model()</code> function.</p>
 <div class="cell">
-
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>PI_fit<span class="ot">&lt;-</span>PI_train <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">AR1 =</span> <span class="fu">AR</span>(PI_Growth <span class="sc">~</span> <span class="fu">order</span>(<span class="dv">1</span>)),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">LS =</span> <span class="fu">TSLM</span>(PI_Growth <span class="sc">~</span> Date))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(PI_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 6
+  .model term        estimate std.error statistic    p.value
+  &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+1 AR1    constant       1.80     0.820       2.19 0.0354    
+2 AR1    ar1            0.702    0.121       5.80 0.00000156
+3 LS     (Intercept)  338.      74.8         4.51 0.0000733 
+4 LS     Date          -0.167    0.0376     -4.43 0.0000931 </code></pre>
+</div>
+</div>
+<p>Note how the estimated coefficient for the AR1 process resembles the one in our simulation. However, the estimation of this model suggest a constant of 1.8 instead of 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>errors_PI<span class="ot">&lt;-</span><span class="fu">augment</span>(PI_fit)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>errors_PI <span class="sc">%&gt;%</span> <span class="fu">select</span>(.resid) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(.resid) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note how the errors of the AR(1) model resemble white noise. This suggests that we have identified the pattern in the data and modeled it correctly with an AR(1) process. In other words, there is nothing left to model since the errors are completely random. This is not the case for the LS model, since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>errors_PI <span class="sc">%&gt;%</span> <span class="fu">select</span>(.resid) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(.resid) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The PACF once again shows no pattern for the residuals of the AR1 model and some significant lags for the LS model. We can further choose between these two models by looking and the AIC, AICc, or BIC.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  .model sigma2   AIC  AICc   BIC
+  &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 AR1      4.30 -20.3 -19.9 -17.1
+2 LS       5.51  65.4  66.1  70.1</code></pre>
+</div>
+</div>
+<p>Here we note that the AR1 model performs better in all of the metrics as the are significantly lower than those for the LS.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>PI_fc<span class="ot">&lt;-</span>PI_fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">new_data =</span> PI_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>PI_fc  <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(PI_test) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 10
+  .model .type    ME  RMSE   MAE    MPE  MAPE  MASE RMSSE  ACF1
+  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 AR1    Test  -1.51  3.47  2.45 -116.   157.   NaN   NaN 0.331
+2 LS     Test   2.60  4.43  3.87   22.5  107.   NaN   NaN 0.483</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>PI_fc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">"AR1"</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(PI_train, PI_Growth) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(PI_test, PI_Growth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </section>
 <section id="the-maq-model" class="level2" data-number="6.4">

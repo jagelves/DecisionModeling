@@ -104,7 +104,7 @@ accuracy(fit) %>% gt() %>%
 The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) ahead we need to forecast. We can easily forecast 30 weeks of data in R with the following code:
 
 ```{r}
-calits_fc<-fit %>% forecast(h=30)
+calits_fc<- fit %>% forecast(h=30)
 ```
 
 ```{r, warning=FALSE}
