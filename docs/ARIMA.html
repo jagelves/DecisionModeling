@@ -218,8 +218,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#the-partial-autocorrelation-function" id="toc-the-partial-autocorrelation-function" class="nav-link" data-scroll-target="#the-partial-autocorrelation-function">The partial autocorrelation function</a></li>
   </ul></li>
   <li><a href="#the-arp-model" id="toc-the-arp-model" class="nav-link" data-scroll-target="#the-arp-model"><span class="toc-section-number">6.2</span>  The AR(p) model</a></li>
-  <li><a href="#the-maq-model" id="toc-the-maq-model" class="nav-link" data-scroll-target="#the-maq-model"><span class="toc-section-number">6.3</span>  The MA(q) model</a></li>
-  <li><a href="#the-arimapiq-model" id="toc-the-arimapiq-model" class="nav-link" data-scroll-target="#the-arimapiq-model"><span class="toc-section-number">6.4</span>  The ARIMA(p,i,q) model</a></li>
+  <li><a href="#forecast-and-residuals" id="toc-forecast-and-residuals" class="nav-link" data-scroll-target="#forecast-and-residuals"><span class="toc-section-number">6.3</span>  Forecast and Residuals</a></li>
+  <li><a href="#the-maq-model" id="toc-the-maq-model" class="nav-link" data-scroll-target="#the-maq-model"><span class="toc-section-number">6.4</span>  The MA(q) model</a></li>
+  <li><a href="#the-arimapiq-model" id="toc-the-arimapiq-model" class="nav-link" data-scroll-target="#the-arimapiq-model"><span class="toc-section-number">6.5</span>  The ARIMA(p,i,q) model</a></li>
   </ul>
 </nav>
     </div>
@@ -243,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>In this section we will be introducing the ARIMA and ETS models. These two models are essential in any forecaster’s toolbox as they perform well in forecasting series with time dependencies and seasonality. Before learning about the ARIMA models, a few concepts have to be introduced such as stationarity, autocorrelation and lags. We will then study the ARIMA model and learn how to model a time series.</p>
+<p>In this section we will be introducing the ARIMA model. The ARIMA model is essential in any forecaster’s toolbox as it performs well in forecasting series with time dependencies and seasonality. Before learning about the ARIMA model, a few concepts have to be introduced such as stationarity, autocorrelation and lags. These are crucial in understanding the modeling procedure. The chapter then proceed in explaining each components of the ARIMA model by applying it to some business data.</p>
 <section id="preliminaries" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="preliminaries"><span class="header-section-number">6.1</span> Preliminaries</h2>
 <section id="stationarity" class="level3 unnumbered">
@@ -251,7 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>A time series is said to be stationary if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and autocovariance, regardless of the time at which the series is observed.</p>
 <p>The main reason for making the time series stationary is that it is required in many time series models (including the ARIMA model). These models make predictions about future values of the time series based on past values, and the statistical properties of the past values are used to inform these predictions. If the statistical properties of the time series are changing over time, then the models may not work well, as the assumptions underlying them would not be met.</p>
 <p>Additionally, non-stationary time series may contain trends and/or seasonal patterns, which can make it difficult to model and forecast the series. By removing these patterns and making the series stationary, it becomes easier to model and forecast.</p>
-<p>In general, before modeling and forecasting, we will check whether the series has a trend or homoskedasticity. To eliminate the trend in the series we will us the first difference of the series. We can do this in R by using the <code>diff()</code> function. For example consider Tesla’s quarterly vehicle deliveries from 2016-2022.</p>
+<p>In general, before modeling and forecasting, we will check whether the series has a trend or heteroskedasticity. To eliminate the trend in the series we will use the first difference of the series. We can do this in R by using the <code>difference()</code> function. For example consider Tesla’s quarterly vehicle deliveries from 2016-2022.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
@@ -265,7 +266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note how the series now fluctuates around the mean of zero. That is the change of the vehicles from quarter to quarter sometimes increases and sometimes decreases and on average their is no change. You will note that the series does exhibit some heteroskedasticity as the variance of the series seems to be low from the period of 2016-2018 and significanlty increases after. To normalize the variance of the series we can make a Box-Cox transormation.</p>
+<p>Note how the series now fluctuates around the mean of zero. Conceptually, although deliveries are constantly rising, the change in the delivery of vehicles from quarter to quarter sometimes increases and sometimes decreases and on average their is no change. You will note that the series does exhibit some heteroskedasticity, as the variance of the series seems to be low from the period of 2016-2018 while significantly higher for the period after. To normalize the variance of the series we can make a Box-Cox transformation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> deliveries <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(deliveries, <span class="at">features =</span> guerrero) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(lambda_guerrero) </span>
@@ -277,19 +278,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>As you can see this series is a bit more homoskedastic than the series without the transformation.</p>
+<p>As you can see this series is a bit more homoskedastic than the series without the transformation. Note also that both transformations can be undone by using an inverse function, so that we can return to the delivery of vehicles.</p>
 <p>To test whether a series is stationary or not we can use the <code>unitroot_kpss</code> feature. In general, a low p-value allows us to reject the null of hypothesis of stationarity.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(deliveries, <span class="at">features =</span> <span class="fu">c</span>(unitroot_kpss)) <span class="sc">%&gt;%</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="bfbrovjaow" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ddigsezisn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-:where(#bfbrovjaow) .gt_table {
+:where(#ddigsezisn) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -314,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-left-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_heading {
+:where(#ddigsezisn) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -326,12 +327,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_caption {
+:where(#ddigsezisn) .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#bfbrovjaow) .gt_title {
+:where(#ddigsezisn) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -343,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-width: 0;
 }
 
-:where(#bfbrovjaow) .gt_subtitle {
+:where(#ddigsezisn) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -355,13 +356,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-width: 0;
 }
 
-:where(#bfbrovjaow) .gt_bottom_border {
+:where(#ddigsezisn) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_col_headings {
+:where(#ddigsezisn) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -376,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_col_heading {
+:where(#ddigsezisn) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -396,7 +397,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#bfbrovjaow) .gt_column_spanner_outer {
+:where(#ddigsezisn) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -408,15 +409,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 4px;
 }
 
-:where(#bfbrovjaow) .gt_column_spanner_outer:first-child {
+:where(#ddigsezisn) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#bfbrovjaow) .gt_column_spanner_outer:last-child {
+:where(#ddigsezisn) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#bfbrovjaow) .gt_column_spanner {
+:where(#ddigsezisn) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -428,7 +429,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   width: 100%;
 }
 
-:where(#bfbrovjaow) .gt_group_heading {
+:where(#ddigsezisn) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -454,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   text-align: left;
 }
 
-:where(#bfbrovjaow) .gt_empty_group_heading {
+:where(#ddigsezisn) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -469,15 +470,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: middle;
 }
 
-:where(#bfbrovjaow) .gt_from_md > :first-child {
+:where(#ddigsezisn) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#bfbrovjaow) .gt_from_md > :last-child {
+:where(#ddigsezisn) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#bfbrovjaow) .gt_row {
+:where(#ddigsezisn) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -496,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   overflow-x: hidden;
 }
 
-:where(#bfbrovjaow) .gt_stub {
+:where(#ddigsezisn) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -509,7 +510,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bfbrovjaow) .gt_stub_row_group {
+:where(#ddigsezisn) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -523,11 +524,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   vertical-align: top;
 }
 
-:where(#bfbrovjaow) .gt_row_group_first td {
+:where(#ddigsezisn) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#bfbrovjaow) .gt_summary_row {
+:where(#ddigsezisn) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -537,16 +538,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bfbrovjaow) .gt_first_summary_row {
+:where(#ddigsezisn) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_first_summary_row.thick {
+:where(#ddigsezisn) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#bfbrovjaow) .gt_last_summary_row {
+:where(#ddigsezisn) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -556,7 +557,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_grand_summary_row {
+:where(#ddigsezisn) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -566,7 +567,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bfbrovjaow) .gt_first_grand_summary_row {
+:where(#ddigsezisn) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -576,11 +577,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-top-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_striped {
+:where(#ddigsezisn) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#bfbrovjaow) .gt_table_body {
+:where(#ddigsezisn) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -589,7 +590,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-bottom-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_footnotes {
+:where(#ddigsezisn) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -603,7 +604,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_footnote {
+:where(#ddigsezisn) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -612,7 +613,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bfbrovjaow) .gt_sourcenotes {
+:where(#ddigsezisn) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -626,7 +627,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   border-right-color: #D3D3D3;
 }
 
-:where(#bfbrovjaow) .gt_sourcenote {
+:where(#ddigsezisn) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -634,64 +635,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   padding-right: 5px;
 }
 
-:where(#bfbrovjaow) .gt_left {
+:where(#ddigsezisn) .gt_left {
   text-align: left;
 }
 
-:where(#bfbrovjaow) .gt_center {
+:where(#ddigsezisn) .gt_center {
   text-align: center;
 }
 
-:where(#bfbrovjaow) .gt_right {
+:where(#ddigsezisn) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#bfbrovjaow) .gt_font_normal {
+:where(#ddigsezisn) .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#bfbrovjaow) .gt_font_bold {
+:where(#ddigsezisn) .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#bfbrovjaow) .gt_font_italic {
+:where(#ddigsezisn) .gt_font_italic {
   font-style: italic;
 }
 
-:where(#bfbrovjaow) .gt_super {
+:where(#ddigsezisn) .gt_super {
   font-size: 65%;
 }
 
-:where(#bfbrovjaow) .gt_footnote_marks {
+:where(#ddigsezisn) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-:where(#bfbrovjaow) .gt_asterisk {
+:where(#ddigsezisn) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#bfbrovjaow) .gt_indent_1 {
+:where(#ddigsezisn) .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#bfbrovjaow) .gt_indent_2 {
+:where(#ddigsezisn) .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#bfbrovjaow) .gt_indent_3 {
+:where(#ddigsezisn) .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#bfbrovjaow) .gt_indent_4 {
+:where(#ddigsezisn) .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#bfbrovjaow) .gt_indent_5 {
+:where(#ddigsezisn) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -713,7 +714,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>This confirms that Tesla deliveries are non-stationary.</p>
+<p>The p-value confirms that Tesla deliveries are non-stationary for a <span class="math inline">\(5\)</span>% confidence level. However, it can’t be rejected at the <span class="math inline">\(1\)</span>% level. I what follows we’ll try to model the series by assuming that the time series is stationary.</p>
 </section>
 <section id="the-autocorrelation-function" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="the-autocorrelation-function">The autocorrelation function</h3>
@@ -729,33 +730,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>deliveries<span class="sc">$</span>period<span class="ot">&lt;-</span><span class="fu">yearquarter</span>(deliveries<span class="sc">$</span>period)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+
+</div>
 <p>The autocorrelation function can now be constructed by using the <code>ACF()</code> function and plotting it with <code>autoplot()</code> as shown below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, deliveries) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>deliveries_train <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, deliveries) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The plot shows that the the correlation of the series with its first lag strongest, and that there is continuous decay as the lags get larger.</p>
+<p>The plot shows that the correlation of the series with its first lag is strongest, and that there is continuous decay in the strength of the correlation as the lags get larger.</p>
 </section>
 <section id="the-partial-autocorrelation-function" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="the-partial-autocorrelation-function">The partial autocorrelation function</h3>
 <p>As with the ACF, the <strong>partial autocorrelation function</strong> (PACF) summarizes the relationships between a series and its lags. However, the relationships of intervening lags are removed. The sample partial autocorrelation at lag <span class="math inline">\(k\)</span> is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.</p>
 <p>Formally speaking, when we calculate the autocorrelation between <span class="math inline">\(y_t\)</span> and <span class="math inline">\(y_{t+k}\)</span>, information flows from <span class="math inline">\(t\)</span> to <span class="math inline">\(t+k\)</span>, so that indirectly <span class="math inline">\(\rho_k\)</span> accounts for the contribution of lags between <span class="math inline">\(t\)</span> and <span class="math inline">\(t+k\)</span>. A series of regressions would allow us to calculate the PACF. Luckily, R calculates these easily for us as shown below:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, deliveries) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>deliveries_train <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, deliveries) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The graph shows that the series has a strong correlation only with its first lag when we net the effect. In other words, if lag 2 or 3 seemed to have been correlated with the series (see ACF), it was mainly because the influence of lag 1 on the series.</p>
+<p>The graph shows that the series has a strong correlation only with its first lag. Specifically, lag 2 and 3 seemed to have been correlated with the series (see ACF), but this was mainly because of the influence of lag 1.</p>
 </section>
 </section>
 <section id="the-arp-model" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-arp-model"><span class="header-section-number">6.2</span> The AR(p) model</h2>
-<p>In the previous section we identified the deliveries of Tesla cars to have a decaying ACF and a single significant spike (at lag 1) in the PACF. This pattern can be generated by an AR(1) model. Specifically, an AR(1) model is of the form:</p>
+<p>In the previous section we identified the deliveries of Tesla cars to have a decaying ACF and a single significant spike (at lag 1) in the PACF. This pattern can be generated with an AR(1) model. Specifically, an AR(1) model is of the form:</p>
 <center>
 <span class="math inline">\(y_t=c+\phi y_{t-1}+ \epsilon_t\)</span>
 </center>
@@ -770,27 +774,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>y[i]<span class="ot">=</span>const<span class="sc">+</span>phi<span class="sc">*</span>y[i<span class="dv">-1</span>]<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we can use the data to see what the ACF looks like.</p>
+<p>Now we can use the data to see what the ACF looks like for a AR(1) process.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Note the resemblance of the ACF of the simulated variable to that of the deliveries of Tesla. Now let’s take a look at the PACF.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Once again, if you compare the PACF to the one in the deliveries of Tesla you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero.</p>
+<p>Once again, if you compare the PACF to the one in the deliveries of Tesla you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. We can model Tesla deliveries with an AR(1) process.</p>
 </section>
-<section id="the-maq-model" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="the-maq-model"><span class="header-section-number">6.3</span> The MA(q) model</h2>
+<section id="forecast-and-residuals" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="forecast-and-residuals"><span class="header-section-number">6.3</span> Forecast and Residuals</h2>
+<p>Let’s forecast the deliveries of Tesla using the AR(1) model. We can do this by first creating a train set and using the <code>model()</code> function.</p>
+<div class="cell">
+
+</div>
 </section>
-<section id="the-arimapiq-model" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="the-arimapiq-model"><span class="header-section-number">6.4</span> The ARIMA(p,i,q) model</h2>
+<section id="the-maq-model" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="the-maq-model"><span class="header-section-number">6.4</span> The MA(q) model</h2>
+</section>
+<section id="the-arimapiq-model" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="the-arimapiq-model"><span class="header-section-number">6.5</span> The ARIMA(p,i,q) model</h2>
 
 
 </section>
