@@ -73,7 +73,6 @@ PI %>% as_tsibble(index=Date) %>%
   filter_index(2006~2021) -> PI_test
 ```
 
-
 The autocorrelation function can now be constructed by using the `ACF()` function and plotting it with `autoplot()` as shown below.
 
 ```{r}
@@ -142,7 +141,8 @@ PI_fit<-PI_train %>%
 
 coef(PI_fit)
 ```
-Note how the estimated coefficient for the AR1 process resembles the one in our simulation. However, the estimation of this model suggest a constant of 1.8 instead of 1. 
+
+Note how the estimated coefficient for the AR1 process resembles the one in our simulation. However, the estimation of this model suggest a constant of 1.8 instead of 1.
 
 ```{r}
 errors_PI<-augment(PI_fit)
@@ -150,19 +150,21 @@ errors_PI<-augment(PI_fit)
 errors_PI %>% select(.resid) %>% ACF(.resid) %>% 
   autoplot() + theme_bw()
 ```
+
 Note how the errors of the AR(1) model resemble white noise. This suggests that we have identified the pattern in the data and modeled it correctly with an AR(1) process. In other words, there is nothing left to model since the errors are completely random. This is not the case for the LS model, since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.
 
 ```{r}
 errors_PI %>% select(.resid) %>% PACF(.resid) %>% 
   autoplot() + theme_bw()
 ```
-The PACF once again shows no pattern for the residuals of the AR1 model and some significant lags for the LS model. We can further choose between these two models by looking and the AIC, AICc, or BIC. 
+
+The PACF once again shows no pattern for the residuals of the AR1 model and some significant lags for the LS model. We can further choose between these two models by looking and the AIC, AICc, or BIC.
 
 ```{r, echo=FALSE}
 glance(PI_fit) %>% arrange(AICc) %>% select(.model:BIC)
 ```
-Here we note that the AR1 model performs better in all of the metrics as the are significantly lower than those for the LS.
 
+Here we note that the AR1 model performs better in all of the metrics as the are significantly lower than those for the LS.
 
 ```{r}
 PI_fc<-PI_fit %>% forecast(new_data = PI_test)
@@ -177,9 +179,6 @@ PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() +
   autolayer(PI_train, PI_Growth) +
   autolayer(PI_test, PI_Growth)
 ```
-
-
-
 
 ## The MA(q) model
 

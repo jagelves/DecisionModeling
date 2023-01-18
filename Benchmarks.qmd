@@ -50,7 +50,7 @@ fit <- model(calits_train,mean=MEAN(average_price),
 
 To explore the coefficients of the models estimated, we use the `coef()` function. The output table has been enhanced visually by using the [`gt`](https://gt.rstudio.com) package.
 
-```{r ,echo=FALSE}
+```{r , echo=TRUE, warning=FALSE, message=FALSE}
 library(gt)
 coef(fit) %>% gt() %>% 
   cols_align("center") %>% 
@@ -62,7 +62,7 @@ coef(fit) %>% gt() %>%
              decimals = 2)
 ```
 
-You'll notice that the table records the estimates for all the models discussed is Section $5.1$. However, the naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the fir of the least squares model by the red line and the Naive model by the orange line.
+You'll notice that the table records the estimates for all the models discussed is Section $5.1$. However, the naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.
 
 ```{r, warning=FALSE}
 calits_train %>% autoplot(average_price) + theme_classic() + 
@@ -71,6 +71,7 @@ calits_train %>% autoplot(average_price) + theme_classic() +
 geom_line(aes(y = .fitted), col="orange",
             data = augment(fit) %>% filter(`.model`=="Naive"))
 ```
+You'll note from the graph how closely the Naive method follows the data. This might seem like a good model, however not also that every period the model is making a mistake and there is really no model that would allow us to extrapolate the forecasts for more than one period.
 
 ## Model Fit
 
@@ -80,9 +81,6 @@ The model fit will be assessed by comparing the fitted values against actual val
 
 How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but we then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and and once again made the table more appealing by using the `gt` library.
 
-```{r, results=FALSE}
-accuracy(fit)
-```
 
 ```{r, echo=FALSE}
 accuracy(fit) %>% gt() %>%
@@ -161,6 +159,26 @@ accuracy(calits_fc, calits) %>% gt() %>%
 ```
 
 Note also that the Naive method although good, is no longer the best model. This is partly because it chases the series fluctuations closely and always makes a mistake when forecasting one period ahead.
+
+## Cross Validation
+
+Instead of selecting a fixed training set and test set we can create several. In the code below the first three observations are the training set. A model is then estimated and it forecasts the fourth observation. The error is recorded and the training set is changed again so that now the first four observations are used to estimate the model and forcast the fifth observation. This procedure is repeated as many time as the data allows. 
+```{r}
+avocado_cv <- calits_train %>%
+  stretch_tsibble(.init = 3, .step = 1)
+head(avocado_cv,8) %>% gt()
+```
+Below you can see how the models are estimated and forecasts are generated for $h=1$ (i.e, one period ahead). Then the accuracy is measured and average accross all iterations for each model. The result is shown below:
+
+```{r}
+avocado_cv %>%
+  model(Mean=MEAN(average_price),
+        Naive=RW(average_price),
+        Drift=RW(average_price ~ drift()),
+        LS=TSLM(average_price~date)) %>%
+  forecast(h = 1) %>% accuracy(calits) %>% gt()
+```
+The Naive method once again performs well. However, we note that the Naive method will provide the same forecast for one period ahead as for 2, 3 or more periods ahead. Additionally, there is no formal model telling us how data is generated.
 
 ## Leasons Learned
 

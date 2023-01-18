@@ -1,8 +1,8 @@
 # Time Series Tools
 
-In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. We should also carefully inspect the data and any general patterns it might exhibit. By following this procedure, we will ensure that the data is cleaned and ready for analysis.
+In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, it is essential to get data ready for analysis. We should carefully inspect the data, address any mistakes that might be present, and take note of any general patterns. By following this procedure, we will ensure that the data is ready for analysis.
 
-We will first learn how to get the data ready for analysis using `dplyr`. We will also introduce a package called `lubridate`, that helps us parse and manipulate dates. Secondly, we will plot the data to identify the trend, seasonality, or cyclical behavior. To graph our time series, we will be learning the `ggplot2`, and `fpp3` packages. This last package is essential for time series analysis.
+We will first learn how to get the data ready for analysis using the `dplyr` package. We will also introduce a package called `lubridate`, that helps us parse and manipulate dates. When analyzing time series data we will plot to identify trends, seasonality, or cyclical behavior. To graph our time series, we will be learning the `ggplot2`, and `fpp3` packages. This last package is essential for time series analysis.
 
 ## The Avocado Data Set
 
@@ -101,7 +101,7 @@ Recall, that we are interested in the average price of avocados for California. 
 
 ```{r}
 avocadots %>% filter(geography=="California", type=="organic") %>%
-  select(date,geography,average_price,total_volume) -> calits
+  select(date,geography,average_price) -> calits
 ```
 
 ## Time Series Decomposition
