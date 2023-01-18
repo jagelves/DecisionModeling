@@ -2,7 +2,7 @@
 
 This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. Lastly, to avoid overffiting the models, we will use the model with the best accuracy on a training set to generate the forecast of our series.
 
-## Benchmarks
+## Benchmarks {#sec-Bench}
 
 One of the most intuitive (but naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A **naive prediction** sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:
 
@@ -20,7 +20,7 @@ Lastly, we can use the weight data collected from a period and observe if there 
 
 <center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>
 
-## Modeling the the Average Price of Avocados
+## Modeling the the Average Price of Avocados 
 
 Let's apply these four models to forecast the average price of avocados in California. We'll start by loading the `tidyverse` and `fpp3` packages and importing the data.
 
@@ -39,7 +39,7 @@ cali %>%
   filter_index("2015-01-04"~"2018-06-02")-> calits_train
 ```
 
-Now we can use the `model()` function to run the benchmarks discussed in section $5.1$. We have saved the models to an object called *fit*.
+Now we can use the `model()` function to run the benchmarks discussed in @sec-Bench. We have saved the models to an object called *fit*.
 
 ```{r}
 fit <- model(calits_train,mean=MEAN(average_price),
@@ -62,7 +62,7 @@ coef(fit) %>% gt() %>%
              decimals = 2)
 ```
 
-You'll notice that the table records the estimates for all the models discussed is Section $5.1$. However, the naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.
+You'll notice that the table records the estimates for all the models discussed in @sec-Bench. However, the naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.
 
 ```{r, warning=FALSE}
 calits_train %>% autoplot(average_price) + theme_classic() + 
@@ -162,10 +162,13 @@ Note also that the Naive method although good, is no longer the best model. This
 
 ## Cross Validation
 
-Instead of selecting a fixed training set and test set we can create several. In the code below the first three observations are the training set. A model is then estimated and it forecasts the fourth observation. The error is recorded and the training set is changed again so that now the first four observations are used to estimate the model and forcast the fifth observation. This procedure is repeated as many time as the data allows. 
+Instead of selecting a fixed training set and test set we can create several. For example, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is then recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many time as the data allows. Below is a table that creates these various training sets.
 ```{r}
 avocado_cv <- calits_train %>%
   stretch_tsibble(.init = 3, .step = 1)
+```
+
+```{r, echo=FALSE}
 head(avocado_cv,8) %>% gt()
 ```
 Below you can see how the models are estimated and forecasts are generated for $h=1$ (i.e, one period ahead). Then the accuracy is measured and average accross all iterations for each model. The result is shown below:
