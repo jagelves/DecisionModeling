@@ -4,9 +4,13 @@ In this section we will be introducing the ARIMA model. The ARIMA model is essen
 
 ## Preliminaries
 
+### White Noise {.unnumbered}
+
+In the context of time series, white noise refers to a sequence of random data points that have no correlation to each other. It is often used as a benchmark or reference for other types of time series data, such as those that exhibit patterns or trends. White noise is typically modeled as a Gaussian distribution with a mean of zero and a constant variance. The term "white" refers to the fact that the noise has a flat power spectral density, meaning that it contains equal amounts of power across all frequencies.
+
 ### Stationarity {.unnumbered}
 
-A time series is said to be stationary if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and autocovariance, regardless of the time at which the series is observed.
+A time series is said to be stationary if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and auto-covariance, regardless of the time at which the series is observed.
 
 The main reason for making the time series stationary is that it is required in many time series models (including the ARIMA model). These models make predictions about future values of the time series based on past values, and the statistical properties of the past values are used to inform these predictions. If the statistical properties of the time series are changing over time, then the models may not work well, as the assumptions underlying them would not be met.
 

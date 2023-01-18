@@ -1,6 +1,6 @@
 # Model Benchmarks
 
-This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. Lastly, to avoid overffiting the models, we will use the model with the best accuracy on a training set to generate the forecast of our series.
+This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. Lastly, to avoid over-fitting the models, we will use the model with the best accuracy on a training set to generate the forecast of our series.
 
 ## Benchmarks {#sec-Bench}
 
@@ -112,13 +112,13 @@ calits_fc %>% autoplot(level=NULL) + theme_classic() +
 
 The graph illustrates the forecasts of the four methods. Note how the mean model performs poorly for this series, since the series exhibits an upward trend. It is also apparent that the LS model accounts for the trend but does not take into account the seasonal pattern discussed in Section $4.6$. In the next chapter, we will be looking at two models that account for trend and seasonality.
 
-## Overfitting
+## Over-Fitting
 
-Overfitting can happen when a model is overly flexible and complex. This can lead to the model fitting to the random fluctuations or noise in the data, rather than the underlying pattern.
+Over-fitting can happen when a model is overly flexible. This can make the model fit to the random fluctuations or noise in the data, rather than the underlying pattern. This is a major failing in modeling as it ignores the systematic pattern that governs the time series.
 
 To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the **test set**.
 
-Recall that our avocado price models were estimated for the period between 2015-01-04\~2018-06-02. We will call this our training set. For our test set we'll use the 2018-06-02\~2018-12-02 period. The code below creates the test set.
+Recall that our avocado price models were estimated for the period between 2015-01-04\~2018-06-02. We will call this our training set. For our test set, we'll use the 2018-06-02\~2018-12-02 period. The code below creates the test set.
 
 ```{r, results='hide'}
 cali %>%
@@ -134,7 +134,7 @@ calits_fc %>% autoplot(level=NULL) + theme_classic() +
   autolayer(calits_train, average_price) + autolayer(calits_test, average_price)
 ```
 
-The graph shows how the LS method does well with the test data. This can be confirmed by obtaining the accuracy measures against the test set.
+The graph shows how the LS method does well with the test data and a long forecast period. This can be confirmed by obtaining the accuracy measures against the test set.
 
 ```{r, results='hide', echo=FALSE}
 cali %>%
@@ -158,20 +158,22 @@ accuracy(calits_fc, calits) %>% gt() %>%
     targets ="row")
 ```
 
-Note also that the Naive method although good, is no longer the best model. This is partly because it chases the series fluctuations closely and always makes a mistake when forecasting one period ahead.
+Note also that the Naive method is no longer the best model. This is partly because it chases the series fluctuations (along with the noise) and always makes the same forecast regardless of how many periods we forecast ahead.
 
 ## Cross Validation
 
-Instead of selecting a fixed training set and test set we can create several. For example, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is then recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many time as the data allows. Below is a table that creates these various training sets.
+Instead of selecting a fixed training set and test set we can create several and average the forecast errors. Specifically, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is then recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many times as the data allows. Below is a table that creates these various training sets.
 ```{r}
-avocado_cv <- calits_train %>%
+avocado_cv <- calits_train %>% select(-geography) %>%
   stretch_tsibble(.init = 3, .step = 1)
 ```
 
 ```{r, echo=FALSE}
 head(avocado_cv,8) %>% gt()
 ```
-Below you can see how the models are estimated and forecasts are generated for $h=1$ (i.e, one period ahead). Then the accuracy is measured and average accross all iterations for each model. The result is shown below:
+The *id* variable determines the ordering of the training sets. In the first run, the training set will be those observations with $id=1$ and the test set will be the following observation.  
+
+Below you can see how the models are estimated and forecasts are generated for $h=1$ (i.e, one period ahead). The accuracy is measured and averaged across all iterations for each model. The result is shown below.
 
 ```{r}
 avocado_cv %>%
@@ -179,9 +181,20 @@ avocado_cv %>%
         Naive=RW(average_price),
         Drift=RW(average_price ~ drift()),
         LS=TSLM(average_price~date)) %>%
-  forecast(h = 1) %>% accuracy(calits) %>% gt()
+  forecast(h = 1) %>% accuracy(calits) %>% gt() %>%
+  cols_align("center") %>% 
+  tab_header(title = md("**Model Fit Cross Validation**")) %>% 
+  tab_style(locations = cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE,ACF1),
+             decimals = 2) %>% 
+  tab_style_body(
+    style = cell_fill(color="lightgreen"),
+    values = "Naive",
+    targets ="row")
 ```
-The Naive method once again performs well. However, we note that the Naive method will provide the same forecast for one period ahead as for 2, 3 or more periods ahead. Additionally, there is no formal model telling us how data is generated.
+The Naive method once again performs well. However, we note once again that the Naive method will provide the same forecast for one period ahead as for 2, 3 or more periods ahead. Additionally, there is no formal model telling us how data is generated or that explains the how the time series is generated. In the next section we study the ARIMA model which addresses these problems.
 
 ## Leasons Learned
 
@@ -193,7 +206,7 @@ In this module you have been introduced to the general procedure in forecasting 
 
 -   Forecasting a time series
 
--   Creating a test set and train set to avoid overfitting
+-   Creating a test set and train set to avoid over-fitting
 
 ## Readings
 
