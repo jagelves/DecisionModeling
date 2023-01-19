@@ -20,7 +20,7 @@ Lastly, we can use the weight data collected from a period and observe if there 
 
 <center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>
 
-## Modeling the the Average Price of Avocados 
+## Modeling the the Average Price of Avocados
 
 Let's apply these four models to forecast the average price of avocados in California. We'll start by loading the `tidyverse` and `fpp3` packages and importing the data.
 
@@ -74,6 +74,7 @@ geom_line(aes(y = .fitted), col="orange",
        subtitle = "2015-2018",
        x="")
 ```
+
 The graph illustrates how closely the Naive method follows the data. This might seem like a good model, but consider how every period the heuristic is making a mistake since average prices are constantly changing every week. Consider as well how the Naive prediction provides no explanation of the series governing process. The LS model, on the other hand, does provide some insight to a force that is influencing the data. Mainly, a rising trend. We can use characteristics such as a trend or seasonality to forecast a series.
 
 ## Model Fit
@@ -111,7 +112,7 @@ The forecast of the series is obtained by using the `forecast()` function and sp
 calits_fc<- fit %>% forecast(h=30)
 ```
 
-The `autoplot()` and `autolayer()` functions are used below to create a graph with the forecasts and the training set. 
+The `autoplot()` and `autolayer()` functions are used below to create a graph with the forecasts and the training set.
 
 ```{r, warning=FALSE}
 calits_fc %>% autoplot(level=NULL) + theme_classic() + 
@@ -172,9 +173,11 @@ Interestingly, the Naive method is no longer the best model. This is partly beca
 
 ## Cross Validation
 
-Instead of selecting a single training set and test set, we can create several. Specifically, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many times as the data allows. Below we create a table that enables us to follow the **cross-validation** of our benchmarks. 
+Instead of selecting a single training set and test set, we can create several. Specifically, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many times as the data allows. Below we create a table that enables us to follow the **cross-validation** of our benchmarks.
+
 ```{r}
-avocado_cv <- calits_train %>% select(-geography) %>%
+avocado_cv <- calits_train %>% 
+  select(-geography, -total_volume) %>% 
   stretch_tsibble(.init = 3, .step = 1)
 ```
 
@@ -207,6 +210,7 @@ avocado_cv %>%
     values = "Naive",
     targets ="row")
 ```
+
 The Naive method once again performs well. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. Additionally, there is no formal model telling us how data is generated or that explains the how the time series is generated.
 
 ## Leasons Learned
