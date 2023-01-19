@@ -1,16 +1,31 @@
 # ARIMA
 
-In this section we will be introducing the ARIMA model. The ARIMA model is essential in any forecaster's toolbox as it performs well in forecasting series with time dependencies and seasonality. Before learning about the ARIMA model, a few concepts have to be introduced such as stationarity, autocorrelation and lags. These are crucial in understanding the modeling procedure. The chapter then proceed in explaining each components of the ARIMA model by applying it to some business data.
+In this section we will be introducing important concepts for the analysis of time series using the ARIMA model. The ARIMA model is essential in any forecaster's toolbox as it performs well in forecasting series with time dependencies and seasonality. The concepts of white noise, stationarity, autocorrelation and partial autocorrelation are all essential in understanding the modeling procedure.
 
 ## Preliminaries
 
 ### White Noise {.unnumbered}
 
-In the context of time series, white noise refers to a sequence of random data points that have no correlation to each other. It is often used as a benchmark or reference for other types of time series data, such as those that exhibit patterns or trends. White noise is typically modeled as a Gaussian distribution with a mean of zero and a constant variance. The term "white" refers to the fact that the noise has a flat power spectral density, meaning that it contains equal amounts of power across all frequencies.
+In time series, **white noise** refers to a sequence of random data points that have no correlation to each other. This process is used as a benchmark for other types of time series data that exhibit patterns or trends. We can generate a white noise process by using the normal distribution with a mean of zero and a constant variance. Below we create a tsibble with the simulated data.
+
+```{r, message=FALSE, warning=FALSE}
+library(fpp3)
+wn<-tsibble(x=rnorm(100),period=seq(1:100),index=period)
+```
+
+We can now use the `autoplot()` function to observe the white noise process.
+
+```{r, warning=FALSE}
+wn %>% autoplot(x) + theme_classic() + 
+  labs(title="White Noise Process",
+       subtitle="Mean=0 and Standard Deviation=1",
+x="",y="") + geom_hline(yintercept = 0, col="gray", lwd=1.5)
+```
+A very ragged pattern is shown in the graph above. The series behaves erratically, but it always fluctuates around a mean of 0 and and keeps a standard deviation of one. Such a series is unpredictable, so the best one can do is to describe it by its mean and standard deviation. 
 
 ### Stationarity {.unnumbered}
 
-A time series is said to be stationary if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and auto-covariance, regardless of the time at which the series is observed.
+A time series is said to be **stationary** if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and auto-covariance, regardless of the time at which the series is observed.
 
 The main reason for making the time series stationary is that it is required in many time series models (including the ARIMA model). These models make predictions about future values of the time series based on past values, and the statistical properties of the past values are used to inform these predictions. If the statistical properties of the time series are changing over time, then the models may not work well, as the assumptions underlying them would not be met.
 
@@ -30,14 +45,18 @@ deliveries %>%
   as_tsibble(index=period, regular=T) %>% autoplot(deliveries) + theme_classic()+ geom_abline(slope=0, intercept=mean(deliveries$deliveries))
 ```
 
-Deliveries have mostly been in an upward trend, which makes sense as the company is currently growing. This series seems to not be stationary since it crosses the mean once and never revisits it. An easy way to make the series stationary (make it fluctuate around the mean) is to find the first difference. Below is the graph of the integrated series.
+Deliveries have mostly been in an upward trend, which makes sense as the company is currently growing. This series seems to not be stationary since it crosses the mean once and never revisits it. An easy way to make the series stationary (make it fluctuate around the mean) is to find differences. Below is the graph of the first difference of the series.
 
 ```{r, warning=FALSE, message=FALSE}
 deliveries %>%
-  as_tsibble(index=period, regular=T) %>% autoplot(difference(deliveries)) + theme_classic()
+  as_tsibble(index=period, regular=T) %>% autoplot(difference(deliveries)) + theme_classic() +
+  labs(title="Change In Tesla's Vehicle Deliveries",
+       subtitle = "Q1 2016 - Q4 2022",x="",y="")
 ```
 
-Note how the series now fluctuates around the mean of zero. Conceptually, although deliveries are constantly rising, the change in the delivery of vehicles from quarter to quarter sometimes increases and sometimes decreases and on average their is no change. You will note that the series does exhibit some heteroskedasticity, as the variance of the series seems to be low from the period of 2016-2018 while significantly higher for the period after. To normalize the variance of the series we can make a Box-Cox transformation.
+The series fluctuates around the mean of zero, but unlike the white noise process behaves less erratic. You will notice that some periods are constantly high, while others low. For example, following the lows at the beginning of the year, deliveries seem to increase sharply. There seems to be correlations between the quarters or time dependencies. We will explore more of this below once we look at autocorrelations and partial autocorrelations.  
+
+The series exhibits heteroskedasticity (increasing variance), as the variance of the series seems to be low from the period of 2016-2018 while significantly higher for the period after. To normalize the variance of the series we can make a Box-Cox transformation.
 
 ```{r, warning=FALSE, message=FALSE}
 lambda <- deliveries %>% as_tsibble(index=period, regular=T) %>%
@@ -45,12 +64,14 @@ lambda <- deliveries %>% as_tsibble(index=period, regular=T) %>%
 
 deliveries %>% as_tsibble(index=period, regular=T) %>%
   autoplot(box_cox(difference(deliveries), lambda)) +
-  labs(y = "")+ theme_classic()
+  labs(y = "")+ theme_classic() +
+  labs(title="Box-Cox Transformation of Tesla's Vehicle Deliveries",
+       subtitle = "Q1 2016 - Q4 2022",x="",y="")
 ```
 
-As you can see this series is a bit more homoskedastic than the series without the transformation. Note also that both transformations can be undone by using an inverse function, so that we can return to the delivery of vehicles.
+The transformation has made the series a bit more homoskedastic (variance is more uniform) than the series without the transformation. Note also that both transformations can be undone by using an inverse function, so that we can return to the delivery of vehicles.
 
-To test whether a series is stationary or not we can use the `unitroot_kpss` feature. In general, a low p-value allows us to reject the null of hypothesis of stationarity.
+To test whether a series is stationary or not we can use the *unitroot_kpss* and *unitroot_ndiffs* features. In general, a low p-value allows us to reject the null of hypothesis of stationarity.
 
 ```{r}
 deliveries %>% as_tsibble(index=period, regular=T) %>%
@@ -65,7 +86,7 @@ Autocorrelations are essential in time series analysis since they indicate the d
 
 <center>$\rho_{y_t,y_{t-k}}=\frac{cov(y_t,y_{y-k})}{sd(y_t)sd(y_{t-k})}$</center>
 
-We can use this metric to identify which periods are influential for our targeted forecast periods. As a consequence, we can illustrate a function of a series and it's correlation with its lags to identify/quantify crucial periods. This time let's inspect personal income growth in the state of California. Below we load the data and create the train and test sets.
+We can use this metric to identify which periods are influential for our targeted forecast periods. We can also illustrate a function of a series and it's correlation with its lags to identify/quantify crucial periods. This time let's inspect personal income growth in the state of California. Below we load the data and create the train and test sets.
 
 ```{r, message=FALSE, warning=FALSE}
 library(fpp3)
@@ -82,10 +103,17 @@ The autocorrelation function can now be constructed by using the `ACF()` functio
 ```{r}
 PI_train %>%
   ACF(lag_max = 12,PI_Growth) %>% 
-  autoplot() + theme_classic()
+  autoplot() + theme_bw() + labs(x="", y="ACF")
 ```
 
-The plot shows that the correlation of the series with its first lag is strongest, and that there is continuous decay in the strength of the correlation as the lags get larger. The blue lines which autocorrelations are statistically different from zero (significant) at the 5% level. As you can, lags 1-4 are statistically significant.
+The plot shows that the correlation of the series with its first lag is strongest, and that there is continuous decay in the strength of the correlation as the lags get larger. The blue lines determine which autocorrelations are statistically different from zero (significant) at the 5% level. As you can see, lags 1-4 are positively correlated with the series and statistically significant.
+
+A white noise process on the other hand is expected to show no correlation with its lags since the series is constructed from independent draws from a normal distribution with constant variance. Below you can see the autocorrelation function of the white noise process.
+
+```{r, warning=FALSE}
+wn %>% ACF(x) %>% autoplot() + theme_bw() + labs(x="", y="ACF")
+```
+Interestingly, lag 18 shows a negative correlation with the series. It is important to note that correlations can happen by chance even if we construct the series from a random process.
 
 ### The partial autocorrelation function {.unnumbered}
 
@@ -96,18 +124,25 @@ Formally speaking, when we calculate the autocorrelation between $y_t$ and $y_{t
 ```{r}
 PI_train %>%
   PACF(lag_max = 12,PI_Growth) %>% 
-  autoplot() + theme_classic()
+  autoplot() + theme_bw() + labs(x="", y="PACF")
 ```
 
 The graph shows that the series has a strong correlation only with its first lag. Specifically, lag 2, 3, and 4 seemed to have been correlated with the series (see ACF), but this was mainly because of the influence of lag 1.
 
-## The AR(p) model
+Let's inspect the white noise process once more to confirm that there are no patterns.
 
-In the previous section, we identified the growth of personal income in California to have a decaying ACF and a single significant spike (at lag 1) in the PACF. These results can be generated with an AR(1) model. Specifically, an AR(1) model is of the form:
+```{r}
+wn %>% PACF(x) %>% autoplot() + theme_bw() + labs(x="", y="PACF")
+```
+In sum, white noise processes are unpredictable and we can only describe them by their mean and standard deviation. Series that have patterns in their ACF or PACF can be modeled. Below we introduce the AR(1) model.
+
+## The AR(1) model
+
+In the previous section, we identified the growth of personal income in California to have a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, an AR(1) model is of the form:
 
 <center>$y_t=c+\phi y_{t-1}+ \epsilon_t$</center>
 
-Note that this model just uses the first lag of the series as the single independent variable. We can easily simulate some data based on this model using R.
+Note that this model uses the first lag of the series as the single independent variable. We can easily simulate some data based on this model using R.
 
 ```{r}
 y<-c(0)
@@ -123,20 +158,20 @@ y[i]=const+phi*y[i-1]+rnorm(1,0,0.5)
 Now we can use the data to see what the ACF looks like for a AR(1) process.
 
 ```{r}
-tsibble(y=y,period=seq(1,length(y)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_classic()
+tsibble(y=y,period=seq(1,length(y)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_bw()+labs(x="",y="ACF")
 ```
 
-Note the resemblance of the ACF of the simulated variable to that of the deliveries of Tesla. Now let's take a look at the PACF.
+Note the resemblance of the ACF of the simulated variable to that of the personal income. Now let's take a look at the PACF.
 
 ```{r}
-tsibble(y=y,period=seq(1,length(y)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_classic()
+tsibble(y=y,period=seq(1,length(y)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_bw()+labs(x="",y="PACF")
 ```
 
 Once again, if you compare the PACF to the one in personal income growth you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. We can model personal consumption growth with an AR(1) process.
 
 ## Modeling and Residuals
 
-Let's model personal consumption using the AR(1) model. We'll also estimate the Random Walk with drift to compare. We can do this by using the `model()` function.
+Let's model personal consumption using the AR(1) model. We'll also estimate a Least Squares model to compare. Recall, that we can estimate these models by using the `model()` function.
 
 ```{r}
 PI_fit<-PI_train %>% 

@@ -48,7 +48,7 @@ fit <- model(calits_train,mean=MEAN(average_price),
               LS=TSLM(average_price~date))
 ```
 
-You will notice that the *fit* object is a mable (model table). To explore the coefficients of the models estimated, we use the `coef()` function. The output table has been enhanced visually by using the [`gt`](https://gt.rstudio.com) package.
+The *fit* object is saved as a mable (model table). To explore the coefficients of the models estimated, we use the `coef()` function with *fit* as its single argument. The output table has been enhanced visually by using the [`gt`](https://gt.rstudio.com) package.
 
 ```{r , echo=TRUE, warning=FALSE, message=FALSE}
 library(gt)
@@ -62,7 +62,7 @@ coef(fit) %>% gt() %>%
              decimals = 2)
 ```
 
-You'll notice that the table records the estimates for all the models discussed in @sec-Bench. However, the naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.
+The table records the estimates for all the benchmarks discussed in @sec-Bench. The naive method has no estimate, as it is simply the previous period's observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.
 
 ```{r, warning=FALSE}
 calits_train %>% autoplot(average_price) + theme_classic() + 
@@ -74,16 +74,19 @@ geom_line(aes(y = .fitted), col="orange",
        subtitle = "2015-2018",
        x="")
 ```
-You'll note from the graph how closely the Naive method follows the data. This might seem like a good model, but consider how every period the model is making a mistake by lagging the actual values. Consider as well how the Naive prediction provides no explanation of the series governing process. The LS model on the other hand, does provide some insight to a force that is influencing the data. Mainly, a rising trend that can be used to forecast the function.
+The graph illustrates how closely the Naive method follows the data. This might seem like a good model, but consider how every period the heuristic is making a mistake since average prices are constantly changing every week. Consider as well how the Naive prediction provides no explanation of the series governing process. The LS model, on the other hand, does provide some insight to a force that is influencing the data. Mainly, a rising trend. We can use characteristics such as a trend or seasonality to forecast a series.
 
 ## Model Fit
 
-The model fit will be assessed by comparing the fitted values against actual values. In general, a good fit is determined by how far the fitted values are from the actual ones. If we square all of the distances of the actual points from the predicted values (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).
+The model fit will be assessed by comparing the fitted values against actual values. In general, a good fit is determined by how far the fitted values are from the observed ones. If we square all of the distances between actual points and predicted values (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).
 
 <center>$MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T}$</center>
 
-How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but we then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and and once again made the table more appealing by using the `gt` library.
+How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but we then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and once again made the table more appealing by using the `gt` library.
 
+```{r, results='hide'}
+accuracy(fit)
+```
 
 ```{r, echo=FALSE}
 accuracy(fit) %>% gt() %>%
@@ -102,26 +105,28 @@ accuracy(fit) %>% gt() %>%
 
 ## Forecast
 
-The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) ahead we need to forecast. We can easily forecast 30 weeks of data in R with the following code:
+The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) ahead we need to forecast. We can easily forecast 30 weeks of data in R with the code below.
 
 ```{r}
 calits_fc<- fit %>% forecast(h=30)
 ```
+
+The `autoplot()` and `autolayer()` functions are used below to create a graph with the forecasts and the training set. 
 
 ```{r, warning=FALSE}
 calits_fc %>% autoplot(level=NULL) + theme_classic() + 
   autolayer(calits_train, average_price)
 ```
 
-The graph illustrates the forecasts of the four methods. Note how the mean model performs poorly for this series, since the series exhibits an upward trend. It is also apparent that the LS model accounts for the trend but does not take into account the seasonal pattern discussed in Section $4.6$. In the next chapter, we will be looking at two models that account for trend and seasonality.
+Note how the Mean and Naive models forecast that the series will continue without a trend. The LS model predicts that the series will continue its trend but as all of the other methods, does not take into account the seasonal pattern discussed in @sec-Visual. In future chapters, we will be looking at models that account for trend and seasonality.
 
 ## Over-Fitting
 
 Over-fitting can happen when a model is overly flexible. This can make the model fit to the random fluctuations or noise in the data, rather than the underlying pattern. This is a major failing in modeling as it ignores the systematic pattern that governs the time series.
 
-To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the **test set**.
+To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the **test set**. A model that "memorizes" the training data, will often perform poorly when forecasting the test set.
 
-Recall that our avocado price models were estimated for the period between 2015-01-04\~2018-06-02. We will call this our training set. For our test set, we'll use the 2018-06-02\~2018-12-02 period. The code below creates the test set.
+Recall that benchmarks were estimated for the period between 2015-01-04\~2018-06-02. We will call this our training set. For our test set, we'll use the 2018-06-02\~2018-12-02 period. The code below creates the test set using the `filter_index()` function.
 
 ```{r, results='hide'}
 cali %>%
@@ -130,11 +135,13 @@ cali %>%
   filter_index("2018-06-02"~"2018-12-02")-> calits_test
 ```
 
-Now we can plot the training set, the forecast, and the test set with by using the code below.
+Now we can plot the training set, the forecast, and the test set by using the code below.
 
 ```{r}
-calits_fc %>% autoplot(level=NULL) + theme_classic() + 
-  autolayer(calits_train, average_price) + autolayer(calits_test, average_price)
+calits_fc %>% autoplot(level=NULL) + 
+  theme_classic() + 
+  autolayer(calits_train, average_price) + 
+  autolayer(calits_test, average_price)
 ```
 
 The graph shows how the LS method does well with the test data and a long forecast period. This can be confirmed by obtaining the accuracy measures against the test set.
@@ -143,7 +150,7 @@ The graph shows how the LS method does well with the test data and a long foreca
 cali %>%
   as_tsibble(key=c(geography),
              index=date, regular=T) %>%
-  filter_index("2015-01-04"~"2018-12-02")->calits
+  filter_index("2015-01-04"~"2018-12-02") -> calits
 ```
 
 ```{r, warning=FALSE}
@@ -161,22 +168,25 @@ accuracy(calits_fc, calits) %>% gt() %>%
     targets ="row")
 ```
 
-Note also that the Naive method is no longer the best model. This is partly because it chases the series fluctuations (along with the noise) and always makes the same forecast regardless of how many periods we forecast ahead.
+Interestingly, the Naive method is no longer the best model. This is partly because it chases the series fluctuations (along with the noise) and always makes the same forecast regardless of how many periods we forecast ahead.
 
 ## Cross Validation
 
-Instead of selecting a fixed training set and test set we can create several and average the forecast errors. Specifically, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is then recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many times as the data allows. Below is a table that creates these various training sets.
+Instead of selecting a single training set and test set, we can create several. Specifically, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many times as the data allows. Below we create a table that enables us to follow the **cross-validation** of our benchmarks. 
 ```{r}
 avocado_cv <- calits_train %>% select(-geography) %>%
   stretch_tsibble(.init = 3, .step = 1)
 ```
 
-```{r, echo=FALSE}
-head(avocado_cv,8) %>% gt()
-```
-The *id* variable determines the ordering of the training sets. In the first run, the training set will be those observations with $id=1$ and the test set will be the following observation.  
+The `stretch_tsibble()` is a handy function that creates a variable called *id* that is initialized with the *.init* argument. In this case, the first three observations are given $id=1$. The *id* then changes with a step of $.step=1$. That is, $id=2$ for the first four observations, then $id=3$ for the first five observations, and so on. Below is a sample of the tsibble.
 
-Below you can see how the models are estimated and forecasts are generated for $h=1$ (i.e, one period ahead). The accuracy is measured and averaged across all iterations for each model. The result is shown below.
+```{r, echo=FALSE}
+head(avocado_cv,8) %>% gt() %>% 
+  cols_align("center") %>% 
+  tab_header(title = md("**CV tsibble**"))
+```
+
+Using this new tsibble, the benchmarks are estimated for each *id* and forecasts are generated for one period ahead ($h=1$). The accuracy is measured and averaged across all iterations for each model. Results are shown in the table below.
 
 ```{r}
 avocado_cv %>%
@@ -197,20 +207,22 @@ avocado_cv %>%
     values = "Naive",
     targets ="row")
 ```
-The Naive method once again performs well. However, we note once again that the Naive method will provide the same forecast for one period ahead as for 2, 3 or more periods ahead. Additionally, there is no formal model telling us how data is generated or that explains the how the time series is generated. In the next section we study the ARIMA model which addresses these problems.
+The Naive method once again performs well. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. Additionally, there is no formal model telling us how data is generated or that explains the how the time series is generated.
 
 ## Leasons Learned
 
-In this module you have been introduced to the general procedure in forecasting time series.
+In this module you have been introduced to the general procedure in forecasting time series. Particularly you have:
 
--   Learning how create forecasts with simple heuristics.
+-   Created forecasts with simple heuristics.
 
--   Assessing the fit of the model with accuracy measures
+-   Assessed the fit of the model with accuracy measures.
 
--   Forecasting a time series
+-   Created a test set and train set to avoid over-fitting.
 
--   Creating a test set and train set to avoid over-fitting
+-   Performed cross validation.
 
 ## Readings
 
-@FPP3 chapter 5.
+@FPP3 Chapter 5.
+
+gt package: https://gt.rstudio.com
