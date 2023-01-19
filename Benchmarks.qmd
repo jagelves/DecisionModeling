@@ -1,6 +1,6 @@
 # Model Benchmarks
 
-This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with the actual values. A good model will account for most of the series's variation, leaving a small random error. Lastly, to avoid over-fitting the models, we will use the model with the best accuracy on a training set to generate the forecast of our series.
+This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with observed values. A good model will account for most of the series's systematic variation, leaving a small random error. Lastly, to avoid over-fitting the models, we will use a training set and test set along with cross validation.
 
 ## Benchmarks {#sec-Bench}
 
@@ -30,7 +30,7 @@ library(fpp3)
 cali<-read_csv("https://jagelves.github.io/Data/CaliforniaAvocado.csv")
 ```
 
-Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function. The index argument is set to the *date* variable which is recorded weekly. The `filter_index()` function is used so that we can focus our analysis for the period of 2015-01-04\~2018-06-02.
+Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function. The index argument is set to the weekly *date* variable. The `filter_index()` function is used so that we can focus our analysis for the period of 2015-01-04\~2018-06-02.
 
 ```{r}
 cali %>%
@@ -48,7 +48,7 @@ fit <- model(calits_train,mean=MEAN(average_price),
               LS=TSLM(average_price~date))
 ```
 
-To explore the coefficients of the models estimated, we use the `coef()` function. The output table has been enhanced visually by using the [`gt`](https://gt.rstudio.com) package.
+You will notice that the *fit* object is a mable (model table). To explore the coefficients of the models estimated, we use the `coef()` function. The output table has been enhanced visually by using the [`gt`](https://gt.rstudio.com) package.
 
 ```{r , echo=TRUE, warning=FALSE, message=FALSE}
 library(gt)
@@ -69,9 +69,12 @@ calits_train %>% autoplot(average_price) + theme_classic() +
   geom_line(aes(y = .fitted), col="red",
             data = augment(fit) %>% filter(`.model`=="LS")) +
 geom_line(aes(y = .fitted), col="orange",
-            data = augment(fit) %>% filter(`.model`=="Naive"))
+            data = augment(fit) %>% filter(`.model`=="Naive")) +
+  labs(y="", title= "California's Average Price Of Avocados",
+       subtitle = "2015-2018",
+       x="")
 ```
-You'll note from the graph how closely the Naive method follows the data. This might seem like a good model, however not also that every period the model is making a mistake and there is really no model that would allow us to extrapolate the forecasts for more than one period.
+You'll note from the graph how closely the Naive method follows the data. This might seem like a good model, but consider how every period the model is making a mistake by lagging the actual values. Consider as well how the Naive prediction provides no explanation of the series governing process. The LS model on the other hand, does provide some insight to a force that is influencing the data. Mainly, a rising trend that can be used to forecast the function.
 
 ## Model Fit
 
