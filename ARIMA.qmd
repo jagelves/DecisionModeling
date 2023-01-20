@@ -10,6 +10,7 @@ In time series, **white noise** refers to a sequence of random data points that 
 
 ```{r, message=FALSE, warning=FALSE}
 library(fpp3)
+set.seed(10)
 wn<-tsibble(x=rnorm(100),period=seq(1:100),index=period)
 ```
 
@@ -42,10 +43,12 @@ deliveries<-read_csv("https://jagelves.github.io/Data/tsla_deliveries.csv")
 deliveries$period<-yearquarter(deliveries$period)
 
 deliveries %>%
-  as_tsibble(index=period, regular=T) %>% autoplot(deliveries) + theme_classic()+ geom_abline(slope=0, intercept=mean(deliveries$deliveries))
+  as_tsibble(index=period, regular=T) %>% autoplot(deliveries) + theme_classic()+ geom_abline(slope=0, intercept=mean(deliveries$deliveries), col="red") + 
+  labs(title="Tesla Vehicle Deliveries",
+       subtitle="Q1 2016 - Q4 2022", y="", x="")
 ```
 
-Deliveries have mostly been in an upward trend, which makes sense as the company is currently growing. This series seems to not be stationary since it crosses the mean once and never revisits it. An easy way to make the series stationary (make it fluctuate around the mean) is to find differences. Below is the graph of the first difference of the series.
+Deliveries have mostly been in an upward trend, which makes sense as the company is currently growing. This series seems to not be stationary since it crosses the mean (red line) once and never revisits it. An easy way to make the series stationary (make it fluctuate around the mean) is to find differences. Below is the graph of the first difference of the series.
 
 ```{r, warning=FALSE, message=FALSE}
 deliveries %>%
@@ -73,9 +76,20 @@ The transformation has made the series a bit more homoskedastic (variance is mor
 
 To test whether a series is stationary or not we can use the *unitroot_kpss* and *unitroot_ndiffs* features. In general, a low p-value allows us to reject the null of hypothesis of stationarity.
 
+```{r, results='hide', echo=FALSE}
+deliveries %>% as_tsibble(index=period, regular=T) %>%
+  features(deliveries, features = c(unitroot_kpss, unitroot_ndiffs)) 
+```
 ```{r}
 deliveries %>% as_tsibble(index=period, regular=T) %>%
-  features(deliveries, features = c(unitroot_kpss, unitroot_ndiffs)) %>% gt()
+  features(deliveries, features = c(unitroot_kpss, unitroot_ndiffs)) %>% gt() %>%
+  cols_align("center") %>% 
+  tab_header(title = 
+               md("**Stationarity Tests**")) %>% tab_style(locations =                                                    cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(kpss_stat,kpss_pvalue),
+             decimals = 3)
 ```
 
 The test reports a p-value of 0.01 when it is below 0.01 and 0.1 when it is above 0.1. Hence, the p-value confirms that Tesla deliveries are non-stationary and that two differences are required to make the data stationary.
@@ -103,7 +117,8 @@ The autocorrelation function can now be constructed by using the `ACF()` functio
 ```{r}
 PI_train %>%
   ACF(lag_max = 12,PI_Growth) %>% 
-  autoplot() + theme_bw() + labs(x="", y="ACF")
+  autoplot() + theme_bw() + labs(x="", y="",
+                                 title="ACF Personal Income Growth in California")
 ```
 
 The plot shows that the correlation of the series with its first lag is strongest, and that there is continuous decay in the strength of the correlation as the lags get larger. The blue lines determine which autocorrelations are statistically different from zero (significant) at the 5% level. As you can see, lags 1-4 are positively correlated with the series and statistically significant.
@@ -111,9 +126,10 @@ The plot shows that the correlation of the series with its first lag is stronges
 A white noise process on the other hand is expected to show no correlation with its lags since the series is constructed from independent draws from a normal distribution with constant variance. Below you can see the autocorrelation function of the white noise process.
 
 ```{r, warning=FALSE}
-wn %>% ACF(x) %>% autoplot() + theme_bw() + labs(x="", y="ACF")
+wn %>% ACF(x) %>% autoplot() + theme_bw() + labs(x="", y="ACF") +
+labs(x="", y="", title="ACF White Noise Process")
 ```
-Interestingly, lag 18 shows a negative correlation with the series. It is important to note that correlations can happen by chance even if we construct the series from a random process.
+Interestingly, lag 14 shows a positive correlation with the series. It is important to note that correlations can happen by chance even if we construct the series from a random process.
 
 ### The partial autocorrelation function {.unnumbered}
 
@@ -124,7 +140,8 @@ Formally speaking, when we calculate the autocorrelation between $y_t$ and $y_{t
 ```{r}
 PI_train %>%
   PACF(lag_max = 12,PI_Growth) %>% 
-  autoplot() + theme_bw() + labs(x="", y="PACF")
+  autoplot() + theme_bw() + labs(x="", y="PACF") +
+labs(x="", y="", title="PACF Personal Income Growth In California")
 ```
 
 The graph shows that the series has a strong correlation only with its first lag. Specifically, lag 2, 3, and 4 seemed to have been correlated with the series (see ACF), but this was mainly because of the influence of lag 1.
@@ -132,7 +149,8 @@ The graph shows that the series has a strong correlation only with its first lag
 Let's inspect the white noise process once more to confirm that there are no patterns.
 
 ```{r}
-wn %>% PACF(x) %>% autoplot() + theme_bw() + labs(x="", y="PACF")
+wn %>% PACF(x) %>% autoplot() + theme_bw() + labs(x="", y="PACF") +
+labs(x="", y="", title="PACF White Noise Process")
 ```
 In sum, white noise processes are unpredictable and we can only describe them by their mean and standard deviation. Series that have patterns in their ACF or PACF can be modeled. Below we introduce the AR(1) model.
 
@@ -158,30 +176,42 @@ y[i]=const+phi*y[i-1]+rnorm(1,0,0.5)
 Now we can use the data to see what the ACF looks like for a AR(1) process.
 
 ```{r}
-tsibble(y=y,period=seq(1,length(y)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_bw()+labs(x="",y="ACF")
+tsibble(y=y,period=seq(1,length(y)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_bw()+
+labs(x="", y="", title="ACF For Simulated AR(1) phi=0.7, c=1")
 ```
 
 Note the resemblance of the ACF of the simulated variable to that of the personal income. Now let's take a look at the PACF.
 
 ```{r}
-tsibble(y=y,period=seq(1,length(y)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_bw()+labs(x="",y="PACF")
+tsibble(y=y,period=seq(1,length(y)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_bw()+labs(x="",y="PACF",                         title="PACF For Simulated AR(1) phi=0.7, c=1")
 ```
 
 Once again, if you compare the PACF to the one in personal income growth you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. We can model personal consumption growth with an AR(1) process.
 
 ## Modeling and Residuals
 
-Let's model personal consumption using the AR(1) model. We'll also estimate a Least Squares model to compare. Recall, that we can estimate these models by using the `model()` function.
+Let's model personal consumption using the AR(1) model. We'll also estimate a Least Squares model to compare. Recall, that we can estimate these models by using the `model()` function and retrieve the coefficients with the `coef()` function.
 
 ```{r}
 PI_fit<-PI_train %>% 
   model(AR1 = AR(PI_Growth ~ order(1)),
         LS = TSLM(PI_Growth ~ Date))
-
-coef(PI_fit)
 ```
 
-Note how the estimated coefficient for the AR1 process resembles the one in our simulation. However, the estimation of this model suggest a constant of 1.8 instead of 1.
+```{r, echo=FALSE}
+coef(PI_fit) %>% gt() %>%
+  cols_align("center") %>% 
+  tab_header(title = 
+               md("**Model Coefficients For PI Growth**")) %>% tab_style(locations =                                                    cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(statistic,estimate,std.error,p.value),
+             decimals = 2)
+```
+
+Note how the estimated coefficient for the AR1 process resembles the one in our simulation. However, the estimation of this model suggest a constant of 1.8. If we changed the constant to 1.8 the simulation would resemble the PI growth data better.
+
+If the AR(1) process correctly describes the series, the errors should behave like white noise. To inspect the errors we can use the `augment()` function. The ACF is displayed below.
 
 ```{r}
 errors_PI<-augment(PI_fit)
@@ -197,28 +227,48 @@ errors_PI %>% select(.resid) %>% PACF(.resid) %>%
   autoplot() + theme_bw()
 ```
 
-The PACF once again shows no pattern for the residuals of the AR1 model and some significant lags for the LS model. We can further choose between these two models by looking and the AIC, AICc, or BIC.
+The PACF once again shows no pattern for the residuals of the AR1 model and some significant lags for the LS model. 
 
-```{r, echo=FALSE}
+## Model Selection
+
+We can further choose between these two models by looking at the AIC, AICc, or BIC.
+
+```{r, results='hide'}
 glance(PI_fit) %>% arrange(AICc) %>% select(.model:BIC)
 ```
 
-Here we note that the AR1 model performs better in all of the metrics as the are significantly lower than those for the LS.
-
-```{r}
-PI_fc<-PI_fit %>% forecast(new_data = PI_test)
+```{r, echo=FALSE}
+glance(PI_fit) %>% arrange(AICc) %>% select(.model:BIC) %>% gt() %>% cols_align("center")  %>% 
+  tab_header(title = md("**Model Fit Measures**")) %>% tab_style(locations =                      cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold")))  %>% 
+  fmt_number(columns =c(sigma2,AIC,AICc,BIC),
+             decimals = 2)
 ```
 
-```{r}
+Here we note that the AR1 model performs better in all of the metrics as they are significantly lower than those for the LS.
+
+```{r, results='hide'}
+PI_fc<-PI_fit %>% forecast(new_data = PI_test)
 PI_fc  %>% accuracy(PI_test) 
 ```
 
-```{r, warning=FALSE, message=FALSE}
-PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() + 
-  autolayer(PI_train, PI_Growth) +
-  autolayer(PI_test, PI_Growth)
+```{r, echo=FALSE}
+PI_fc<-PI_fit %>% forecast(new_data = PI_test)
+PI_fc  %>% accuracy(PI_test) %>% gt() %>% cols_align("center")  %>% tab_header(title = md("**Accuracy Measures**")) %>% tab_style(locations =                      cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold")))  %>% 
+  fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE,ACF1),
+             decimals = 2)
 ```
 
-## The MA(q) model
 
-## The ARIMA(p,i,q) model
+```{r, warning=FALSE, message=FALSE}
+PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() +
+  autolayer(PI_train, PI_Growth) +
+  autolayer(PI_test, PI_Growth) + 
+  labs(title="Personal Income Growth AR(1) Forecast Accuracy",
+subtitle="1970-2021", y="",x="")
+```
+
+
