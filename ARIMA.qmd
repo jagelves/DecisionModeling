@@ -6,7 +6,8 @@ In this section we will be introducing important concepts for the analysis of ti
 
 ### White Noise {.unnumbered}
 
-In time series, **white noise** refers to a sequence of random data points that have no correlation to each other. This process is used as a benchmark for other types of time series data that exhibit patterns or trends. We can generate a white noise process by using the normal distribution with a mean of zero and a constant variance. Below we create a tsibble with the simulated data.
+In time series, **white noise** refers to a sequence of random data points that have no correlation to each other. This process is used as a benchmark for other types of time series data that exhibit patterns or trends. By comparing a series with the white noise process, we can verify if the series has systematic components that can be modeled.  
+We can generate a white noise process by using the normal distribution with a mean of zero and a constant variance. Below we create a tsibble with the simulated data.
 
 ```{r, message=FALSE, warning=FALSE}
 library(fpp3)
@@ -21,18 +22,17 @@ wn %>% autoplot(x) + theme_classic() +
   labs(title="White Noise Process",
        subtitle="Mean=0 and Standard Deviation=1",
 x="",y="") + 
-  geom_hline(yintercept = 0, col="blue", lwd=1, linetype="dashed")
+  geom_hline(yintercept = 0, col="blue", lwd=1, linetype="dashed",
+             alpha=0.4)
 ```
 
-A very ragged pattern is shown in the graph above. The series behaves erratically, but it always fluctuates around a mean of 0 and and keeps a standard deviation of one. Such a series is unpredictable, so the best one can do is to describe it by its mean and standard deviation.
+A very ragged pattern is shown in the graph above. The series behaves erratically, but it always fluctuates around a mean of 0 and keeps a standard deviation of one. Such a series is unpredictable, so the best one can do is to describe it by its mean and standard deviation.
 
 ### Stationarity {.unnumbered}
 
 A time series is said to be **stationary** if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and auto-covariance, regardless of the time at which the series is observed.
 
 The main reason for making the time series stationary is that it is required in many time series models (including the ARIMA model). These models make predictions about future values of the time series based on past values, and the statistical properties of the past values are used to inform these predictions. If the statistical properties of the time series are changing over time, then the models may not work well, as the assumptions underlying them would not be met.
-
-Additionally, non-stationary time series may contain trends and/or seasonal patterns, which can make it difficult to model and forecast the series. By removing these patterns and making the series stationary, it becomes easier to model and forecast.
 
 In general, before modeling and forecasting, we will check whether the series has a trend or heteroskedasticity. To eliminate the trend in the series we will use the first difference of the series. We can do this in R by using the `difference()` function. For example consider Tesla's quarterly vehicle deliveries from 2016-2022.
 
@@ -45,21 +45,22 @@ deliveries<-read_csv("https://jagelves.github.io/Data/tsla_deliveries.csv")
 deliveries$period<-yearquarter(deliveries$period)
 
 deliveries %>%
-  as_tsibble(index=period, regular=T) %>% autoplot(deliveries) + theme_classic()+ geom_abline(slope=0, intercept=mean(deliveries$deliveries), col="blue",                             linetype="dashed", lwd=1) + 
+  as_tsibble(index=period, regular=T) %>% autoplot(deliveries) + theme_classic()+ geom_abline(slope=0, intercept=mean(deliveries$deliveries), col="blue",                             linetype="dashed", lwd=1, alpha=0.4) + 
   labs(title="Tesla Vehicle Deliveries",
        subtitle="Q1 2016 - Q4 2022", y="", x="")
 ```
 
-Deliveries have mostly been in an upward trend, which makes sense as the company is currently growing. This series seems to not be stationary since it crosses the mean (red line) once and never revisits it. An easy way to make the series stationary (make it fluctuate around the mean) is to find differences. Below is the graph of the first difference of the series.
+Deliveries have mostly been in an upward trend, which makes sense as the company is currently scaling its production. This series seems to not be stationary since it crosses the mean (blue line) once and never revisits it. It is possible to make the series stationary by finding differences. Below is the graph of the first difference of the series.
 
 ```{r, warning=FALSE, message=FALSE}
 deliveries %>%
   as_tsibble(index=period, regular=T) %>% autoplot(difference(deliveries)) + theme_classic() +
   labs(title="Change In Tesla's Vehicle Deliveries",
-       subtitle = "Q1 2016 - Q4 2022",x="",y="")
+       subtitle = "Q1 2016 - Q4 2022",x="",y="") + 
+  geom_hline(yintercept = mean(difference(deliveries$deliveries), na.rm = TRUE), col="blue", linetype="dashed", lwd=1, alpha=0.4)
 ```
 
-The series fluctuates around the mean of zero, but unlike the white noise process behaves less erratic. You will notice that some periods are constantly high, while others low. For example, following the lows at the beginning of the year, deliveries seem to increase sharply. There seems to be correlations between the quarters or time dependencies. We will explore more of this below once we look at autocorrelations and partial autocorrelations.
+The series now fluctuates closer to the mean, but unlike the white noise process behaves less erratic. You will notice that in some periods the change in deliveries from quarter to quarter is high. For example, following the lows at the beginning of the year, deliveries seem to increase sharply. There seems to be correlations between the quarters or time dependencies. We will explore this more once we look at autocorrelations and partial autocorrelations.
 
 The series exhibits heteroskedasticity (increasing variance), as the variance of the series seems to be low from the period of 2016-2018 while significantly higher for the period after. To normalize the variance of the series we can make a Box-Cox transformation.
 
