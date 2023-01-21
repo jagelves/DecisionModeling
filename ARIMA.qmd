@@ -20,9 +20,11 @@ We can now use the `autoplot()` function to observe the white noise process.
 wn %>% autoplot(x) + theme_classic() + 
   labs(title="White Noise Process",
        subtitle="Mean=0 and Standard Deviation=1",
-x="",y="") + geom_hline(yintercept = 0, col="gray", lwd=1.5)
+x="",y="") + 
+  geom_hline(yintercept = 0, col="blue", lwd=1, linetype="dashed")
 ```
-A very ragged pattern is shown in the graph above. The series behaves erratically, but it always fluctuates around a mean of 0 and and keeps a standard deviation of one. Such a series is unpredictable, so the best one can do is to describe it by its mean and standard deviation. 
+
+A very ragged pattern is shown in the graph above. The series behaves erratically, but it always fluctuates around a mean of 0 and and keeps a standard deviation of one. Such a series is unpredictable, so the best one can do is to describe it by its mean and standard deviation.
 
 ### Stationarity {.unnumbered}
 
@@ -43,7 +45,7 @@ deliveries<-read_csv("https://jagelves.github.io/Data/tsla_deliveries.csv")
 deliveries$period<-yearquarter(deliveries$period)
 
 deliveries %>%
-  as_tsibble(index=period, regular=T) %>% autoplot(deliveries) + theme_classic()+ geom_abline(slope=0, intercept=mean(deliveries$deliveries), col="red") + 
+  as_tsibble(index=period, regular=T) %>% autoplot(deliveries) + theme_classic()+ geom_abline(slope=0, intercept=mean(deliveries$deliveries), col="blue",                             linetype="dashed", lwd=1) + 
   labs(title="Tesla Vehicle Deliveries",
        subtitle="Q1 2016 - Q4 2022", y="", x="")
 ```
@@ -57,7 +59,7 @@ deliveries %>%
        subtitle = "Q1 2016 - Q4 2022",x="",y="")
 ```
 
-The series fluctuates around the mean of zero, but unlike the white noise process behaves less erratic. You will notice that some periods are constantly high, while others low. For example, following the lows at the beginning of the year, deliveries seem to increase sharply. There seems to be correlations between the quarters or time dependencies. We will explore more of this below once we look at autocorrelations and partial autocorrelations.  
+The series fluctuates around the mean of zero, but unlike the white noise process behaves less erratic. You will notice that some periods are constantly high, while others low. For example, following the lows at the beginning of the year, deliveries seem to increase sharply. There seems to be correlations between the quarters or time dependencies. We will explore more of this below once we look at autocorrelations and partial autocorrelations.
 
 The series exhibits heteroskedasticity (increasing variance), as the variance of the series seems to be low from the period of 2016-2018 while significantly higher for the period after. To normalize the variance of the series we can make a Box-Cox transformation.
 
@@ -80,6 +82,7 @@ To test whether a series is stationary or not we can use the *unitroot_kpss* and
 deliveries %>% as_tsibble(index=period, regular=T) %>%
   features(deliveries, features = c(unitroot_kpss, unitroot_ndiffs)) 
 ```
+
 ```{r}
 deliveries %>% as_tsibble(index=period, regular=T) %>%
   features(deliveries, features = c(unitroot_kpss, unitroot_ndiffs)) %>% gt() %>%
@@ -129,6 +132,7 @@ A white noise process on the other hand is expected to show no correlation with 
 wn %>% ACF(x) %>% autoplot() + theme_bw() + labs(x="", y="ACF") +
 labs(x="", y="", title="ACF White Noise Process")
 ```
+
 Interestingly, lag 14 shows a positive correlation with the series. It is important to note that correlations can happen by chance even if we construct the series from a random process.
 
 ### The partial autocorrelation function {.unnumbered}
@@ -152,6 +156,7 @@ Let's inspect the white noise process once more to confirm that there are no pat
 wn %>% PACF(x) %>% autoplot() + theme_bw() + labs(x="", y="PACF") +
 labs(x="", y="", title="PACF White Noise Process")
 ```
+
 In sum, white noise processes are unpredictable and we can only describe them by their mean and standard deviation. Series that have patterns in their ACF or PACF can be modeled. Below we introduce the AR(1) model.
 
 ## The AR(1) model
@@ -195,7 +200,7 @@ Let's model personal consumption using the AR(1) model. We'll also estimate a Le
 ```{r}
 PI_fit<-PI_train %>% 
   model(AR1 = AR(PI_Growth ~ order(1)),
-        LS = TSLM(PI_Growth ~ Date))
+        LS = TSLM(PI_Growth ~ trend()))
 ```
 
 ```{r, echo=FALSE}
@@ -227,7 +232,7 @@ errors_PI %>% select(.resid) %>% PACF(.resid) %>%
   autoplot() + theme_bw()
 ```
 
-The PACF once again shows no pattern for the residuals of the AR1 model and some significant lags for the LS model. 
+The PACF once again shows no pattern for the residuals of the AR1 model and some significant lags for the LS model.
 
 ## Model Selection
 
@@ -262,7 +267,6 @@ PI_fc  %>% accuracy(PI_test) %>% gt() %>% cols_align("center")  %>% tab_header(t
              decimals = 2)
 ```
 
-
 ```{r, warning=FALSE, message=FALSE}
 PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() +
   autolayer(PI_train, PI_Growth) +
@@ -270,5 +274,3 @@ PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() +
   labs(title="Personal Income Growth AR(1) Forecast Accuracy",
 subtitle="1970-2021", y="",x="")
 ```
-
-

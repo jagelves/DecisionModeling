@@ -260,7 +260,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>wn <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(x) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"White Noise Process"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle=</span><span class="st">"Mean=0 and Standard Deviation=1"</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">x=</span><span class="st">""</span>,<span class="at">y=</span><span class="st">""</span>) <span class="sc">+</span> <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">col=</span><span class="st">"gray"</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">x=</span><span class="st">""</span>,<span class="at">y=</span><span class="st">""</span>) <span class="sc">+</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">lwd=</span><span class="dv">1</span>, <span class="at">linetype=</span><span class="st">"dashed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -860,7 +861,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>PI_fit<span class="ot">&lt;-</span>PI_train <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">AR1 =</span> <span class="fu">AR</span>(PI_Growth <span class="sc">~</span> <span class="fu">order</span>(<span class="dv">1</span>)),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">LS =</span> <span class="fu">TSLM</span>(PI_Growth <span class="sc">~</span> Date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">LS =</span> <span class="fu">TSLM</span>(PI_Growth <span class="sc">~</span> <span class="fu">trend</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -1308,12 +1309,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td headers="p.value" class="gt_row gt_center">0.00</td></tr>
     <tr><td headers=".model" class="gt_row gt_center">LS</td>
 <td headers="term" class="gt_row gt_center">(Intercept)</td>
-<td headers="estimate" class="gt_row gt_center">337.53</td>
-<td headers="std.error" class="gt_row gt_center">74.82</td>
-<td headers="statistic" class="gt_row gt_center">4.51</td>
+<td headers="estimate" class="gt_row gt_center">9.19</td>
+<td headers="std.error" class="gt_row gt_center">0.80</td>
+<td headers="statistic" class="gt_row gt_center">11.50</td>
 <td headers="p.value" class="gt_row gt_center">0.00</td></tr>
     <tr><td headers=".model" class="gt_row gt_center">LS</td>
-<td headers="term" class="gt_row gt_center">Date</td>
+<td headers="term" class="gt_row gt_center">trend()</td>
 <td headers="estimate" class="gt_row gt_center">−0.17</td>
 <td headers="std.error" class="gt_row gt_center">0.04</td>
 <td headers="statistic" class="gt_row gt_center">−4.43</td>
