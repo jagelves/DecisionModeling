@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -260,7 +260,7 @@ div.csl-indent {
 </header>
 
 <p>Business simulation is a type of computer-based modeling that allows us to experiment and analyze different business scenarios and strategies. Its appeal comes from being a cost-effective way to explore and test business decisions in production, marketing, finance, and operations, among many other.</p>
-<p>We will be using R to conduct business simulation. But before we jump into building our simulation models, we’ll need to learn the tools that allow us to perform the analysis. In this module, we introduce the building blocks of our computer simulation models.</p>
+<p>We will be using R to conduct business simulation. But before we jump into building our simulation models, we’ll need to learn the tools that allow us to perform the analysis. In this module, we introduce the building blocks of computer simulation models.</p>
 <section id="storing-our-data-in-r" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="storing-our-data-in-r"><span class="header-section-number">2.1</span> Storing Our Data in R</h2>
 <p>Objects, vectors and data frames are all important in the R programming language. They are useful when storing and manipulating data in R. An <strong>object</strong> is a piece of data that can be stored in a variable. It can be as simple as a single integer or as informative as the output in regression analysis. The code below creates an object <em>x</em> that stores the number <span class="math inline">\(5\)</span>.</p>
@@ -291,7 +291,7 @@ div.csl-indent {
 <section id="generating-random-numbers-in-r" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="generating-random-numbers-in-r"><span class="header-section-number">2.2</span> Generating Random Numbers in R</h2>
 <p>There are several functions available in R that can be used to <strong>generate random numbers</strong>. These functions are based on a specific probability distribution. For instance, the <code>rbinom()</code> function generates random numbers based on the binomial distribution, while the <code>rnorm()</code> function generates random numbers based on the normal distribution. By using these functions, we can generate random numbers that follow a specific probability distribution. For example, the <strong>binomial distribution</strong> may be useful in estimating the probability that a certain number of customers respond to a marketing campaign. However, as we will see below, we can also use the distribution to generate random customers who either responded or not responded to the campaign.</p>
-<p>Assume the bookstore is unsure on how many customers will buy their Monster Classic Series at list price. Their plan is to send <span class="math inline">\(100\)</span> catalogs by mail to potential customers. Before they send the catalogs, they decide to get a rough idea on demand. Past data reveals that the probability a customer would buy any of the titles at the given prices is <span class="math inline">\(0.70\)</span>. Let’s modify our data frame by simulating demand with the <code>rbinom()</code> function.</p>
+<p>Assume the bookstore is unsure on how many customers will buy their Monster Classic Series at list price. Their plan is to send <span class="math inline">\(100\)</span> catalogs by mail to potential customers. Before they send the catalogs, they decide to get an estimate on demand. Past data reveals that the probability a customer would buy any of the titles at the given prices is <span class="math inline">\(0.70\)</span>. Let’s modify our data frame by simulating demand with the <code>rbinom()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(MS<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">Books=</span><span class="fu">c</span>(<span class="st">"Frankenstein"</span>,<span class="st">"Dracula"</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Moby Dick"</span>,</span>
@@ -300,14 +300,14 @@ div.csl-indent {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span><span class="fu">rbinom</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="fl">0.7</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     68
-2           Dracula  5.78     67
-3         Moby Dick  6.34     67
-4 War Of The Worlds  5.67     71
-5           Beowulf  2.45     71</code></pre>
+1      Frankenstein  9.50     63
+2           Dracula  5.78     75
+3         Moby Dick  6.34     70
+4 War Of The Worlds  5.67     68
+5           Beowulf  2.45     77</code></pre>
 </div>
 </div>
-<p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. The bookstore can now use this data to perform analysis on the profitability of the Monster Series if it desires.</p>
+<p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. With these demands the bookstore can prepare for different demand scenarios as well as assessing the profitability of the Monster Series.</p>
 </section>
 <section id="using-loops-and-conditional-in-r" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="using-loops-and-conditional-in-r"><span class="header-section-number">2.3</span> Using Loops and Conditional in R</h2>
@@ -339,7 +339,7 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(demand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 89 92 64 56 71</code></pre>
+<pre><code>[1] 92 88 78 75 79</code></pre>
 </div>
 </div>
 <p>In the code above, the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, then the random binomial number is drawn with the probability <span class="math inline">\(0.9\)</span>, if not the it is drawn with probability <span class="math inline">\(0.7\)</span>. The for loop, goes through all the books in the series one by one and adds a simulated demand. You can quickly realize that this becomes very efficient if the bookstore has a very large collection of books. Below is our data frame with the new simulated values.</p>
@@ -351,11 +351,11 @@ div.csl-indent {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span>demand))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     89
-2           Dracula  5.78     92
-3         Moby Dick  6.34     64
-4 War Of The Worlds  5.67     56
-5           Beowulf  2.45     71</code></pre>
+1      Frankenstein  9.50     92
+2           Dracula  5.78     88
+3         Moby Dick  6.34     78
+4 War Of The Worlds  5.67     75
+5           Beowulf  2.45     79</code></pre>
 </div>
 </div>
 </section>
@@ -376,7 +376,7 @@ div.csl-indent {
 <p>These reading will help you review the concepts and theory necessary for completing this module. <span class="citation" data-cites="HOP">Grolemund (<a href="references.html#ref-HOP" role="doc-biblioref">2014</a>)</span> reviews the R basics needed to perform computer simulation, while <span class="citation" data-cites="GelvesBS">Gelves (<a href="references.html#ref-GelvesBS" role="doc-biblioref">2022</a>)</span> reviews the probability concepts necessary to understand the different random number generators.</p>
 <p><span class="citation" data-cites="HOP">Grolemund (<a href="references.html#ref-HOP" role="doc-biblioref">2014</a>)</span> Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).</p>
 <p><span class="citation" data-cites="GelvesBS">Gelves (<a href="references.html#ref-GelvesBS" role="doc-biblioref">2022</a>)</span> Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables).</p>
-<p>ADD SOME ARTICLE ON SIMULATION</p>
+<p><span class="citation" data-cites="PMS">Winston (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span> Chapter 10.1 and 10.2. Pay special attention to the probability distributions and try to replicate the examples in R.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
@@ -385,6 +385,9 @@ Gelves, J. Alejandro. 2022. <span>“Business Statistics.”</span> <a href="htt
 </div>
 <div id="ref-HOP" class="csl-entry" role="doc-biblioentry">
 Grolemund, Garret. 2014. <span>“Hands-on Programming with r.”</span> <a href="https://jjallaire.github.io/hopr/#license">https://jjallaire.github.io/hopr/#license</a>.
+</div>
+<div id="ref-PMS" class="csl-entry" role="doc-biblioentry">
+Winston, Wayne. 2019. <span>“Practical Management Science.”</span>
 </div>
 </div>
 </section>

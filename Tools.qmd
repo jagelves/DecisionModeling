@@ -2,7 +2,7 @@
 
 Business simulation is a type of computer-based modeling that allows us to experiment and analyze different business scenarios and strategies. Its appeal comes from being a cost-effective way to explore and test business decisions in production, marketing, finance, and operations, among many other.
 
-We will be using R to conduct business simulation. But before we jump into building our simulation models, we'll need to learn the tools that allow us to perform the analysis. In this module, we introduce the building blocks of our computer simulation models.
+We will be using R to conduct business simulation. But before we jump into building our simulation models, we'll need to learn the tools that allow us to perform the analysis. In this module, we introduce the building blocks of computer simulation models.
 
 ## Storing Our Data in R
 
@@ -32,7 +32,7 @@ data.frame(Books=c("Frankenstein","Dracula",
 
 There are several functions available in R that can be used to **generate random numbers**. These functions are based on a specific probability distribution. For instance, the `rbinom()` function generates random numbers based on the binomial distribution, while the `rnorm()` function generates random numbers based on the normal distribution. By using these functions, we can generate random numbers that follow a specific probability distribution. For example, the **binomial distribution** may be useful in estimating the probability that a certain number of customers respond to a marketing campaign. However, as we will see below, we can also use the distribution to generate random customers who either responded or not responded to the campaign.
 
-Assume the bookstore is unsure on how many customers will buy their Monster Classic Series at list price. Their plan is to send $100$ catalogs by mail to potential customers. Before they send the catalogs, they decide to get a rough idea on demand. Past data reveals that the probability a customer would buy any of the titles at the given prices is $0.70$. Let's modify our data frame by simulating demand with the `rbinom()` function.
+Assume the bookstore is unsure on how many customers will buy their Monster Classic Series at list price. Their plan is to send $100$ catalogs by mail to potential customers. Before they send the catalogs, they decide to get an estimate on demand. Past data reveals that the probability a customer would buy any of the titles at the given prices is $0.70$. Let's modify our data frame by simulating demand with the `rbinom()` function.
 
 ```{r}
 (MS<-data.frame(Books=c("Frankenstein","Dracula",
@@ -42,7 +42,7 @@ Assume the bookstore is unsure on how many customers will buy their Monster Clas
            Demand=rbinom(5,100,0.7)))
 ```
 
-As you can see, the `rbinom()` function has yielded $5$ simulated outcomes from the binomial experiment with a probability of $0.7$. The bookstore can now use this data to perform analysis on the profitability of the Monster Series if it desires.
+As you can see, the `rbinom()` function has yielded $5$ simulated outcomes from the binomial experiment with a probability of $0.7$. With these demands the bookstore can prepare for different demand scenarios as well as assessing the profitability of the Monster Series.
 
 ## Using Loops and Conditional in R
 
@@ -104,4 +104,4 @@ These reading will help you review the concepts and theory necessary for complet
 
 @GelvesBS Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables).
 
-ADD SOME ARTICLE ON SIMULATION
+@PMS Chapter 10.1 and 10.2. Pay special attention to the probability distributions and try to replicate the examples in R.
