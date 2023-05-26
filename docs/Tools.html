@@ -300,11 +300,11 @@ div.csl-indent {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span><span class="fu">rbinom</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="fl">0.7</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     69
-2           Dracula  5.78     75
-3         Moby Dick  6.34     75
-4 War Of The Worlds  5.67     71
-5           Beowulf  2.45     75</code></pre>
+1      Frankenstein  9.50     76
+2           Dracula  5.78     74
+3         Moby Dick  6.34     74
+4 War Of The Worlds  5.67     65
+5           Beowulf  2.45     70</code></pre>
 </div>
 </div>
 <p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. With these demands the bookstore can prepare for different demand scenarios as well as assessing the profitability of the Monster Series.</p>
@@ -339,7 +339,7 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(demand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 91 92 60 73 66</code></pre>
+<pre><code>[1] 91 84 70 57 71</code></pre>
 </div>
 </div>
 <p>In the code above, the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, then the random binomial number is drawn with the probability <span class="math inline">\(0.9\)</span>, if not the it is drawn with probability <span class="math inline">\(0.7\)</span>. The for loop, goes through all the books in the series one by one and adds a simulated demand. You can quickly realize that this becomes very efficient if the bookstore has a very large collection of books. Below is our data frame with the new simulated values.</p>
@@ -352,68 +352,68 @@ div.csl-indent {
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
 1      Frankenstein  9.50     91
-2           Dracula  5.78     92
-3         Moby Dick  6.34     60
-4 War Of The Worlds  5.67     73
-5           Beowulf  2.45     66</code></pre>
+2           Dracula  5.78     84
+3         Moby Dick  6.34     70
+4 War Of The Worlds  5.67     57
+5           Beowulf  2.45     71</code></pre>
 </div>
 </div>
 </section>
 <section id="the-va-deaprtment-of-transportation-wants-your-services" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="the-va-deaprtment-of-transportation-wants-your-services"><span class="header-section-number">2.4</span> The VA Deaprtment of Transportation Wants Your Services</h2>
 <p>The VA ferry crossing the James River was first established in <span class="math inline">\(1925\)</span>. The ferry transports vehicles back and forth from Jamestown to Scotland in a <span class="math inline">\(15\)</span>-minute ride. The VA Department of Transportation wants you to simulate the daily demand for the ferry so that they schedule the expected staff and number of ferries to run.</p>
-<p>Assume that the VA Department of transportation shares three weeks of data:</p>
+<p>Assume that the VA Department of transportation shares three weeks of data. The table below records the number of vehicles that used the ferry service:</p>
 <table class="table">
 <thead>
 <tr class="header">
-<th>Day</th>
-<th>Week 1</th>
-<th>Week 2</th>
-<th>Week 4</th>
+<th style="text-align: center;">Day</th>
+<th style="text-align: center;">Week 1</th>
+<th style="text-align: center;">Week 2</th>
+<th style="text-align: center;">Week 3</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Mon</td>
-<td>1175</td>
-<td>1020</td>
-<td>1163</td>
+<td style="text-align: center;">Mon</td>
+<td style="text-align: center;">1175</td>
+<td style="text-align: center;">1020</td>
+<td style="text-align: center;">1163</td>
 </tr>
 <tr class="even">
-<td>Tue</td>
-<td>1198</td>
-<td>1048</td>
-<td>1066</td>
+<td style="text-align: center;">Tue</td>
+<td style="text-align: center;">1198</td>
+<td style="text-align: center;">1048</td>
+<td style="text-align: center;">1066</td>
 </tr>
 <tr class="odd">
-<td>Wed</td>
-<td>1189</td>
-<td>1102</td>
-<td>1183</td>
+<td style="text-align: center;">Wed</td>
+<td style="text-align: center;">1189</td>
+<td style="text-align: center;">1102</td>
+<td style="text-align: center;">1183</td>
 </tr>
 <tr class="even">
-<td>Thu</td>
-<td>1175</td>
-<td>1094</td>
-<td>1003</td>
+<td style="text-align: center;">Thu</td>
+<td style="text-align: center;">1175</td>
+<td style="text-align: center;">1094</td>
+<td style="text-align: center;">1003</td>
 </tr>
 <tr class="odd">
-<td>Fri</td>
-<td>1101</td>
-<td>1042</td>
-<td>1095</td>
+<td style="text-align: center;">Fri</td>
+<td style="text-align: center;">1101</td>
+<td style="text-align: center;">1042</td>
+<td style="text-align: center;">1095</td>
 </tr>
 <tr class="even">
-<td>Sat</td>
-<td>1529</td>
-<td>1464</td>
-<td>1418</td>
+<td style="text-align: center;">Sat</td>
+<td style="text-align: center;">1529</td>
+<td style="text-align: center;">1464</td>
+<td style="text-align: center;">1418</td>
 </tr>
 <tr class="odd">
-<td>Sun</td>
-<td>1580</td>
-<td>1534</td>
-<td>1512</td>
+<td style="text-align: center;">Sun</td>
+<td style="text-align: center;">1580</td>
+<td style="text-align: center;">1534</td>
+<td style="text-align: center;">1512</td>
 </tr>
 </tbody>
 </table>

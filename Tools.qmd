@@ -88,17 +88,17 @@ In the code above, the inner conditional checks whether the titles are either Fr
 
 The VA ferry crossing the James River was first established in $1925$. The ferry transports vehicles back and forth from Jamestown to Scotland in a $15$-minute ride. The VA Department of Transportation wants you to simulate the daily demand for the ferry so that they schedule the expected staff and number of ferries to run.
 
-Assume that the VA Department of transportation shares three weeks of data:
+Assume that the VA Department of transportation shares three weeks of data. The table below records the number of vehicles that used the ferry service:
 
-| Day | Week 1 | Week 2 | Week 4 |
-|-----|--------|--------|--------|
-| Mon | 1175   | 1020   | 1163   |
-| Tue | 1198   | 1048   | 1066   |
-| Wed | 1189   | 1102   | 1183   |
-| Thu | 1175   | 1094   | 1003   |
-| Fri | 1101   | 1042   | 1095   |
-| Sat | 1529   | 1464   | 1418   |
-| Sun | 1580   | 1534   | 1512   |
+| Day | Week 1 | Week 2 | Week 3 |
+|:---:|:------:|:------:|:------:|
+| Mon |  1175  |  1020  |  1163  |
+| Tue |  1198  |  1048  |  1066  |
+| Wed |  1189  |  1102  |  1183  |
+| Thu |  1175  |  1094  |  1003  |
+| Fri |  1101  |  1042  |  1095  |
+| Sat |  1529  |  1464  |  1418  |
+| Sun |  1580  |  1534  |  1512  |
 
 What distribution would you use to simulate weekdays (Mon-Fri)? Would you simulate weekends (Sat and Sun) differently than weekdays? According to the data, what would be the minimum and maximum number of vehicles transported during weekdays (weekends)? Can you provide a sensible simulation for week 4?
 
