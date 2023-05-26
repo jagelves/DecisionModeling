@@ -300,11 +300,11 @@ div.csl-indent {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span><span class="fu">rbinom</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="fl">0.7</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     70
-2           Dracula  5.78     64
-3         Moby Dick  6.34     67
-4 War Of The Worlds  5.67     68
-5           Beowulf  2.45     68</code></pre>
+1      Frankenstein  9.50     69
+2           Dracula  5.78     75
+3         Moby Dick  6.34     75
+4 War Of The Worlds  5.67     71
+5           Beowulf  2.45     75</code></pre>
 </div>
 </div>
 <p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. With these demands the bookstore can prepare for different demand scenarios as well as assessing the profitability of the Monster Series.</p>
@@ -339,7 +339,7 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(demand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 97 94 67 70 62</code></pre>
+<pre><code>[1] 91 92 60 73 66</code></pre>
 </div>
 </div>
 <p>In the code above, the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, then the random binomial number is drawn with the probability <span class="math inline">\(0.9\)</span>, if not the it is drawn with probability <span class="math inline">\(0.7\)</span>. The for loop, goes through all the books in the series one by one and adds a simulated demand. You can quickly realize that this becomes very efficient if the bookstore has a very large collection of books. Below is our data frame with the new simulated values.</p>
@@ -351,11 +351,11 @@ div.csl-indent {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span>demand))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     97
-2           Dracula  5.78     94
-3         Moby Dick  6.34     67
-4 War Of The Worlds  5.67     70
-5           Beowulf  2.45     62</code></pre>
+1      Frankenstein  9.50     91
+2           Dracula  5.78     92
+3         Moby Dick  6.34     60
+4 War Of The Worlds  5.67     73
+5           Beowulf  2.45     66</code></pre>
 </div>
 </div>
 </section>
