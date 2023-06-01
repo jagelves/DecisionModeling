@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -60,6 +60,9 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -175,23 +178,40 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Our objective is to develop a model where decisions interact with probabilities and outcomes. This framework will help us make better decisions on average.</p>
+<p>In this module we will learn how to create decision models. These models rely on probability and expected values. We will map the decision process using a decision tree and value each decision with an expected monetary value. Our objective is to identify the best decision given the possible choices and uncertainty.</p>
 <section id="expected-value" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="expected-value"><span class="header-section-number">1.1</span> Expected Value</h2>
-<p>When playing a gamble several times there is an amount that we are expected to win or lose on average.</p>
-<p>Expected Value is the average outcome from an uncertain gamble. It is calculated as a weighted (probabilities) average of values.</p>
-<p>The EV allows us to rank decisions that involve uncertainty.</p>
+<p>Imagine you are the CEO of a retail company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition:</p>
+<p>Success Scenario: If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of $5 million. Failure Scenario: If the new product line fails to gain traction in the market, you estimate an annual loss of $3 million due to production costs and missed opportunities.</p>
+<p>In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line’s success or failure will determine your company’s financial outcome.</p>
+<p>To make an informed decision, you can further assess the probabilities of each outcome based on your market research, historical data, and expert opinions (consultant). For example, you might estimate a 60% chance of success and a 40% chance of failure.</p>
+<p>Using this information, you can calculate the expected value of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:</p>
+<p>Expected Value = (Probability of Success * Value of Success) + (Probability of Failure * Value of Failure) Expected Value = (0.6 * 5 million) + (0.4 * -3 million) Expected Value = 3 million + (-1.2 million) Expected Value = 1.8 million</p>
+<p>The <strong>expected value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line has a positive profit on average.</p>
+<p>Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
 </section>
 <section id="decision-trees" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="decision-trees"><span class="header-section-number">1.2</span> Decision Trees</h2>
+<div class="cell" data-fig-width="5">
+<div class="cell-output-display">
+<div>
+<p>
+</p><pre class="mermaid mermaid-js" data-tooltip-selector="#mermaid-tooltip-1">graph LR
+    A[ ] --&gt;|Try| C[ ]
+    A[ ] --&gt;|Not Try| B( 0 )
+    C --&gt;|Stop| D( 1 )
+    C --&gt;|Continue| E( -1 )
+</pre>
+<div id="mermaid-tooltip-1" class="mermaidTooltip">
+
+</div>
+<p></p>
+</div>
+</div>
+</div>
 <p>To solve decision trees we use backward induction:</p>
 <p>Start at the end of the tree (right). Choose the branch that leads to the highest payoff for each of the last decision nodes. Repeat procedure while moving backwards to the initial node.</p>
 <p>To solve decision trees with uncertainty use the folding-back procedure. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision.</p>
-<p>Classical Method: The&nbsp;classical method&nbsp;of assigning probabilities is appropriate when all the experimental outcomes are equally likely. If&nbsp;n&nbsp;experimental outcomes are possible, a probability of 1/n&nbsp;is assigned to each experimental outcome.</p>
-<p>Subjective: The&nbsp;subjective method&nbsp;of assigning probabilities is most appropriate when one cannot realistically assume that the experimental outcomes are equally likely and when little relevant data are available.&nbsp;</p>
-<p>Empirical: The&nbsp;empirical method&nbsp;of assigning probabilities is appropriate when data are available to estimate the proportion of the time the experimental outcome will occur if the experiment is repeated a large number of times.</p>
-<p>We can solve this problem several ways:</p>
-<p>Drawing a decision tree by hand and using the folding-back procedure Using an Excel spreadsheet</p>
 </section>
 <section id="bayes-theorem" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">1.3</span> Bayes’ Theorem</h2>
