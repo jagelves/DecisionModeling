@@ -64,6 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -190,11 +191,13 @@ ul.task-list li input[type="checkbox"] {
 <p>Expected Value = (0.6 * 5 million) + (0.4 * -3 million)</p>
 <p>Expected Value = 3 million + (-1.2 million)</p>
 <p>Expected Value = 1.8 million</p>
-<p>The <strong>expected value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line has a positive profit on average.</p>
-<p>Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
+<p>The <strong>expected value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line has a positive profit on average. Mathematically we express the expected value as the sum product of probabilities and monetary values.</p>
+<p><span class="math inline">\(\sum p_{i}x_{i}\)</span></p>
+<p>where <span class="math inline">\(p_{i}\)</span> is the probability of decision <span class="math inline">\(i\)</span> and <span class="math inline">\(x_{i}\)</span> is the monetary values resulting from decision <span class="math inline">\(i\)</span>. Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
 </section>
 <section id="decision-trees" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="decision-trees"><span class="header-section-number">1.2</span> Decision Trees</h2>
+<p>Decision trees map the decision process. Below you can see the decision process of trying an addictive brand of chocolate.</p>
 <div class="cell" data-fig-width="5">
 <div class="cell-output-display">
 <div>
@@ -212,6 +215,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p>The decision tree is understood from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>try</em> or <em>not try</em>. If you try, you reach another decision node where you can continue purchasing the chocolate or you can stop. In the end, these choices lead to monetary payoffs. For example, if you decide to not try, you will receive no monetary payoff. However, if you try and stop you will receive one dollar.</p>
 <p>To solve decision trees we use backward induction:</p>
 <p>Start at the end of the tree (right). Choose the branch that leads to the highest payoff for each of the last decision nodes. Repeat procedure while moving backwards to the initial node.</p>
 <p>To solve decision trees with uncertainty use the folding-back procedure. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision.</p>

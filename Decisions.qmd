@@ -32,6 +32,8 @@ where $p_{i}$ is the probability of decision $i$ and $x_{i}$ is the monetary val
 
 ## Decision Trees
 
+Decision trees map the decision process. Below you can see the decision process of trying an addictive brand of chocolate.
+
 ```{mermaid theme=darkly}
 %%| fig-width: 5
 graph LR
@@ -41,7 +43,7 @@ graph LR
     C -->|Continue| E( -1 )
 ```
 
-
+The decision tree is understood from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *try* or *not try*. If you try, you reach another decision node where you can continue purchasing the chocolate or you can stop. In the end, these choices lead to monetary payoffs. For example, if you decide to not try, you will receive no monetary payoff. However, if you try and stop you will receive one dollar.
 
 To solve decision trees we use backward induction:
 
