@@ -153,9 +153,10 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#expected-value" id="toc-expected-value" class="nav-link active" data-scroll-target="#expected-value"><span class="toc-section-number">1.1</span>  Expected Value</a></li>
   <li><a href="#decision-trees" id="toc-decision-trees" class="nav-link" data-scroll-target="#decision-trees"><span class="toc-section-number">1.2</span>  Decision Trees</a></li>
-  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="toc-section-number">1.3</span>  Bayes’ Theorem</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">1.4</span>  Readings</a></li>
-  <li><a href="#lessons-learned" id="toc-lessons-learned" class="nav-link" data-scroll-target="#lessons-learned"><span class="toc-section-number">1.5</span>  Lessons Learned</a></li>
+  <li><a href="#adding-uncertainty" id="toc-adding-uncertainty" class="nav-link" data-scroll-target="#adding-uncertainty"><span class="toc-section-number">1.3</span>  Adding Uncertainty</a></li>
+  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="toc-section-number">1.4</span>  Bayes’ Theorem</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">1.5</span>  Readings</a></li>
+  <li><a href="#lessons-learned" id="toc-lessons-learned" class="nav-link" data-scroll-target="#lessons-learned"><span class="toc-section-number">1.6</span>  Lessons Learned</a></li>
   </ul>
 </nav>
     </div>
@@ -182,22 +183,30 @@ ul.task-list li input[type="checkbox"] {
 <p>In this module we will learn how to create decision models. These models rely on probability and expected values. We will map the decision process using a decision tree and value each decision with an expected monetary value. Our objective is to identify the best decision given the possible choices and uncertainty.</p>
 <section id="expected-value" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="expected-value"><span class="header-section-number">1.1</span> Expected Value</h2>
-<p>Imagine you are the CEO of a retail company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition:</p>
-<p><strong>Success Scenario:</strong> If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of $5 million. <strong>Failure Scenario:</strong> If the new product line fails to gain traction in the market, you estimate an annual loss of $3 million due to production costs and missed opportunities.</p>
+<p>Imagine you are the CEO of a retail company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition.</p>
+<ul>
+<li><strong>Success Scenario:</strong> If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of $5 million.</li>
+<li><strong>Failure Scenario:</strong> If the new product line fails to gain traction in the market, you estimate an annual loss of $3 million due to production costs and missed opportunities.</li>
+</ul>
 <p>In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line’s success or failure will determine your company’s financial outcome.</p>
-<p>To make an informed decision, you can further assess the probabilities of each outcome based on your market research, historical data, and expert opinions (consultant). For example, you might estimate a 60% chance of success and a 40% chance of failure.</p>
-<p>Using this information, you can calculate the expected value of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:</p>
+<p>To make an informed decision, you assess the probabilities of each outcome based on your market research, historical data, and/or expert opinions. For example, you might estimate a 60% chance of success and a 40% chance of failure.</p>
+<p>Using this information, you can calculate the <strong>expected monetary value</strong> of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:</p>
+<div class="pull-right-50 text-center">
 <p>Expected Value = (Prob. of Success * Value of Success) + (Prob. of Failure * Value of Failure)</p>
 <p>Expected Value = (0.6 * 5 million) + (0.4 * -3 million)</p>
 <p>Expected Value = 3 million + (-1.2 million)</p>
-<p>Expected Value = 1.8 million</p>
-<p>The <strong>expected value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line has a positive profit on average. Mathematically we express the expected value as the sum product of probabilities and monetary values.</p>
-<p><span class="math inline">\(\sum p_{i}x_{i}\)</span></p>
-<p>where <span class="math inline">\(p_{i}\)</span> is the probability of decision <span class="math inline">\(i\)</span> and <span class="math inline">\(x_{i}\)</span> is the monetary values resulting from decision <span class="math inline">\(i\)</span>. Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
+Expected Value = 1.8 million
+</div>
+<p></p>
+<p>The <strong>expected monetary value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.</p>
+<div class="pull-right-50 text-center">
+<p><span class="math inline">\(EV=\sum p_{i}x_{i}\)</span></p>
+</div>
+<p>where <span class="math inline">\(EV\)</span> is the expected value, <span class="math inline">\(p_{i}\)</span> is the probability of decision <span class="math inline">\(i\)</span> and <span class="math inline">\(x_{i}\)</span> is the monetary values resulting from decision <span class="math inline">\(i\)</span>. Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
 </section>
 <section id="decision-trees" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="decision-trees"><span class="header-section-number">1.2</span> Decision Trees</h2>
-<p>Decision trees map the decision process. Below you can see the decision process of trying an addictive brand of chocolate.</p>
+<p>Decision trees map the entire decision process. Below you can see the decision process of trying an addictive brand of chocolate.</p>
 <div class="cell" data-fig-width="5">
 <div class="cell-output-display">
 <div>
@@ -215,26 +224,30 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
-<p>The decision tree is understood from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>try</em> or <em>not try</em>. If you try, you reach another decision node where you can continue purchasing the chocolate or you can stop. In the end, these choices lead to monetary payoffs. For example, if you decide to not try, you will receive no monetary payoff. However, if you try and stop you will receive one dollar.</p>
+<p>The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>try</em> or <em>not try</em>. If you try, you reach another decision node where you can continue purchasing the chocolate or you can stop. In the end, these choices lead to monetary payoffs. For example, if you decide to try and stop you will receive one dollar.</p>
 <p>To solve decision trees we use backward induction:</p>
-<p>Start at the end of the tree (right). Choose the branch that leads to the highest payoff for each of the last decision nodes. Repeat procedure while moving backwards to the initial node.</p>
+<p>Start at the end of the tree (right). Choose the branch that leads to the highest payoff for each of the last decision nodes. Repeat procedure while moving backwards to the initial node. Applying this procedure to our simple example, we would start with the decision to <em>continue</em> or <em>stop</em>. Since stop leads to the higher value (<span class="math inline">\(1\)</span>), we should choose stop if we ever reach this decision. Moving back to our initial decision, we now have the choice to <em>try</em> or <em>not try</em>. In this case we should try, since we would stop in our next choice leading to an outcome of 1 which is greater than not trying (0).</p>
+</section>
+<section id="adding-uncertainty" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="adding-uncertainty"><span class="header-section-number">1.3</span> Adding Uncertainty</h2>
 <p>To solve decision trees with uncertainty use the folding-back procedure. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision.</p>
 </section>
-<section id="bayes-theorem" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">1.3</span> Bayes’ Theorem</h2>
+<section id="bayes-theorem" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">1.4</span> Bayes’ Theorem</h2>
 <p>How does new information affect our prior expectations?</p>
 <p>The Expected Value of Information (EVI): The increase in the expected value that the information generates (i.e.&nbsp;is what we gain by getting the information for free).</p>
 <p>The Expected Value of Free and Perfect Information: The increase in the expected value that the perfect information generates (i.e.&nbsp;is what we gain by getting the free and accurate information).</p>
 </section>
-<section id="readings" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="readings"><span class="header-section-number">1.4</span> Readings</h2>
+<section id="readings" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">1.5</span> Readings</h2>
+<p>Chapter 10</p>
 </section>
-<section id="lessons-learned" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="lessons-learned"><span class="header-section-number">1.5</span> Lessons Learned</h2>
+<section id="lessons-learned" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="lessons-learned"><span class="header-section-number">1.6</span> Lessons Learned</h2>
 <ul>
-<li><p>Learn how to use the Expected Value and Decisions Trees to evaluate different alternatives.</p></li>
-<li><p>Learn how to apply Bayes’ Theorem to correctly update the probabilities in your model.</p></li>
-<li><p>Learn how to model different Risk Profiles.</p></li>
+<li><p>Learn the concept of expected monetary value</p></li>
+<li><p>Learn how to use decision trees to map the decision process</p></li>
+<li><p>Learn how to use backward induction to determine the optimal decision under uncertainty.</p></li>
 </ul>
 
 
