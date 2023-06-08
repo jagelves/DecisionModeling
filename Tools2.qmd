@@ -126,20 +126,28 @@ As shown above, the trend is increasing and the seasonal component confirms low 
 
 The decomposition is constructed in several steps. First, a moving average of the series is calculated to track the trend. As you can see, the *window* argument in the `trend()` function is set to a relatively large value. By doing this the moving average reflects the general direction of the series and not the small fluctuations. The trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly) for the de-trended series. The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component (Series-Trend-Seasonal=Error). In the end, each component can be graphed and displayed, as illustrated above.
 
+## Readings
+
+@FPP3 Chapter 1, and Chapter 2. 
+
+@R4DS Chapter 2, Chapter 4, and Chapter 19. 
+
+tsibble: https://tsibble.tidyverts.org 
+
+fable: https://fable.tidyverts.org 
+
 ## Lessons Learned in This Chapter
 
 In this module you have been introduced to data wrangling, plotting, tsibbles and time series decomposition. You have learned how to:
 
--   handle dates with `lubridate`.
+-   Manipulate dates with `lubridate`.
 
--   select and filter variables using `dplyr`.
+-   Select and filter variables using `dplyr`.
 
--   plot using `ggplot`.
+-   Plot time series using `ggplot`.
 
--   create and work with tsibbles
+-   Apply tsibbles in time series analysis.
 
--   decompose a series using the `model()` function in `fable`.
+-   Decompose a series using the `model()` function in `fable`.
 
-## Readings
 
-@FPP3 Chapter 1, and Chapter 2. @R4DS Chapter 2, Chapter 4, and Chapter 19 tsibble: https://tsibble.tidyverts.org fable: https://fable.tidyverts.org

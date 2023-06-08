@@ -138,18 +138,17 @@ This table suggests that 160 ounces is not optimal. Once again highlighting that
 
 Sensitivity analysis is a tool used in decision-making to assess the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables. It is often used in financial, economic, and engineering contexts to evaluate the feasibility and risk of different scenarios or to identify potential areas of improvement.
 
-## Lessons Learned In This Chapter
-
--   Understanding the Parts of a Simulation Model.
-
--   Creating a Simulation Model in R.
-
--   Understanding the Flaw of Averages.
-
--   Finding the Optimal Value.
-
 ## Readings
 
-These reading will help you review the concepts and theory necessary for completing this module.
+@PMS Chapter 10.3 (Simulation and the Flaw of Averages), and 10.4 (Simulation with Built-In Excel Tools). Example 10.4 (Additional Uncertainty at Walton Bookstore) It is recommended you follow along using R instead of Excel.
 
-@PMS Chapter
+## Lessons Learned In This Chapter
+
+-   Identify the parts of a simulation model.
+
+-   Create a simulation model in R.
+
+-   Identify the Flaw of Averages.
+
+-   Find optimal values in simulation models
+

@@ -236,8 +236,8 @@ div.csl-indent {
   <li><a href="#sec-Visual" id="toc-sec-Visual" class="nav-link" data-scroll-target="#sec-Visual"><span class="toc-section-number">4.5</span>  Visualizing The Data</a></li>
   <li><a href="#tsibbles" id="toc-tsibbles" class="nav-link" data-scroll-target="#tsibbles"><span class="toc-section-number">4.6</span>  tsibbles</a></li>
   <li><a href="#time-series-decomposition" id="toc-time-series-decomposition" class="nav-link" data-scroll-target="#time-series-decomposition"><span class="toc-section-number">4.7</span>  Time Series Decomposition</a></li>
-  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">4.8</span>  Lessons Learned in This Chapter</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">4.9</span>  Readings</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">4.8</span>  Readings</a></li>
+  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">4.9</span>  Lessons Learned in This Chapter</a></li>
   </ul>
 </nav>
     </div>
@@ -278,14 +278,16 @@ div.csl-indent {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-✔ tibble  3.1.8      ✔ dplyr   1.0.10
-✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-✔ readr   2.1.3      ✔ forcats 0.5.2 
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()</code></pre>
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 </div>
 <p>As you can see, several packages were attached (loaded) when we write <code>library(tidyverse)</code>. As mentioned, both <code>tidyr</code> and <code>dplyr</code> are part of this overall package. Now that the package is loaded we can import our data by using the <code>read_csv()</code> function from the <code>readr</code> package.</p>
@@ -411,20 +413,23 @@ dbl (10): average_price, total_volume, 4046, 4225, 4770, total_bags, small_b...
 <p>As shown above, the trend is increasing and the seasonal component confirms low levels at the beginning of the year and high levels in the summer.</p>
 <p>The decomposition is constructed in several steps. First, a moving average of the series is calculated to track the trend. As you can see, the <em>window</em> argument in the <code>trend()</code> function is set to a relatively large value. By doing this the moving average reflects the general direction of the series and not the small fluctuations. The trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly) for the de-trended series. The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component (Series-Trend-Seasonal=Error). In the end, each component can be graphed and displayed, as illustrated above.</p>
 </section>
-<section id="lessons-learned-in-this-chapter" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">4.8</span> Lessons Learned in This Chapter</h2>
+<section id="readings" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="readings"><span class="header-section-number">4.8</span> Readings</h2>
+<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 1, and Chapter 2.</p>
+<p><span class="citation" data-cites="R4DS">Wickham (<a href="references.html#ref-R4DS" role="doc-biblioref">2017</a>)</span> Chapter 2, Chapter 4, and Chapter 19.</p>
+<p>tsibble: https://tsibble.tidyverts.org</p>
+<p>fable: https://fable.tidyverts.org</p>
+</section>
+<section id="lessons-learned-in-this-chapter" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">4.9</span> Lessons Learned in This Chapter</h2>
 <p>In this module you have been introduced to data wrangling, plotting, tsibbles and time series decomposition. You have learned how to:</p>
 <ul>
-<li><p>handle dates with <code>lubridate</code>.</p></li>
-<li><p>select and filter variables using <code>dplyr</code>.</p></li>
-<li><p>plot using <code>ggplot</code>.</p></li>
-<li><p>create and work with tsibbles</p></li>
-<li><p>decompose a series using the <code>model()</code> function in <code>fable</code>.</p></li>
+<li><p>Manipulate dates with <code>lubridate</code>.</p></li>
+<li><p>Select and filter variables using <code>dplyr</code>.</p></li>
+<li><p>Plot time series using <code>ggplot</code>.</p></li>
+<li><p>Apply tsibbles in time series analysis.</p></li>
+<li><p>Decompose a series using the <code>model()</code> function in <code>fable</code>.</p></li>
 </ul>
-</section>
-<section id="readings" class="level2" data-number="4.9">
-<h2 data-number="4.9" class="anchored" data-anchor-id="readings"><span class="header-section-number">4.9</span> Readings</h2>
-<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 1, and Chapter 2. <span class="citation" data-cites="R4DS">Wickham (<a href="references.html#ref-R4DS" role="doc-biblioref">2017</a>)</span> Chapter 2, Chapter 4, and Chapter 19 tsibble: https://tsibble.tidyverts.org fable: https://fable.tidyverts.org</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
