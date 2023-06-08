@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -221,6 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#the-ar1-model" id="toc-the-ar1-model" class="nav-link" data-scroll-target="#the-ar1-model"><span class="toc-section-number">6.2</span>  The AR(1) model</a></li>
   <li><a href="#modeling-and-residuals" id="toc-modeling-and-residuals" class="nav-link" data-scroll-target="#modeling-and-residuals"><span class="toc-section-number">6.3</span>  Modeling and Residuals</a></li>
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection"><span class="toc-section-number">6.4</span>  Model Selection</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">6.5</span>  Readings</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">6.6</span>  Leasons Learned</a></li>
   </ul>
 </nav>
     </div>
@@ -324,13 +345,25 @@ We can generate a white noise process by using the normal distribution with a me
 <div class="cell-output-display">
 
 <div id="qqlghnfucn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#qqlghnfucn table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-:where(#qqlghnfucn) .gt_table {
+#qqlghnfucn thead, #qqlghnfucn tbody, #qqlghnfucn tfoot, #qqlghnfucn tr, #qqlghnfucn td, #qqlghnfucn th {
+  border-style: none;
+}
+
+#qqlghnfucn p {
+  margin: 0;
+  padding: 0;
+}
+
+#qqlghnfucn .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -353,24 +386,12 @@ We can generate a white noise process by using the normal distribution with a me
   border-left-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#qqlghnfucn) .gt_caption {
+#qqlghnfucn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#qqlghnfucn) .gt_title {
+#qqlghnfucn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -382,25 +403,37 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-width: 0;
 }
 
-:where(#qqlghnfucn) .gt_subtitle {
+#qqlghnfucn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-:where(#qqlghnfucn) .gt_bottom_border {
+#qqlghnfucn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qqlghnfucn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_col_headings {
+#qqlghnfucn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -415,7 +448,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_col_heading {
+#qqlghnfucn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -435,7 +468,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#qqlghnfucn) .gt_column_spanner_outer {
+#qqlghnfucn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -447,15 +480,15 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 4px;
 }
 
-:where(#qqlghnfucn) .gt_column_spanner_outer:first-child {
+#qqlghnfucn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#qqlghnfucn) .gt_column_spanner_outer:last-child {
+#qqlghnfucn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#qqlghnfucn) .gt_column_spanner {
+#qqlghnfucn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -467,7 +500,11 @@ We can generate a white noise process by using the normal distribution with a me
   width: 100%;
 }
 
-:where(#qqlghnfucn) .gt_group_heading {
+#qqlghnfucn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qqlghnfucn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -493,7 +530,7 @@ We can generate a white noise process by using the normal distribution with a me
   text-align: left;
 }
 
-:where(#qqlghnfucn) .gt_empty_group_heading {
+#qqlghnfucn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -508,15 +545,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: middle;
 }
 
-:where(#qqlghnfucn) .gt_from_md > :first-child {
+#qqlghnfucn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#qqlghnfucn) .gt_from_md > :last-child {
+#qqlghnfucn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#qqlghnfucn) .gt_row {
+#qqlghnfucn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -535,7 +572,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#qqlghnfucn) .gt_stub {
+#qqlghnfucn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -548,7 +585,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#qqlghnfucn) .gt_stub_row_group {
+#qqlghnfucn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -562,11 +599,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: top;
 }
 
-:where(#qqlghnfucn) .gt_row_group_first td {
+#qqlghnfucn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#qqlghnfucn) .gt_summary_row {
+#qqlghnfucn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qqlghnfucn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -576,16 +617,16 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#qqlghnfucn) .gt_first_summary_row {
+#qqlghnfucn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_first_summary_row.thick {
+#qqlghnfucn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#qqlghnfucn) .gt_last_summary_row {
+#qqlghnfucn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -595,7 +636,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_grand_summary_row {
+#qqlghnfucn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -605,7 +646,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#qqlghnfucn) .gt_first_grand_summary_row {
+#qqlghnfucn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -615,11 +656,21 @@ We can generate a white noise process by using the normal distribution with a me
   border-top-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_striped {
+#qqlghnfucn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qqlghnfucn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#qqlghnfucn) .gt_table_body {
+#qqlghnfucn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -628,7 +679,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_footnotes {
+#qqlghnfucn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -642,30 +693,8 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#qqlghnfucn) .gt_footnote {
+#qqlghnfucn .gt_footnote {
   margin: 0px;
-  font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-:where(#qqlghnfucn) .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#qqlghnfucn) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -673,76 +702,95 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#qqlghnfucn) .gt_left {
+#qqlghnfucn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qqlghnfucn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qqlghnfucn .gt_left {
   text-align: left;
 }
 
-:where(#qqlghnfucn) .gt_center {
+#qqlghnfucn .gt_center {
   text-align: center;
 }
 
-:where(#qqlghnfucn) .gt_right {
+#qqlghnfucn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#qqlghnfucn) .gt_font_normal {
+#qqlghnfucn .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#qqlghnfucn) .gt_font_bold {
+#qqlghnfucn .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#qqlghnfucn) .gt_font_italic {
+#qqlghnfucn .gt_font_italic {
   font-style: italic;
 }
 
-:where(#qqlghnfucn) .gt_super {
+#qqlghnfucn .gt_super {
   font-size: 65%;
 }
 
-:where(#qqlghnfucn) .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
+#qqlghnfucn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
-:where(#qqlghnfucn) .gt_asterisk {
+#qqlghnfucn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#qqlghnfucn) .gt_indent_1 {
+#qqlghnfucn .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#qqlghnfucn) .gt_indent_2 {
+#qqlghnfucn .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#qqlghnfucn) .gt_indent_3 {
+#qqlghnfucn .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#qqlghnfucn) .gt_indent_4 {
+#qqlghnfucn .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#qqlghnfucn) .gt_indent_5 {
+#qqlghnfucn .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  <thead class="gt_header">
-    <tr>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
       <td colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Stationarity Tests</strong></td>
     </tr>
     
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
+    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="kpss_stat">kpss_stat</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="kpss_pvalue">kpss_pvalue</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="ndiffs">ndiffs</th>
@@ -869,13 +917,25 @@ We can generate a white noise process by using the normal distribution with a me
 <div class="cell-output-display">
 
 <div id="hqruhctfgy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#hqruhctfgy table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-:where(#hqruhctfgy) .gt_table {
+#hqruhctfgy thead, #hqruhctfgy tbody, #hqruhctfgy tfoot, #hqruhctfgy tr, #hqruhctfgy td, #hqruhctfgy th {
+  border-style: none;
+}
+
+#hqruhctfgy p {
+  margin: 0;
+  padding: 0;
+}
+
+#hqruhctfgy .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -898,24 +958,12 @@ We can generate a white noise process by using the normal distribution with a me
   border-left-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#hqruhctfgy) .gt_caption {
+#hqruhctfgy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#hqruhctfgy) .gt_title {
+#hqruhctfgy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -927,25 +975,37 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-width: 0;
 }
 
-:where(#hqruhctfgy) .gt_subtitle {
+#hqruhctfgy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-:where(#hqruhctfgy) .gt_bottom_border {
+#hqruhctfgy .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hqruhctfgy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_col_headings {
+#hqruhctfgy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -960,7 +1020,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_col_heading {
+#hqruhctfgy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -980,7 +1040,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#hqruhctfgy) .gt_column_spanner_outer {
+#hqruhctfgy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -992,15 +1052,15 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 4px;
 }
 
-:where(#hqruhctfgy) .gt_column_spanner_outer:first-child {
+#hqruhctfgy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#hqruhctfgy) .gt_column_spanner_outer:last-child {
+#hqruhctfgy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#hqruhctfgy) .gt_column_spanner {
+#hqruhctfgy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1012,7 +1072,11 @@ We can generate a white noise process by using the normal distribution with a me
   width: 100%;
 }
 
-:where(#hqruhctfgy) .gt_group_heading {
+#hqruhctfgy .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#hqruhctfgy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1038,7 +1102,7 @@ We can generate a white noise process by using the normal distribution with a me
   text-align: left;
 }
 
-:where(#hqruhctfgy) .gt_empty_group_heading {
+#hqruhctfgy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1053,15 +1117,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: middle;
 }
 
-:where(#hqruhctfgy) .gt_from_md > :first-child {
+#hqruhctfgy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#hqruhctfgy) .gt_from_md > :last-child {
+#hqruhctfgy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#hqruhctfgy) .gt_row {
+#hqruhctfgy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1080,7 +1144,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#hqruhctfgy) .gt_stub {
+#hqruhctfgy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1093,7 +1157,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#hqruhctfgy) .gt_stub_row_group {
+#hqruhctfgy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1107,11 +1171,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: top;
 }
 
-:where(#hqruhctfgy) .gt_row_group_first td {
+#hqruhctfgy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#hqruhctfgy) .gt_summary_row {
+#hqruhctfgy .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#hqruhctfgy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1121,16 +1189,16 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#hqruhctfgy) .gt_first_summary_row {
+#hqruhctfgy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_first_summary_row.thick {
+#hqruhctfgy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#hqruhctfgy) .gt_last_summary_row {
+#hqruhctfgy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1140,7 +1208,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_grand_summary_row {
+#hqruhctfgy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1150,7 +1218,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#hqruhctfgy) .gt_first_grand_summary_row {
+#hqruhctfgy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1160,11 +1228,21 @@ We can generate a white noise process by using the normal distribution with a me
   border-top-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_striped {
+#hqruhctfgy .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hqruhctfgy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#hqruhctfgy) .gt_table_body {
+#hqruhctfgy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1173,7 +1251,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_footnotes {
+#hqruhctfgy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1187,30 +1265,8 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#hqruhctfgy) .gt_footnote {
+#hqruhctfgy .gt_footnote {
   margin: 0px;
-  font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-:where(#hqruhctfgy) .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#hqruhctfgy) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1218,76 +1274,95 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#hqruhctfgy) .gt_left {
+#hqruhctfgy .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hqruhctfgy .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hqruhctfgy .gt_left {
   text-align: left;
 }
 
-:where(#hqruhctfgy) .gt_center {
+#hqruhctfgy .gt_center {
   text-align: center;
 }
 
-:where(#hqruhctfgy) .gt_right {
+#hqruhctfgy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#hqruhctfgy) .gt_font_normal {
+#hqruhctfgy .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#hqruhctfgy) .gt_font_bold {
+#hqruhctfgy .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#hqruhctfgy) .gt_font_italic {
+#hqruhctfgy .gt_font_italic {
   font-style: italic;
 }
 
-:where(#hqruhctfgy) .gt_super {
+#hqruhctfgy .gt_super {
   font-size: 65%;
 }
 
-:where(#hqruhctfgy) .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
+#hqruhctfgy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
-:where(#hqruhctfgy) .gt_asterisk {
+#hqruhctfgy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#hqruhctfgy) .gt_indent_1 {
+#hqruhctfgy .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#hqruhctfgy) .gt_indent_2 {
+#hqruhctfgy .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#hqruhctfgy) .gt_indent_3 {
+#hqruhctfgy .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#hqruhctfgy) .gt_indent_4 {
+#hqruhctfgy .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#hqruhctfgy) .gt_indent_5 {
+#hqruhctfgy .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  <thead class="gt_header">
-    <tr>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
       <td colspan="6" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Model Coefficients For PI Growth</strong></td>
     </tr>
     
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
+    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".model">.model</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="term">term</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="estimate">estimate</th>
@@ -1359,13 +1434,25 @@ We can generate a white noise process by using the normal distribution with a me
 <div class="cell-output-display">
 
 <div id="fllqrjazta" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#fllqrjazta table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-:where(#fllqrjazta) .gt_table {
+#fllqrjazta thead, #fllqrjazta tbody, #fllqrjazta tfoot, #fllqrjazta tr, #fllqrjazta td, #fllqrjazta th {
+  border-style: none;
+}
+
+#fllqrjazta p {
+  margin: 0;
+  padding: 0;
+}
+
+#fllqrjazta .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -1388,24 +1475,12 @@ We can generate a white noise process by using the normal distribution with a me
   border-left-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#fllqrjazta) .gt_caption {
+#fllqrjazta .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#fllqrjazta) .gt_title {
+#fllqrjazta .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1417,25 +1492,37 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-width: 0;
 }
 
-:where(#fllqrjazta) .gt_subtitle {
+#fllqrjazta .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-:where(#fllqrjazta) .gt_bottom_border {
+#fllqrjazta .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fllqrjazta .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_col_headings {
+#fllqrjazta .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1450,7 +1537,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_col_heading {
+#fllqrjazta .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1470,7 +1557,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#fllqrjazta) .gt_column_spanner_outer {
+#fllqrjazta .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1482,15 +1569,15 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 4px;
 }
 
-:where(#fllqrjazta) .gt_column_spanner_outer:first-child {
+#fllqrjazta .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#fllqrjazta) .gt_column_spanner_outer:last-child {
+#fllqrjazta .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#fllqrjazta) .gt_column_spanner {
+#fllqrjazta .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1502,7 +1589,11 @@ We can generate a white noise process by using the normal distribution with a me
   width: 100%;
 }
 
-:where(#fllqrjazta) .gt_group_heading {
+#fllqrjazta .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#fllqrjazta .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1528,7 +1619,7 @@ We can generate a white noise process by using the normal distribution with a me
   text-align: left;
 }
 
-:where(#fllqrjazta) .gt_empty_group_heading {
+#fllqrjazta .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1543,15 +1634,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: middle;
 }
 
-:where(#fllqrjazta) .gt_from_md > :first-child {
+#fllqrjazta .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#fllqrjazta) .gt_from_md > :last-child {
+#fllqrjazta .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#fllqrjazta) .gt_row {
+#fllqrjazta .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1570,7 +1661,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#fllqrjazta) .gt_stub {
+#fllqrjazta .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1583,7 +1674,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#fllqrjazta) .gt_stub_row_group {
+#fllqrjazta .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1597,11 +1688,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: top;
 }
 
-:where(#fllqrjazta) .gt_row_group_first td {
+#fllqrjazta .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#fllqrjazta) .gt_summary_row {
+#fllqrjazta .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#fllqrjazta .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1611,16 +1706,16 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#fllqrjazta) .gt_first_summary_row {
+#fllqrjazta .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_first_summary_row.thick {
+#fllqrjazta .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#fllqrjazta) .gt_last_summary_row {
+#fllqrjazta .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1630,7 +1725,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_grand_summary_row {
+#fllqrjazta .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1640,7 +1735,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#fllqrjazta) .gt_first_grand_summary_row {
+#fllqrjazta .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1650,11 +1745,21 @@ We can generate a white noise process by using the normal distribution with a me
   border-top-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_striped {
+#fllqrjazta .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fllqrjazta .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#fllqrjazta) .gt_table_body {
+#fllqrjazta .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1663,7 +1768,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_footnotes {
+#fllqrjazta .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1677,30 +1782,8 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#fllqrjazta) .gt_footnote {
+#fllqrjazta .gt_footnote {
   margin: 0px;
-  font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-:where(#fllqrjazta) .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#fllqrjazta) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1708,76 +1791,95 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#fllqrjazta) .gt_left {
+#fllqrjazta .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fllqrjazta .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fllqrjazta .gt_left {
   text-align: left;
 }
 
-:where(#fllqrjazta) .gt_center {
+#fllqrjazta .gt_center {
   text-align: center;
 }
 
-:where(#fllqrjazta) .gt_right {
+#fllqrjazta .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#fllqrjazta) .gt_font_normal {
+#fllqrjazta .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#fllqrjazta) .gt_font_bold {
+#fllqrjazta .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#fllqrjazta) .gt_font_italic {
+#fllqrjazta .gt_font_italic {
   font-style: italic;
 }
 
-:where(#fllqrjazta) .gt_super {
+#fllqrjazta .gt_super {
   font-size: 65%;
 }
 
-:where(#fllqrjazta) .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
+#fllqrjazta .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
-:where(#fllqrjazta) .gt_asterisk {
+#fllqrjazta .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#fllqrjazta) .gt_indent_1 {
+#fllqrjazta .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#fllqrjazta) .gt_indent_2 {
+#fllqrjazta .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#fllqrjazta) .gt_indent_3 {
+#fllqrjazta .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#fllqrjazta) .gt_indent_4 {
+#fllqrjazta .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#fllqrjazta) .gt_indent_5 {
+#fllqrjazta .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  <thead class="gt_header">
-    <tr>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
       <td colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Model Fit Measures</strong></td>
     </tr>
     
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
+    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".model">.model</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="sigma2">sigma2</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="AIC">AIC</th>
@@ -1812,13 +1914,25 @@ We can generate a white noise process by using the normal distribution with a me
 <div class="cell-output-display">
 
 <div id="syqujmtzey" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+<style>#syqujmtzey table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-:where(#syqujmtzey) .gt_table {
+#syqujmtzey thead, #syqujmtzey tbody, #syqujmtzey tfoot, #syqujmtzey tr, #syqujmtzey td, #syqujmtzey th {
+  border-style: none;
+}
+
+#syqujmtzey p {
+  margin: 0;
+  padding: 0;
+}
+
+#syqujmtzey .gt_table {
   display: table;
   border-collapse: collapse;
+  line-height: normal;
   margin-left: auto;
   margin-right: auto;
   color: #333333;
@@ -1841,24 +1955,12 @@ We can generate a white noise process by using the normal distribution with a me
   border-left-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#syqujmtzey) .gt_caption {
+#syqujmtzey .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-:where(#syqujmtzey) .gt_title {
+#syqujmtzey .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1870,25 +1972,37 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-width: 0;
 }
 
-:where(#syqujmtzey) .gt_subtitle {
+#syqujmtzey .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 6px;
+  padding-top: 3px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-:where(#syqujmtzey) .gt_bottom_border {
+#syqujmtzey .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#syqujmtzey .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_col_headings {
+#syqujmtzey .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1903,7 +2017,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_col_heading {
+#syqujmtzey .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1923,7 +2037,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#syqujmtzey) .gt_column_spanner_outer {
+#syqujmtzey .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1935,15 +2049,15 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 4px;
 }
 
-:where(#syqujmtzey) .gt_column_spanner_outer:first-child {
+#syqujmtzey .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-:where(#syqujmtzey) .gt_column_spanner_outer:last-child {
+#syqujmtzey .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-:where(#syqujmtzey) .gt_column_spanner {
+#syqujmtzey .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1955,7 +2069,11 @@ We can generate a white noise process by using the normal distribution with a me
   width: 100%;
 }
 
-:where(#syqujmtzey) .gt_group_heading {
+#syqujmtzey .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#syqujmtzey .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1981,7 +2099,7 @@ We can generate a white noise process by using the normal distribution with a me
   text-align: left;
 }
 
-:where(#syqujmtzey) .gt_empty_group_heading {
+#syqujmtzey .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1996,15 +2114,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: middle;
 }
 
-:where(#syqujmtzey) .gt_from_md > :first-child {
+#syqujmtzey .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-:where(#syqujmtzey) .gt_from_md > :last-child {
+#syqujmtzey .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-:where(#syqujmtzey) .gt_row {
+#syqujmtzey .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2023,7 +2141,7 @@ We can generate a white noise process by using the normal distribution with a me
   overflow-x: hidden;
 }
 
-:where(#syqujmtzey) .gt_stub {
+#syqujmtzey .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2036,7 +2154,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#syqujmtzey) .gt_stub_row_group {
+#syqujmtzey .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2050,11 +2168,15 @@ We can generate a white noise process by using the normal distribution with a me
   vertical-align: top;
 }
 
-:where(#syqujmtzey) .gt_row_group_first td {
+#syqujmtzey .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-:where(#syqujmtzey) .gt_summary_row {
+#syqujmtzey .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#syqujmtzey .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2064,16 +2186,16 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#syqujmtzey) .gt_first_summary_row {
+#syqujmtzey .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_first_summary_row.thick {
+#syqujmtzey .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-:where(#syqujmtzey) .gt_last_summary_row {
+#syqujmtzey .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2083,7 +2205,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_grand_summary_row {
+#syqujmtzey .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2093,7 +2215,7 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#syqujmtzey) .gt_first_grand_summary_row {
+#syqujmtzey .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2103,11 +2225,21 @@ We can generate a white noise process by using the normal distribution with a me
   border-top-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_striped {
+#syqujmtzey .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#syqujmtzey .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-:where(#syqujmtzey) .gt_table_body {
+#syqujmtzey .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2116,7 +2248,7 @@ We can generate a white noise process by using the normal distribution with a me
   border-bottom-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_footnotes {
+#syqujmtzey .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2130,30 +2262,8 @@ We can generate a white noise process by using the normal distribution with a me
   border-right-color: #D3D3D3;
 }
 
-:where(#syqujmtzey) .gt_footnote {
+#syqujmtzey .gt_footnote {
   margin: 0px;
-  font-size: 90%;
-  padding-left: 4px;
-  padding-right: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-:where(#syqujmtzey) .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-:where(#syqujmtzey) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2161,76 +2271,95 @@ We can generate a white noise process by using the normal distribution with a me
   padding-right: 5px;
 }
 
-:where(#syqujmtzey) .gt_left {
+#syqujmtzey .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#syqujmtzey .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#syqujmtzey .gt_left {
   text-align: left;
 }
 
-:where(#syqujmtzey) .gt_center {
+#syqujmtzey .gt_center {
   text-align: center;
 }
 
-:where(#syqujmtzey) .gt_right {
+#syqujmtzey .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-:where(#syqujmtzey) .gt_font_normal {
+#syqujmtzey .gt_font_normal {
   font-weight: normal;
 }
 
-:where(#syqujmtzey) .gt_font_bold {
+#syqujmtzey .gt_font_bold {
   font-weight: bold;
 }
 
-:where(#syqujmtzey) .gt_font_italic {
+#syqujmtzey .gt_font_italic {
   font-style: italic;
 }
 
-:where(#syqujmtzey) .gt_super {
+#syqujmtzey .gt_super {
   font-size: 65%;
 }
 
-:where(#syqujmtzey) .gt_footnote_marks {
-  font-style: italic;
-  font-weight: normal;
+#syqujmtzey .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
+  position: initial;
 }
 
-:where(#syqujmtzey) .gt_asterisk {
+#syqujmtzey .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-:where(#syqujmtzey) .gt_indent_1 {
+#syqujmtzey .gt_indent_1 {
   text-indent: 5px;
 }
 
-:where(#syqujmtzey) .gt_indent_2 {
+#syqujmtzey .gt_indent_2 {
   text-indent: 10px;
 }
 
-:where(#syqujmtzey) .gt_indent_3 {
+#syqujmtzey .gt_indent_3 {
   text-indent: 15px;
 }
 
-:where(#syqujmtzey) .gt_indent_4 {
+#syqujmtzey .gt_indent_4 {
   text-indent: 20px;
 }
 
-:where(#syqujmtzey) .gt_indent_5 {
+#syqujmtzey .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
-<table class="gt_table">
-  <thead class="gt_header">
-    <tr>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
       <td colspan="10" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Accuracy Measures</strong></td>
     </tr>
     
-  </thead>
-  <thead class="gt_col_headings">
-    <tr>
+    <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".model">.model</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".type">.type</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="ME">ME</th>
@@ -2282,8 +2411,27 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+<section id="readings" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">6.5</span> Readings</h2>
+<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 9 (ARIMA Models).</p>
+</section>
+<section id="leasons-learned" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">6.6</span> Leasons Learned</h2>
+<p>In this module you have been introduced to ARIMA model. Particularly you have learned to:</p>
+<ul>
+<li><p>Use the autocorrelations and partial autocorrelations to analyze time series.</p></li>
+<li><p>Identify the AR(1) process using autocorrelations.</p></li>
+<li><p>Model the ARIMA process using the <code>ARIMA()</code> function.</p></li>
+<li><p>Provide forecasts of the ARIMA process in R.</p></li>
+</ul>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-FPP3" class="csl-entry" role="doc-biblioentry">
+Hyndman, Rob. 2021. <span>“Forecasting Principles and Practice.”</span> <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

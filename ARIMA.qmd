@@ -6,7 +6,7 @@ In this section we will be introducing important concepts and metrics for the an
 
 ### White Noise {.unnumbered}
 
-In time series, **white noise** refers to a sequence of random data points that have no correlation to each other. This process is used as a benchmark for other types of time series data that exhibit patterns or trends. By comparing a series with the white noise process, we can verify if the series has systematic components that can be modeled.  
+In time series, **white noise** refers to a sequence of random data points that have no correlation to each other. This process is used as a benchmark for other types of time series data that exhibit patterns or trends. By comparing a series with the white noise process, we can verify if the series has systematic components that can be modeled.\
 We can generate a white noise process by using the normal distribution with a mean of zero and a constant variance. Below we create a tsibble with the simulated data.
 
 ```{r, message=FALSE, warning=FALSE}
@@ -237,7 +237,7 @@ The PACF once again shows no pattern for the residuals of the AR(1) model and so
 
 ## Model Selection
 
-We can further choose between these two models by looking at the AIC, AICc, or BIC. 
+We can further choose between these two models by looking at the AIC, AICc, or BIC.
 
 ```{r, results='hide'}
 glance(PI_fit) %>% arrange(AICc) %>% select(.model:BIC)
@@ -267,7 +267,9 @@ PI_fc  %>% accuracy(PI_test) %>% gt() %>% cols_align("center")  %>% tab_header(t
   fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE,ACF1),
              decimals = 2)
 ```
+
 The graph below shows the test set along with the forecast of the AR(1) model. Prediction confidence intervals are shown to highlight the uncertainty of the prediction. The blue line indicates the mean of the predictions which are assumed to follow a normal distribution.
+
 ```{r, warning=FALSE, message=FALSE}
 PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() +
   autolayer(PI_train, PI_Growth) +
@@ -275,3 +277,21 @@ PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() +
   labs(title="Personal Income Growth AR(1) Forecast Accuracy",
 subtitle="1970-2021", y="",x="")
 ```
+
+
+## Readings
+
+@FPP3 Chapter 9 (ARIMA Models).
+
+
+## Leasons Learned
+
+In this module you have been introduced to ARIMA model. Particularly you have learned to:
+
+-   Use the autocorrelations and partial autocorrelations to analyze time series.
+
+-   Identify the AR(1) process using autocorrelations.
+
+-   Model the ARIMA process using the `ARIMA()` function.
+
+-   Provide forecasts of the ARIMA process in R.

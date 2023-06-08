@@ -1,1 +1,18 @@
 # ETS
+
+## Readings
+
+@FPP3 Chapter 8 (Exponential Smoothing).
+
+
+## Leasons Learned
+
+In this module you have been introduced to ETS model. Particularly you have learned to:
+
+-   Use the `model()` and `ETS()` functions to estimate the model.
+
+-   Identify when ETS model is superior to Benchmarks or the ARIMA model using the `accuracy()` function.
+
+-   Forecast time series with the ETS model.
+
+
