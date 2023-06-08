@@ -234,8 +234,8 @@ div.csl-indent {
   <li><a href="#generating-random-numbers-in-r" id="toc-generating-random-numbers-in-r" class="nav-link" data-scroll-target="#generating-random-numbers-in-r"><span class="toc-section-number">2.2</span>  Generating Random Numbers in R</a></li>
   <li><a href="#using-loops-and-conditional-in-r" id="toc-using-loops-and-conditional-in-r" class="nav-link" data-scroll-target="#using-loops-and-conditional-in-r"><span class="toc-section-number">2.3</span>  Using Loops and Conditional in R</a></li>
   <li><a href="#the-va-deaprtment-of-transportation-wants-your-services" id="toc-the-va-deaprtment-of-transportation-wants-your-services" class="nav-link" data-scroll-target="#the-va-deaprtment-of-transportation-wants-your-services"><span class="toc-section-number">2.4</span>  The VA Deaprtment of Transportation Wants Your Services</a></li>
-  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">2.5</span>  Lessons Learned In This Chapter</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">2.6</span>  Readings</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">2.5</span>  Readings</a></li>
+  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="toc-section-number">2.6</span>  Lessons Learned In This Chapter</a></li>
   </ul>
 </nav>
     </div>
@@ -300,11 +300,11 @@ div.csl-indent {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span><span class="fu">rbinom</span>(<span class="dv">5</span>,<span class="dv">100</span>,<span class="fl">0.7</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     76
-2           Dracula  5.78     74
-3         Moby Dick  6.34     74
-4 War Of The Worlds  5.67     65
-5           Beowulf  2.45     70</code></pre>
+1      Frankenstein  9.50     68
+2           Dracula  5.78     70
+3         Moby Dick  6.34     75
+4 War Of The Worlds  5.67     80
+5           Beowulf  2.45     68</code></pre>
 </div>
 </div>
 <p>As you can see, the <code>rbinom()</code> function has yielded <span class="math inline">\(5\)</span> simulated outcomes from the binomial experiment with a probability of <span class="math inline">\(0.7\)</span>. With these demands the bookstore can prepare for different demand scenarios as well as assessing the profitability of the Monster Series.</p>
@@ -339,7 +339,7 @@ div.csl-indent {
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(demand)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 91 84 70 57 71</code></pre>
+<pre><code>[1] 81 90 76 76 61</code></pre>
 </div>
 </div>
 <p>In the code above, the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, then the random binomial number is drawn with the probability <span class="math inline">\(0.9\)</span>, if not the it is drawn with probability <span class="math inline">\(0.7\)</span>. The for loop, goes through all the books in the series one by one and adds a simulated demand. You can quickly realize that this becomes very efficient if the bookstore has a very large collection of books. Below is our data frame with the new simulated values.</p>
@@ -351,11 +351,11 @@ div.csl-indent {
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">Demand=</span>demand))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>              Books Price Demand
-1      Frankenstein  9.50     91
-2           Dracula  5.78     84
-3         Moby Dick  6.34     70
-4 War Of The Worlds  5.67     57
-5           Beowulf  2.45     71</code></pre>
+1      Frankenstein  9.50     81
+2           Dracula  5.78     90
+3         Moby Dick  6.34     76
+4 War Of The Worlds  5.67     76
+5           Beowulf  2.45     61</code></pre>
 </div>
 </div>
 </section>
@@ -419,20 +419,20 @@ div.csl-indent {
 </table>
 <p>What distribution would you use to simulate weekdays (Mon-Fri)? Would you simulate weekends (Sat and Sun) differently than weekdays? According to the data, what would be the minimum and maximum number of vehicles transported during weekdays (weekends)? Can you provide a sensible simulation for week 4?</p>
 </section>
-<section id="lessons-learned-in-this-chapter" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">2.5</span> Lessons Learned In This Chapter</h2>
-<ul>
-<li><p>Generating Random Numbers with R functions.</p></li>
-<li><p>Using Loops and Conditionals.</p></li>
-<li><p>Understanding objects, vectors, and data frames.</p></li>
-</ul>
-</section>
-<section id="readings" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="readings"><span class="header-section-number">2.6</span> Readings</h2>
-<p>These reading will help you review the concepts and theory necessary for completing this module. <span class="citation" data-cites="HOP">Grolemund (<a href="references.html#ref-HOP" role="doc-biblioref">2014</a>)</span> reviews the R basics needed to perform computer simulation, while <span class="citation" data-cites="GelvesBS">Gelves (<a href="references.html#ref-GelvesBS" role="doc-biblioref">2022</a>)</span> reviews the probability concepts necessary to understand the different random number generators.</p>
+<section id="readings" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">2.5</span> Readings</h2>
+<p>These reading will help you review the concepts and theory necessary for completing this module. <span class="citation" data-cites="HOP">Grolemund (<a href="references.html#ref-HOP" role="doc-biblioref">2014</a>)</span> reviews the R basics needed to perform computer simulation, <span class="citation" data-cites="GelvesBS">Gelves (<a href="references.html#ref-GelvesBS" role="doc-biblioref">2022</a>)</span> has several applied problems in R to review the probability concepts necessary to understand the different random number generators, while <span class="citation" data-cites="PMS">Winston (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span> provides an application of the distributions to business simulation.</p>
 <p><span class="citation" data-cites="HOP">Grolemund (<a href="references.html#ref-HOP" role="doc-biblioref">2014</a>)</span> Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).</p>
-<p><span class="citation" data-cites="GelvesBS">Gelves (<a href="references.html#ref-GelvesBS" role="doc-biblioref">2022</a>)</span> Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables).</p>
-<p><span class="citation" data-cites="PMS">Winston (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span> Chapter 10.1 and 10.2. Pay special attention to the probability distributions and try to replicate the examples in R.</p>
+<p><span class="citation" data-cites="GelvesBS">Gelves (<a href="references.html#ref-GelvesBS" role="doc-biblioref">2022</a>)</span> Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables). This is mainly review from your probability course. It is recommended you attempt the exercises in both chapters (solutions are provided at the end).</p>
+<p><span class="citation" data-cites="PMS">Winston (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span> Chapter 10.1 (Introduction) and 10.2 (Probability Distributions for Input Variables). Pay special attention to the probability distributions and try to replicate the examples in R.</p>
+</section>
+<section id="lessons-learned-in-this-chapter" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">2.6</span> Lessons Learned In This Chapter</h2>
+<ul>
+<li><p>Generate random numbers using R functions.</p></li>
+<li><p>Use Loops and Conditionals to simulate variables.</p></li>
+<li><p>Apply objects, vectors, and data frames to store and manipulate data.</p></li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">

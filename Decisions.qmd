@@ -66,12 +66,14 @@ The Expected Value of Free and Perfect Information: The increase in the expected
 
 ## Readings
 
-Chapter 10
+Readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems included. 
 
-## Lessons Learned
+@PMS Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).
 
--   Learn the concept of expected monetary value
+## Lessons Learned In This Chapter
 
--   Learn how to use decision trees to map the decision process
+-   Use the concept of Expected Monetary Value
 
--   Learn how to use backward induction to determine the optimal decision under uncertainty.
+-   Use Decision Trees to map the business decision process
+
+-   Apply the backward induction method to solve single-stage and multistage decision problems

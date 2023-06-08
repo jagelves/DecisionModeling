@@ -102,20 +102,20 @@ Assume that the VA Department of transportation shares three weeks of data. The 
 
 What distribution would you use to simulate weekdays (Mon-Fri)? Would you simulate weekends (Sat and Sun) differently than weekdays? According to the data, what would be the minimum and maximum number of vehicles transported during weekdays (weekends)? Can you provide a sensible simulation for week 4?
 
-## Lessons Learned In This Chapter
-
--   Generating Random Numbers with R functions.
-
--   Using Loops and Conditionals.
-
--   Understanding objects, vectors, and data frames.
-
 ## Readings
 
-These reading will help you review the concepts and theory necessary for completing this module. @HOP reviews the R basics needed to perform computer simulation, while @GelvesBS reviews the probability concepts necessary to understand the different random number generators.
+These reading will help you review the concepts and theory necessary for completing this module. @HOP reviews the R basics needed to perform computer simulation, @GelvesBS has several applied problems in R to review the probability concepts necessary to understand the different random number generators, while @PMS provides an application of the distributions to business simulation.
 
 @HOP Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).
 
-@GelvesBS Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables).
+@GelvesBS Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables). This is mainly review from your probability course. It is recommended you attempt the exercises in both chapters (solutions are provided at the end).
 
-@PMS Chapter 10.1 and 10.2. Pay special attention to the probability distributions and try to replicate the examples in R.
+@PMS Chapter 10.1 (Introduction) and 10.2 (Probability Distributions for Input Variables). Pay special attention to the probability distributions and try to replicate the examples in R.
+
+## Lessons Learned In This Chapter
+
+-   Generate random numbers using R functions.
+
+-   Use Loops and Conditionals to simulate variables.
+
+-   Apply objects, vectors, and data frames to store and manipulate data.
