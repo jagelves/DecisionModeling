@@ -42,7 +42,7 @@ Decision trees map the entire decision process. Below you can see the decision p
 ```{mermaid theme=darkly}
 %%| fig-width: 5
 graph LR
-    A[ ] -->|Introduce Production Line| C( ) 
+    A[ ] -->|Introduce Production Line| C(( )) 
     A[ ] -->|Don't Introduce| B( 0 )
     C -->|Success| D( 5 )
     C -->|Failure| E( -3 )
