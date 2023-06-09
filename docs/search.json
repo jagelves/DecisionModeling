@@ -256,21 +256,21 @@
     "href": "Decisions.html#decision-trees",
     "title": "1  Decisions Under Uncertainty",
     "section": "1.3 Decision Trees",
-    "text": "1.3 Decision Trees\nDecision trees map the entire decision process. Below you can see the decision process of trying an addictive brand of chocolate.\n\n\n\n\ngraph LR\n    A[ ] -->|Try| C[ ]\n    A[ ] -->|Not Try| B( 0 )\n    C -->|Stop| D( 1 )\n    C -->|Continue| E( -1 )\n\n\n\n\n\n\n\n\nThe decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to try or not try. If you try, you reach another decision node where you can continue purchasing the chocolate or you can stop. In the end, these choices lead to monetary payoffs. For example, if you decide to try and stop you will receive one dollar.\nTo solve decision trees we use backward induction. Start at the end of the tree (right). Choose the branch that leads to the highest payoff for each of the last decision nodes. Repeat procedure while moving backwards to the initial node. Applying this procedure to our simple example, we would start with the decision to continue or stop. Since stop leads to the higher value (\\(1\\)), we should choose stop if we ever reach this decision. Moving back to our initial decision, we now have the choice to try or not try. In this case we should try, since we would stop in our next choice leading to an outcome of 1 which is greater than not trying (0)."
+    "text": "1.3 Decision Trees\nDecision trees map the entire decision process. Below you can see the decision process for the new production line.\n\n\n\n\ngraph LR\n    A[ ] -->|Introduce Production Line| C( ) \n    A[ ] -->|Don't Introduce| B( 0 )\n    C -->|Success| D( 5 )\n    C -->|Failure| E( -3 )\n\n\n\n\n\n\n\n\nThe decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to Introduce or Not Introduce. If you Introduce, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new produce line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.\nIn general, to solve decision trees we use backward induction. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision.. Applying this procedure to our simple example, we would start with the probability node at the that leads to success and failure and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to Introduce or Not Introduce. In this case we should Introduce, since the EMV is higher than Not Introduce (0)."
   },
   {
     "objectID": "Decisions.html#bayes-theorem",
     "href": "Decisions.html#bayes-theorem",
     "title": "1  Decisions Under Uncertainty",
-    "section": "1.5 Bayes’ Theorem",
-    "text": "1.5 Bayes’ Theorem\nHow does new information affect our prior expectations?\nThe Expected Value of Information (EVI): The increase in the expected value that the information generates (i.e. is what we gain by getting the information for free).\nThe Expected Value of Free and Perfect Information: The increase in the expected value that the perfect information generates (i.e. is what we gain by getting the free and accurate information)."
+    "section": "1.4 Bayes’ Theorem",
+    "text": "1.4 Bayes’ Theorem\nHow does new information affect our prior expectations?\nThe Expected Value of Information (EVI): The increase in the expected value that the information generates (i.e. is what we gain by getting the information for free).\nThe Expected Value of Free and Perfect Information: The increase in the expected value that the perfect information generates (i.e. is what we gain by getting the free and accurate information)."
   },
   {
     "objectID": "Decisions.html#readings",
     "href": "Decisions.html#readings",
     "title": "1  Decisions Under Uncertainty",
-    "section": "1.6 Readings",
-    "text": "1.6 Readings\nReadings for this chapter are mainly from Winston (2019). Chapter 9 provides a good introduction to decision models with a couple of solved problems included.\nWinston (2019) Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In)."
+    "section": "1.5 Readings",
+    "text": "1.5 Readings\nReadings for this chapter are mainly from Winston (2019). Chapter 9 provides a good introduction to decision models with a couple of solved problems included.\nWinston (2019) Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In)."
   },
   {
     "objectID": "Decisions.html#lessons-learned",
@@ -556,8 +556,8 @@
     "objectID": "Decisions.html#lessons-learned-in-this-chapter",
     "href": "Decisions.html#lessons-learned-in-this-chapter",
     "title": "1  Decisions Under Uncertainty",
-    "section": "1.7 Lessons Learned In This Chapter",
-    "text": "1.7 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value\nUse Decision Trees to map the business decision process\nApply the backward induction method to solve single-stage and multistage decision problems\n\n\n\n\n\nWinston, Wayne. 2019. “Practical Management Science.”"
+    "section": "1.6 Lessons Learned In This Chapter",
+    "text": "1.6 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value\nUse Decision Trees to map the business decision process\nApply the backward induction method to solve single-stage and multistage decision problems\n\n\n\n\n\nWinston, Wayne. 2019. “Practical Management Science.”"
   },
   {
     "objectID": "ARIMA.html#readings",
@@ -586,5 +586,12 @@
     "title": "7  ETS",
     "section": "7.2 Leasons Learned",
     "text": "7.2 Leasons Learned\nIn this module you have been introduced to ETS model. Particularly you have learned to:\n\nUse the model() and ETS() functions to estimate the model.\nIdentify when ETS model is superior to Benchmarks or the ARIMA model using the accuracy() function.\nForecast time series with the ETS model.\n\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
+  },
+  {
+    "objectID": "Decisions.html#shopaholic-retail-company",
+    "href": "Decisions.html#shopaholic-retail-company",
+    "title": "1  Decisions Under Uncertainty",
+    "section": "1.1 Shopaholic Retail Company",
+    "text": "1.1 Shopaholic Retail Company\nImagine you are the CEO of the Shopaholic Retail Company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition.\n\nSuccess Scenario: If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of $5 million.\nFailure Scenario: If the new product line fails to gain traction in the market, you estimate an annual loss of $3 million due to production costs and missed opportunities.\n\nIn this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line’s success or failure will determine your company’s financial outcome."
   }
 ]

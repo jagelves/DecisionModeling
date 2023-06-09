@@ -2,14 +2,14 @@
 
 In this module we will learn how to create decision models. These models rely on probability and expected values. We will map the decision process using a decision tree and value each decision with an expected monetary value. Our objective is to identify the best decision given the possible choices and uncertainty.
 
-## Shopaholic Retail Company CEO
+## Shopaholic Retail Company
 
 Imagine you are the CEO of the Shopaholic Retail Company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition.
 
 * **Success Scenario:** If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of $5 million.
 * **Failure Scenario:** If the new product line fails to gain traction in the market, you estimate an annual loss of $3 million due to production costs and missed opportunities.
 
-In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line's success or failure will determine your company's financial outcome.
+In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line's success or failure will determine your company's financial outcome. 
 
 ## Expected Monetary Value
 
@@ -37,24 +37,20 @@ where $EV$ is the expected value, $p_{i}$ is the probability of decision $i$ and
 
 ## Decision Trees
 
-Decision trees map the entire decision process. Below you can see the decision process of trying an addictive brand of chocolate.
+Decision trees map the entire decision process. Below you can see the decision process for the new production line.
 
 ```{mermaid theme=darkly}
 %%| fig-width: 5
 graph LR
-    A[ ] -->|Try| C[ ]
-    A[ ] -->|Not Try| B( 0 )
-    C -->|Stop| D( 1 )
-    C -->|Continue| E( -1 )
+    A[ ] -->|Introduce Production Line| C( ) 
+    A[ ] -->|Don't Introduce| B( 0 )
+    C -->|Success| D( 5 )
+    C -->|Failure| E( -3 )
 ```
 
-The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *try* or *not try*. If you try, you reach another decision node where you can continue purchasing the chocolate or you can stop. In the end, these choices lead to monetary payoffs. For example, if you decide to try and stop you will receive one dollar.
+The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *Introduce* or *Not Introduce*. If you *Introduce*, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new produce line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.
 
-To solve decision trees we use **backward induction**. Start at the end of the tree (right). Choose the branch that leads to the highest payoff for each of the last decision nodes. Repeat procedure while moving backwards to the initial node. Applying this procedure to our simple example, we would start with the decision to *continue* or *stop*. Since stop leads to the higher value ($1$), we should choose stop if we ever reach this decision. Moving back to our initial decision, we now have the choice to *try* or *not try*. In this case we should try, since we would stop in our next choice leading to an outcome of 1 which is greater than not trying (0).
-
-## Adding Uncertainty
-
-To solve decision trees with uncertainty use the folding-back procedure. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision.
+In general, to solve decision trees we use **backward induction**. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision.. Applying this procedure to our simple example, we would start with the probability node at the that leads to success and failure and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to *Introduce* or *Not Introduce*. In this case we should *Introduce*, since the EMV is higher than *Not Introduce* (0).
 
 ## Bayes' Theorem
 
