@@ -222,9 +222,9 @@ Expected Value = 1.8 million
 <p></p>
 <p>The <strong>expected monetary value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.</p>
 <div class="pull-right-50 text-center">
-<p><span class="math inline">\(EV=\sum p_{i}x_{i}\)</span></p>
+<p><span class="math inline">\(EMV=\sum p_{i}x_{i}\)</span></p>
 </div>
-<p>where <span class="math inline">\(EV\)</span> is the expected value, <span class="math inline">\(p_{i}\)</span> is the probability of decision <span class="math inline">\(i\)</span> and <span class="math inline">\(x_{i}\)</span> is the monetary values resulting from decision <span class="math inline">\(i\)</span>. Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
+<p>where <span class="math inline">\(EMV\)</span> is the expected value, <span class="math inline">\(p_{i}\)</span> is the probability of decision <span class="math inline">\(i\)</span> and <span class="math inline">\(x_{i}\)</span> is the monetary values resulting from decision <span class="math inline">\(i\)</span>. Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
 </section>
 <section id="decision-trees" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="decision-trees"><span class="header-section-number">1.3</span> Decision Trees</h2>
@@ -246,14 +246,11 @@ Expected Value = 1.8 million
 </div>
 </div>
 </div>
-<p>The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>Introduce</em> or <em>Not Introduce</em>. If you <em>Introduce</em>, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new produce line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.</p>
-<p>In general, to solve decision trees we use <strong>backward induction</strong>. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision.. Applying this procedure to our simple example, we would start with the probability node at the that leads to success and failure and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to <em>Introduce</em> or <em>Not Introduce</em>. In this case we should <em>Introduce</em>, since the EMV is higher than <em>Not Introduce</em> (0).</p>
+<p>The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>Introduce</em> or <em>Not Introduce</em>. If you <em>Introduce</em>, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.</p>
+<p>To solve decision trees and find the optimal decision use <strong>backward induction</strong>. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to <em>Introduce</em> or <em>Not Introduce</em>. In this case we should <em>Introduce</em>, since the EMV (1.8) is higher than <em>Not Introduce</em> (0).</p>
 </section>
 <section id="bayes-theorem" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">1.4</span> Bayes’ Theorem</h2>
-<p>How does new information affect our prior expectations?</p>
-<p>The Expected Value of Information (EVI): The increase in the expected value that the information generates (i.e.&nbsp;is what we gain by getting the information for free).</p>
-<p>The Expected Value of Free and Perfect Information: The increase in the expected value that the perfect information generates (i.e.&nbsp;is what we gain by getting the free and accurate information).</p>
 </section>
 <section id="readings" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">1.5</span> Readings</h2>
@@ -263,9 +260,9 @@ Expected Value = 1.8 million
 <section id="lessons-learned-in-this-chapter" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">1.6</span> Lessons Learned In This Chapter</h2>
 <ul>
-<li><p>Use the concept of Expected Monetary Value</p></li>
-<li><p>Use Decision Trees to map the business decision process</p></li>
-<li><p>Apply the backward induction method to solve single-stage and multistage decision problems</p></li>
+<li><p>Use the concept of Expected Monetary Value.</p></li>
+<li><p>Use Decision Trees to map the business decision process.</p></li>
+<li><p>Apply the backward induction method to solve decision problems.</p></li>
 </ul>
 
 
