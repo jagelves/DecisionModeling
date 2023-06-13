@@ -13,9 +13,7 @@ In this decision, you face uncertainty regarding customer preferences, market co
 
 ## Expected Monetary Value
 
-To make an informed decision, you assess the probabilities of each outcome based on your market research, historical data, and/or expert opinions. For example, you might estimate a 60% chance of success and a 40% chance of failure.
-
-Using this information, you can calculate the **expected monetary value** of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:
+According to your estimates, you believe that there is a 60% chance of success and a 40% chance of failure. Using this information, you can calculate the **expected monetary value** of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:
 
 <div class="pull-right-50 text-center">
 Expected Value = (Prob. of Success * Value of Success) + (Prob. of Failure * Value of Failure)
@@ -44,15 +42,45 @@ Decision trees map the entire decision process. Below you can see the decision p
 graph LR
     A[ ] -->|Introduce Production Line| C(( )) 
     A[ ] -->|Don't Introduce| B( 0 )
-    C -->|Success| D( 5 )
-    C -->|Failure| E( -3 )
+    C -->|Success p=0.6| D( 5 )
+    C -->|Failure p=0.4| E( -3 )
 ```
 
 The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *Introduce* or *Not Introduce*. If you *Introduce*, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.
 
 To solve decision trees and find the optimal decision use **backward induction**. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to *Introduce* or *Not Introduce*. In this case we should *Introduce*, since the EMV (1.8) is higher than *Not Introduce* (0).
 
-## Bayes' Theorem
+
+## Consulting Team
+
+Consider now the option of hiring a consulting team that promises to give you a bit more certainty. The team provides a recommendation based on market research, historical data, and their expertise for $500,000. However, it is known that the team has a false positive rate (i.e., recommending to go with a project when the project would fail) of 10% and a false negative rate of 5% (i.e., recommending not going with a project and when the project would succeed). Below you can see the updated decision tree.
+
+```{mermaid theme=darkly}
+%%| fig-width: 5
+graph LR
+    F(( ))--> |Positive p=?| A[ ]
+    A[ ] -->|Introduce Production Line| C(( )) 
+    A[ ] -->|Don't Introduce| B( 0 )
+    C -->|Success p=?| D( 4.5 )
+    C -->|Failure p=?| E( -3.5 )
+    
+    F(( ))--> |Negative p=?| G[ ]
+    G[ ] -->|Introduce Production Line| H(( )) 
+    G[ ] -->|Don't Introduce| I( 0 )
+    H -->|Success p=?| J( 4.5 )
+    H -->|Failure p=?| K( -3.5 )
+```
+
+Note that even though the consultants might recommend you not to introduce the production line, you can still decide to go against their recommendation. Also, there are some probabilities that are now unknown and must be calculated. For example, the probability that the introduction would be successful given that the recommendation is positive is unknown for now. We will use probability to uncover the missing probabilities below.
+
+## Updating Probabilities
+
+The **Law of total probability** is useful in determining the probabilities that we get a positive test or a negative test. In sum the law states:
+
+<div class="pull-right-50 text-center">
+$p(A)=p(A|B)p(B)+p(A|B^c)p(B^c)$
+</div>
+
 
 
 

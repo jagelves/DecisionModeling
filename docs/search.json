@@ -256,21 +256,21 @@
     "href": "Decisions.html#decision-trees",
     "title": "1  Decisions Under Uncertainty",
     "section": "1.3 Decision Trees",
-    "text": "1.3 Decision Trees\nDecision trees map the entire decision process. Below you can see the decision process for the new production line.\n\n\n\n\ngraph LR\n    A[ ] -->|Introduce Production Line| C(( )) \n    A[ ] -->|Don't Introduce| B( 0 )\n    C -->|Success| D( 5 )\n    C -->|Failure| E( -3 )\n\n\n\n\n\n\n\n\nThe decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to Introduce or Not Introduce. If you Introduce, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.\nTo solve decision trees and find the optimal decision use backward induction. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to Introduce or Not Introduce. In this case we should Introduce, since the EMV (1.8) is higher than Not Introduce (0)."
+    "text": "1.3 Decision Trees\nDecision trees map the entire decision process. Below you can see the decision process for the new production line.\n\n\n\n\ngraph LR\n    A[ ] --&gt;|Introduce Production Line| C(( )) \n    A[ ] --&gt;|Don't Introduce| B( 0 )\n    C --&gt;|Success p=0.6| D( 5 )\n    C --&gt;|Failure p=0.4| E( -3 )\n\n\n\n\n\nThe decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to Introduce or Not Introduce. If you Introduce, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.\nTo solve decision trees and find the optimal decision use backward induction. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to Introduce or Not Introduce. In this case we should Introduce, since the EMV (1.8) is higher than Not Introduce (0)."
   },
   {
     "objectID": "Decisions.html#bayes-theorem",
     "href": "Decisions.html#bayes-theorem",
     "title": "1  Decisions Under Uncertainty",
-    "section": "1.4 Bayes’ Theorem",
-    "text": "1.4 Bayes’ Theorem"
+    "section": "1.5 Bayes’ Theorem",
+    "text": "1.5 Bayes’ Theorem"
   },
   {
     "objectID": "Decisions.html#readings",
     "href": "Decisions.html#readings",
     "title": "1  Decisions Under Uncertainty",
-    "section": "1.5 Readings",
-    "text": "1.5 Readings\nReadings for this chapter are mainly from Winston (2019). Chapter 9 provides a good introduction to decision models with a couple of solved problems included.\nWinston (2019) Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In)."
+    "section": "1.6 Readings",
+    "text": "1.6 Readings\nReadings for this chapter are mainly from Winston (2019). Chapter 9 provides a good introduction to decision models with a couple of solved problems included.\nWinston (2019) Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In)."
   },
   {
     "objectID": "Decisions.html#lessons-learned",
@@ -550,14 +550,14 @@
     "href": "Decisions.html#expected-monetary-value",
     "title": "1  Decisions Under Uncertainty",
     "section": "1.2 Expected Monetary Value",
-    "text": "1.2 Expected Monetary Value\nTo make an informed decision, you assess the probabilities of each outcome based on your market research, historical data, and/or expert opinions. For example, you might estimate a 60% chance of success and a 40% chance of failure.\nUsing this information, you can calculate the expected monetary value of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:\n\nExpected Value = (Prob. of Success * Value of Success) + (Prob. of Failure * Value of Failure)\nExpected Value = (0.6 * 5 million) + (0.4 * -3 million)\nExpected Value = 3 million + (-1.2 million)\nExpected Value = 1.8 million\n\n\nThe expected monetary value estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.\n\n\\(EMV=\\sum p_{i}x_{i}\\)\n\nwhere \\(EMV\\) is the expected value, \\(p_{i}\\) is the probability of decision \\(i\\) and \\(x_{i}\\) is the monetary values resulting from decision \\(i\\). Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average."
+    "text": "1.2 Expected Monetary Value\nAccording to your estimates, you believe that there is a 60% chance of success and a 40% chance of failure. Using this information, you can calculate the expected monetary value of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:\n\nExpected Value = (Prob. of Success * Value of Success) + (Prob. of Failure * Value of Failure)\nExpected Value = (0.6 * 5 million) + (0.4 * -3 million)\nExpected Value = 3 million + (-1.2 million)\nExpected Value = 1.8 million\n\n\nThe expected monetary value estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.\n\n\\(EMV=\\sum p_{i}x_{i}\\)\n\nwhere \\(EMV\\) is the expected value, \\(p_{i}\\) is the probability of decision \\(i\\) and \\(x_{i}\\) is the monetary values resulting from decision \\(i\\). Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average."
   },
   {
     "objectID": "Decisions.html#lessons-learned-in-this-chapter",
     "href": "Decisions.html#lessons-learned-in-this-chapter",
     "title": "1  Decisions Under Uncertainty",
-    "section": "1.6 Lessons Learned In This Chapter",
-    "text": "1.6 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value.\nUse Decision Trees to map the business decision process.\nApply the backward induction method to solve decision problems.\n\n\n\n\n\nWinston, Wayne. 2019. “Practical Management Science.”"
+    "section": "1.7 Lessons Learned In This Chapter",
+    "text": "1.7 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value.\nUse Decision Trees to map the business decision process.\nApply the backward induction method to solve decision problems.\n\n\n\n\n\nWinston, Wayne. 2019. “Practical Management Science.”"
   },
   {
     "objectID": "ARIMA.html#readings",
@@ -593,5 +593,19 @@
     "title": "1  Decisions Under Uncertainty",
     "section": "1.1 Shopaholic Retail Company",
     "text": "1.1 Shopaholic Retail Company\nImagine you are the CEO of the Shopaholic Retail Company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition.\n\nSuccess Scenario: If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of $5 million.\nFailure Scenario: If the new product line fails to gain traction in the market, you estimate an annual loss of $3 million due to production costs and missed opportunities.\n\nIn this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line’s success or failure will determine your company’s financial outcome."
+  },
+  {
+    "objectID": "Decisions.html#consulting-team",
+    "href": "Decisions.html#consulting-team",
+    "title": "1  Decisions Under Uncertainty",
+    "section": "1.4 Consulting Team",
+    "text": "1.4 Consulting Team\nConsider now the option of hiring a consulting team that promises to give you a bit more certainty. The team provides a recommendation based on market research, historical data, and their expertise for $500,000. However, it is known that the team has a false positive rate (i.e., recommending to go with a project when the project would fail) of 10% and a false negative rate of 5% (i.e., recommending not going with a project and when the project would succeed). Below you can see the updated decision tree.\n\n\n\n\ngraph LR\n    F(( ))--&gt; |Positive p=?| A[ ]\n    A[ ] --&gt;|Introduce Production Line| C(( )) \n    A[ ] --&gt;|Don't Introduce| B( 0 )\n    C --&gt;|Success p=?| D( 4.5 )\n    C --&gt;|Failure p=?| E( -3.5 )\n    \n    F(( ))--&gt; |Negative p=?| G[ ]\n    G[ ] --&gt;|Introduce Production Line| H(( )) \n    G[ ] --&gt;|Don't Introduce| I( 0 )\n    H --&gt;|Success p=?| J( 4.5 )\n    H --&gt;|Failure p=?| K( -3.5 )\n\n\n\n\n\nNote that even though the consultants might recommend you not to introduce the production line, you can still decide to go against their recommendation. Also, there are some probabilities that are now unknown and must be calculated. For example, the probability that the introduction would be successful given that the recommendation is positive is unknown for now. We will use probability to uncover the missing probabilities below."
+  },
+  {
+    "objectID": "Decisions.html#updating-probabilities",
+    "href": "Decisions.html#updating-probabilities",
+    "title": "1  Decisions Under Uncertainty",
+    "section": "1.5 Updating Probabilities",
+    "text": "1.5 Updating Probabilities\nThe Law of total probability is useful in determining the probabilities that we get a positive test or a negative test. In sum the law states:\n\n\\(p(A)=p(A|B)p(B)+p(A|B^c)p(B^c)\\)"
   }
 ]
