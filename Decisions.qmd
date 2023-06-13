@@ -1,3 +1,9 @@
+---
+format:
+  html:
+    mermaid:
+      theme: default
+---
 # Decisions Under Uncertainty
 
 In this module we will learn how to create decision models. These models rely on probability and expected values. We will map the decision process using a decision tree and value each decision with an expected monetary value. Our objective is to identify the best decision given the possible choices and uncertainty.
@@ -37,8 +43,9 @@ where $EMV$ is the expected value, $p_{i}$ is the probability of decision $i$ an
 
 Decision trees map the entire decision process. Below you can see the decision process for the new production line.
 
-```{mermaid theme=darkly}
+```{mermaid}
 %%| fig-width: 5
+%%| theme: dark
 graph LR
     A[ ] -->|Introduce Production Line| C(( )) 
     A[ ] -->|Don't Introduce| B( 0 )
