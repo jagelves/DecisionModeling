@@ -2,4 +2,4 @@
 
 This book is based on three topics in Decision Modeling. Mainly, decision tree models, business simulation models and time series models. Special attention is given to business applications.
 
-Comments are welcomed at jagelves@wm.edu
+Comments are welcomed at jagelves\@wm.edu

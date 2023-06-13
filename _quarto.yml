@@ -14,8 +14,8 @@ book:
     - Simulation.qmd
     - Tools2.qmd
     - Benchmarks.qmd
-    - ARIMA.qmd
     - ETS.qmd
+    - ARIMA.qmd
     - references.qmd
 
 bibliography: references.bib
