@@ -192,8 +192,10 @@ div.csl-indent {
   <li><a href="#decision-trees" id="toc-decision-trees" class="nav-link" data-scroll-target="#decision-trees"><span class="header-section-number">1.3</span> Decision Trees</a></li>
   <li><a href="#consulting-team" id="toc-consulting-team" class="nav-link" data-scroll-target="#consulting-team"><span class="header-section-number">1.4</span> Consulting Team</a></li>
   <li><a href="#updating-probabilities" id="toc-updating-probabilities" class="nav-link" data-scroll-target="#updating-probabilities"><span class="header-section-number">1.5</span> Updating Probabilities</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">1.6</span> Readings</a></li>
-  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="header-section-number">1.7</span> Lessons Learned In This Chapter</a></li>
+  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="header-section-number">1.6</span> Bayes’ Theorem</a></li>
+  <li><a href="#optimal-decision" id="toc-optimal-decision" class="nav-link" data-scroll-target="#optimal-decision"><span class="header-section-number">1.7</span> Optimal Decision</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">1.8</span> Readings</a></li>
+  <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="header-section-number">1.9</span> Lessons Learned In This Chapter</a></li>
   </ul>
 </nav>
     </div>
@@ -217,7 +219,7 @@ div.csl-indent {
 
 </header>
 
-<p>In this module we will learn how to create decision models. These models rely on probability and expected values. We will map the decision process using a decision tree and value each decision with an expected monetary value. Our objective is to identify the best decision given the possible choices and uncertainty.</p>
+<p>In this module we will learn how to create decision models. These models rely on probability and expected values. We will map the decision process using a decision tree and value each decision with a monetary value or an expected monetary value (EMV). Our objective is to identify the best decision given the possible choices and uncertainty.</p>
 <section id="shopaholic-retail-company" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="shopaholic-retail-company"><span class="header-section-number">1.1</span> Shopaholic Retail Company</h2>
 <p>Imagine you are the CEO of the Shopaholic Retail Company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition.</p>
@@ -229,22 +231,22 @@ div.csl-indent {
 </section>
 <section id="expected-monetary-value" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="expected-monetary-value"><span class="header-section-number">1.2</span> Expected Monetary Value</h2>
-<p>According to your estimates, you believe that there is a 60% chance of success and a 40% chance of failure. Using this information, you can calculate the <strong>expected monetary value</strong> of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:</p>
+<p>According to your estimates, you believe that there is a <span class="math inline">\(60\)</span>% chance of success and a <span class="math inline">\(40\)</span>% chance of failure. Using this information, you can calculate the <strong>expected monetary value (EMV)</strong> of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:</p>
 <div class="pull-right-50 text-center">
 <p>Expected Value = (Prob. of Success * Value of Success) + (Prob. of Failure * Value of Failure)</p>
 <p>Expected Value = (0.6 * 5 million) + (0.4 * -3 million)</p>
 <p>Expected Value = 3 million + (-1.2 million)</p>
 <p>Expected Value = 1.8 million</p>
 </div>
-<p>The <strong>expected monetary value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the expected value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.</p>
+<p>The <strong>expected monetary value</strong> estimates the average monetary outcome you can expect from the decision. In this example, the value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.</p>
 <div class="pull-right-50 text-center">
 <p><span class="math inline">\(EMV=\sum p_{i}x_{i}\)</span></p>
 </div>
-<p>where <span class="math inline">\(EMV\)</span> is the expected value, <span class="math inline">\(p_{i}\)</span> is the probability of decision <span class="math inline">\(i\)</span> and <span class="math inline">\(x_{i}\)</span> is the monetary values resulting from decision <span class="math inline">\(i\)</span>. Notice that if we had other decisions, we could also calculate their expected value. Hence, the expected value allows us to rank and choose decisions that yield the highest monetary value on average.</p>
+<p>where <span class="math inline">\(EMV\)</span> is the expected monetary value, <span class="math inline">\(p_{i}\)</span> is the probability of outocme <span class="math inline">\(i\)</span>, and <span class="math inline">\(x_{i}\)</span> is the monetary value resulting from outcome <span class="math inline">\(i\)</span>. Notice that if we had other decisions involving uncertainty, we could also evaluate them using the EMV. Hence, the EMV allows us to rank and choose best decisions when uncertainty is present.</p>
 </section>
 <section id="decision-trees" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="decision-trees"><span class="header-section-number">1.3</span> Decision Trees</h2>
-<p>Decision trees map the entire decision process. Below you can see the decision process for the new production line.</p>
+<p>Decision trees allos us map the entire business decision process. Below you can see the decision tree for the decision to introduce a new production line.</p>
 <div class="cell" data-fig-width="5" data-theme="dark">
 <div class="cell-output-display">
 <div>
@@ -259,12 +261,12 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>Introduce</em> or <em>Not Introduce</em>. If you <em>Introduce</em>, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.</p>
-<p>To solve decision trees and find the optimal decision use <strong>backward induction</strong>. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to <em>Introduce</em> or <em>Not Introduce</em>. In this case we should <em>Introduce</em>, since the EMV (1.8) is higher than <em>Not Introduce</em> (0).</p>
+<p>The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>Introduce</em> or <em>Not Introduce</em>. If you <em>Introduce</em>, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure at the probabilities given. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.</p>
+<p>To solve decision trees and find the optimal decision use <strong>backward induction</strong>. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to <em>Introduce</em> or <em>Not Introduce</em>. In this case we should <em>Introduce</em>, since the resulting EMV (1.8) is higher than <em>Not Introduce</em> (0).</p>
 </section>
 <section id="consulting-team" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="consulting-team"><span class="header-section-number">1.4</span> Consulting Team</h2>
-<p>Consider now the option of hiring a consulting team that promises to give you a bit more certainty. The team provides a recommendation based on market research, historical data, and their expertise for $500,000. However, it is known that the team has a false positive rate (i.e., recommending to go with a project when the project would fail) of 10% and a false negative rate of 5% (i.e., recommending not going with a project and when the project would succeed). Below you can see the updated decision tree.</p>
+<p>Consider now the option of hiring a consulting team that promises to give you a bit more certainty. The team provides a recommendation based on market research, historical data, and their expertise for $500,000. However, it is known that the team has a false positive rate (i.e., recommending to go with a project when the project would fail) of 15% and a false negative rate of 5% (i.e., recommending not going with a project and when the project would succeed). Below you can see the updated decision tree with the results of the recommendation (i.e., <em>Positive</em>, and <em>Negative</em>).</p>
 <div class="cell" data-fig-width="5">
 <div class="cell-output-display">
 <div>
@@ -272,13 +274,13 @@ div.csl-indent {
 <pre class="mermaid mermaid-js">graph LR
     F(( ))--&gt; |Positive p=?| A[ ]
     A[ ] --&gt;|Introduce Production Line| C(( )) 
-    A[ ] --&gt;|Don't Introduce| B( 0 )
+    A[ ] --&gt;|Don't Introduce| B( -0.5 )
     C --&gt;|Success p=?| D( 4.5 )
     C --&gt;|Failure p=?| E( -3.5 )
     
     F(( ))--&gt; |Negative p=?| G[ ]
     G[ ] --&gt;|Introduce Production Line| H(( )) 
-    G[ ] --&gt;|Don't Introduce| I( 0 )
+    G[ ] --&gt;|Don't Introduce| I( -0.5 )
     H --&gt;|Success p=?| J( 4.5 )
     H --&gt;|Failure p=?| K( -3.5 )
 </pre>
@@ -286,25 +288,118 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>Note that even though the consultants might recommend you not to introduce the production line, you can still decide to go against their recommendation. Also, there are some probabilities that are now unknown and must be calculated. For example, the probability that the introduction would be successful given that the recommendation is positive is unknown for now. We will use probability to uncover the missing probabilities below.</p>
+<p>Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. Also, some probabilities are now unknown and must be calculated. For example, given that the recommendation is positive, the probability that the introduction would succeed is unknown <span class="math inline">\(p(Success|+)\)</span>. We will use probability to uncover the missing probabilities in the upcoming sections. Finally, the final payoffs have all been adjusted to reflect the cost of hiring the team of consultants.</p>
+<p>Ultimately, we would like to know if we should introduce the production line, but knowing if we should hire consultants to advise is equally essential.</p>
 </section>
 <section id="updating-probabilities" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="updating-probabilities"><span class="header-section-number">1.5</span> Updating Probabilities</h2>
-<p>The <strong>Law of total probability</strong> is useful in determining the probabilities that we get a positive test or a negative test. In sum the law states:</p>
+<p>The <strong>Law of total probability</strong> is useful in determining the probabilities that we get a positive test <span class="math inline">\(p(+)\)</span> or a negative test <span class="math inline">\(p(-)\)</span>. In sum the law states:</p>
 <div class="pull-right-50 text-center">
 <p><span class="math inline">\(p(A)=p(A|B)p(B)+p(A|B^c)p(B^c)\)</span></p>
 </div>
+<p>Substituting the value in our problem we obtain:</p>
+<div class="pull-right-50 text-center">
+<p><span class="math inline">\(p(+)=p(+|Failure)p(Failure)+p(+|Success)p(Success)\)</span> </p>
+<p><span class="math inline">\(p(+)=0.15(0.4)+0.95(0.6)\)</span> </p>
+<p><span class="math inline">\(p(+)=0.63\)</span></p>
+</div>
+<p>Hence the probability of obtaining a recommendation of introducing the new product line is <span class="math inline">\(63\)</span>% and of not recommending the introduction is <span class="math inline">\(p(-)=37\)</span>%. The updated decision tree is now:</p>
+<div class="cell" data-fig-width="5">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    F(( ))--&gt; |Positive p=0.63| A[ ]
+    A[ ] --&gt;|Introduce Production Line| C(( )) 
+    A[ ] --&gt;|Don't Introduce| B( -0.5 )
+    C --&gt;|Success p=?| D( 4.5 )
+    C --&gt;|Failure p=?| E( -3.5 )
+    
+    F(( ))--&gt; |Negative p=0.37| G[ ]
+    G[ ] --&gt;|Introduce Production Line| H(( )) 
+    G[ ] --&gt;|Don't Introduce| I( -0.5 )
+    H --&gt;|Success p=?| J( 4.5 )
+    H --&gt;|Failure p=?| K( -3.5 )
+</pre>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="readings" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="readings"><span class="header-section-number">1.6</span> Readings</h2>
+<section id="bayes-theorem" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">1.6</span> Bayes’ Theorem</h2>
+<p>Now we can use Bayes’ Theorem to update our probabilities given the recommendation from the consulting team. Bayes’ Theorem states:</p>
+<div class="pull-right-50 text-center">
+<p><span class="math inline">\(p(A|B)=\frac{p(B|A)p(A)}{p(B)}\)</span></p>
+</div>
+<p>Substituting values we can find the missing probabilities at the edge of the tree. In particular:</p>
+<div class="pull-right-50 text-center">
+<p><span class="math inline">\(p(Success|+)=\frac{p(+|Success)p(Success)}{p(+)}\)</span> </p>
+<p><span class="math inline">\(p(Success|+)=\frac{0.95(0.6)}{0.63}\)</span> </p>
+<p><span class="math inline">\(p(Success|+)=0.90\)</span></p>
+</div>
+<p>This implies that <span class="math inline">\(p(Failure|+)=0.10\)</span>. Similarly, the probabilities <span class="math inline">\(p(Success|-)\)</span> and <span class="math inline">\(p(Failure|-)\)</span> can be found using Bayes’ theorem resulting in the following decision tree:</p>
+<div class="cell" data-fig-width="5">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    F(( ))--&gt; |Positive p=0.63| A[ ]
+    A[ ] --&gt;|Introduce Production Line| C(( )) 
+    A[ ] --&gt;|Don't Introduce| B( -0.5 )
+    C --&gt;|Success p=0.93| D( 4.5 )
+    C --&gt;|Failure p=0.07| E( -3.5 )
+    
+    F(( ))--&gt; |Negative p=0.37| G[ ]
+    G[ ] --&gt;|Introduce Production Line| H(( )) 
+    G[ ] --&gt;|Don't Introduce| I( -0.5 )
+    H --&gt;|Success p=0.08| J( 4.5 )
+    H --&gt;|Failure p=0.92| K( -3.5 )
+</pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="optimal-decision" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="optimal-decision"><span class="header-section-number">1.7</span> Optimal Decision</h2>
+<p>Now that we have calculated the probabilities we can finally decide whether we should hire the consulting team, and most importantly whether we should introduce the new product line. Calculating EMV’s the decision tree is:</p>
+<div class="cell" data-fig-width="5">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    F(( ))--&gt; |Positive p=0.63| A[ ]
+    A[ ] --&gt;|Introduce Production Line| C(( ))
+    A[ ] --&gt;|Don't Introduce| B( -0.5 )
+    C --&gt; D(EMV=3.94)
+    
+    F(( ))--&gt; |Negative p=0.37| G[ ]
+    G[ ] --&gt;|Introduce Production Line| H(( )) 
+    G[ ] --&gt;|Don't Introduce| I( -0.5 )
+    H --&gt; J(EMV=-2.86)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<p>It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. However, should the CEO hire the consultants? The expected monetary value of the tree above is:</p>
+<div class="pull-right-50 text-center">
+<p><span class="math inline">\(EMV=0.63(3.94)+0.37(-0.5)\)</span> </p>
+<p><span class="math inline">\(EMV=2.3\)</span> </p>
+</div>
+<p>which is higher than the EMV of making the decision without the consultants (1.8 million). In fact, the CEO would be willing to pay up to $1,000,000 for the consulting service.</p>
+</section>
+<section id="readings" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="readings"><span class="header-section-number">1.8</span> Readings</h2>
 <p>Readings for this chapter are mainly from <span class="citation" data-cites="PMS">Winston and Albright (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span>. Chapter 9 provides a good introduction to decision models with a couple of solved problems included using excel. I would recommend using R to make calculations instead. To construct decision trees you can use <em>mermaid</em>.<br>
 Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes’ theorem. These concepts are not explained in depth in the readings, so reviewing them before reading the chapter could be helpful.</p>
 <p><span class="citation" data-cites="PMS">Winston and Albright (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span> Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).</p>
 <p><span class="citation" data-cites="JK">Jaggia and Kelly (<a href="references.html#ref-JK" role="doc-biblioref">2022</a>)</span> Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes’ Theorem)</p>
 <p><a href="https://quarto.org/docs/authoring/diagrams.html" class="uri">https://quarto.org/docs/authoring/diagrams.html</a></p>
 </section>
-<section id="lessons-learned-in-this-chapter" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">1.7</span> Lessons Learned In This Chapter</h2>
+<section id="lessons-learned-in-this-chapter" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">1.9</span> Lessons Learned In This Chapter</h2>
 <ul>
 <li><p>Use the concept of Expected Monetary Value.</p></li>
 <li><p>Use Decision Trees to map the business decision process.</p></li>
