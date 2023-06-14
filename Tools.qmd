@@ -123,15 +123,15 @@ What distribution would you use to simulate weekdays (Mon-Fri)? Would you simula
 
 ## Readings
 
-These reading will help you review the concepts and theory necessary for completing this module. @HOP reviews the R basics needed to perform computer simulation, @GelvesBS has several applied problems in R to review the probability concepts necessary to understand the different random number generators, while @PMS provides an application of the distributions to business simulation.
+These reading will help you review the concepts and theory necessary for completing this module. @HOP reviews the R basics needed to perform computer simulation, @JK introduces probability distributions, @GelvesBS has several applied problems (with solutions) in R to review the probability distributions, while @PMS provides an application of the distributions to business simulation.
 
-@HOP Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).
+-   @HOP Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).
 
-@GelvesBS Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables). This is mainly review from your probability course. It is recommended you attempt the exercises in both chapters (solutions are provided at the end).
+-   @JK Chapter 5 (Discrete Probability Distributions) and Chapter 6 (Continuous Probability Distributions).
 
-@PMS Chapter 10.1 (Introduction) and 10.2 (Probability Distributions for Input Variables). Pay special attention to the probability distributions and try to replicate the examples in R.
+-   @GelvesBS Chapter 10 (Discrete Random Variables), Chapter 11 (Continuous Random Variables). This is mainly review from your probability course. It is recommended you attempt the exercises in both chapters (solutions are provided at the end).
 
-@JK Chapter 5 (Discrete Probability Distributions) and Chapter 6 (Continuous Probability Distributions).
+-   @PMS Chapter 10.1 (Introduction) and 10.2 (Probability Distributions for Input Variables). Pay special attention to the probability distributions and try to replicate the examples in R.
 
 ## Lessons Learned In This Chapter
 
