@@ -130,6 +130,8 @@ These reading will help you review the concepts and theory necessary for complet
 
 @PMS Chapter 10.1 (Introduction) and 10.2 (Probability Distributions for Input Variables). Pay special attention to the probability distributions and try to replicate the examples in R.
 
+@JK Chapter 5 (Discrete Probability Distributions) and Chapter 6 (Continuous Probability Distributions).
+
 ## Lessons Learned In This Chapter
 
 -   Generate random numbers using R functions.
