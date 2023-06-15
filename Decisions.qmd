@@ -80,7 +80,7 @@ graph LR
     H -->|Failure p=?| K( -3.5 )
 ```
 
-Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. Also, some probabilities are now unknown and must be calculated. For example, given that the recommendation is positive, the probability that the introduction would succeed is unknown $p(Success|+)$. We will use probability to uncover the missing probabilities in the upcoming sections. Finally, the final payoffs have all been adjusted to reflect the cost of hiring the team of consultants. 
+Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. Also, some probabilities are now unknown and must be calculated. For example, given that the recommendation is positive, the probability that the introduction would succeed is unknown $p(Success|+)$. We will use probability to uncover the missing probabilities in the upcoming sections. Finally, the final payoffs have all been adjusted to reflect the cost of hiring the team of consultants.
 
 Ultimately, we would like to know if we should introduce the production line, but knowing if we should hire consultants to advise is equally essential.
 
@@ -95,14 +95,15 @@ $p(A)=p(A|B)p(B)+p(A|B^c)p(B^c)$
 Substituting the value in our problem we obtain:
 
 ::: {.pull-right-50 .text-center}
-$p(+)=p(+|Failure)p(Failure)+p(+|Success)p(Success)$ \n  
+$p(+)=p(+|Failure)p(Failure)+p(+|Success)p(Success)$ \n
 
-$p(+)=0.15(0.4)+0.95(0.6)$ \n  
+$p(+)=0.15(0.4)+0.95(0.6)$ \n
 
-$p(+)=0.63$  
+$p(+)=0.63$
 :::
 
 Hence the probability of obtaining a recommendation of introducing the new product line is $63$% and of not recommending the introduction is $p(-)=37$%. The updated decision tree is now:
+
 ```{mermaid theme=darkly}
 %%| fig-width: 5
 graph LR
@@ -130,11 +131,11 @@ $p(A|B)=\frac{p(B|A)p(A)}{p(B)}$
 Substituting values we can find the missing probabilities at the edge of the tree. In particular:
 
 ::: {.pull-right-50 .text-center}
-$p(Success|+)=\frac{p(+|Success)p(Success)}{p(+)}$ \n 
+$p(Success|+)=\frac{p(+|Success)p(Success)}{p(+)}$ \n
 
-$p(Success|+)=\frac{0.95(0.6)}{0.63}$ \n  
+$p(Success|+)=\frac{0.95(0.6)}{0.63}$ \n
 
-$p(Success|+)=0.90$  
+$p(Success|+)=0.90$
 :::
 
 This implies that $p(Failure|+)=0.10$. Similarly, the probabilities $p(Success|-)$ and $p(Failure|-)$ can be found using Bayes' theorem resulting in the following decision tree:
@@ -176,23 +177,26 @@ graph LR
 It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. However, should the CEO hire the consultants? The expected monetary value of the tree above is:
 
 ::: {.pull-right-50 .text-center}
-$EMV=0.63(3.94)+0.37(-0.5)$ \n 
+$EMV=0.63(3.94)+0.37(-0.5)$ \n
 
-$EMV=2.3$ \n  
+$EMV=2.3$ \n
 :::
 
-which is higher than the EMV of making the decision without the consultants (1.8 million). In fact, the CEO would be willing to pay up to \$1,000,000 for the consulting service.
+which is higher than the EMV of making the decision without the consultants (1.8 million). In fact, the CEO should be willing to pay no more than \$1,000,000 for the consulting service.
 
 ## Readings
 
-Readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems included using excel. I would recommend using R to make calculations instead. To construct decision trees you can use *mermaid*.\
-Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes' theorem. These concepts are not explained in depth in the readings, so reviewing them before reading the chapter could be helpful.
+Readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems included using excel. I would recommend using R to make calculations since we will be mainly using R. To construct decision trees you can use [mermaid](https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid).\
+Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes' theorem. These concepts are not explained in depth in the readings, so reviewing them before reading the chapter could be helpful. I recommend the reading from @JK.
 
-@PMS Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).
+-   @PMS Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).
 
-@JK Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes' Theorem)
+-   @JK Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes' Theorem)
 
-<https://quarto.org/docs/authoring/diagrams.html>
+-   Mermaid in Quarto Document: <https://quarto.org/docs/authoring/diagrams.html>
+
+-   Mermaid in R Script:
+<https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid>
 
 ## Lessons Learned In This Chapter
 

@@ -151,4 +151,3 @@ Sensitivity analysis is a tool used in decision-making to assess the robustness 
 -   Identify the Flaw of Averages.
 
 -   Find optimal values in simulation models
-

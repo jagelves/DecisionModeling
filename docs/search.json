@@ -270,7 +270,7 @@
     "href": "Decisions.html#readings",
     "title": "1  Decisions Under Uncertainty",
     "section": "1.8 Readings",
-    "text": "1.8 Readings\nReadings for this chapter are mainly from Winston and Albright (2019). Chapter 9 provides a good introduction to decision models with a couple of solved problems included using excel. I would recommend using R to make calculations instead. To construct decision trees you can use mermaid.\nSome concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes’ theorem. These concepts are not explained in depth in the readings, so reviewing them before reading the chapter could be helpful.\nWinston and Albright (2019) Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).\nJaggia and Kelly (2022) Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes’ Theorem)\nhttps://quarto.org/docs/authoring/diagrams.html"
+    "text": "1.8 Readings\nReadings for this chapter are mainly from Winston and Albright (2019). Chapter 9 provides a good introduction to decision models with a couple of solved problems included using excel. I would recommend using R to make calculations since we will be mainly using R. To construct decision trees you can use mermaid.\nSome concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes’ theorem. These concepts are not explained in depth in the readings, so reviewing them before reading the chapter could be helpful. I recommend the reading from Jaggia and Kelly (2022).\n\nWinston and Albright (2019) Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).\nJaggia and Kelly (2022) Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes’ Theorem)\nMermaid in Quarto Document: https://quarto.org/docs/authoring/diagrams.html\nMermaid in R Script: https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid"
   },
   {
     "objectID": "Decisions.html#lessons-learned",
@@ -284,14 +284,14 @@
     "href": "Simulation.html#lessons-learned-in-this-chapter",
     "title": "3  Simulation in R",
     "section": "3.9 Lessons Learned In This Chapter",
-    "text": "3.9 Lessons Learned In This Chapter\n\nIdentify the parts of a simulation model.\nCreate a simulation model in R.\nIdentify the Flaw of Averages.\nFind optimal values in simulation models\n\n\n\n\n\nWinston, Wayne. 2019. “Practical Management Science.”"
+    "text": "3.9 Lessons Learned In This Chapter\n\nIdentify the parts of a simulation model.\nCreate a simulation model in R.\nIdentify the Flaw of Averages.\nFind optimal values in simulation models\n\n\n\n\n\nWinston, Wayne, and Christian Albright. 2019. “Practical Management Science.”"
   },
   {
     "objectID": "Simulation.html#readings",
     "href": "Simulation.html#readings",
     "title": "3  Simulation in R",
     "section": "3.8 Readings",
-    "text": "3.8 Readings\nWinston (2019) Chapter 10.3 (Simulation and the Flaw of Averages), and 10.4 (Simulation with Built-In Excel Tools). Example 10.4 (Additional Uncertainty at Walton Bookstore) It is recommended you follow along using R instead of Excel."
+    "text": "3.8 Readings\nWinston and Albright (2019) Chapter 10.3 (Simulation and the Flaw of Averages), and 10.4 (Simulation with Built-In Excel Tools). Example 10.4 (Additional Uncertainty at Walton Bookstore) It is recommended you follow along using R instead of Excel."
   },
   {
     "objectID": "Tools2.html#visualizing-the-data",
@@ -634,6 +634,6 @@
     "href": "Decisions.html#optimal-decision",
     "title": "1  Decisions Under Uncertainty",
     "section": "1.7 Optimal Decision",
-    "text": "1.7 Optimal Decision\nNow that we have calculated the probabilities we can finally decide whether we should hire the consulting team, and most importantly whether we should introduce the new product line. Calculating EMV’s the decision tree is:\n\n\n\n\ngraph LR\n    F(( ))--&gt; |Positive p=0.63| A[ ]\n    A[ ] --&gt;|Introduce Production Line| C(( ))\n    A[ ] --&gt;|Don't Introduce| B( -0.5 )\n    C --&gt; D(EMV=3.94)\n    \n    F(( ))--&gt; |Negative p=0.37| G[ ]\n    G[ ] --&gt;|Introduce Production Line| H(( )) \n    G[ ] --&gt;|Don't Introduce| I( -0.5 )\n    H --&gt; J(EMV=-2.86)\n\n\n\n\n\nIt is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. However, should the CEO hire the consultants? The expected monetary value of the tree above is:\n\n\\(EMV=0.63(3.94)+0.37(-0.5)\\) \n\\(EMV=2.3\\) \n\nwhich is higher than the EMV of making the decision without the consultants (1.8 million). In fact, the CEO would be willing to pay up to $1,000,000 for the consulting service."
+    "text": "1.7 Optimal Decision\nNow that we have calculated the probabilities we can finally decide whether we should hire the consulting team, and most importantly whether we should introduce the new product line. Calculating EMV’s the decision tree is:\n\n\n\n\ngraph LR\n    F(( ))--&gt; |Positive p=0.63| A[ ]\n    A[ ] --&gt;|Introduce Production Line| C(( ))\n    A[ ] --&gt;|Don't Introduce| B( -0.5 )\n    C --&gt; D(EMV=3.94)\n    \n    F(( ))--&gt; |Negative p=0.37| G[ ]\n    G[ ] --&gt;|Introduce Production Line| H(( )) \n    G[ ] --&gt;|Don't Introduce| I( -0.5 )\n    H --&gt; J(EMV=-2.86)\n\n\n\n\n\nIt is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. However, should the CEO hire the consultants? The expected monetary value of the tree above is:\n\n\\(EMV=0.63(3.94)+0.37(-0.5)\\) \n\\(EMV=2.3\\) \n\nwhich is higher than the EMV of making the decision without the consultants (1.8 million). In fact, the CEO should be willing to pay no more than $1,000,000 for the consulting service."
   }
 ]
