@@ -140,7 +140,11 @@ Sensitivity analysis is a tool used in decision-making to assess the robustness 
 
 ## Readings
 
-@PMS Chapter 10.3 (Simulation and the Flaw of Averages), and 10.4 (Simulation with Built-In Excel Tools). Example 10.4 (Additional Uncertainty at Walton Bookstore) It is recommended you follow along using R instead of Excel.
+The readings for this chapter will introduce the application of simulation models to business. @PMS mainly shows the technical application of the models using Excel. It is recommended that you follow in R instead. @KI motivates the use of Monte Carlo simulation for managing project risks and uncertainties.
+
+-   @PMS Chapter 10.3 (Simulation and the Flaw of Averages), and 10.4 (Simulation with Built-In Excel Tools). Example 10.4 (Additional Uncertainty at Walton Bookstore) It is recommended you follow along using R instead of Excel.
+
+-   @KI
 
 ## Lessons Learned In This Chapter
 
