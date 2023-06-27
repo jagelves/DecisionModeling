@@ -557,7 +557,7 @@
     "href": "Decisions.html#lessons-learned-in-this-chapter",
     "title": "1  Decisions Under Uncertainty",
     "section": "1.10 Lessons Learned In This Chapter",
-    "text": "1.10 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value.\nUse Decision Trees to map the business decision process.\nApply the backward induction method to solve decision problems.\n\n\n\n\n\nJaggia, Sanjiv, and Allison Kelly. 2022. “Business Statistics.”\n\n\nWinston, Wayne, and Christian Albright. 2019. “Practical Management Science.”"
+    "text": "1.10 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value.\nUse Decision Trees to map the business decision process.\nApply the backward induction method to solve decision problems.\nApply Bayes’ Theorem to update probabilities given new information.\n\n\n\n\n\nJaggia, Sanjiv, and Allison Kelly. 2022. “Business Statistics.”\n\n\nWinston, Wayne, and Christian Albright. 2019. “Practical Management Science.”"
   },
   {
     "objectID": "ARIMA.html#readings",

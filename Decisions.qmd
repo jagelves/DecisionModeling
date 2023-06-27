@@ -209,3 +209,5 @@ Some concepts are important to review before you start reading the chapter. In p
 -   Use Decision Trees to map the business decision process.
 
 -   Apply the backward induction method to solve decision problems.
+
+-   Apply Bayes' Theorem to update probabilities given new information.
