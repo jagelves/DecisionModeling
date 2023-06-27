@@ -16,7 +16,7 @@ Imagine you are the CEO of the Shopaholic Retail Company, and you are considerin
 -   **Success Scenario:** If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of \$5 million.
 -   **Failure Scenario:** If the new product line fails to gain traction in the market, you estimate an annual loss of \$3 million due to production costs and missed opportunities.
 
-In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line's success or failure will determine your company's financial outcome.
+In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line's success or failure will determine your company's financial outcome. Hence, determining how to adequately assess the risks involved in this decision and the potential outcomes is of importance.
 
 ## Expected Monetary Value
 
@@ -34,17 +34,17 @@ Expected Value = 1.8 million
 
 \n
 
-The **expected monetary value** estimates the average monetary outcome you can expect from the decision. In this example, the value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.
+The **expected monetary value** estimates the average monetary outcome you can expect from a decision involving uncertainty. In this example, the value is positive, suggesting that launching the new product line results in a profit on average. Mathematically we express the monetary expected value as the sum product of probabilities and monetary values.
 
 ::: {.pull-right-50 .text-center}
 $EMV=\sum p_{i}x_{i}$
 :::
 
-where $EMV$ is the expected monetary value, $p_{i}$ is the probability of outocme $i$, and $x_{i}$ is the monetary value resulting from outcome $i$. Notice that if we had other decisions involving uncertainty, we could also evaluate them using the EMV. Hence, the EMV allows us to rank and choose best decisions when uncertainty is present.
+where $EMV$ is the expected monetary value, $p_{i}$ is the probability of outcome $i$, and $x_{i}$ is the monetary value resulting from outcome $i$. Notice that if we had other decisions involving uncertainty, we could also evaluate them using the EMV. Hence, the EMV allows us to rank and choose best decisions when uncertainty is present.
 
 ## Decision Trees
 
-Decision trees allos us map the entire business decision process. Below you can see the decision tree for the decision to introduce a new production line.
+**Decision trees** visually map the entire business decision process. Below you can see the decision tree for the decision to introduce a new production line.
 
 ```{mermaid}
 %%| fig-width: 5
@@ -56,7 +56,7 @@ graph LR
     C -->|Failure p=0.4| E( -3 )
 ```
 
-The decision tree is read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *Introduce* or *Not Introduce*. If you *Introduce*, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure at the probabilities given. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.
+Decision trees are read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *Introduce* or *Not Introduce* the new production line. If you *Introduce*, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure at the probabilities given. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.
 
 To solve decision trees and find the optimal decision use **backward induction**. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to *Introduce* or *Not Introduce*. In this case we should *Introduce*, since the resulting EMV (1.8) is higher than *Not Introduce* (0).
 
@@ -80,19 +80,19 @@ graph LR
     H -->|Failure p=?| K( -3.5 )
 ```
 
-Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. Also, some probabilities are now unknown and must be calculated. For example, given that the recommendation is positive, the probability that the introduction would succeed is unknown $p(Success|+)$. We will use probability to uncover the missing probabilities in the upcoming sections. Finally, the final payoffs have all been adjusted to reflect the cost of hiring the team of consultants.
+Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. Also, some probabilities are now unknown and must be calculated (they are highlighted in the decision tree with $?$). For example, given that the recommendation is positive, the probability that the introduction would succeed is unknown $p(Success|+)$. We will use probability theory to uncover the missing probabilities in the upcoming sections. Finally, the final payoffs have all been adjusted to reflect the cost of hiring the team of consultants.
 
-Ultimately, we would like to know if we should introduce the production line, but knowing if we should hire consultants to advise is equally essential.
+Ultimately, we would like gain more certainty on our decision to introduce the production line. Additionally, knowing if we should hire consultants to advise is equally essential.
 
 ## Updating Probabilities
 
-The **Law of total probability** is useful in determining the probabilities that we get a positive test $p(+)$ or a negative test $p(-)$. In sum the law states:
+The **Law of total probability** is useful in determining the probabilities that we get a positive recommendation $p(+)$ or a negative recommendation $p(-)$. In sum the law states:
 
 ::: {.pull-right-50 .text-center}
 $p(A)=p(A|B)p(B)+p(A|B^c)p(B^c)$
 :::
 
-Substituting the value in our problem we obtain:
+Substituting the values provided in our problem we obtain:
 
 ::: {.pull-right-50 .text-center}
 $p(+)=p(+|Failure)p(Failure)+p(+|Success)p(Success)$ \n
@@ -102,7 +102,7 @@ $p(+)=0.15(0.4)+0.95(0.6)$ \n
 $p(+)=0.63$
 :::
 
-Hence the probability of obtaining a recommendation of introducing the new product line is $63$% and of not recommending the introduction is $p(-)=37$%. The updated decision tree is now:
+Hence, the probability of obtaining a recommendation of introducing the new product line is $63$% and of not recommending the introduction is $p(-)=37$%. The updated decision tree is now:
 
 ```{mermaid theme=darkly}
 %%| fig-width: 5
@@ -138,7 +138,7 @@ $p(Success|+)=\frac{0.95(0.6)}{0.63}$ \n
 $p(Success|+)=0.90$
 :::
 
-This implies that $p(Failure|+)=0.10$. Similarly, the probabilities $p(Success|-)$ and $p(Failure|-)$ can be found using Bayes' theorem resulting in the following decision tree:
+This implies that $p(Failure|+)=0.10$. Similarly, the probabilities $p(Success|-)$ and $p(Failure|-)$ can be found using Bayes' theorem (the reader should try to obtain these probabilities). The updated decision tree is given below:
 
 ```{mermaid theme=darkly}
 %%| fig-width: 5
@@ -174,7 +174,11 @@ graph LR
     H --> J(EMV=-2.86)
 ```
 
-It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. However, should the CEO hire the consultants? The expected monetary value of the tree above is:
+It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line ($3.94$) is greater than the loss of not introducing the product line ($-0.5$). Similarly, if the recommendation is negative, the EMV from the introduction ($-2.86$) is less than the loss of not introducing the product line ($-0.5$). As a consequence, the recommendation is aligned with the CEO's best decision. 
+
+## The Value of Information
+
+We are now faced with an important question. What is the value of the information provided by the consulting team? In other words, should the CEO hire the consultants? To answer this question, let's start by calculating expected monetary value of the tree in the previous section:
 
 ::: {.pull-right-50 .text-center}
 $EMV=0.63(3.94)+0.37(-0.5)$ \n
@@ -182,7 +186,7 @@ $EMV=0.63(3.94)+0.37(-0.5)$ \n
 $EMV=2.3$ \n
 :::
 
-which is higher than the EMV of making the decision without the consultants (1.8 million). In fact, the CEO should be willing to pay no more than \$1,000,000 for the consulting service.
+This EMV is higher than the EMV of making the decision without the consultants (1.8 million). This highlights that the information provided by the consulting team is valuable to the CEO. Moreover, the CEO should be willing to pay up to \$1,000,000 for the consulting service.
 
 ## Readings
 
