@@ -259,7 +259,7 @@ div.csl-indent {
 </section>
 <section id="model-framework" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="model-framework"><span class="header-section-number">3.2</span> Model Framework</h2>
-<p>The restaurant provides you with a lot of information which might be overwhelming at first glance. To make the task less daunting, we should organize/classify the information so that we can create a model. In general, for many business problems, the data can be classified into the following parts:</p>
+<p>The restaurant provides you with a lot of information which might be overwhelming at first glance. To make the task less daunting, we should organize/classify the information so that we can create a model. For many business problems, the data can be classified into the following parts:</p>
 <ul>
 <li><p>The <strong>inputs</strong> have given fixed values and provide the model’s basic structure. These are values that are most likely to be given and determined.</p></li>
 <li><p>The <strong>decision variables</strong> are values the decision maker controls. We are usually interested in finding the optimal level of this variable.</p></li>
@@ -285,20 +285,20 @@ div.csl-indent {
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>Profit<span class="ot">&lt;-</span><span class="fu">min</span>(Consumption,Available)<span class="sc">/</span>Fish_Entitled_Oz<span class="sc">*</span>Entry_Fee<span class="sc">-</span>Order_Oz<span class="sc">*</span>Price_Fish_Oz<span class="sc">-</span>Price_Miso <span class="co">#Outcome</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and it seems like the they have little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the <code>rtriang()</code> function from the <code>extraDistr</code> package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit, an upper limit, and a most likely case for attendance. Note also the use of the <code>set.seed()</code> function. This allows you to replicate the random numbers generated.</p>
-<p>The calculated variables combine inputs, the decision variable, and the random variable to provide insight on how much is fish is expected to be both consumed and available. They also help us determine the output, which is our main guide in knowing whether the decision of ordering <span class="math inline">\(x\)</span> ounces of fish is the “best”.</p>
+<p>In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and the restaurant has little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the <code>rtriang()</code> function from the <code>extraDistr</code> package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit (20), an upper limit (50), and a most likely case for attendance (30). Note also the use of the <code>set.seed()</code> function. This allows you to replicate the random numbers generated.</p>
+<p>The calculated variables combine inputs, the decision variable, and the random variable to provide insight on how much is fish is expected to be both consumed and available. They also help us determine the profit (output), which is our main guide in knowing whether the decision of ordering <span class="math inline">\(x\)</span> ounces of fish is the “best”.</p>
 </section>
 <section id="the-news-vendor-problem" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="the-news-vendor-problem"><span class="header-section-number">3.3</span> The News Vendor Problem</h2>
 <p>Note how the decision variable (Order_Oz) affects directly our outcome (Profit). We can see that it decreases the restaurant’s profit through costs, but also affects revenue through the amount of fish available. This is the heart of the problem. We don’t know how many people will attend, so if the restaurant orders too much fish their profits will go down because their costs are large. However, if they order too little then they will have to issue refunds, which decrease their revenue.</p>
-<p>As you observe the <em>Profit</em> formula in the code above, you’ll notice the use of the <code>min()</code> function. This function returns the minimum of the <em>Attendance</em> and <em>Consumption</em>. The intuition here is that the restaurant can only collect entry fees for the people who consumed the sushi when the attendance is greater than the amount of sushi available. Likewise, their revenue will be capped at the total amount of people who attended, even if they ordered plenty of fish.</p>
-<p>The problem illustrated above is called the news vendor problem. The news vendor problem is a classic decision-making problem in operations research and economics that involves deciding how much of a product to order (and sometimes at what price to sell it). The problem is called the “news vendor” problem because it was originally used to model the decision-making process of a newspaper vendor trying to decide how many copies of a newspaper to order and at what price to sell them.</p>
+<p>As you observe the <em>Profit</em> formula in the code above, you’ll notice the use of the <code>min()</code> function. This function returns the minimum of the <em>Attendance</em> and <em>Consumption</em>. The intuition here is that the restaurant can only collect entry fees for people who consumed sushi when the attendance is greater than the amount of sushi available. Likewise, their revenue will be capped at the total amount of people who attended, even if they ordered plenty of fish.</p>
+<p>The problem illustrated above is called the news vendor problem. The <strong>news vendor problem</strong> is a classic decision-making problem in operations research and economics that involves deciding how much of a product to order (and sometimes at what price to sell it). The problem is called the “news vendor” problem because it was originally used to model the decision-making process of a newspaper vendor trying to decide how many copies of a newspaper to order and at what price to sell them.</p>
 </section>
 <section id="law-of-large-numbers" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="law-of-large-numbers"><span class="header-section-number">3.4</span> Law of Large Numbers</h2>
-<p>Before we answer the question of how much fish to order, we must realize a couple of flaws of the model we have created. Mainly, we have run the simulation once and it is unlikely (although possible) that the attendance will be exactly <span class="math inline">\(44\)</span>. Instead, we want to provide the restaurant with a set of eventualities. Worst case scenarios (low attendance), best case scenarios (high attendance), and most likely outcome for their decision. This is only possible if we generate several attendance numbers, and see how the output behaves.</p>
-<p>An additional problem is that if we provide the average profit of our model, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more and more accurate. This is known as the Law of Large Numbers.</p>
-<p>The code below repeats the simulation not once, or twice, but several times. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 10,000 times for illustration purposes.</p>
+<p>Before we answer the question of how much fish to order, we must realize a couple of flaws of the model we have created. Mainly, we have run the simulation once and it is unlikely (although possible) that the attendance will be exactly the single value simulated by the <code>rtriang()</code> function (<span class="math inline">\(44\)</span>). Instead, we want to provide the restaurant with a set of eventualities. Worst case scenarios (low attendance), best case scenarios (high attendance), and most likely outcome for their decision. This is only possible if we generate several attendance numbers, and see how the profit (output) behaves.</p>
+<p>An additional problem is that if we tell the restaurant that the expected profit of ordering <span class="math inline">\(x\)</span> amount of fish <span class="math inline">\(y\)</span>, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more accurate. This is known as the <strong>Law of Large Numbers</strong>.</p>
+<p>The code below repeats the simulation several times, allowing for different attendance scenarios to arise. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 10,000 times for illustration purposes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">10000</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>V_Order_Oz<span class="ot">&lt;-</span><span class="fu">rep</span>(Order_Oz,n)</span>
@@ -314,11 +314,11 @@ div.csl-indent {
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>V_Profit<span class="ot">&lt;-</span><span class="fu">pmin</span>(Consumption,Available)<span class="sc">/</span>V_Fish_Entitled_Oz<span class="sc">*</span>V_Entry_Fee<span class="sc">-</span>V_Order_Oz<span class="sc">*</span>V_Price_Fish_Oz<span class="sc">-</span>V_Price_Miso</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>From the simulation it seems like that the restaurant would make on average a profit of about 211.5 dollars if they order 160 ounces of fish. There are however, a couple of questions left unanswered. First, what are the other possible profit when ordering 160 ounces? Second, is there another amount of fish that would give them a higher expected profit?</p>
+<p>From the simulation it seems like that the restaurant would make on average a profit of about <span class="math inline">\(211.5\)</span> dollars if they order <span class="math inline">\(160\)</span> ounces of fish. There are however, a couple of questions left unanswered. First, what are the other possible profits when ordering <span class="math inline">\(160\)</span> ounces? Second, is there another amount of fish that would give them a higher expected profit?</p>
 </section>
 <section id="flaw-of-averages" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="flaw-of-averages"><span class="header-section-number">3.5</span> Flaw Of Averages</h2>
-<p>To answer the first question we can generate a histogram of all the results of our simulation model. We can then report this to the restaurant and make them aware of all of the possible outcomes of ordering 160 ounces of fish. Below, we show the histogram of our model’s outcomes.</p>
+<p>To answer the first question we can generate a histogram of all the results of our simulation model. We can then report this to the restaurant and make them aware of all of the possible outcomes of ordering <span class="math inline">\(160\)</span> ounces of fish. Below, we show the histogram of our model’s outcomes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(V_Profit, <span class="at">main=</span><span class="st">"Expected Profits of an Order of 160 Ounces"</span>,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">""</span>)</span>
@@ -327,56 +327,65 @@ div.csl-indent {
 <p><img src="Simulation_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>As you can see most of the outcomes are close to 250 dollars. So a better recommendation to the restaurant would be to inform them that when ordering 160 ounces, they will most likely get a profit of 250 dollars. There is a small risk of them making less that 100 dollars, but that they should not expect more than 250 dollars. The average in this case seems to be a poor predictor of what is expected as its frequency is not very large as shown in the histogram. This result is known as the flaw of averages.</p>
-<p>The flaw of averages, also known as the “law of averages fallacy,” is the idea that the average value of a particular characteristic in a population can be used to represent the value of that characteristic for individual members of the population. This is often not the case because the average value can be misleading and does not take into account the variability and distribution of the characteristic within the population.</p>
+<p>As you can see most of the outcomes are close to <span class="math inline">\(250\)</span> dollars. So a better recommendation to the restaurant would be to inform them that when ordering <span class="math inline">\(160\)</span> ounces, they will most likely get a profit of <span class="math inline">\(250\)</span> dollars. There is a small risk of them making less that <span class="math inline">\(100\)</span> dollars in profit, but that they should not expect more than <span class="math inline">\(250\)</span> dollars. The average in this case seems to be a poor predictor of what is expected as its frequency is not very large as shown in the histogram. This result is known as the flaw of averages.</p>
+<p><strong>The flaw of averages</strong>, also known as the “law of averages fallacy,” is the idea that the average value of a particular characteristic in a population can be used to represent the value of that characteristic for individual members of the population. This is often not the case because the average value can be misleading and does not take into account the variability and distribution of the characteristic within the population.</p>
 </section>
 <section id="optimal-order-amount" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="optimal-order-amount"><span class="header-section-number">3.6</span> Optimal Order Amount</h2>
-<p>Now to answer the main question, what should be the amount ordered of fish? To answer this question we will substitute several possible order options into our model and then retrieve the one that gives us the highest expected profit. We can easily do this in R with a loop. Below is the code:</p>
+<p>Now to answer the main question, what should be the amount ordered of fish? To answer this question we will substitute several possible order options into our model and then retrieve the one that gives us the highest expected profit. We can easily do this in R with a for loop. Below is the code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Order_Oz<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">160</span>,<span class="dv">240</span>,<span class="dv">10</span>)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Order_Oz<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">160</span>,<span class="dv">300</span>,<span class="dv">10</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Price_Fish_Oz<span class="ot">&lt;-</span><span class="dv">9</span><span class="sc">/</span><span class="dv">16</span> <span class="co"># Input</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Price_Miso<span class="ot">&lt;-</span><span class="dv">300</span> <span class="co"># Input</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Entry_Fee<span class="ot">&lt;-</span><span class="dv">20</span> <span class="co"># Input</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Fish_Entitled_Oz<span class="ot">&lt;-</span><span class="dv">5</span> <span class="co">#Input</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Fish_Entitled_Oz<span class="ot">&lt;-</span><span class="dv">7</span> <span class="co">#Input</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Profits<span class="ot">&lt;-</span><span class="fu">c</span>()</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> Order_Oz){</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">10000</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">100000</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>V_Order_Oz<span class="ot">&lt;-</span><span class="fu">rep</span>(i,n)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>V_Price_Fish_Oz<span class="ot">&lt;-</span><span class="fu">rep</span>(Price_Fish_Oz,n)</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>V_Price_Miso<span class="ot">&lt;-</span><span class="fu">rep</span>(Price_Miso,n)</span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>V_Entry_Fee<span class="ot">&lt;-</span><span class="fu">rep</span>(Entry_Fee,n)</span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>V_Fish_Entitled_Oz<span class="ot">&lt;-</span><span class="fu">rep</span>(Fish_Entitled_Oz,n)</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>V_Attendance<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rtriang</span>(n,<span class="dv">20</span>,<span class="dv">50</span>,<span class="dv">30</span>),<span class="dv">0</span>) <span class="co"># Random Variable</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>Consumption<span class="ot">&lt;-</span>V_Attendance<span class="sc">*</span>V_Fish_Entitled_Oz <span class="co"># Calculated</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>Available<span class="ot">&lt;-</span>V_Order_Oz <span class="co"># Calculated</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>V_Profit<span class="ot">&lt;-</span><span class="fu">pmin</span>(Consumption,Available)<span class="sc">/</span>V_Fish_Entitled_Oz<span class="sc">*</span>V_Entry_Fee<span class="sc">-</span>V_Order_Oz<span class="sc">*</span>V_Price_Fish_Oz<span class="sc">-</span>V_Price_Miso</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>Profits<span class="ot">&lt;-</span><span class="fu">c</span>(Profits,<span class="fu">mean</span>(V_Profit))</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>(results<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">Order=</span>Order_Oz,<span class="at">Profits=</span>Profits))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>V_Attendance<span class="ot">&lt;-</span><span class="fu">round</span>(<span class="fu">rtriang</span>(n,<span class="dv">20</span>,<span class="dv">50</span>,<span class="dv">30</span>),<span class="dv">0</span>) <span class="co"># Random Variable</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>Consumption<span class="ot">&lt;-</span>V_Attendance<span class="sc">*</span>V_Fish_Entitled_Oz <span class="co"># Calculated</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>Available<span class="ot">&lt;-</span>V_Order_Oz <span class="co"># Calculated</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>V_Profit<span class="ot">&lt;-</span><span class="fu">pmin</span>(Consumption,Available)<span class="sc">/</span>V_Fish_Entitled_Oz<span class="sc">*</span>V_Entry_Fee<span class="sc">-</span>V_Order_Oz<span class="sc">*</span>V_Price_Fish_Oz<span class="sc">-</span>V_Price_Miso</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>Profits<span class="ot">&lt;-</span><span class="fu">c</span>(Profits,<span class="fu">mean</span>(V_Profit))</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>(results<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">Order=</span>Order_Oz,<span class="at">Profits=</span>Profits))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  Order Profits
-1   160 212.934
-2   170 225.413
-3   180 235.406
-4   190 241.335
-5   200 242.848
-6   210 243.837
-7   220 240.640
-8   230 234.759
-9   240 230.958</code></pre>
+<pre><code>   Order   Profits
+1    160  66.62511
+2    170  88.31331
+3    180 108.85803
+4    190 127.86271
+5    200 144.83914
+6    210 159.74060
+7    220 171.74180
+8    230 181.43777
+9    240 188.65657
+10   250 193.78714
+11   260 196.97014
+12   270 198.27451
+13   280 198.15580
+14   290 196.51037
+15   300 193.80880</code></pre>
 </div>
 </div>
-<p>This table suggests that 160 ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that 210 ounces of fish should be ordered (this feeds about 42 people) to maximize the expected profits.</p>
+<p>This table suggests that ordering <span class="math inline">\(160\)</span> ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that <span class="math inline">\(210\)</span> ounces of fish should be ordered (this feeds about <span class="math inline">\(42\)</span> people) to maximize the expected profits (<span class="math inline">\(242\)</span> dollars).</p>
 </section>
 <section id="sensitivity-analysis" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">3.7</span> Sensitivity Analysis</h2>
-<p>Sensitivity analysis is a tool used in decision-making to assess the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables. It is often used in financial, economic, and engineering contexts to evaluate the feasibility and risk of different scenarios or to identify potential areas of improvement.</p>
+<p>What if the price of yellow-tail increases unexpectedly? What if the restaurant wishes to provide each guest with six ounces of fish instead of five? The model we have created above can accommodate these changes easily by just changing the input values. We can additionally, inform the restaurant how sensitive the results are to changes in key inputs or assumptions. This is the idea behind sensitivity analysis.</p>
+<p><strong>Sensitivity analysis</strong> assesses the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables.</p>
+<p>Let’s consider providing each guest with six or seven ounces of fish. How does this change our recommendation? When running our model with different amounts of fish provided, you’ll notice that when each guest gets six ounces of fish, the restaurant should order $240$ ounces yielding an expected profit of $220$ dollars. When each guest gets seven ounces of fish, the restaurant should order $270$ ounces which generates an expected profit of $198$ dollars. Perhaps providing each guest with more fish is a bad idea as profits are highly sensitive to every ounce increase.</p>
 </section>
 <section id="readings" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="readings"><span class="header-section-number">3.8</span> Readings</h2>

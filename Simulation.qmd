@@ -14,7 +14,7 @@ Given that the festival charges 20 dollars per entry, how much yellow-tail would
 
 ## Model Framework
 
-The restaurant provides you with a lot of information which might be overwhelming at first glance. To make the task less daunting, we should organize/classify the information so that we can create a model. In general, for many business problems, the data can be classified into the following parts:
+The restaurant provides you with a lot of information which might be overwhelming at first glance. To make the task less daunting, we should organize/classify the information so that we can create a model. For many business problems, the data can be classified into the following parts:
 
 -   The **inputs** have given fixed values and provide the model's basic structure. These are values that are most likely to be given and determined.
 
@@ -47,25 +47,25 @@ Profit<-min(Consumption,Available)/Fish_Entitled_Oz*Entry_Fee-Order_Oz*Price_Fis
 
 ```
 
-In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and it seems like the they have little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the `rtriang()` function from the `extraDistr` package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit, an upper limit, and a most likely case for attendance. Note also the use of the `set.seed()` function. This allows you to replicate the random numbers generated.
+In the model above, you can see how the inputs have fixed values. These values were given to us by the restaurant and the restaurant has little or no control over them (the market price of the fish, the cost of making Miso soup, etc.). The random variable, captures the source of uncertainty (i.e., how many people attend the event). As you can see we have used here the `rtriang()` function from the `extraDistr` package to generate the attendance. We have chosen the triangle distribution since the restaurant has provided us with a lower limit (20), an upper limit (50), and a most likely case for attendance (30). Note also the use of the `set.seed()` function. This allows you to replicate the random numbers generated.
 
-The calculated variables combine inputs, the decision variable, and the random variable to provide insight on how much is fish is expected to be both consumed and available. They also help us determine the output, which is our main guide in knowing whether the decision of ordering $x$ ounces of fish is the "best".
+The calculated variables combine inputs, the decision variable, and the random variable to provide insight on how much is fish is expected to be both consumed and available. They also help us determine the profit (output), which is our main guide in knowing whether the decision of ordering $x$ ounces of fish is the "best".
 
 ## The News Vendor Problem
 
 Note how the decision variable (Order_Oz) affects directly our outcome (Profit). We can see that it decreases the restaurant's profit through costs, but also affects revenue through the amount of fish available. This is the heart of the problem. We don't know how many people will attend, so if the restaurant orders too much fish their profits will go down because their costs are large. However, if they order too little then they will have to issue refunds, which decrease their revenue.
 
-As you observe the *Profit* formula in the code above, you'll notice the use of the `min()` function. This function returns the minimum of the *Attendance* and *Consumption*. The intuition here is that the restaurant can only collect entry fees for the people who consumed the sushi when the attendance is greater than the amount of sushi available. Likewise, their revenue will be capped at the total amount of people who attended, even if they ordered plenty of fish.
+As you observe the *Profit* formula in the code above, you'll notice the use of the `min()` function. This function returns the minimum of the *Attendance* and *Consumption*. The intuition here is that the restaurant can only collect entry fees for people who consumed sushi when the attendance is greater than the amount of sushi available. Likewise, their revenue will be capped at the total amount of people who attended, even if they ordered plenty of fish.
 
-The problem illustrated above is called the news vendor problem. The news vendor problem is a classic decision-making problem in operations research and economics that involves deciding how much of a product to order (and sometimes at what price to sell it). The problem is called the "news vendor" problem because it was originally used to model the decision-making process of a newspaper vendor trying to decide how many copies of a newspaper to order and at what price to sell them.
+The problem illustrated above is called the news vendor problem. The **news vendor problem** is a classic decision-making problem in operations research and economics that involves deciding how much of a product to order (and sometimes at what price to sell it). The problem is called the "news vendor" problem because it was originally used to model the decision-making process of a newspaper vendor trying to decide how many copies of a newspaper to order and at what price to sell them.
 
 ## Law of Large Numbers
 
-Before we answer the question of how much fish to order, we must realize a couple of flaws of the model we have created. Mainly, we have run the simulation once and it is unlikely (although possible) that the attendance will be exactly $44$. Instead, we want to provide the restaurant with a set of eventualities. Worst case scenarios (low attendance), best case scenarios (high attendance), and most likely outcome for their decision. This is only possible if we generate several attendance numbers, and see how the output behaves.
+Before we answer the question of how much fish to order, we must realize a couple of flaws of the model we have created. Mainly, we have run the simulation once and it is unlikely (although possible) that the attendance will be exactly the single value simulated by the `rtriang()` function ($44$). Instead, we want to provide the restaurant with a set of eventualities. Worst case scenarios (low attendance), best case scenarios (high attendance), and most likely outcome for their decision. This is only possible if we generate several attendance numbers, and see how the profit (output) behaves.
 
-An additional problem is that if we provide the average profit of our model, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more and more accurate. This is known as the Law of Large Numbers.
+An additional problem is that if we tell the restaurant that the expected profit of ordering $x$ amount of fish $y$, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more accurate. This is known as the **Law of Large Numbers**.
 
-The code below repeats the simulation not once, or twice, but several times. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 10,000 times for illustration purposes.
+The code below repeats the simulation several times, allowing for different attendance scenarios to arise. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 10,000 times for illustration purposes.
 
 ```{r}
 n<-10000
@@ -83,11 +83,11 @@ Available<-V_Order_Oz
 V_Profit<-pmin(Consumption,Available)/V_Fish_Entitled_Oz*V_Entry_Fee-V_Order_Oz*V_Price_Fish_Oz-V_Price_Miso
 ```
 
-From the simulation it seems like that the restaurant would make on average a profit of about 211.5 dollars if they order 160 ounces of fish. There are however, a couple of questions left unanswered. First, what are the other possible profit when ordering 160 ounces? Second, is there another amount of fish that would give them a higher expected profit?
+From the simulation it seems like that the restaurant would make on average a profit of about $211.5$ dollars if they order $160$ ounces of fish. There are however, a couple of questions left unanswered. First, what are the other possible profits when ordering $160$ ounces? Second, is there another amount of fish that would give them a higher expected profit?
 
 ## Flaw Of Averages
 
-To answer the first question we can generate a histogram of all the results of our simulation model. We can then report this to the restaurant and make them aware of all of the possible outcomes of ordering 160 ounces of fish. Below, we show the histogram of our model's outcomes.
+To answer the first question we can generate a histogram of all the results of our simulation model. We can then report this to the restaurant and make them aware of all of the possible outcomes of ordering $160$ ounces of fish. Below, we show the histogram of our model's outcomes.
 
 ```{r}
 hist(V_Profit, main="Expected Profits of an Order of 160 Ounces",
@@ -95,32 +95,33 @@ hist(V_Profit, main="Expected Profits of an Order of 160 Ounces",
 abline(v=mean(V_Profit), lwd=2)
 ```
 
-As you can see most of the outcomes are close to 250 dollars. So a better recommendation to the restaurant would be to inform them that when ordering 160 ounces, they will most likely get a profit of 250 dollars. There is a small risk of them making less that 100 dollars, but that they should not expect more than 250 dollars. The average in this case seems to be a poor predictor of what is expected as its frequency is not very large as shown in the histogram. This result is known as the flaw of averages.
+As you can see most of the outcomes are close to $250$ dollars. So a better recommendation to the restaurant would be to inform them that when ordering $160$ ounces, they will most likely get a profit of $250$ dollars. There is a small risk of them making less that $100$ dollars in profit, but that they should not expect more than $250$ dollars. The average in this case seems to be a poor predictor of what is expected as its frequency is not very large as shown in the histogram. This result is known as the flaw of averages.
 
-The flaw of averages, also known as the "law of averages fallacy," is the idea that the average value of a particular characteristic in a population can be used to represent the value of that characteristic for individual members of the population. This is often not the case because the average value can be misleading and does not take into account the variability and distribution of the characteristic within the population.
+**The flaw of averages**, also known as the "law of averages fallacy," is the idea that the average value of a particular characteristic in a population can be used to represent the value of that characteristic for individual members of the population. This is often not the case because the average value can be misleading and does not take into account the variability and distribution of the characteristic within the population.
 
 ## Optimal Order Amount
 
-Now to answer the main question, what should be the amount ordered of fish? To answer this question we will substitute several possible order options into our model and then retrieve the one that gives us the highest expected profit. We can easily do this in R with a loop. Below is the code:
+Now to answer the main question, what should be the amount ordered of fish? To answer this question we will substitute several possible order options into our model and then retrieve the one that gives us the highest expected profit. We can easily do this in R with a for loop. Below is the code:
 
 ```{r}
 
-Order_Oz=seq(160,240,10)
+Order_Oz=seq(160,300,10)
 Price_Fish_Oz<-9/16 # Input
 Price_Miso<-300 # Input
 Entry_Fee<-20 # Input
-Fish_Entitled_Oz<-5 #Input
+Fish_Entitled_Oz<-7 #Input
 
 Profits<-c()
 
 for (i in Order_Oz){
-n<-10000
+n<-100000
 V_Order_Oz<-rep(i,n)
 V_Price_Fish_Oz<-rep(Price_Fish_Oz,n)
 V_Price_Miso<-rep(Price_Miso,n)
 V_Entry_Fee<-rep(Entry_Fee,n)
 V_Fish_Entitled_Oz<-rep(Fish_Entitled_Oz,n)
 
+set.seed(12)
 V_Attendance<-round(rtriang(n,20,50,30),0) # Random Variable
 Consumption<-V_Attendance*V_Fish_Entitled_Oz # Calculated
 Available<-V_Order_Oz # Calculated
@@ -132,11 +133,15 @@ Profits<-c(Profits,mean(V_Profit))
 (results<-data.frame(Order=Order_Oz,Profits=Profits))
 ```
 
-This table suggests that 160 ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that 210 ounces of fish should be ordered (this feeds about 42 people) to maximize the expected profits.
+This table suggests that ordering $160$ ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that $210$ ounces of fish should be ordered (this feeds about $42$ people) to maximize the expected profits ($242$ dollars).
 
 ## Sensitivity Analysis
 
-Sensitivity analysis is a tool used in decision-making to assess the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables. It is often used in financial, economic, and engineering contexts to evaluate the feasibility and risk of different scenarios or to identify potential areas of improvement.
+What if the price of yellow-tail increases unexpectedly? What if the restaurant wishes to provide each guest with six ounces of fish instead of five? The model we have created above can accommodate these changes easily by just changing the input values. We can additionally, inform the restaurant how sensitive the results are to changes in key inputs or assumptions. This is the idea behind sensitivity analysis.
+
+**Sensitivity analysis** assesses the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables.
+
+Let's consider providing each guest with six or seven ounces of fish. How does this change our recommendation? When running our model with different amounts of fish provided, you'll notice that when each guest gets six ounces of fish, the restaurant should order \$240\$ ounces yielding an expected profit of \$220\$ dollars. When each guest gets seven ounces of fish, the restaurant should order \$270\$ ounces which generates an expected profit of \$198\$ dollars. Perhaps providing each guest with more fish is a bad idea as profits are highly sensitive to every ounce increase.
 
 ## Readings
 
