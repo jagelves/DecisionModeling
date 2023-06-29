@@ -4,9 +4,9 @@ In this module, we will be learning the tools that will allow us to analyze Time
 
 We will first learn how to transform and manipulate our data using the `dplyr` package. We will also introduce a package called `lubridate`, which helps us parse dates which are essential in time series analysis. Next, we will plot the times series to identify trends, seasonality, or cyclical behavior. To do this, we will learn the `ggplot2`, and `fpp3` packages. This last package includes `fable` used to model time series data.
 
-## Chipotle Wants You to Forecast Avocado Prices
+## Chilango's Kitchen Wants You to Forecast Avocado Prices
 
-Chipotle is an American chain specializing in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of Chipotle's best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados a day, amounting to more than 44,000 pounds of avocados annually. Chipotle wants you to develop a model to forecast the price of avocados. This model will allow the company to understand the cost of one of it's most essential product.
+Chilango's Kitchen specializes in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of the restaurant's best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados daily, amounting to more than 44,000 pounds annually. Chilango's Kitchen wants you to provide insights on the price of avocados in California.
 
 ## The Avocado Data Set {#sec-Avocado}
 
@@ -16,7 +16,7 @@ The avocado data set is weekly retail scan data for U.S retail volume (units) an
 
 ## Loading tidyverse and Inspecting the Data.
 
-`tidyverse` is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (`dplyr` and `tidyr`) that we will be using to transform our data and get it ready for analysis. `dplyr` will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. `tidyr` will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, `tidyverse` allows us to efficiently perform these operations using data manipulation verbs that are very intuitive to the user. Below we load the library.
+`tidyverse` is a collection of packages in R that allow us to manipulate, explore and visualize data. There are a couple of packages within tidyverse (`dplyr` and `tidyr`) that we will be using to transform our data and get it ready for analysis. `dplyr` will allow us to do most of our data manipulation: creating new variables, renaming variables, filtering values, sorting, grouping, and summarizing, among others. `tidyr` will allow us to pivot data sets, unite or separate columns, and deal with missing values. Although it is always possible to complete these tasks using base R, `tidyverse` allows us to efficiently perform these operations using data manipulation verbs that are very intuitive. Below we load the library.
 
 ```{r}
 library(tidyverse)
@@ -28,7 +28,7 @@ As you can see, several packages were attached (loaded) when we write `library(t
 avocado<-read_csv("https://jagelves.github.io/Data/avocado2020.csv")
 ```
 
-The function imports the data as a tibble (a data structure similar to a data frame). The output informs us that three variables are classified as a character, while the rest are double. You can preview the data with either the `spec()` or `glimpse()` commands.
+The code above imports the data as a tibble (a data structure similar to a data frame) and saves it in an object named *avocado*. The output informs us that three variables are classified as a character, while the rest are double. You can preview the data with either the `spec()` or `glimpse()` commands.
 
 ```{r}
 spec(avocado)
@@ -73,7 +73,7 @@ avocado %>%
 
 ## Visualizing The Data {#sec-Visual}
 
-To visualize the data, we will be using `ggplot2`. One of the main functions in `ggplot2` is the `aes()` function. This function sets the plotting canvas and determines the mapping of variables. The `geom_line()` function specifies the type of plot. In time series, we will use the line plot regularly. Labels for the graph are easily set with the `labs` function and there are plenty of themes available to customize your visualization. Below, the `theme_classic()` is displayed. To learn more about the `ggplot` package, you can refer to @R4DS Chapter 2. Below is the code to create a line plot of California's average avocado price.
+To visualize the data, we will be using `ggplot2`. One of the main functions in `ggplot2` is the `aes()` function. This function sets the plotting canvas and determines the mapping of variables. The `geom_line()` function specifies the type of plot. In time series, we will use the line plot regularly. Labels for the graph are easily set with the `labs()` function and there are plenty of themes available to customize your visualization. Below, the `theme_classic()` is displayed. To learn more about the `ggplot` package, you can refer to @R4DS Chapter 2. Below is the code to create a line plot of California's average avocado price.
 
 ```{r}
 ggplot(data=cali) + 
@@ -89,7 +89,7 @@ The average price of avocados in California has been increasing during the perio
 
 ## tsibbles
 
-When dealing with time series, time plays an important role. As a consequence, we will be using a data structure called a tsibble (time series tibble). tsibbles are defined by a time index (i.e., the date) that has a common interval (i.e., days, weeks, etc.), and some keys (i.e., some dimensions or observational units). In the *avocado* data set we are mainly interested in the average price of the avocados. You will note however that they are classified by location (geography) and type (organic and conventional). You can learn more about tsibbles [here](https://tsibble.tidyverts.org).
+When dealing with time series, time plays an important role. As a consequence, we will be using a data structure called a tsibble (time series tibble). tsibbles are defined by a time index (i.e., the date) that has a common interval (i.e., days, weeks, etc.), and keys (i.e., dimensions or observational units). In the *avocado* data set we are mainly interested in the average price of the avocados. You will note however that they are classified by location (geography) and type (organic and conventional). You can learn more about tsibbles [here](https://tsibble.tidyverts.org).
 
 tsibbles, as well a variety of packages that help us analyze time series, are part of the `fpp3` package. Below we load the package, and coerce our avocado tibble to a tsibble.
 
@@ -101,7 +101,7 @@ avocado %>%
   filter_index("2015-01-04"~"2018-12-02")-> avocadots
 ```
 
-In the code above, the `as_tsibble()` function was called with the parameter *regular* set at true indicating that the date has no gaps and occurs every week (the greatest common divisor of the index column). The function `filter_index()` is called as it allows us to determine the window for analysis. As noted in @sec-Avocado, there are some missing dates in December 2018. We limit the analysis to 2015-2018.
+In the code above, the `as_tsibble()` function was called with the parameter *regular* set at true indicating that the date has no gaps and occurs every week (the greatest common divisor of the index column). The function `filter_index()` is called as it allows us to determine the window for analysis. As noted in @sec-Avocado, there are some missing dates in December 2018. We limit the analysis for now to 2015-2018.
 
 Recall, that we are interested in the average price of avocados for California. We can specify the tsibble for analysis, by using `dplyr`.
 
@@ -114,6 +114,8 @@ avocadots %>% filter(geography=="California", type=="organic") %>%
 
 As highlighted in @sec-Visual, the average price of avocados in California seems to have a trend and a seasonal pattern. There are methods available to tease out these components and make them more apparent. STL (Season Trend decomposition using LOESS) decomposes the series into a trend, seasonality, and an error (unexplained) component. It is easy to run this method in R by using the `fable` package.
 
+In practice, the decomposition is constructed in several steps. First, a moving average of the series is calculated to track the trend. The trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly) for the de-trended series. The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component ($Series-Trend-Seasonal=Error$). In the end, each component can be graphed and displayed, as illustrated below.
+
 ```{r}
 calits %>%
   model(STL(average_price~trend(window=200)+
@@ -122,19 +124,19 @@ calits %>%
 
 ```
 
-As shown above, the trend is increasing and the seasonal component confirms low levels at the beginning of the year and high levels in the summer.
+`fable` allows us to construct this model easily by using the `model()` function. This function will allow us to estimate a variety of time series models, so we will be using it it regularly. The particular model we are running is STL, hence the use of the `STL()` function within the `model()` function. We define the model by defining the dependent variable (i.e., *average_price*) followed by "\~" and the components. As you can see, the *window* argument in the `trend()` function is set to a relatively large value. By doing this the moving average reflects the general direction of the series and avoids the small fluctuations of the data. The *robust* parameter is set to true to make the fitting process less sensitive to outliers or influential data points.
 
-The decomposition is constructed in several steps. First, a moving average of the series is calculated to track the trend. As you can see, the *window* argument in the `trend()` function is set to a relatively large value. By doing this the moving average reflects the general direction of the series and not the small fluctuations. The trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly) for the de-trended series. The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component (Series-Trend-Seasonal=Error). In the end, each component can be graphed and displayed, as illustrated above.
+As shown above, the trend is increasing, and the seasonal component confirms low levels at the beginning of the year and high levels in the summer. These are two general patterns that determine the price of avocados in California and provide valuable insight to share with Chilango's Kitchen.
 
 ## Readings
 
-@FPP3 Chapter 1, and Chapter 2. 
+@FPP3 Chapter 1, and Chapter 2.
 
-@R4DS Chapter 2, Chapter 4, and Chapter 19. 
+@R4DS Chapter 2, Chapter 4, and Chapter 19.
 
-tsibble: https://tsibble.tidyverts.org 
+tsibble: https://tsibble.tidyverts.org
 
-fable: https://fable.tidyverts.org 
+fable: https://fable.tidyverts.org
 
 ## Lessons Learned in This Chapter
 
@@ -148,6 +150,4 @@ In this module you have been introduced to data wrangling, plotting, tsibbles an
 
 -   Apply tsibbles in time series analysis.
 
--   Decompose a series using the `model()` function in `fable`.
-
-
+-   Decompose a series using the `model()` and `STL()` functions in `fable`.
