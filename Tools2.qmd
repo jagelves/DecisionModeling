@@ -134,9 +134,9 @@ As shown above, the trend is increasing, and the seasonal component confirms low
 
 @R4DS Chapter 2, Chapter 4, and Chapter 19.
 
-tsibble: https://tsibble.tidyverts.org
+tsibble: <https://tsibble.tidyverts.org>
 
-fable: https://fable.tidyverts.org
+fable: <https://fable.tidyverts.org>
 
 ## Lessons Learned in This Chapter
 
