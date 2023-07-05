@@ -576,16 +576,16 @@
   {
     "objectID": "ETS.html#readings",
     "href": "ETS.html#readings",
-    "title": "7  ETS",
-    "section": "7.1 Readings",
-    "text": "7.1 Readings\nHyndman (2021) Chapter 8 (Exponential Smoothing)."
+    "title": "6  ETS",
+    "section": "6.4 Readings",
+    "text": "6.4 Readings\nHyndman (2021) Chapter 8 (Exponential Smoothing)."
   },
   {
     "objectID": "ETS.html#leasons-learned",
     "href": "ETS.html#leasons-learned",
-    "title": "7  ETS",
-    "section": "7.2 Leasons Learned",
-    "text": "7.2 Leasons Learned\nIn this module you have been introduced to ETS model. Particularly you have learned to:\n\nUse the model() and ETS() functions to estimate the model.\nIdentify when ETS model is superior to Benchmarks or the ARIMA model using the accuracy() function.\nForecast time series with the ETS model.\n\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
+    "title": "6  ETS",
+    "section": "6.5 Leasons Learned",
+    "text": "6.5 Leasons Learned\nIn this module you have been introduced to ETS model. Particularly you have learned to:\n\nUse the model() and ETS() functions to estimate the model.\nIdentify when ETS model is superior to Benchmarks or the ARIMA model using the accuracy() function.\nForecast time series with the ETS model.\n\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
   },
   {
     "objectID": "Decisions.html#shopaholic-retail-company",
@@ -656,5 +656,26 @@
     "title": "4  Time Series Tools",
     "section": "4.1 Chilango’s Kitchen Wants You to Forecast Avocado Prices",
     "text": "4.1 Chilango’s Kitchen Wants You to Forecast Avocado Prices\nChilango’s Kitchen specializes in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of the restaurant’s best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados daily, amounting to more than 44,000 pounds annually. Chilango’s Kitchen wants you to provide insights on the price of avocados in California."
+  },
+  {
+    "objectID": "ETS.html#predicting-teslas-deliveries",
+    "href": "ETS.html#predicting-teslas-deliveries",
+    "title": "6  ETS",
+    "section": "6.1 Predicting Tesla’s Deliveries",
+    "text": "6.1 Predicting Tesla’s Deliveries\nDeliveries are a carefully watched number by Tesla shareholders and are the closest approximation of sales disclosed by the company. Can we use the ETS model to forecast Tesla’s deliveries?"
+  },
+  {
+    "objectID": "ETS.html#the-data",
+    "href": "ETS.html#the-data",
+    "title": "6  ETS",
+    "section": "6.2 The Data",
+    "text": "6.2 The Data\nBelow is code that inputs the data as a tsibble in R.\n\n\n── Attaching packages ────────────────────────────────────────────── fpp3 0.5 ──\n\n\n✔ tibble      3.2.1     ✔ tsibble     1.1.3\n✔ dplyr       1.1.2     ✔ tsibbledata 0.4.1\n✔ tidyr       1.3.0     ✔ feasts      0.3.1\n✔ lubridate   1.9.2     ✔ fable       0.3.3\n✔ ggplot2     3.4.2     ✔ fabletools  0.3.3\n\n\n── Conflicts ───────────────────────────────────────────────── fpp3_conflicts ──\n✖ lubridate::date()    masks base::date()\n✖ dplyr::filter()      masks stats::filter()\n✖ tsibble::intersect() masks base::intersect()\n✖ tsibble::interval()  masks lubridate::interval()\n✖ dplyr::lag()         masks stats::lag()\n✖ tsibble::setdiff()   masks base::setdiff()\n✖ tsibble::union()     masks base::union()\n\n\nAs you can see the tsibble is created with the tsibble() function included in the fpp3 package. A time variable must be included and then defined using the index parameter. With the data loaded we can now create a test and training set.\n\ntrain_tesla&lt;-filter_index(.data=tesla,\"2016 Q1\"~\"2021 Q4\")\ntest_tesla&lt;-filter_index(.data=tesla,\"2022 Q1\"~\"2023 Q2\")\n\nThese are easily created using the filter_index() function and specifying the data set, and particular dates each set should contain."
+  },
+  {
+    "objectID": "ETS.html#models",
+    "href": "ETS.html#models",
+    "title": "6  ETS",
+    "section": "6.3 Models",
+    "text": "6.3 Models\nThree models can be estimated. The first one is the Simple Exponential Smoothing model with additive errors. Then the Holt model that includes an additive trend. Finally we can also dampen the trend. We include no seasonality in these initial models.\nThe stretch_tsibble() function reshapes the tsibble to accommodate for cross validation. The cross validation is done one period ahead and accuracy measures are created by using the test set.\n\ntesla %&gt;% stretch_tsibble(.init = 10) %&gt;%\n  model(SES=ETS(deliveries ~ error(\"A\") + trend(\"N\") + season(\"N\")),\n                                   HOLT=ETS(deliveries ~ error(\"A\") + trend(\"A\") + season(\"N\")),\n                                   DAMPED=ETS(deliveries ~ error(\"A\") + trend(\"Ad\") + season(\"N\")))%&gt;%\n  forecast(h = 1) %&gt;%\n  accuracy(tesla)\n\nWarning: The future dataset is incomplete, incomplete out-of-sample data will be treated as missing. \n1 observation is missing at 2023 Q3\n\n\n# A tibble: 3 × 10\n  .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE    ACF1\n  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;\n1 DAMPED Test   12.4  41.0  34.7  3.02  21.7 0.573 0.517  0.0284\n2 HOLT   Test   10.8  41.5  34.9  1.09  22.7 0.578 0.523  0.0366\n3 SES    Test   22.0  40.7  32.7  9.50  18.8 0.541 0.513 -0.0241\n\n\nAs you can see the model performs the best is the SES model. We can now estimate the SES model and observe the parameters using the tidy() function.\n\nfit &lt;- tesla %&gt;%\n  model(\n    SES = ETS(deliveries ~ error(\"A\") + trend(\"A\") +\n                   season(\"N\"))\n  )\n\ntidy(fit)\n\n# A tibble: 4 × 3\n  .model term  estimate\n  &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;\n1 SES    alpha    0.445\n2 SES    beta     0.132\n3 SES    l[0]    10.8  \n4 SES    b[0]     2.28 \n\n\nLastly, we can predict four quarters ahead tesla’s deliveries.\n\nlibrary(gt)\nfit %&gt;%\n  forecast(h = 4) %&gt;% gt()\n\n\n\n\n\n  \n    \n    \n      .model\n      period\n      deliveries\n      .mean\n    \n  \n  \n    SES\n2023 Q3\nN(489, 947)\n489.1179\n    SES\n2023 Q4\nN(524, 1264)\n523.6208\n    SES\n2024 Q1\nN(558, 1742)\n558.1238\n    SES\n2024 Q2\nN(593, 2415)\n592.6267\n  \n  \n  \n\n\n\n\nBelow we create a plot.\n\nfit %&gt;%\n  forecast(h = 4) %&gt;%\n  autoplot(tesla, level=95) +\n  labs(x=\"Quarter\", y=\"Deliveries\",\n       title = \"Tesla Car Deliveries\") + theme_classic()"
   }
 ]

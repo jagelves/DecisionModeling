@@ -1,9 +1,91 @@
 # ETS
 
+## Predicting Tesla's Deliveries
+
+Deliveries are a carefully watched number by Tesla shareholders and are the closest approximation of sales disclosed by the company. Can we use the ETS model to forecast Tesla's deliveries?
+
+## The Data
+
+Below is code that inputs the data as a tsibble in R.
+
+```{r echo=FALSE}
+library(fpp3)
+
+# Create tsibble
+tesla<-tsibble(
+  period=yearquarter(c("2016:Q1","2016:Q2","2016:Q3","2016:Q4",
+                       "2017:Q1","2017:Q2","2017:Q3","2017:Q4",
+                       "2018:Q1","2018:Q2","2018:Q3","2018:Q4",
+                       "2019:Q1","2019:Q2","2019:Q3","2019:Q4",
+                       "2020:Q1","2020:Q2","2020:Q3","2020:Q4",
+                       "2021:Q1","2021:Q2","2021:Q3","2021:Q4",
+                       "2022:Q1","2022:Q2","2022:Q3","2022:Q4",
+                       "2023:Q1","2023:Q2")),
+  deliveries=c(14.8,14.4,24.5,22.2,
+               25,22,26.2,29.9,
+               30,40.7,83.5,90.7,
+               63,95.2,97,112,
+               88.4,90.7,139.3,180.6,
+               184.82,201.25,241.3,308.6,
+               310.5,254.7,343.8,405.3,
+               422.9,466.1),
+  index=period     # This is the time variable
+)
+```
+
+As you can see the tsibble is created with the `tsibble()` function included in the `fpp3` package. A time variable must be included and then defined using the *index* parameter. With the data loaded we can now create a test and training set.
+
+```{r}
+train_tesla<-filter_index(.data=tesla,"2016 Q1"~"2021 Q4")
+test_tesla<-filter_index(.data=tesla,"2022 Q1"~"2023 Q2")
+```
+
+These are easily created using the `filter_index()` function and specifying the data set, and particular dates each set should contain.
+
+## Models
+
+Three models can be estimated. The first one is the Simple Exponential Smoothing model with additive errors. Then the Holt model that includes an additive trend. Finally we can also dampen the trend. We include no seasonality in these initial models.
+
+The `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The cross validation is done one period ahead and accuracy measures are created by using the test set.
+
+```{r}
+tesla %>% stretch_tsibble(.init = 10) %>%
+  model(SES=ETS(deliveries ~ error("A") + trend("N") + season("N")),
+                                   HOLT=ETS(deliveries ~ error("A") + trend("A") + season("N")),
+                                   DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")))%>%
+  forecast(h = 1) %>%
+  accuracy(tesla)
+```
+
+As you can see the model performs the best is the SES model. We can now estimate the SES model and observe the parameters using the `tidy()` function.
+```{r}
+fit <- tesla %>%
+  model(
+    SES = ETS(deliveries ~ error("A") + trend("A") +
+                   season("N"))
+  )
+
+tidy(fit)
+```
+Lastly, we can predict four quarters ahead tesla's deliveries. 
+```{r}
+library(gt)
+fit %>%
+  forecast(h = 4) %>% gt()
+  
+```
+
+Below we create a plot.
+```{r}
+fit %>%
+  forecast(h = 4) %>%
+  autoplot(tesla, level=95) +
+  labs(x="Quarter", y="Deliveries",
+       title = "Tesla Car Deliveries") + theme_classic()
+```
 ## Readings
 
 @FPP3 Chapter 8 (Exponential Smoothing).
-
 
 ## Leasons Learned
 
@@ -14,5 +96,3 @@ In this module you have been introduced to ETS model. Particularly you have lear
 -   Identify when ETS model is superior to Benchmarks or the ARIMA model using the `accuracy()` function.
 
 -   Forecast time series with the ETS model.
-
-
