@@ -218,8 +218,9 @@ div.csl-indent {
   <li><a href="#predicting-teslas-deliveries" id="toc-predicting-teslas-deliveries" class="nav-link active" data-scroll-target="#predicting-teslas-deliveries"><span class="header-section-number">6.1</span> Predicting Tesla’s Deliveries</a></li>
   <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data"><span class="header-section-number">6.2</span> The Data</a></li>
   <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models"><span class="header-section-number">6.3</span> Models</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">6.4</span> Readings</a></li>
-  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">6.5</span> Leasons Learned</a></li>
+  <li><a href="#forecast" id="toc-forecast" class="nav-link" data-scroll-target="#forecast"><span class="header-section-number">6.4</span> Forecast</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">6.5</span> Readings</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">6.6</span> Leasons Learned</a></li>
   </ul>
 </nav>
     </div>
@@ -245,107 +246,74 @@ div.csl-indent {
 
 <section id="predicting-teslas-deliveries" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="predicting-teslas-deliveries"><span class="header-section-number">6.1</span> Predicting Tesla’s Deliveries</h2>
-<p>Deliveries are a carefully watched number by Tesla shareholders and are the closest approximation of sales disclosed by the company. Can we use the ETS model to forecast Tesla’s deliveries?</p>
+<p>Deliveries are a carefully watched number by Tesla shareholders and are the closest approximation of sales disclosed by the company. Additionally, Tesla’s deliveries are closely followed due to their impact on financial markets, the EV industry, innovation and disruption, production efficiency, and the growth of the EV market. The numbers serve as a key performance indicator for Tesla’s success and provide insights into the broader trends in the electric vehicle industry. Can we use the ETS model to forecast Tesla’s deliveries?</p>
 </section>
 <section id="the-data" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-data"><span class="header-section-number">6.2</span> The Data</h2>
-<p>Below is code that inputs the data as a tsibble in R.</p>
+<p>The data can be found here [Tesla]<a href="https://ir.tesla.com/#quarterly-disclosure" class="uri">https://ir.tesla.com/#quarterly-disclosure</a>. Below is code that inputs the data as a tsibble in R.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching packages ────────────────────────────────────────────── fpp3 0.5 ──</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create tsibble</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tesla<span class="ot">&lt;-</span><span class="fu">tsibble</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">period=</span><span class="fu">yearquarter</span>(<span class="fu">c</span>(<span class="st">"2016:Q1"</span>,<span class="st">"2016:Q2"</span>,<span class="st">"2016:Q3"</span>,<span class="st">"2016:Q4"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"2017:Q1"</span>,<span class="st">"2017:Q2"</span>,<span class="st">"2017:Q3"</span>,<span class="st">"2017:Q4"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"2018:Q1"</span>,<span class="st">"2018:Q2"</span>,<span class="st">"2018:Q3"</span>,<span class="st">"2018:Q4"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"2019:Q1"</span>,<span class="st">"2019:Q2"</span>,<span class="st">"2019:Q3"</span>,<span class="st">"2019:Q4"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"2020:Q1"</span>,<span class="st">"2020:Q2"</span>,<span class="st">"2020:Q3"</span>,<span class="st">"2020:Q4"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"2021:Q1"</span>,<span class="st">"2021:Q2"</span>,<span class="st">"2021:Q3"</span>,<span class="st">"2021:Q4"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"2022:Q1"</span>,<span class="st">"2022:Q2"</span>,<span class="st">"2022:Q3"</span>,<span class="st">"2022:Q4"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"2023:Q1"</span>,<span class="st">"2023:Q2"</span>)),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">deliveries=</span><span class="fu">c</span>(<span class="fl">14.8</span>,<span class="fl">14.4</span>,<span class="fl">24.5</span>,<span class="fl">22.2</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>               <span class="dv">25</span>,<span class="dv">22</span>,<span class="fl">26.2</span>,<span class="fl">29.9</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>               <span class="dv">30</span>,<span class="fl">40.7</span>,<span class="fl">83.5</span>,<span class="fl">90.7</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>               <span class="dv">63</span>,<span class="fl">95.2</span>,<span class="dv">97</span>,<span class="dv">112</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>               <span class="fl">88.4</span>,<span class="fl">90.7</span>,<span class="fl">139.3</span>,<span class="fl">180.6</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>               <span class="fl">184.82</span>,<span class="fl">201.25</span>,<span class="fl">241.3</span>,<span class="fl">308.6</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>               <span class="fl">310.5</span>,<span class="fl">254.7</span>,<span class="fl">343.8</span>,<span class="fl">405.3</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>               <span class="fl">422.9</span>,<span class="fl">466.1</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">index=</span>period     <span class="co"># This is the time variable</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>✔ tibble      3.2.1     ✔ tsibble     1.1.3
-✔ dplyr       1.1.2     ✔ tsibbledata 0.4.1
-✔ tidyr       1.3.0     ✔ feasts      0.3.1
-✔ lubridate   1.9.2     ✔ fable       0.3.3
-✔ ggplot2     3.4.2     ✔ fabletools  0.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ───────────────────────────────────────────────── fpp3_conflicts ──
-✖ lubridate::date()    masks base::date()
-✖ dplyr::filter()      masks stats::filter()
-✖ tsibble::intersect() masks base::intersect()
-✖ tsibble::interval()  masks lubridate::interval()
-✖ dplyr::lag()         masks stats::lag()
-✖ tsibble::setdiff()   masks base::setdiff()
-✖ tsibble::union()     masks base::union()</code></pre>
-</div>
-</div>
-<p>As you can see the tsibble is created with the <code>tsibble()</code> function included in the <code>fpp3</code> package. A time variable must be included and then defined using the <em>index</em> parameter. With the data loaded we can now create a test and training set.</p>
+<p>As you can see the tsibble is created with the <code>tsibble()</code> function included in the <code>fpp3</code> package. A time variable must be included and then defined using the <em>index</em> parameter. The <code>yearquarter()</code> function from the <code>lubridate</code> package is used to coerce the data to a date. With the data loaded we can now create a test and training set.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>train_tesla<span class="ot">&lt;-</span><span class="fu">filter_index</span>(<span class="at">.data=</span>tesla,<span class="st">"2016 Q1"</span><span class="sc">~</span><span class="st">"2021 Q4"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>test_tesla<span class="ot">&lt;-</span><span class="fu">filter_index</span>(<span class="at">.data=</span>tesla,<span class="st">"2022 Q1"</span><span class="sc">~</span><span class="st">"2023 Q2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>train_tesla<span class="ot">&lt;-</span><span class="fu">filter_index</span>(<span class="at">.data=</span>tesla,<span class="st">"2016 Q1"</span><span class="sc">~</span><span class="st">"2021 Q4"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test_tesla<span class="ot">&lt;-</span><span class="fu">filter_index</span>(<span class="at">.data=</span>tesla,<span class="st">"2022 Q1"</span><span class="sc">~</span><span class="st">"2023 Q2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>These are easily created using the <code>filter_index()</code> function and specifying the data set, and particular dates each set should contain.</p>
+<p>There is no fixed rule for determining the length of the train and test sets. In this example, it is important to allocate a sufficiently large portion of the dataset to the training set to capture the underlying patterns and trends of Tesla’s deliveries. The sets are easily created using the <code>filter_index()</code> function and specifying the data set, and the particular dates.</p>
 </section>
 <section id="models" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="models"><span class="header-section-number">6.3</span> Models</h2>
-<p>Three models can be estimated. The first one is the Simple Exponential Smoothing model with additive errors. Then the Holt model that includes an additive trend. Finally we can also dampen the trend. We include no seasonality in these initial models.</p>
-<p>The <code>stretch_tsibble()</code> function reshapes the tsibble to accommodate for cross validation. The cross validation is done one period ahead and accuracy measures are created by using the test set.</p>
+<p>Four models will be estimated based on ETS. The first one is the Simple Exponential Smoothing model with additive errors, the Holt model that includes an additive trend, a dampened trend model and finally an algorithmic function that selects the best ETS model.</p>
+<p>Model selection will be done with cross validation. Recall, that the the <code>stretch_tsibble()</code> function reshapes the tsibble to accommodate for cross validation. The <em>.init</em> parameter sets the first eight observations to estimate our initial model. The cross validation is done four periods ahead and accuracy measures are created by comparing forecasts to the test set.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tesla <span class="sc">%&gt;%</span> <span class="fu">stretch_tsibble</span>(<span class="at">.init =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">SES=</span><span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"N"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">HOLT=</span><span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)),</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">DAMPED=</span><span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"Ad"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)))<span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tesla)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: The future dataset is incomplete, incomplete out-of-sample data will be treated as missing. 
-1 observation is missing at 2023 Q3</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 10
-  .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE    ACF1
-  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-1 DAMPED Test   12.4  41.0  34.7  3.02  21.7 0.573 0.517  0.0284
-2 HOLT   Test   10.8  41.5  34.9  1.09  22.7 0.578 0.523  0.0366
-3 SES    Test   22.0  40.7  32.7  9.50  18.8 0.541 0.513 -0.0241</code></pre>
-</div>
-</div>
-<p>As you can see the model performs the best is the SES model. We can now estimate the SES model and observe the parameters using the <code>tidy()</code> function.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> tesla <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">SES =</span> <span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">season</span>(<span class="st">"N"</span>))</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 3
-  .model term  estimate
-  &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;
-1 SES    alpha    0.445
-2 SES    beta     0.132
-3 SES    l[0]    10.8  
-4 SES    b[0]     2.28 </code></pre>
-</div>
-</div>
-<p>Lastly, we can predict four quarters ahead tesla’s deliveries.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tesla <span class="sc">%&gt;%</span> <span class="fu">stretch_tsibble</span>(<span class="at">.init =</span> <span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">SES=</span><span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"N"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">HOLT=</span><span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">DAMPED=</span><span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"Ad"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">ALGO=</span><span class="fu">ETS</span>(deliveries))<span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tesla) <span class="sc">%&gt;%</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="ivfhzgqxpc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ivfhzgqxpc table {
+<div id="gwabobhmpd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gwabobhmpd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ivfhzgqxpc thead, #ivfhzgqxpc tbody, #ivfhzgqxpc tfoot, #ivfhzgqxpc tr, #ivfhzgqxpc td, #ivfhzgqxpc th {
+#gwabobhmpd thead, #gwabobhmpd tbody, #gwabobhmpd tfoot, #gwabobhmpd tr, #gwabobhmpd td, #gwabobhmpd th {
   border-style: none;
 }
 
-#ivfhzgqxpc p {
+#gwabobhmpd p {
   margin: 0;
   padding: 0;
 }
 
-#ivfhzgqxpc .gt_table {
+#gwabobhmpd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -371,12 +339,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_caption {
+#gwabobhmpd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ivfhzgqxpc .gt_title {
+#gwabobhmpd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -388,7 +356,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#ivfhzgqxpc .gt_subtitle {
+#gwabobhmpd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -400,7 +368,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#ivfhzgqxpc .gt_heading {
+#gwabobhmpd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -412,13 +380,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_bottom_border {
+#gwabobhmpd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_col_headings {
+#gwabobhmpd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -433,7 +401,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_col_heading {
+#gwabobhmpd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -453,7 +421,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#ivfhzgqxpc .gt_column_spanner_outer {
+#gwabobhmpd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -465,15 +433,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#ivfhzgqxpc .gt_column_spanner_outer:first-child {
+#gwabobhmpd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ivfhzgqxpc .gt_column_spanner_outer:last-child {
+#gwabobhmpd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ivfhzgqxpc .gt_column_spanner {
+#gwabobhmpd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -485,11 +453,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#ivfhzgqxpc .gt_spanner_row {
+#gwabobhmpd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ivfhzgqxpc .gt_group_heading {
+#gwabobhmpd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -515,7 +483,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#ivfhzgqxpc .gt_empty_group_heading {
+#gwabobhmpd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -530,15 +498,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#ivfhzgqxpc .gt_from_md > :first-child {
+#gwabobhmpd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ivfhzgqxpc .gt_from_md > :last-child {
+#gwabobhmpd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ivfhzgqxpc .gt_row {
+#gwabobhmpd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -557,7 +525,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#ivfhzgqxpc .gt_stub {
+#gwabobhmpd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -570,7 +538,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ivfhzgqxpc .gt_stub_row_group {
+#gwabobhmpd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -584,15 +552,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#ivfhzgqxpc .gt_row_group_first td {
+#gwabobhmpd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ivfhzgqxpc .gt_row_group_first th {
+#gwabobhmpd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ivfhzgqxpc .gt_summary_row {
+#gwabobhmpd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -602,16 +570,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ivfhzgqxpc .gt_first_summary_row {
+#gwabobhmpd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_first_summary_row.thick {
+#gwabobhmpd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ivfhzgqxpc .gt_last_summary_row {
+#gwabobhmpd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -621,7 +589,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_grand_summary_row {
+#gwabobhmpd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -631,7 +599,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ivfhzgqxpc .gt_first_grand_summary_row {
+#gwabobhmpd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -641,7 +609,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_last_grand_summary_row_top {
+#gwabobhmpd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -651,11 +619,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_striped {
+#gwabobhmpd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ivfhzgqxpc .gt_table_body {
+#gwabobhmpd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -664,7 +632,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_footnotes {
+#gwabobhmpd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -678,7 +646,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_footnote {
+#gwabobhmpd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -687,7 +655,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ivfhzgqxpc .gt_sourcenotes {
+#gwabobhmpd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -701,7 +669,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#ivfhzgqxpc .gt_sourcenote {
+#gwabobhmpd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -709,63 +677,596 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#ivfhzgqxpc .gt_left {
+#gwabobhmpd .gt_left {
   text-align: left;
 }
 
-#ivfhzgqxpc .gt_center {
+#gwabobhmpd .gt_center {
   text-align: center;
 }
 
-#ivfhzgqxpc .gt_right {
+#gwabobhmpd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ivfhzgqxpc .gt_font_normal {
+#gwabobhmpd .gt_font_normal {
   font-weight: normal;
 }
 
-#ivfhzgqxpc .gt_font_bold {
+#gwabobhmpd .gt_font_bold {
   font-weight: bold;
 }
 
-#ivfhzgqxpc .gt_font_italic {
+#gwabobhmpd .gt_font_italic {
   font-style: italic;
 }
 
-#ivfhzgqxpc .gt_super {
+#gwabobhmpd .gt_super {
   font-size: 65%;
 }
 
-#ivfhzgqxpc .gt_footnote_marks {
+#gwabobhmpd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ivfhzgqxpc .gt_asterisk {
+#gwabobhmpd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ivfhzgqxpc .gt_indent_1 {
+#gwabobhmpd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ivfhzgqxpc .gt_indent_2 {
+#gwabobhmpd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ivfhzgqxpc .gt_indent_3 {
+#gwabobhmpd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ivfhzgqxpc .gt_indent_4 {
+#gwabobhmpd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ivfhzgqxpc .gt_indent_5 {
+#gwabobhmpd .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=".model">.model</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=".type">.type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ME">ME</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="RMSE">RMSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="MAE">MAE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="MPE">MPE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="MAPE">MAPE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="MASE">MASE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="RMSSE">RMSSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ACF1">ACF1</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers=".model" class="gt_row gt_left">ALGO</td>
+<td headers=".type" class="gt_row gt_left">Test</td>
+<td headers="ME" class="gt_row gt_right">46.20853</td>
+<td headers="RMSE" class="gt_row gt_right">65.74141</td>
+<td headers="MAE" class="gt_row gt_right">51.90073</td>
+<td headers="MPE" class="gt_row gt_right">22.384295</td>
+<td headers="MAPE" class="gt_row gt_right">27.26546</td>
+<td headers="MASE" class="gt_row gt_right">0.8588461</td>
+<td headers="RMSSE" class="gt_row gt_right">0.8288364</td>
+<td headers="ACF1" class="gt_row gt_right">0.4510376</td></tr>
+    <tr><td headers=".model" class="gt_row gt_left">DAMPED</td>
+<td headers=".type" class="gt_row gt_left">Test</td>
+<td headers="ME" class="gt_row gt_right">25.49076</td>
+<td headers="RMSE" class="gt_row gt_right">62.02236</td>
+<td headers="MAE" class="gt_row gt_right">49.22113</td>
+<td headers="MPE" class="gt_row gt_right">8.870067</td>
+<td headers="MAPE" class="gt_row gt_right">30.18230</td>
+<td headers="MASE" class="gt_row gt_right">0.8145044</td>
+<td headers="RMSSE" class="gt_row gt_right">0.7819484</td>
+<td headers="ACF1" class="gt_row gt_right">0.6957774</td></tr>
+    <tr><td headers=".model" class="gt_row gt_left">HOLT</td>
+<td headers=".type" class="gt_row gt_left">Test</td>
+<td headers="ME" class="gt_row gt_right">21.85193</td>
+<td headers="RMSE" class="gt_row gt_right">62.18358</td>
+<td headers="MAE" class="gt_row gt_right">50.08818</td>
+<td headers="MPE" class="gt_row gt_right">5.474445</td>
+<td headers="MAPE" class="gt_row gt_right">31.69801</td>
+<td headers="MASE" class="gt_row gt_right">0.8288522</td>
+<td headers="RMSSE" class="gt_row gt_right">0.7839810</td>
+<td headers="ACF1" class="gt_row gt_right">0.7060137</td></tr>
+    <tr><td headers=".model" class="gt_row gt_left">SES</td>
+<td headers=".type" class="gt_row gt_left">Test</td>
+<td headers="ME" class="gt_row gt_right">48.48669</td>
+<td headers="RMSE" class="gt_row gt_right">68.99360</td>
+<td headers="MAE" class="gt_row gt_right">53.79393</td>
+<td headers="MPE" class="gt_row gt_right">23.216494</td>
+<td headers="MAPE" class="gt_row gt_right">27.76125</td>
+<td headers="MASE" class="gt_row gt_right">0.8901745</td>
+<td headers="RMSSE" class="gt_row gt_right">0.8698385</td>
+<td headers="ACF1" class="gt_row gt_right">0.4713775</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>The accuracy measures reveal that the DAMPED and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPED model and assume that Tesla’s growth will taper off into the future. Below, the DAMPED model is estimated and the parameters are revealed by using the <code>tidy()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> tesla <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">DAMPED =</span> <span class="fu">ETS</span>(deliveries <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"Ad"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  .model term  estimate
+  &lt;chr&gt;  &lt;chr&gt;    &lt;dbl&gt;
+1 DAMPED alpha    0.491
+2 DAMPED beta     0.150
+3 DAMPED phi      0.980
+4 DAMPED l[0]    11.2  
+5 DAMPED b[0]     2.52 </code></pre>
+</div>
+</div>
+</section>
+<section id="forecast" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="forecast"><span class="header-section-number">6.4</span> Forecast</h2>
+<p>Forecasts are created by using the <em>fit</em> object. We will forecast four quarters ahead using the <code>forecast()</code> function. The code below generate a table with the forecasts.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span> <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="hbjnxmiepg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hbjnxmiepg table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hbjnxmiepg thead, #hbjnxmiepg tbody, #hbjnxmiepg tfoot, #hbjnxmiepg tr, #hbjnxmiepg td, #hbjnxmiepg th {
+  border-style: none;
+}
+
+#hbjnxmiepg p {
+  margin: 0;
+  padding: 0;
+}
+
+#hbjnxmiepg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#hbjnxmiepg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hbjnxmiepg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hbjnxmiepg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hbjnxmiepg .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hbjnxmiepg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hbjnxmiepg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hbjnxmiepg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hbjnxmiepg .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#hbjnxmiepg .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#hbjnxmiepg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hbjnxmiepg .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#hbjnxmiepg .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#hbjnxmiepg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hbjnxmiepg .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hbjnxmiepg .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hbjnxmiepg .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hbjnxmiepg .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#hbjnxmiepg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hbjnxmiepg .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hbjnxmiepg .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hbjnxmiepg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hbjnxmiepg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hbjnxmiepg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hbjnxmiepg .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hbjnxmiepg .gt_left {
+  text-align: left;
+}
+
+#hbjnxmiepg .gt_center {
+  text-align: center;
+}
+
+#hbjnxmiepg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hbjnxmiepg .gt_font_normal {
+  font-weight: normal;
+}
+
+#hbjnxmiepg .gt_font_bold {
+  font-weight: bold;
+}
+
+#hbjnxmiepg .gt_font_italic {
+  font-style: italic;
+}
+
+#hbjnxmiepg .gt_super {
+  font-size: 65%;
+}
+
+#hbjnxmiepg .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#hbjnxmiepg .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hbjnxmiepg .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#hbjnxmiepg .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#hbjnxmiepg .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#hbjnxmiepg .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#hbjnxmiepg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -780,22 +1281,22 @@ div.csl-indent {
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td headers=".model" class="gt_row gt_left">SES</td>
+    <tr><td headers=".model" class="gt_row gt_left">DAMPED</td>
 <td headers="period" class="gt_row gt_center">2023 Q3</td>
-<td headers="deliveries" class="gt_row gt_center">N(489, 947)</td>
-<td headers=".mean" class="gt_row gt_right">489.1179</td></tr>
-    <tr><td headers=".model" class="gt_row gt_left">SES</td>
+<td headers="deliveries" class="gt_row gt_center">N(488, 1017)</td>
+<td headers=".mean" class="gt_row gt_right">487.9805</td></tr>
+    <tr><td headers=".model" class="gt_row gt_left">DAMPED</td>
 <td headers="period" class="gt_row gt_center">2023 Q4</td>
-<td headers="deliveries" class="gt_row gt_center">N(524, 1264)</td>
-<td headers=".mean" class="gt_row gt_right">523.6208</td></tr>
-    <tr><td headers=".model" class="gt_row gt_left">SES</td>
+<td headers="deliveries" class="gt_row gt_center">N(520, 1431)</td>
+<td headers=".mean" class="gt_row gt_right">520.3249</td></tr>
+    <tr><td headers=".model" class="gt_row gt_left">DAMPED</td>
 <td headers="period" class="gt_row gt_center">2024 Q1</td>
-<td headers="deliveries" class="gt_row gt_center">N(558, 1742)</td>
-<td headers=".mean" class="gt_row gt_right">558.1238</td></tr>
-    <tr><td headers=".model" class="gt_row gt_left">SES</td>
+<td headers="deliveries" class="gt_row gt_center">N(552, 2052)</td>
+<td headers=".mean" class="gt_row gt_right">552.0224</td></tr>
+    <tr><td headers=".model" class="gt_row gt_left">DAMPED</td>
 <td headers="period" class="gt_row gt_center">2024 Q2</td>
-<td headers="deliveries" class="gt_row gt_center">N(593, 2415)</td>
-<td headers=".mean" class="gt_row gt_right">592.6267</td></tr>
+<td headers="deliveries" class="gt_row gt_center">N(583, 2918)</td>
+<td headers=".mean" class="gt_row gt_right">583.0860</td></tr>
   </tbody>
   
   
@@ -803,24 +1304,24 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>Below we create a plot.</p>
+<p>The model predicts Tesla to continue continue it’s trend and increase its deliveries every quarter. For the third quarter of 2023, Tesla is expected to deliver about 488,000 cars. The plot below nicely illustrates how the model expects Tesla to continue its upward trend.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(tesla, <span class="at">level=</span><span class="dv">95</span>) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Quarter"</span>, <span class="at">y=</span><span class="st">"Deliveries"</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Tesla Car Deliveries"</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(tesla, <span class="at">level=</span><span class="dv">95</span>)<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Quarter"</span>, <span class="at">y=</span><span class="st">"Deliveries"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Tesla Car Deliveries"</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ETS_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
-<section id="readings" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="readings"><span class="header-section-number">6.4</span> Readings</h2>
+<section id="readings" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">6.5</span> Readings</h2>
 <p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 8 (Exponential Smoothing).</p>
 </section>
-<section id="leasons-learned" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">6.5</span> Leasons Learned</h2>
+<section id="leasons-learned" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">6.6</span> Leasons Learned</h2>
 <p>In this module you have been introduced to ETS model. Particularly you have learned to:</p>
 <ul>
 <li><p>Use the <code>model()</code> and <code>ETS()</code> functions to estimate the model.</p></li>

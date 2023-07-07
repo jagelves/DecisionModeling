@@ -2,13 +2,13 @@
 
 ## Predicting Tesla's Deliveries
 
-Deliveries are a carefully watched number by Tesla shareholders and are the closest approximation of sales disclosed by the company. Can we use the ETS model to forecast Tesla's deliveries?
+Deliveries are a carefully watched number by Tesla shareholders and are the closest approximation of sales disclosed by the company. Additionally, Tesla's deliveries are closely followed due to their impact on financial markets, the EV industry, innovation and disruption, production efficiency, and the growth of the EV market. The numbers serve as a key performance indicator for Tesla's success and provide insights into the broader trends in the electric vehicle industry. Can we use the ETS model to forecast Tesla's deliveries?
 
 ## The Data
 
-Below is code that inputs the data as a tsibble in R.
+The data can be found here [Tesla]<https://ir.tesla.com/#quarterly-disclosure>. Below is code that inputs the data as a tsibble in R.
 
-```{r echo=FALSE}
+```{r message=FALSE}
 library(fpp3)
 
 # Create tsibble
@@ -33,53 +33,56 @@ tesla<-tsibble(
 )
 ```
 
-As you can see the tsibble is created with the `tsibble()` function included in the `fpp3` package. A time variable must be included and then defined using the *index* parameter. With the data loaded we can now create a test and training set.
+As you can see the tsibble is created with the `tsibble()` function included in the `fpp3` package. A time variable must be included and then defined using the *index* parameter. The `yearquarter()` function from the `lubridate` package is used to coerce the data to a date. With the data loaded we can now create a test and training set.
 
 ```{r}
 train_tesla<-filter_index(.data=tesla,"2016 Q1"~"2021 Q4")
 test_tesla<-filter_index(.data=tesla,"2022 Q1"~"2023 Q2")
 ```
 
-These are easily created using the `filter_index()` function and specifying the data set, and particular dates each set should contain.
+There is no fixed rule for determining the length of the train and test sets. In this example, it is important to allocate a sufficiently large portion of the dataset to the training set to capture the underlying patterns and trends of Tesla's deliveries. The sets are easily created using the `filter_index()` function and specifying the data set, and  the particular dates.
 
 ## Models
 
-Three models can be estimated. The first one is the Simple Exponential Smoothing model with additive errors. Then the Holt model that includes an additive trend. Finally we can also dampen the trend. We include no seasonality in these initial models.
+Four models will be estimated based on ETS. The first one is the Simple Exponential Smoothing model with additive errors, the Holt model that includes an additive trend, a dampened trend model and finally an algorithmic function that selects the best ETS model.
 
-The `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The cross validation is done one period ahead and accuracy measures are created by using the test set.
+Model selection will be done with cross validation. Recall, that the the `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The *.init* parameter sets the first eight observations to estimate our initial model. The cross validation is done four periods ahead and accuracy measures are created by comparing forecasts to the test set.
 
-```{r}
-tesla %>% stretch_tsibble(.init = 10) %>%
+```{r message=FALSE, warning=FALSE}
+library(gt)
+tesla %>% stretch_tsibble(.init = 8) %>%
   model(SES=ETS(deliveries ~ error("A") + trend("N") + season("N")),
                                    HOLT=ETS(deliveries ~ error("A") + trend("A") + season("N")),
-                                   DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")))%>%
-  forecast(h = 1) %>%
-  accuracy(tesla)
+                                   DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")),
+ALGO=ETS(deliveries))%>%
+  forecast(h = 4) %>%
+  accuracy(tesla) %>% gt()
 ```
 
-As you can see the model performs the best is the SES model. We can now estimate the SES model and observe the parameters using the `tidy()` function.
+The accuracy measures reveal that the DAMPED and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPED model and assume that Tesla's growth will taper off into the future. Below, the DAMPED model is estimated and the parameters are revealed by using the `tidy()` function.
 ```{r}
 fit <- tesla %>%
   model(
-    SES = ETS(deliveries ~ error("A") + trend("A") +
-                   season("N"))
+    DAMPED = ETS(deliveries ~ error("A") + trend("Ad") + season("N"))
   )
 
 tidy(fit)
 ```
-Lastly, we can predict four quarters ahead tesla's deliveries. 
-```{r}
+## Forecast
+
+Forecasts are created by using the *fit* object. We will forecast four quarters ahead using the  `forecast()` function. The code below generate a table with the forecasts. 
+```{r message=FALSE}
 library(gt)
 fit %>%
   forecast(h = 4) %>% gt()
   
 ```
 
-Below we create a plot.
+The model predicts Tesla to continue continue it's trend and increase its deliveries every quarter. For the third quarter of 2023, Tesla is expected to deliver about 488,000 cars. The plot below nicely illustrates how the model expects Tesla to continue its upward trend.
 ```{r}
 fit %>%
   forecast(h = 4) %>%
-  autoplot(tesla, level=95) +
+  autoplot(tesla, level=95)+
   labs(x="Quarter", y="Deliveries",
        title = "Tesla Car Deliveries") + theme_classic()
 ```
