@@ -16,9 +16,9 @@ Imagine you are the CEO of the Shopaholic Retail Company, and you are considerin
 -   **Success Scenario:** If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of \$5 million.
 -   **Failure Scenario:** If the new product line fails to gain traction in the market, you estimate an annual loss of \$3 million due to production costs and missed opportunities.
 
-In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line's success or failure will determine your company's financial outcome. Hence, determining how to adequately assess the risks involved in this decision and the potential outcomes is of importance.
+In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line's success or failure will determine your company's financial outcome. Determining how to adequately assess the risks involved in this decision and the potential outcomes is of importance.
 
-## Expected Monetary Value
+## Expected Monetary Value {#sec-EMV}
 
 According to your estimates, you believe that there is a $60$% chance of success and a $40$% chance of failure. Using this information, you can calculate the **expected monetary value (EMV)** of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:
 
@@ -58,7 +58,7 @@ graph LR
 
 Decision trees are read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *Introduce* or *Not Introduce* the new production line. If you *Introduce*, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure at the probabilities given. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.
 
-To solve decision trees and find the optimal decision use **backward induction**. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to *Introduce* or *Not Introduce*. In this case we should *Introduce*, since the resulting EMV (1.8) is higher than *Not Introduce* (0).
+To solve decision trees and find the optimal decision use **backward induction**. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million (refer to @sec-EMV). Moving back to our initial decision, we now have the choice to *Introduce* or *Not Introduce*. In this case we should *Introduce*, since the resulting EMV (1.8) is higher than *Not Introduce* (0).
 
 ## Consulting Team
 
@@ -122,7 +122,7 @@ graph LR
 
 ## Bayes' Theorem
 
-Now we can use Bayes' Theorem to update our probabilities given the recommendation from the consulting team. Bayes' Theorem states:
+Now we can use Bayes' Theorem to update our probabilities given the recommendation from the consulting team. Recall that **Bayes' Theorem** is a concept in probability that helps us update our beliefs or make better predictions when we get new information. Mathematically, Bayes' Theorem states:
 
 ::: {.pull-right-50 .text-center}
 $p(A|B)=\frac{p(B|A)p(A)}{p(B)}$
@@ -156,9 +156,9 @@ graph LR
     H -->|Failure p=0.92| K( -3.5 )
 ```
 
-## Optimal Decision
+## Optimal Decision {#sec-Optimal}
 
-Now that we have calculated the probabilities we can finally decide whether we should hire the consulting team, and most importantly whether we should introduce the new product line. Calculating EMV's the decision tree is:
+Now that we have calculated the probabilities we can finally decide whether we should hire the consulting team, and most importantly whether we should introduce the new product line. Summarizing the decision tree by calculating the EMV's for each probability node yields:
 
 ```{mermaid theme=darkly}
 %%| fig-width: 5
@@ -178,7 +178,7 @@ It is important to notice here that if the CEO hires the consultants, he/she sho
 
 ## The Value of Information
 
-We are now faced with an important question. What is the value of the information provided by the consulting team? In other words, should the CEO hire the consultants? To answer this question, let's start by calculating expected monetary value of the tree in the previous section:
+We are now faced with an important question. What is the value of the information provided by the consulting team? In other words, should the CEO hire the consultants? To answer this question, let's start by calculating expected monetary value of the tree in @sec-Optimal:
 
 ::: {.pull-right-50 .text-center}
 $EMV=0.63(3.94)+0.37(-0.5)$ \n
@@ -211,3 +211,5 @@ Some concepts are important to review before you start reading the chapter. In p
 -   Apply the backward induction method to solve decision problems.
 
 -   Apply Bayes' Theorem to update probabilities given new information.
+
+-   Determine the price of information.

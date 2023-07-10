@@ -188,12 +188,12 @@ div.csl-indent {
    
   <ul>
   <li><a href="#shopaholic-retail-company" id="toc-shopaholic-retail-company" class="nav-link active" data-scroll-target="#shopaholic-retail-company"><span class="header-section-number">1.1</span> Shopaholic Retail Company</a></li>
-  <li><a href="#expected-monetary-value" id="toc-expected-monetary-value" class="nav-link" data-scroll-target="#expected-monetary-value"><span class="header-section-number">1.2</span> Expected Monetary Value</a></li>
+  <li><a href="#sec-EMV" id="toc-sec-EMV" class="nav-link" data-scroll-target="#sec-EMV"><span class="header-section-number">1.2</span> Expected Monetary Value</a></li>
   <li><a href="#decision-trees" id="toc-decision-trees" class="nav-link" data-scroll-target="#decision-trees"><span class="header-section-number">1.3</span> Decision Trees</a></li>
   <li><a href="#consulting-team" id="toc-consulting-team" class="nav-link" data-scroll-target="#consulting-team"><span class="header-section-number">1.4</span> Consulting Team</a></li>
   <li><a href="#updating-probabilities" id="toc-updating-probabilities" class="nav-link" data-scroll-target="#updating-probabilities"><span class="header-section-number">1.5</span> Updating Probabilities</a></li>
   <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="header-section-number">1.6</span> Bayes’ Theorem</a></li>
-  <li><a href="#optimal-decision" id="toc-optimal-decision" class="nav-link" data-scroll-target="#optimal-decision"><span class="header-section-number">1.7</span> Optimal Decision</a></li>
+  <li><a href="#sec-Optimal" id="toc-sec-Optimal" class="nav-link" data-scroll-target="#sec-Optimal"><span class="header-section-number">1.7</span> Optimal Decision</a></li>
   <li><a href="#the-value-of-information" id="toc-the-value-of-information" class="nav-link" data-scroll-target="#the-value-of-information"><span class="header-section-number">1.8</span> The Value of Information</a></li>
   <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">1.9</span> Readings</a></li>
   <li><a href="#lessons-learned-in-this-chapter" id="toc-lessons-learned-in-this-chapter" class="nav-link" data-scroll-target="#lessons-learned-in-this-chapter"><span class="header-section-number">1.10</span> Lessons Learned In This Chapter</a></li>
@@ -228,10 +228,10 @@ div.csl-indent {
 <li><strong>Success Scenario:</strong> If the new product line is well-received by customers and captures a significant market share, you anticipate an annual profit of $5 million.</li>
 <li><strong>Failure Scenario:</strong> If the new product line fails to gain traction in the market, you estimate an annual loss of $3 million due to production costs and missed opportunities.</li>
 </ul>
-<p>In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line’s success or failure will determine your company’s financial outcome. Hence, determining how to adequately assess the risks involved in this decision and the potential outcomes is of importance.</p>
+<p>In this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line’s success or failure will determine your company’s financial outcome. Determining how to adequately assess the risks involved in this decision and the potential outcomes is of importance.</p>
 </section>
-<section id="expected-monetary-value" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="expected-monetary-value"><span class="header-section-number">1.2</span> Expected Monetary Value</h2>
+<section id="sec-EMV" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-EMV"><span class="header-section-number">1.2</span> Expected Monetary Value</h2>
 <p>According to your estimates, you believe that there is a <span class="math inline">\(60\)</span>% chance of success and a <span class="math inline">\(40\)</span>% chance of failure. Using this information, you can calculate the <strong>expected monetary value (EMV)</strong> of the decision by multiplying the monetary value of each outcome by its respective probability and summing them up:</p>
 <div class="pull-right-50 text-center">
 <p>Expected Value = (Prob. of Success * Value of Success) + (Prob. of Failure * Value of Failure)</p>
@@ -263,7 +263,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Decision trees are read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to <em>Introduce</em> or <em>Not Introduce</em> the new production line. If you <em>Introduce</em>, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure at the probabilities given. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.</p>
-<p>To solve decision trees and find the optimal decision use <strong>backward induction</strong>. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million. Moving back to our initial decision, we now have the choice to <em>Introduce</em> or <em>Not Introduce</em>. In this case we should <em>Introduce</em>, since the resulting EMV (1.8) is higher than <em>Not Introduce</em> (0).</p>
+<p>To solve decision trees and find the optimal decision use <strong>backward induction</strong>. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV’s to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million (refer to <a href="#sec-EMV"><span>Section&nbsp;1.2</span></a>). Moving back to our initial decision, we now have the choice to <em>Introduce</em> or <em>Not Introduce</em>. In this case we should <em>Introduce</em>, since the resulting EMV (1.8) is higher than <em>Not Introduce</em> (0).</p>
 </section>
 <section id="consulting-team" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="consulting-team"><span class="header-section-number">1.4</span> Consulting Team</h2>
@@ -329,7 +329,7 @@ div.csl-indent {
 </section>
 <section id="bayes-theorem" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">1.6</span> Bayes’ Theorem</h2>
-<p>Now we can use Bayes’ Theorem to update our probabilities given the recommendation from the consulting team. Bayes’ Theorem states:</p>
+<p>Now we can use Bayes’ Theorem to update our probabilities given the recommendation from the consulting team. Recall that <strong>Bayes’ Theorem</strong> is a concept in probability that helps us update our beliefs or make better predictions when we get new information. Mathematically, Bayes’ Theorem states:</p>
 <div class="pull-right-50 text-center">
 <p><span class="math inline">\(p(A|B)=\frac{p(B|A)p(A)}{p(B)}\)</span></p>
 </div>
@@ -362,9 +362,9 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="optimal-decision" class="level2" data-number="1.7">
-<h2 data-number="1.7" class="anchored" data-anchor-id="optimal-decision"><span class="header-section-number">1.7</span> Optimal Decision</h2>
-<p>Now that we have calculated the probabilities we can finally decide whether we should hire the consulting team, and most importantly whether we should introduce the new product line. Calculating EMV’s the decision tree is:</p>
+<section id="sec-Optimal" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="sec-Optimal"><span class="header-section-number">1.7</span> Optimal Decision</h2>
+<p>Now that we have calculated the probabilities we can finally decide whether we should hire the consulting team, and most importantly whether we should introduce the new product line. Summarizing the decision tree by calculating the EMV’s for each probability node yields:</p>
 <div class="cell" data-fig-width="5">
 <div class="cell-output-display">
 <div>
@@ -388,7 +388,7 @@ div.csl-indent {
 </section>
 <section id="the-value-of-information" class="level2" data-number="1.8">
 <h2 data-number="1.8" class="anchored" data-anchor-id="the-value-of-information"><span class="header-section-number">1.8</span> The Value of Information</h2>
-<p>We are now faced with an important question. What is the value of the information provided by the consulting team? In other words, should the CEO hire the consultants? To answer this question, let’s start by calculating expected monetary value of the tree in the previous section:</p>
+<p>We are now faced with an important question. What is the value of the information provided by the consulting team? In other words, should the CEO hire the consultants? To answer this question, let’s start by calculating expected monetary value of the tree in <a href="#sec-Optimal"><span>Section&nbsp;1.7</span></a>:</p>
 <div class="pull-right-50 text-center">
 <p><span class="math inline">\(EMV=0.63(3.94)+0.37(-0.5)\)</span> </p>
 <p><span class="math inline">\(EMV=2.3\)</span> </p>
@@ -413,6 +413,7 @@ Some concepts are important to review before you start reading the chapter. In p
 <li><p>Use Decision Trees to map the business decision process.</p></li>
 <li><p>Apply the backward induction method to solve decision problems.</p></li>
 <li><p>Apply Bayes’ Theorem to update probabilities given new information.</p></li>
+<li><p>Determine the price of information.</p></li>
 </ul>
 
 
