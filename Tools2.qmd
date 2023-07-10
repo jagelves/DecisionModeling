@@ -2,7 +2,7 @@
 
 In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, we should carefully inspect the data, address any mistakes that might be present, and take note of any general patterns. By following this procedure, we will ensure that the data is ready for analysis.
 
-We will first learn how to transform and manipulate our data using the `dplyr` package. We will also introduce a package called `lubridate`, which helps us parse dates which are essential in time series analysis. Next, we will plot the times series to identify trends, seasonality, or cyclical behavior. To do this, we will learn the `ggplot2`, and `fpp3` packages. This last package includes `fable` used to model time series data.
+We will first learn how to transform and manipulate our data using the `dplyr` package. We will also introduce a package called `lubridate`, which helps us parse dates which are essential in time series analysis. Next, we will plot the times series to identify trends, seasonality, or cyclical behavior. To do this, we will learn the `ggplot2`, and `fpp3` packages. This last package includes `fable` which is used to model time series data.
 
 ## Chilango's Kitchen Wants You to Forecast Avocado Prices
 
@@ -10,7 +10,7 @@ Chilango's Kitchen specializes in tacos and burritos that are made to order in f
 
 ## The Avocado Data Set {#sec-Avocado}
 
-The avocado data set is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers' cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. Other avocados (e.g. greenskins) are not included in this data.
+The avocado data set is weekly retail scan data for U.S retail volume (units) and price. Retail scan data comes directly from retailers' cash registers based on actual retail sales of Hass avocados. The data reflects an expanded, multi-outlet retail data set. Multi-outlet reporting includes an aggregation of the following channels: grocery, mass, club, drug, dollar, and military. The Average Price (of avocados) in the table reflects a per unit (per avocado) cost, even when multiple units (avocados) are sold in bags. Other avocados (e.g. greenskins) are not included in this data. You can find the data [here](https://jagelves.github.io/Data/avocado2020.csv).
 
 **Note:** When inspecting the data you will notice that each entry is recorded weekly. However, there is an entry on 01/01/2018, that is right after 12/31/2017. This is a single observation that is not weekly. You will also note that there are missing dates from 12/02/2018-12/31/2018.
 
@@ -43,14 +43,14 @@ avocado$date<-mdy(avocado$date)
 
 ## Piping and dplyr
 
-`dplyr` is commonly used with "piping". Generally speaking, "piping" allows us to chain functions. "Piping" (`%>%`) passes the object on the left of the pipe as the first argument in the function to the right of the pipe. We can illustrate this using the `select()` and `arrange()` functions.
+`dplyr` is commonly used with "piping". Generally speaking, "piping" allows us to chain functions. "Piping" (`%>%` or `|>`) passes the object on the left of the pipe as the first argument in the function to the right of the pipe. We can illustrate this using the `select()` and `arrange()` functions.
 
 ```{r}
 avocado %>% select(c(average_price,geography)) %>%
   arrange(desc(average_price)) %>% head(5)
 ```
 
-There is a lot to unpack in this line of code. Let's start with the functions used. The `select()` and `arrange()` functions are part of the `dplyr` package. As the name indicates, the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data in ascending order. The `desc()` function is used to sort in descending order.
+There is a lot to explain in this line of code. Let's start with the functions used. The `select()` and `arrange()` functions are part of the `dplyr` package. As the name indicates, the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data in ascending order. The `desc()` function is used to sort in descending order.
 
 Let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%\>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. The data frame is sorted in descending order so that the highest average avocado price is displayed first. Finally, the `head()` function is used to retrieve the top five entries.
 
@@ -124,7 +124,7 @@ calits %>%
 
 ```
 
-`fable` allows us to construct this model easily by using the `model()` function. This function will allow us to estimate a variety of time series models, so we will be using it it regularly. The particular model we are running is STL, hence the use of the `STL()` function within the `model()` function. We define the model by defining the dependent variable (i.e., *average_price*) followed by "\~" and the components. As you can see, the *window* argument in the `trend()` function is set to a relatively large value. By doing this the moving average reflects the general direction of the series and avoids the small fluctuations of the data. The *robust* parameter is set to true to make the fitting process less sensitive to outliers or influential data points.
+`fable` allows us to construct this model easily by using the `model()` function. This function will allow us to estimate a variety of time series models, so we will be using it it regularly. The particular model we are running is STL, hence the use of the `STL()` function within the `model()` function. We define the model by defining the dependent variable (i.e., *average_price*) followed by a tilde (`~`) and the components. As you can see, the *window* argument in the `trend()` function is set to a relatively large value. By doing this the moving average reflects the general direction of the series and avoids the small fluctuations of the data. The *robust* parameter is set to true to make the fitting process less sensitive to outliers or influential data points.
 
 As shown above, the trend is increasing, and the seasonal component confirms low levels at the beginning of the year and high levels in the summer. These are two general patterns that determine the price of avocados in California and provide valuable insight to share with Chilango's Kitchen.
 

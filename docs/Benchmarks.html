@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.475">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,48 +47,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -101,8 +73,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -112,7 +83,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ARIMA.html" rel="next">
+<link href="./ETS.html" rel="next">
 <link href="./Tools2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -143,6 +114,7 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -151,11 +123,16 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Model Benchmarks</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Benchmarks.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Model Benchmarks</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -163,81 +140,92 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Decision Modeling</a> 
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Decisions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Decisions Under Uncertainty</span></a>
+  <a href="./Decisions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Decisions Under Uncertainty</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tools for Working With Simulation</span></a>
+  <a href="./Tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tools for Working With Simulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulation in R</span></a>
+  <a href="./Simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulation in R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Tools2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Time Series Tools</span></a>
+  <a href="./Tools2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Time Series Tools</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Model Benchmarks</span></a>
+  <a href="./Benchmarks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Model Benchmarks</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ARIMA.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ARIMA</span></a>
+  <a href="./ETS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ETS</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ETS.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">ETS</span></a>
+  <a href="./ARIMA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">ARIMA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-Bench" id="toc-sec-Bench" class="nav-link active" data-scroll-target="#sec-Bench"><span class="toc-section-number">5.1</span>  Benchmarks</a></li>
-  <li><a href="#modeling-the-the-average-price-of-avocados" id="toc-modeling-the-the-average-price-of-avocados" class="nav-link" data-scroll-target="#modeling-the-the-average-price-of-avocados"><span class="toc-section-number">5.2</span>  Modeling the the Average Price of Avocados</a></li>
-  <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="toc-section-number">5.3</span>  Model Fit</a></li>
-  <li><a href="#forecast" id="toc-forecast" class="nav-link" data-scroll-target="#forecast"><span class="toc-section-number">5.4</span>  Forecast</a></li>
-  <li><a href="#over-fitting" id="toc-over-fitting" class="nav-link" data-scroll-target="#over-fitting"><span class="toc-section-number">5.5</span>  Over-Fitting</a></li>
-  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="toc-section-number">5.6</span>  Cross Validation</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="toc-section-number">5.7</span>  Readings</a></li>
-  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="toc-section-number">5.8</span>  Leasons Learned</a></li>
+  <li><a href="#sec-Bench" id="toc-sec-Bench" class="nav-link active" data-scroll-target="#sec-Bench"><span class="header-section-number">5.1</span> Benchmarks</a></li>
+  <li><a href="#modeling-the-the-average-price-of-avocados" id="toc-modeling-the-the-average-price-of-avocados" class="nav-link" data-scroll-target="#modeling-the-the-average-price-of-avocados"><span class="header-section-number">5.2</span> Modeling the the Average Price of Avocados</a></li>
+  <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="header-section-number">5.3</span> Model Fit</a></li>
+  <li><a href="#forecast" id="toc-forecast" class="nav-link" data-scroll-target="#forecast"><span class="header-section-number">5.4</span> Forecast</a></li>
+  <li><a href="#over-fitting" id="toc-over-fitting" class="nav-link" data-scroll-target="#over-fitting"><span class="header-section-number">5.5</span> Over-Fitting</a></li>
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="header-section-number">5.6</span> Cross Validation</a></li>
+  <li><a href="#other-accuracy-measures" id="toc-other-accuracy-measures" class="nav-link" data-scroll-target="#other-accuracy-measures"><span class="header-section-number">5.7</span> Other Accuracy Measures</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">5.8</span> Readings</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">5.9</span> Leasons Learned</a></li>
   </ul>
 </nav>
     </div>
@@ -246,7 +234,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Model Benchmarks</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Model Benchmarks</span></h1>
 </div>
 
 
@@ -268,22 +256,18 @@ div.csl-indent {
 <center>
 <span class="math inline">\(\hat y_{T+h}=y_T\)</span>
 </center>
-<p></p>
 <p>where <span class="math inline">\(\hat y_{T+h}\)</span> is the predicted value for <span class="math inline">\(h\)</span> periods ahead, and <span class="math inline">\(y_T\)</span> is the value observed at the current time period <span class="math inline">\(T\)</span>. We can adjust the Naive prediction by accounting for some natural <strong>drift</strong> (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would “drift” the naive prediction upward. Mathematically we would write:</p>
 <center>
 <span class="math inline">\(\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})\)</span>
 </center>
-<p></p>
 <p>where <span class="math inline">\(h(\frac{y_t-y_1}{T-1})\)</span> can be thought as the average increase of <span class="math inline">\(y\)</span> from period <span class="math inline">\(1\)</span> to the current period <span class="math inline">\(T\)</span>. One could also predict weight by observing weight during a period and <strong>averaging</strong> the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean could be a good predictor of your future weight. Formally:</p>
 <center>
 <span class="math inline">\(\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}\)</span>
 </center>
-<p></p>
 <p>Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of our diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward <strong>trend</strong> of our weight. Formally:</p>
 <center>
 <span class="math inline">\(\hat y_{T+h}=b_0+b_1(T+h)\)</span>
 </center>
-<p></p>
 </section>
 <section id="modeling-the-the-average-price-of-avocados" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="modeling-the-the-average-price-of-avocados"><span class="header-section-number">5.2</span> Modeling the the Average Price of Avocados</h2>
@@ -307,7 +291,7 @@ div.csl-indent {
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">Drift=</span><span class="fu">RW</span>(average_price<span class="sc">~</span><span class="fu">drift</span>()),</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span>date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <em>fit</em> object is saved as a mable (model table). To explore the coefficients of the models estimated, we use the <code>coef()</code> function with <em>fit</em> as its single argument. The output table has been enhanced visually by using the <a href="https://gt.rstudio.com"><code>gt</code></a> package.</p>
+<p>The <em>fit</em> object is saved as a mable (model table). The <code>model()</code>function specifies the four models to be estimated using their respective functions (i.e., <code>MEAN()</code>, <code>NAIVE()</code>, <code>RW()</code>, and <code>TSLM()</code>). To explore the coefficients of the models estimated, we use the <code>coef()</code> function with <em>fit</em> as its single argument. The output table has been enhanced visually by using the <a href="https://gt.rstudio.com"><code>gt</code></a> package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit) <span class="sc">%&gt;%</span> <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
@@ -320,23 +304,23 @@ div.csl-indent {
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="cggsclfrmc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cggsclfrmc table {
+<div id="ahtjxmqsyz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ahtjxmqsyz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#cggsclfrmc thead, #cggsclfrmc tbody, #cggsclfrmc tfoot, #cggsclfrmc tr, #cggsclfrmc td, #cggsclfrmc th {
+#ahtjxmqsyz thead, #ahtjxmqsyz tbody, #ahtjxmqsyz tfoot, #ahtjxmqsyz tr, #ahtjxmqsyz td, #ahtjxmqsyz th {
   border-style: none;
 }
 
-#cggsclfrmc p {
+#ahtjxmqsyz p {
   margin: 0;
   padding: 0;
 }
 
-#cggsclfrmc .gt_table {
+#ahtjxmqsyz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -362,12 +346,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_caption {
+#ahtjxmqsyz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#cggsclfrmc .gt_title {
+#ahtjxmqsyz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -379,7 +363,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#cggsclfrmc .gt_subtitle {
+#ahtjxmqsyz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -391,7 +375,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#cggsclfrmc .gt_heading {
+#ahtjxmqsyz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -403,13 +387,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_bottom_border {
+#ahtjxmqsyz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_col_headings {
+#ahtjxmqsyz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -424,7 +408,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_col_heading {
+#ahtjxmqsyz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -444,7 +428,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#cggsclfrmc .gt_column_spanner_outer {
+#ahtjxmqsyz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -456,15 +440,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#cggsclfrmc .gt_column_spanner_outer:first-child {
+#ahtjxmqsyz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cggsclfrmc .gt_column_spanner_outer:last-child {
+#ahtjxmqsyz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cggsclfrmc .gt_column_spanner {
+#ahtjxmqsyz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -476,11 +460,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#cggsclfrmc .gt_spanner_row {
+#ahtjxmqsyz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#cggsclfrmc .gt_group_heading {
+#ahtjxmqsyz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -506,7 +490,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#cggsclfrmc .gt_empty_group_heading {
+#ahtjxmqsyz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -521,15 +505,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#cggsclfrmc .gt_from_md > :first-child {
+#ahtjxmqsyz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cggsclfrmc .gt_from_md > :last-child {
+#ahtjxmqsyz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cggsclfrmc .gt_row {
+#ahtjxmqsyz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -548,7 +532,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#cggsclfrmc .gt_stub {
+#ahtjxmqsyz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -561,7 +545,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#cggsclfrmc .gt_stub_row_group {
+#ahtjxmqsyz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -575,15 +559,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#cggsclfrmc .gt_row_group_first td {
+#ahtjxmqsyz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#cggsclfrmc .gt_row_group_first th {
+#ahtjxmqsyz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#cggsclfrmc .gt_summary_row {
+#ahtjxmqsyz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -593,16 +577,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#cggsclfrmc .gt_first_summary_row {
+#ahtjxmqsyz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_first_summary_row.thick {
+#ahtjxmqsyz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#cggsclfrmc .gt_last_summary_row {
+#ahtjxmqsyz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -612,7 +596,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_grand_summary_row {
+#ahtjxmqsyz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -622,7 +606,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#cggsclfrmc .gt_first_grand_summary_row {
+#ahtjxmqsyz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -632,7 +616,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_last_grand_summary_row_top {
+#ahtjxmqsyz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -642,11 +626,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_striped {
+#ahtjxmqsyz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cggsclfrmc .gt_table_body {
+#ahtjxmqsyz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -655,7 +639,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_footnotes {
+#ahtjxmqsyz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -669,7 +653,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_footnote {
+#ahtjxmqsyz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -678,7 +662,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#cggsclfrmc .gt_sourcenotes {
+#ahtjxmqsyz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -692,7 +676,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#cggsclfrmc .gt_sourcenote {
+#ahtjxmqsyz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -700,63 +684,63 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#cggsclfrmc .gt_left {
+#ahtjxmqsyz .gt_left {
   text-align: left;
 }
 
-#cggsclfrmc .gt_center {
+#ahtjxmqsyz .gt_center {
   text-align: center;
 }
 
-#cggsclfrmc .gt_right {
+#ahtjxmqsyz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cggsclfrmc .gt_font_normal {
+#ahtjxmqsyz .gt_font_normal {
   font-weight: normal;
 }
 
-#cggsclfrmc .gt_font_bold {
+#ahtjxmqsyz .gt_font_bold {
   font-weight: bold;
 }
 
-#cggsclfrmc .gt_font_italic {
+#ahtjxmqsyz .gt_font_italic {
   font-style: italic;
 }
 
-#cggsclfrmc .gt_super {
+#ahtjxmqsyz .gt_super {
   font-size: 65%;
 }
 
-#cggsclfrmc .gt_footnote_marks {
+#ahtjxmqsyz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#cggsclfrmc .gt_asterisk {
+#ahtjxmqsyz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#cggsclfrmc .gt_indent_1 {
+#ahtjxmqsyz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#cggsclfrmc .gt_indent_2 {
+#ahtjxmqsyz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#cggsclfrmc .gt_indent_3 {
+#ahtjxmqsyz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#cggsclfrmc .gt_indent_4 {
+#ahtjxmqsyz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#cggsclfrmc .gt_indent_5 {
+#ahtjxmqsyz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -812,7 +796,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The table records the estimates for all the benchmarks discussed in <a href="#sec-Bench"><span>Section&nbsp;5.1</span></a>. The naive method has no estimate, as it is simply the previous period’s observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.</p>
+<p>The table records the estimates for all the benchmarks discussed in <a href="#sec-Bench"><span>Section&nbsp;5.1</span></a>. The naive method has no entry, as the forecast is created by using the previous period’s observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(average_price) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> .fitted), <span class="at">col=</span><span class="st">"red"</span>,</span>
@@ -826,7 +810,7 @@ div.csl-indent {
 <p><img src="Benchmarks_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The graph illustrates how closely the Naive method follows the data. This might seem like a good model, but consider how every period the heuristic is making a mistake since average prices are constantly changing every week. Consider as well how the Naive prediction provides no explanation of the series governing process. The LS model, on the other hand, does provide some insight to a force that is influencing the data. Mainly, a rising trend. We can use characteristics such as a trend or seasonality to forecast a series.</p>
+<p>The graph illustrates how closely the Naive method follows the data. This might seem like a good model, but consider how the heuristic is making a mistake every period since average prices are constantly changing every week. Furthermore, consider how the Naive prediction does not explain the series governing process. The LS model, on the other hand, does provide some insight into a force that is influencing the data—mainly a rising trend. We can use characteristics such as a trend or seasonality to forecast a series.</p>
 </section>
 <section id="model-fit" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="model-fit"><span class="header-section-number">5.3</span> Model Fit</h2>
@@ -834,30 +818,30 @@ div.csl-indent {
 <center>
 <span class="math inline">\(MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T}\)</span>
 </center>
-<p>How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but we then find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and once again made the table more appealing by using the <code>gt</code> library.</p>
+<p>How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE’s but find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and again made the table more appealing using the <code>gt</code> library.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="inzheyexyh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#inzheyexyh table {
+<div id="pansurwqdy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pansurwqdy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#inzheyexyh thead, #inzheyexyh tbody, #inzheyexyh tfoot, #inzheyexyh tr, #inzheyexyh td, #inzheyexyh th {
+#pansurwqdy thead, #pansurwqdy tbody, #pansurwqdy tfoot, #pansurwqdy tr, #pansurwqdy td, #pansurwqdy th {
   border-style: none;
 }
 
-#inzheyexyh p {
+#pansurwqdy p {
   margin: 0;
   padding: 0;
 }
 
-#inzheyexyh .gt_table {
+#pansurwqdy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -883,12 +867,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_caption {
+#pansurwqdy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#inzheyexyh .gt_title {
+#pansurwqdy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -900,7 +884,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#inzheyexyh .gt_subtitle {
+#pansurwqdy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -912,7 +896,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#inzheyexyh .gt_heading {
+#pansurwqdy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -924,13 +908,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_bottom_border {
+#pansurwqdy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_col_headings {
+#pansurwqdy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -945,7 +929,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_col_heading {
+#pansurwqdy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -965,7 +949,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#inzheyexyh .gt_column_spanner_outer {
+#pansurwqdy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -977,15 +961,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#inzheyexyh .gt_column_spanner_outer:first-child {
+#pansurwqdy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#inzheyexyh .gt_column_spanner_outer:last-child {
+#pansurwqdy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#inzheyexyh .gt_column_spanner {
+#pansurwqdy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -997,11 +981,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#inzheyexyh .gt_spanner_row {
+#pansurwqdy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#inzheyexyh .gt_group_heading {
+#pansurwqdy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1027,7 +1011,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#inzheyexyh .gt_empty_group_heading {
+#pansurwqdy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1042,15 +1026,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#inzheyexyh .gt_from_md > :first-child {
+#pansurwqdy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#inzheyexyh .gt_from_md > :last-child {
+#pansurwqdy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#inzheyexyh .gt_row {
+#pansurwqdy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1069,7 +1053,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#inzheyexyh .gt_stub {
+#pansurwqdy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1082,7 +1066,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#inzheyexyh .gt_stub_row_group {
+#pansurwqdy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1096,15 +1080,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#inzheyexyh .gt_row_group_first td {
+#pansurwqdy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#inzheyexyh .gt_row_group_first th {
+#pansurwqdy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#inzheyexyh .gt_summary_row {
+#pansurwqdy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1114,16 +1098,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#inzheyexyh .gt_first_summary_row {
+#pansurwqdy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_first_summary_row.thick {
+#pansurwqdy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#inzheyexyh .gt_last_summary_row {
+#pansurwqdy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1133,7 +1117,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_grand_summary_row {
+#pansurwqdy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1143,7 +1127,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#inzheyexyh .gt_first_grand_summary_row {
+#pansurwqdy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1153,7 +1137,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_last_grand_summary_row_top {
+#pansurwqdy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1163,11 +1147,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_striped {
+#pansurwqdy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#inzheyexyh .gt_table_body {
+#pansurwqdy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1176,7 +1160,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_footnotes {
+#pansurwqdy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1190,7 +1174,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_footnote {
+#pansurwqdy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1199,7 +1183,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#inzheyexyh .gt_sourcenotes {
+#pansurwqdy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1213,7 +1197,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#inzheyexyh .gt_sourcenote {
+#pansurwqdy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1221,63 +1205,63 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#inzheyexyh .gt_left {
+#pansurwqdy .gt_left {
   text-align: left;
 }
 
-#inzheyexyh .gt_center {
+#pansurwqdy .gt_center {
   text-align: center;
 }
 
-#inzheyexyh .gt_right {
+#pansurwqdy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#inzheyexyh .gt_font_normal {
+#pansurwqdy .gt_font_normal {
   font-weight: normal;
 }
 
-#inzheyexyh .gt_font_bold {
+#pansurwqdy .gt_font_bold {
   font-weight: bold;
 }
 
-#inzheyexyh .gt_font_italic {
+#pansurwqdy .gt_font_italic {
   font-style: italic;
 }
 
-#inzheyexyh .gt_super {
+#pansurwqdy .gt_super {
   font-size: 65%;
 }
 
-#inzheyexyh .gt_footnote_marks {
+#pansurwqdy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#inzheyexyh .gt_asterisk {
+#pansurwqdy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#inzheyexyh .gt_indent_1 {
+#pansurwqdy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#inzheyexyh .gt_indent_2 {
+#pansurwqdy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#inzheyexyh .gt_indent_3 {
+#pansurwqdy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#inzheyexyh .gt_indent_4 {
+#pansurwqdy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#inzheyexyh .gt_indent_5 {
+#pansurwqdy .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1368,7 +1352,7 @@ div.csl-indent {
 <p><img src="Benchmarks_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note how the Mean and Naive models forecast that the series will continue without a trend. The LS model predicts that the series will continue its trend but as all of the other methods, does not take into account the seasonal pattern discussed in <a href="Tools2.html#sec-Visual"><span>Section&nbsp;4.5</span></a>. In future chapters, we will be looking at models that account for trend and seasonality.</p>
+<p>Note how the Mean and Naive models predict that the series will continue without a trend. The LS model predicts that the series will continue its trend but, like all other methods, does not consider the seasonal pattern discussed in <a href="Tools2.html#sec-Visual"><span>Section&nbsp;4.5</span></a>. In future chapters, we will look at models that account for trend and seasonality.</p>
 </section>
 <section id="over-fitting" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="over-fitting"><span class="header-section-number">5.5</span> Over-Fitting</h2>
@@ -1391,10 +1375,7 @@ div.csl-indent {
 <p><img src="Benchmarks_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The graph shows how the LS method does well with the test data and a long forecast period. This can be confirmed by obtaining the accuracy measures against the test set.</p>
-<div class="cell">
-
-</div>
+<p>The graph shows how the LS method does well with the test data and a long forecast period. This can be confirmed by obtaining the accuracy measures against the test set. The code below uses the <code>accuracy()</code> function to generate the main table. Once again, the <code>gt</code> package is used to enhance the table visually.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(calits_fc, calits) <span class="sc">%&gt;%</span> <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="st">"center"</span>) <span class="sc">%&gt;%</span> </span>
@@ -1410,23 +1391,23 @@ div.csl-indent {
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">targets =</span><span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="gntmejbpdn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gntmejbpdn table {
+<div id="kyiscuhltk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kyiscuhltk table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gntmejbpdn thead, #gntmejbpdn tbody, #gntmejbpdn tfoot, #gntmejbpdn tr, #gntmejbpdn td, #gntmejbpdn th {
+#kyiscuhltk thead, #kyiscuhltk tbody, #kyiscuhltk tfoot, #kyiscuhltk tr, #kyiscuhltk td, #kyiscuhltk th {
   border-style: none;
 }
 
-#gntmejbpdn p {
+#kyiscuhltk p {
   margin: 0;
   padding: 0;
 }
 
-#gntmejbpdn .gt_table {
+#kyiscuhltk .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1452,12 +1433,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_caption {
+#kyiscuhltk .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gntmejbpdn .gt_title {
+#kyiscuhltk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1469,7 +1450,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#gntmejbpdn .gt_subtitle {
+#kyiscuhltk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1481,7 +1462,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#gntmejbpdn .gt_heading {
+#kyiscuhltk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1493,13 +1474,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_bottom_border {
+#kyiscuhltk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_col_headings {
+#kyiscuhltk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1514,7 +1495,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_col_heading {
+#kyiscuhltk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1534,7 +1515,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#gntmejbpdn .gt_column_spanner_outer {
+#kyiscuhltk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1546,15 +1527,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#gntmejbpdn .gt_column_spanner_outer:first-child {
+#kyiscuhltk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gntmejbpdn .gt_column_spanner_outer:last-child {
+#kyiscuhltk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gntmejbpdn .gt_column_spanner {
+#kyiscuhltk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1566,11 +1547,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#gntmejbpdn .gt_spanner_row {
+#kyiscuhltk .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gntmejbpdn .gt_group_heading {
+#kyiscuhltk .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1596,7 +1577,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#gntmejbpdn .gt_empty_group_heading {
+#kyiscuhltk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1611,15 +1592,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#gntmejbpdn .gt_from_md > :first-child {
+#kyiscuhltk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gntmejbpdn .gt_from_md > :last-child {
+#kyiscuhltk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gntmejbpdn .gt_row {
+#kyiscuhltk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1638,7 +1619,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#gntmejbpdn .gt_stub {
+#kyiscuhltk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1651,7 +1632,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#gntmejbpdn .gt_stub_row_group {
+#kyiscuhltk .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1665,15 +1646,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#gntmejbpdn .gt_row_group_first td {
+#kyiscuhltk .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gntmejbpdn .gt_row_group_first th {
+#kyiscuhltk .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gntmejbpdn .gt_summary_row {
+#kyiscuhltk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1683,16 +1664,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#gntmejbpdn .gt_first_summary_row {
+#kyiscuhltk .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_first_summary_row.thick {
+#kyiscuhltk .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gntmejbpdn .gt_last_summary_row {
+#kyiscuhltk .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1702,7 +1683,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_grand_summary_row {
+#kyiscuhltk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1712,7 +1693,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#gntmejbpdn .gt_first_grand_summary_row {
+#kyiscuhltk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1722,7 +1703,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_last_grand_summary_row_top {
+#kyiscuhltk .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1732,11 +1713,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_striped {
+#kyiscuhltk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gntmejbpdn .gt_table_body {
+#kyiscuhltk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1745,7 +1726,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_footnotes {
+#kyiscuhltk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1759,7 +1740,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_footnote {
+#kyiscuhltk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1768,7 +1749,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#gntmejbpdn .gt_sourcenotes {
+#kyiscuhltk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1782,7 +1763,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#gntmejbpdn .gt_sourcenote {
+#kyiscuhltk .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1790,63 +1771,63 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#gntmejbpdn .gt_left {
+#kyiscuhltk .gt_left {
   text-align: left;
 }
 
-#gntmejbpdn .gt_center {
+#kyiscuhltk .gt_center {
   text-align: center;
 }
 
-#gntmejbpdn .gt_right {
+#kyiscuhltk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gntmejbpdn .gt_font_normal {
+#kyiscuhltk .gt_font_normal {
   font-weight: normal;
 }
 
-#gntmejbpdn .gt_font_bold {
+#kyiscuhltk .gt_font_bold {
   font-weight: bold;
 }
 
-#gntmejbpdn .gt_font_italic {
+#kyiscuhltk .gt_font_italic {
   font-style: italic;
 }
 
-#gntmejbpdn .gt_super {
+#kyiscuhltk .gt_super {
   font-size: 65%;
 }
 
-#gntmejbpdn .gt_footnote_marks {
+#kyiscuhltk .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gntmejbpdn .gt_asterisk {
+#kyiscuhltk .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gntmejbpdn .gt_indent_1 {
+#kyiscuhltk .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gntmejbpdn .gt_indent_2 {
+#kyiscuhltk .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gntmejbpdn .gt_indent_3 {
+#kyiscuhltk .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gntmejbpdn .gt_indent_4 {
+#kyiscuhltk .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gntmejbpdn .gt_indent_5 {
+#kyiscuhltk .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1922,7 +1903,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>Interestingly, the Naive method is no longer the best model. This is partly because it chases the series fluctuations (along with the noise) and always makes the same forecast regardless of how many periods we forecast ahead.</p>
+<p>Interestingly, the Naive method is no longer the best model. This is partly because it chases the series fluctuations (along with the noise) and always makes the same forecast regardless of how many periods we forecast ahead. The LS model captures the trend, which seems to carry consistently throughout the entire series.</p>
 </section>
 <section id="cross-validation" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="cross-validation"><span class="header-section-number">5.6</span> Cross Validation</h2>
@@ -1932,27 +1913,27 @@ div.csl-indent {
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>geography, <span class="sc">-</span>total_volume) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stretch_tsibble</span>(<span class="at">.init =</span> <span class="dv">3</span>, <span class="at">.step =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The <code>stretch_tsibble()</code> is a handy function that creates a variable called <em>id</em> that is initialized with the <em>.init</em> argument. In this case, the first three observations are given <span class="math inline">\(id=1\)</span>. The <em>id</em> then changes with a step of <span class="math inline">\(.step=1\)</span>. That is, <span class="math inline">\(id=2\)</span> for the first four observations, then <span class="math inline">\(id=3\)</span> for the first five observations, and so on. Below is a sample of the tsibble.</p>
+<p><code>stretch_tsibble()</code> is a handy function that creates a variable called <em>id</em> that is initialized with the <em>.init</em> argument. In this case, the first three observations are given <span class="math inline">\(id=1\)</span>. The <em>id</em> then changes with a step of <span class="math inline">\(.step=1\)</span>. That is, <span class="math inline">\(id=2\)</span> for the first four observations, then <span class="math inline">\(id=3\)</span> for the first five observations, and so on. Below is a sample of the tsibble.</p>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="mwvcnalqhj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mwvcnalqhj table {
+<div id="mzhcjeuqee" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mzhcjeuqee table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mwvcnalqhj thead, #mwvcnalqhj tbody, #mwvcnalqhj tfoot, #mwvcnalqhj tr, #mwvcnalqhj td, #mwvcnalqhj th {
+#mzhcjeuqee thead, #mzhcjeuqee tbody, #mzhcjeuqee tfoot, #mzhcjeuqee tr, #mzhcjeuqee td, #mzhcjeuqee th {
   border-style: none;
 }
 
-#mwvcnalqhj p {
+#mzhcjeuqee p {
   margin: 0;
   padding: 0;
 }
 
-#mwvcnalqhj .gt_table {
+#mzhcjeuqee .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1978,12 +1959,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_caption {
+#mzhcjeuqee .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mwvcnalqhj .gt_title {
+#mzhcjeuqee .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1995,7 +1976,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#mwvcnalqhj .gt_subtitle {
+#mzhcjeuqee .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2007,7 +1988,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#mwvcnalqhj .gt_heading {
+#mzhcjeuqee .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2019,13 +2000,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_bottom_border {
+#mzhcjeuqee .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_col_headings {
+#mzhcjeuqee .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2040,7 +2021,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_col_heading {
+#mzhcjeuqee .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2060,7 +2041,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#mwvcnalqhj .gt_column_spanner_outer {
+#mzhcjeuqee .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2072,15 +2053,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#mwvcnalqhj .gt_column_spanner_outer:first-child {
+#mzhcjeuqee .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mwvcnalqhj .gt_column_spanner_outer:last-child {
+#mzhcjeuqee .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mwvcnalqhj .gt_column_spanner {
+#mzhcjeuqee .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2092,11 +2073,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#mwvcnalqhj .gt_spanner_row {
+#mzhcjeuqee .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mwvcnalqhj .gt_group_heading {
+#mzhcjeuqee .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2122,7 +2103,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#mwvcnalqhj .gt_empty_group_heading {
+#mzhcjeuqee .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2137,15 +2118,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#mwvcnalqhj .gt_from_md > :first-child {
+#mzhcjeuqee .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mwvcnalqhj .gt_from_md > :last-child {
+#mzhcjeuqee .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mwvcnalqhj .gt_row {
+#mzhcjeuqee .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2164,7 +2145,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#mwvcnalqhj .gt_stub {
+#mzhcjeuqee .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2177,7 +2158,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#mwvcnalqhj .gt_stub_row_group {
+#mzhcjeuqee .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2191,15 +2172,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#mwvcnalqhj .gt_row_group_first td {
+#mzhcjeuqee .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mwvcnalqhj .gt_row_group_first th {
+#mzhcjeuqee .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mwvcnalqhj .gt_summary_row {
+#mzhcjeuqee .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2209,16 +2190,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#mwvcnalqhj .gt_first_summary_row {
+#mzhcjeuqee .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_first_summary_row.thick {
+#mzhcjeuqee .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mwvcnalqhj .gt_last_summary_row {
+#mzhcjeuqee .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2228,7 +2209,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_grand_summary_row {
+#mzhcjeuqee .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2238,7 +2219,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#mwvcnalqhj .gt_first_grand_summary_row {
+#mzhcjeuqee .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2248,7 +2229,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_last_grand_summary_row_top {
+#mzhcjeuqee .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2258,11 +2239,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_striped {
+#mzhcjeuqee .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mwvcnalqhj .gt_table_body {
+#mzhcjeuqee .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2271,7 +2252,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_footnotes {
+#mzhcjeuqee .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2285,7 +2266,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_footnote {
+#mzhcjeuqee .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2294,7 +2275,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#mwvcnalqhj .gt_sourcenotes {
+#mzhcjeuqee .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2308,7 +2289,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#mwvcnalqhj .gt_sourcenote {
+#mzhcjeuqee .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2316,63 +2297,63 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#mwvcnalqhj .gt_left {
+#mzhcjeuqee .gt_left {
   text-align: left;
 }
 
-#mwvcnalqhj .gt_center {
+#mzhcjeuqee .gt_center {
   text-align: center;
 }
 
-#mwvcnalqhj .gt_right {
+#mzhcjeuqee .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mwvcnalqhj .gt_font_normal {
+#mzhcjeuqee .gt_font_normal {
   font-weight: normal;
 }
 
-#mwvcnalqhj .gt_font_bold {
+#mzhcjeuqee .gt_font_bold {
   font-weight: bold;
 }
 
-#mwvcnalqhj .gt_font_italic {
+#mzhcjeuqee .gt_font_italic {
   font-style: italic;
 }
 
-#mwvcnalqhj .gt_super {
+#mzhcjeuqee .gt_super {
   font-size: 65%;
 }
 
-#mwvcnalqhj .gt_footnote_marks {
+#mzhcjeuqee .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mwvcnalqhj .gt_asterisk {
+#mzhcjeuqee .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mwvcnalqhj .gt_indent_1 {
+#mzhcjeuqee .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mwvcnalqhj .gt_indent_2 {
+#mzhcjeuqee .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mwvcnalqhj .gt_indent_3 {
+#mzhcjeuqee .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mwvcnalqhj .gt_indent_4 {
+#mzhcjeuqee .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mwvcnalqhj .gt_indent_5 {
+#mzhcjeuqee .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2441,23 +2422,23 @@ div.csl-indent {
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">targets =</span><span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<div id="blnmazmddz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#blnmazmddz table {
+<div id="lkcvfithoa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lkcvfithoa table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#blnmazmddz thead, #blnmazmddz tbody, #blnmazmddz tfoot, #blnmazmddz tr, #blnmazmddz td, #blnmazmddz th {
+#lkcvfithoa thead, #lkcvfithoa tbody, #lkcvfithoa tfoot, #lkcvfithoa tr, #lkcvfithoa td, #lkcvfithoa th {
   border-style: none;
 }
 
-#blnmazmddz p {
+#lkcvfithoa p {
   margin: 0;
   padding: 0;
 }
 
-#blnmazmddz .gt_table {
+#lkcvfithoa .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2483,12 +2464,12 @@ div.csl-indent {
   border-left-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_caption {
+#lkcvfithoa .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#blnmazmddz .gt_title {
+#lkcvfithoa .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2500,7 +2481,7 @@ div.csl-indent {
   border-bottom-width: 0;
 }
 
-#blnmazmddz .gt_subtitle {
+#lkcvfithoa .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2512,7 +2493,7 @@ div.csl-indent {
   border-top-width: 0;
 }
 
-#blnmazmddz .gt_heading {
+#lkcvfithoa .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2524,13 +2505,13 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_bottom_border {
+#lkcvfithoa .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_col_headings {
+#lkcvfithoa .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2545,7 +2526,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_col_heading {
+#lkcvfithoa .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2565,7 +2546,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#blnmazmddz .gt_column_spanner_outer {
+#lkcvfithoa .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2577,15 +2558,15 @@ div.csl-indent {
   padding-right: 4px;
 }
 
-#blnmazmddz .gt_column_spanner_outer:first-child {
+#lkcvfithoa .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#blnmazmddz .gt_column_spanner_outer:last-child {
+#lkcvfithoa .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#blnmazmddz .gt_column_spanner {
+#lkcvfithoa .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2597,11 +2578,11 @@ div.csl-indent {
   width: 100%;
 }
 
-#blnmazmddz .gt_spanner_row {
+#lkcvfithoa .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#blnmazmddz .gt_group_heading {
+#lkcvfithoa .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2627,7 +2608,7 @@ div.csl-indent {
   text-align: left;
 }
 
-#blnmazmddz .gt_empty_group_heading {
+#lkcvfithoa .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2642,15 +2623,15 @@ div.csl-indent {
   vertical-align: middle;
 }
 
-#blnmazmddz .gt_from_md > :first-child {
+#lkcvfithoa .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#blnmazmddz .gt_from_md > :last-child {
+#lkcvfithoa .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#blnmazmddz .gt_row {
+#lkcvfithoa .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2669,7 +2650,7 @@ div.csl-indent {
   overflow-x: hidden;
 }
 
-#blnmazmddz .gt_stub {
+#lkcvfithoa .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2682,7 +2663,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#blnmazmddz .gt_stub_row_group {
+#lkcvfithoa .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2696,15 +2677,15 @@ div.csl-indent {
   vertical-align: top;
 }
 
-#blnmazmddz .gt_row_group_first td {
+#lkcvfithoa .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#blnmazmddz .gt_row_group_first th {
+#lkcvfithoa .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#blnmazmddz .gt_summary_row {
+#lkcvfithoa .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2714,16 +2695,16 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#blnmazmddz .gt_first_summary_row {
+#lkcvfithoa .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_first_summary_row.thick {
+#lkcvfithoa .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#blnmazmddz .gt_last_summary_row {
+#lkcvfithoa .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2733,7 +2714,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_grand_summary_row {
+#lkcvfithoa .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2743,7 +2724,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#blnmazmddz .gt_first_grand_summary_row {
+#lkcvfithoa .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2753,7 +2734,7 @@ div.csl-indent {
   border-top-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_last_grand_summary_row_top {
+#lkcvfithoa .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2763,11 +2744,11 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_striped {
+#lkcvfithoa .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#blnmazmddz .gt_table_body {
+#lkcvfithoa .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2776,7 +2757,7 @@ div.csl-indent {
   border-bottom-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_footnotes {
+#lkcvfithoa .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2790,7 +2771,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_footnote {
+#lkcvfithoa .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2799,7 +2780,7 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#blnmazmddz .gt_sourcenotes {
+#lkcvfithoa .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2813,7 +2794,7 @@ div.csl-indent {
   border-right-color: #D3D3D3;
 }
 
-#blnmazmddz .gt_sourcenote {
+#lkcvfithoa .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2821,63 +2802,63 @@ div.csl-indent {
   padding-right: 5px;
 }
 
-#blnmazmddz .gt_left {
+#lkcvfithoa .gt_left {
   text-align: left;
 }
 
-#blnmazmddz .gt_center {
+#lkcvfithoa .gt_center {
   text-align: center;
 }
 
-#blnmazmddz .gt_right {
+#lkcvfithoa .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#blnmazmddz .gt_font_normal {
+#lkcvfithoa .gt_font_normal {
   font-weight: normal;
 }
 
-#blnmazmddz .gt_font_bold {
+#lkcvfithoa .gt_font_bold {
   font-weight: bold;
 }
 
-#blnmazmddz .gt_font_italic {
+#lkcvfithoa .gt_font_italic {
   font-style: italic;
 }
 
-#blnmazmddz .gt_super {
+#lkcvfithoa .gt_super {
   font-size: 65%;
 }
 
-#blnmazmddz .gt_footnote_marks {
+#lkcvfithoa .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#blnmazmddz .gt_asterisk {
+#lkcvfithoa .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#blnmazmddz .gt_indent_1 {
+#lkcvfithoa .gt_indent_1 {
   text-indent: 5px;
 }
 
-#blnmazmddz .gt_indent_2 {
+#lkcvfithoa .gt_indent_2 {
   text-indent: 10px;
 }
 
-#blnmazmddz .gt_indent_3 {
+#lkcvfithoa .gt_indent_3 {
   text-indent: 15px;
 }
 
-#blnmazmddz .gt_indent_4 {
+#lkcvfithoa .gt_indent_4 {
   text-indent: 20px;
 }
 
-#blnmazmddz .gt_indent_5 {
+#lkcvfithoa .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2948,15 +2929,521 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>The Naive method once again performs well. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. Additionally, there is no formal model telling us how data is generated or that explains the how the time series is generated.</p>
+<p>The Naive method once again performs well. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. You can confirm that this model would not be very viable if we are predicting 3 or four periods ahead. Additionally, there is no formal model telling us how data is generated or that explains the how the time series is generated.</p>
 </section>
-<section id="readings" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="readings"><span class="header-section-number">5.7</span> Readings</h2>
-<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 5 (The Forcaster’s Toolbox).</p>
+<section id="other-accuracy-measures" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="other-accuracy-measures"><span class="header-section-number">5.7</span> Other Accuracy Measures</h2>
+<p>AIC (Akaike Information Criterion), AICc (corrected AIC), and BIC (Bayesian Information Criterion) are commonly used measures of model accuracy or goodness of fit in statistical modeling. They are used to compare different models and select the one that best balances model complexity and fit to the data.</p>
+<p><strong>AIC</strong> is a measure that penalizes model complexity. It balances the trade-off between model fit and the number of parameters in the model. The AIC value is calculated using the formula:</p>
+<center>
+<span class="math inline">\(AIC = -2 * log-likelihood + 2 * number of parameters\)</span>
+</center>
+<p>In this formula, the log-likelihood represents how well the model fits the data, and the number of parameters accounts for the complexity of the model. The lower the AIC value, the better the model is considered in terms of fit and complexity.</p>
+<strong>AICc</strong> is an adjustment to the AIC measure, particularly for smaller sample sizes. AIC tends to overestimate the complexity penalty when the number of data points is relatively small. AICc adds a correction factor to account for this and is calculated using the formula:
+<center>
+<span class="math inline">\(AICc = AIC + (2 * k * (k + 1)) / (n - k - 1)\)</span>
+</center>
+<p>Here, <span class="math inline">\(k\)</span> represents the number of parameters, and <span class="math inline">\(n\)</span> is the sample size. AICc provides a more accurate measure of model fit in situations where the sample size is small. Similarly, lower AICc values indicate better model fit.</p>
+<strong>BIC</strong>, also known as Schwarz Information Criterion (SIC), is another measure that penalizes model complexity. BIC is based on Bayesian principles and provides a stronger penalty for model complexity compared to AIC. The BIC value is calculated using the formula:
+<center>
+<span class="math inline">\(BIC = -2 * log-likelihood + log(n) * k\)</span>
+</center>
+<p>In this formula, log-likelihood represents the model fit, <span class="math inline">\(n\)</span> is the sample size, and <span class="math inline">\(k\)</span> is the number of parameters. BIC puts a greater emphasis on simplicity compared to AIC. Therefore, when selecting between models, the model with the lower BIC value is considered to be better.</p>
+<p>These measures can be easily calculated in R by using the <code>report()</code> function. The code below estimates the ETS model as well for comparisons, as the naive model is non-parametric and does not provide us with a AIC, AICc, or BIC.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span><span class="fu">trend</span>()),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">ETS=</span><span class="fu">ETS</span>(average_price)) <span class="sc">%&gt;%</span> <span class="fu">report</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">'LS'</span> <span class="sc">|</span> .model<span class="sc">==</span><span class="st">'ETS'</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="st">'.model'</span>,<span class="st">"AIC"</span>,<span class="st">"AICc"</span>,<span class="st">"BIC"</span>) <span class="sc">%&gt;%</span> <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="st">"center"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">"**Model Fit Information Criterion**"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(<span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> <span class="fu">everything</span>()),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_borders</span>(<span class="at">sides =</span> <span class="st">"bottom"</span>, <span class="at">weight =</span> <span class="fu">px</span>(<span class="dv">3</span>)),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style_body</span>(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_fill</span>(<span class="at">color=</span><span class="st">"lightgreen"</span>),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="st">"LS"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">targets =</span><span class="st">"row"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="rcfhapvmes" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rcfhapvmes table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#rcfhapvmes thead, #rcfhapvmes tbody, #rcfhapvmes tfoot, #rcfhapvmes tr, #rcfhapvmes td, #rcfhapvmes th {
+  border-style: none;
+}
+
+#rcfhapvmes p {
+  margin: 0;
+  padding: 0;
+}
+
+#rcfhapvmes .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#rcfhapvmes .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#rcfhapvmes .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#rcfhapvmes .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#rcfhapvmes .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#rcfhapvmes .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#rcfhapvmes .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#rcfhapvmes .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#rcfhapvmes .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#rcfhapvmes .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#rcfhapvmes .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rcfhapvmes .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#rcfhapvmes .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#rcfhapvmes .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#rcfhapvmes .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rcfhapvmes .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#rcfhapvmes .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#rcfhapvmes .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#rcfhapvmes .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rcfhapvmes .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#rcfhapvmes .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rcfhapvmes .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#rcfhapvmes .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rcfhapvmes .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rcfhapvmes .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rcfhapvmes .gt_left {
+  text-align: left;
+}
+
+#rcfhapvmes .gt_center {
+  text-align: center;
+}
+
+#rcfhapvmes .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#rcfhapvmes .gt_font_normal {
+  font-weight: normal;
+}
+
+#rcfhapvmes .gt_font_bold {
+  font-weight: bold;
+}
+
+#rcfhapvmes .gt_font_italic {
+  font-style: italic;
+}
+
+#rcfhapvmes .gt_super {
+  font-size: 65%;
+}
+
+#rcfhapvmes .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#rcfhapvmes .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#rcfhapvmes .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#rcfhapvmes .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#rcfhapvmes .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#rcfhapvmes .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#rcfhapvmes .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Model Fit Information Criterion</strong></td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".model">.model</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="AIC">AIC</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="AICc">AICc</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="BIC">BIC</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers=".model" class="gt_row gt_center" style="background-color: #90EE90;">LS</td>
+<td headers="AIC" class="gt_row gt_center" style="background-color: #90EE90;">-476.1441</td>
+<td headers="AICc" class="gt_row gt_center" style="background-color: #90EE90;">-476.0061</td>
+<td headers="BIC" class="gt_row gt_center" style="background-color: #90EE90;">-466.5987</td></tr>
+    <tr><td headers=".model" class="gt_row gt_center">ETS</td>
+<td headers="AIC" class="gt_row gt_center">203.2571</td>
+<td headers="AICc" class="gt_row gt_center">203.3950</td>
+<td headers="BIC" class="gt_row gt_center">212.8024</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>The model with the lowest AIC (AICc or BIC) is the simple Least Squares model. This indicates that this model outperforms the ETS model for the avocado data set.</p>
+</section>
+<section id="readings" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="readings"><span class="header-section-number">5.8</span> Readings</h2>
+<p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 5 (The Forecaster’s Toolbox).</p>
 <p>gt package: https://gt.rstudio.com</p>
 </section>
-<section id="leasons-learned" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">5.8</span> Leasons Learned</h2>
+<section id="leasons-learned" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">5.9</span> Leasons Learned</h2>
 <p>In this module you have been introduced to the general procedure in forecasting time series. Particularly you have learned to:</p>
 <ul>
 <li><p>Create forecasts with simple heuristics.</p></li>
@@ -2966,8 +3453,8 @@ div.csl-indent {
 </ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-FPP3" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-FPP3" class="csl-entry" role="listitem">
 Hyndman, Rob. 2021. <span>“Forecasting Principles and Practice.”</span> <a href="https://otexts.com/fpp3/">https://otexts.com/fpp3/</a>.
 </div>
 </div>
@@ -3001,9 +3488,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -3068,6 +3569,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -3114,8 +3701,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ARIMA.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ARIMA</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ETS.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">ETS</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
