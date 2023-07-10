@@ -190,8 +190,8 @@ This EMV is higher than the EMV of making the decision without the consultants (
 
 ## Readings
 
-Readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems included using excel. I would recommend using R to make calculations since we will be mainly using R. To construct decision trees you can use [mermaid](https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid).\
-Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes' theorem. These concepts are not explained in depth in the readings, so reviewing them before reading the chapter could be helpful. I recommend the reading from @JK.
+Readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems using excel. I would recommend using R to make calculations since we will be mainly using R. To construct decision trees in R you can use [mermaid](https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid).\
+Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes' theorem. These concepts are not explained in depth in the readings, so reviewing them beforehand could be helpful.
 
 -   @PMS Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).
 
