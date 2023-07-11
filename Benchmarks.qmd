@@ -1,30 +1,30 @@
 # Model Benchmarks
 
-This module will introduce the modeling procedure by illustrating the process with four different benchmarks (Naive, LS, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with observed values. A good model will account for most of the series's systematic variation, leaving a small random error. Lastly, to avoid over-fitting the models, we will use a training set and test set along with cross validation.
+This module will introduce the modeling procedure with four different benchmarks (Naive, Least Squares, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with observed values. A good model will account for most of the series's systematic variation, leaving a small random error. Lastly, to avoid over-fitting the models, we will use a training set and test set along with cross validation.
 
 ## Benchmarks {#sec-Bench}
 
 One of the most intuitive (but naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A **naive prediction** sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:
 
-<center>$\hat y_{T+h}=y_T$</center>
+<center>$\hat y_{T+h}=y_T$</center>  
 
 \n
 
 where $\hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural **drift** (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would "drift" the naive prediction upward. Mathematically we would write:
 
-<center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$</center>
+<center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$</center>  
 
 \n
 
 where $h(\frac{y_t-y_1}{T-1})$ can be thought as the average increase of $y$ from period $1$ to the current period $T$. One could also predict weight by observing weight during a period and **averaging** the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean could be a good predictor of your future weight. Formally:
 
-<center>$\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$</center>
+<center>$\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$</center>  
 
 \n
 
 Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of our diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward **trend** of our weight. Formally:
 
-<center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>
+<center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>  
 
 \n
 
@@ -225,25 +225,25 @@ The Naive method once again performs well. However, we note once again that the 
 
 AIC (Akaike Information Criterion), AICc (corrected AIC), and BIC (Bayesian Information Criterion) are commonly used measures of model accuracy or goodness of fit in statistical modeling. They are used to compare different models and select the one that best balances model complexity and fit to the data.
 
-**AIC** is a measure that penalizes model complexity. It balances the trade-off between model fit and the number of parameters in the model. The AIC value is calculated using the formula:
+-   **AIC** is a measure that penalizes model complexity. It balances the trade-off between model fit and the number of parameters in the model. The AIC value is calculated using the formula:
 
-<center>$AIC = -2 * log-likelihood + 2 * number of parameters$</center>
+<center>$AIC = -2 * log-likelihood + 2 * k$</center>
 
 \n
 
-In this formula, the log-likelihood represents how well the model fits the data, and the number of parameters accounts for the complexity of the model. The lower the AIC value, the better the model is considered in terms of fit and complexity.
+In this formula, the log-likelihood represents how well the model fits the data, and the number of parameters ($k$) accounts for the complexity of the model. The lower the AIC value, the better the model is considered in terms of fit and complexity.
 
-**AICc** is an adjustment to the AIC measure, particularly for smaller sample sizes. AIC tends to overestimate the complexity penalty when the number of data points is relatively small. AICc adds a correction factor to account for this and is calculated using the formula:
+-   **AICc** is an adjustment to the AIC measure, particularly for smaller sample sizes. AIC tends to overestimate the complexity penalty when the number of data points is relatively small. AICc adds a correction factor to account for this and is calculated using the formula:
 <center>$AICc = AIC + (2 * k * (k + 1)) / (n - k - 1)$</center>
 
 Here, $k$ represents the number of parameters, and $n$ is the sample size. AICc provides a more accurate measure of model fit in situations where the sample size is small. Similarly, lower AICc values indicate better model fit.
 
-**BIC**, also known as Schwarz Information Criterion (SIC), is another measure that penalizes model complexity. BIC is based on Bayesian principles and provides a stronger penalty for model complexity compared to AIC. The BIC value is calculated using the formula:
+-   **BIC**, also known as Schwarz Information Criterion (SIC), is another measure that penalizes model complexity. BIC is based on Bayesian principles and provides a stronger penalty for model complexity compared to AIC. The BIC value is calculated using the formula:
 <center>$BIC = -2 * log-likelihood + log(n) * k$</center>
 
-In this formula, log-likelihood represents the model fit, $n$ is the sample size, and $k$ is the number of parameters. BIC puts a greater emphasis on simplicity compared to AIC. Therefore, when selecting between models, the model with the lower BIC value is considered to be better.
+In this formula, log-likelihood represents the model fit, $n$ is the sample size, and $k$ is the number of parameters. BIC puts a greater emphasis on simplicity compared to AIC.
 
-These measures can be easily calculated in R by using the `report()` function. The code below estimates the ETS model (which we will learn in the next module) as well for comparisons, as the naive model is non-parametric and does not provide us with a AIC, AICc, or BIC.
+These measures can be easily calculated in R using the `report()` function. The code below estimates the ETS model (which we will learn in the next module) for illustration purposes. Recall that the the naive model is non-parametric and does not provide us with an AIC, AICc, or BIC.
 
 
 ```{r warning=FALSE}
