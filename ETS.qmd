@@ -6,7 +6,7 @@ Deliveries are a carefully watched number by Tesla shareholders and are the clos
 
 ## The Data
 
-The data can be found here [Tesla]<https://ir.tesla.com/#quarterly-disclosure>. Below is code that inputs the data as a tsibble in R.
+The data can be found here [Tesla](https://ir.tesla.com/#quarterly-disclosure). Below is code that inputs the data as a tsibble in R.
 
 ```{r message=FALSE}
 library(fpp3)
