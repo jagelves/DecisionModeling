@@ -89,20 +89,21 @@ ALGO=ETS(deliveries))%>%
              decimals = 3) %>%
   tab_style_body(
     style = cell_fill(color="lightgreen"),
-    values = "DAMPED",
+    values = "DAMPEDS",
     targets ="row")
 ```
 
-The accuracy measures reveal that the DAMPED, DAMPEDS and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPEDS model and assume that Tesla's growth will taper off into the future and retain its seasonal pattern. Below, the DAMPEDS model is estimated and the parameters are revealed by using the `tidy()` function.
+The accuracy measures reveal that the DAMPED, DAMPEDS and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPEDS model and assume that Tesla's growth will taper off into the future and retain its seasonal pattern. Below, the DAMPEDS model is estimated and saved into an object called *fit*. 
 
 ```{r}
 fit <- tesla %>%
   model(
     DAMPEDS = ETS(deliveries ~ error("A") + trend("Ad") + season("A"))
   )
-
-tidy(fit)
 ```
+
+*Note: to see the model's parameters you can use the `tidy()` function.*  
+
 ## Forecast
 
 Forecasts are created by using the *fit* object. We will forecast four quarters ahead using the  `forecast()` function. The code below generate a table with the forecasts. 
