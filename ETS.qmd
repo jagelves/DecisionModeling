@@ -1,5 +1,7 @@
 # ETS
 
+In this section we will be introducing and applying the ETS model. This model provides a flexible approach for modeling and forecasting time series data by incorporating components for error, trend, and seasonality. The ETS model allows different combinations of these components to be included in the model based on the characteristics observed in the data. 
+
 ## Predicting Tesla's Deliveries
 
 Deliveries are a carefully watched number by Tesla shareholders and are the closest approximation of sales disclosed by the company. Additionally, Tesla's deliveries are closely followed due to their impact on financial markets, the EV industry, innovation and disruption, production efficiency, and the growth of the EV market. The numbers serve as a key performance indicator for Tesla's success and provide insights into the broader trends in the electric vehicle industry. Can we use the ETS model to forecast Tesla's deliveries?
@@ -33,7 +35,29 @@ tesla<-tsibble(
 )
 ```
 
-As you can see the tsibble is created with the `tsibble()` function included in the `fpp3` package. A time variable must be included and then defined using the *index* parameter. The `yearquarter()` function from the `lubridate` package is used to coerce the data to a date. With the data loaded we can now create a test and training set.
+As you can see the tsibble is created with the `tsibble()` function included in the `fpp3` package. A time variable must be included and then defined using the *index* parameter. The `yearquarter()` function from the `lubridate` package is used to coerce the data to a date. The code below creates the plot of Tesla's deliveries using the `autoplot()` function.
+
+```{r}
+tesla %>% autoplot(.vars=deliveries) + theme_classic() +
+  labs(title= "Tesla Car Deliveries", 
+       subtitle = "Q1 2017 to Q2 2023") +
+  xlab("Quarter") + ylab(" ")
+```
+
+The most striking aspect of Tesla's deliveries is the exponential increasing trend. There also seems to be a seasonal component, with relatively higher production in Q2 and Q3 versus the other quarters. These characteristics will be adopted by the ETS model to forecast the series. Below we can see the STL decomposition that confirm these characteristics.
+
+```{r}
+tesla %>%
+  model(STL(deliveries~trend(window=6)+
+              season(window=4), robust=TRUE)) %>%
+  components() %>% autoplot()+ theme_classic()
+```
+
+
+
+## Models
+
+To model the data and create the appropriate forecasts, we start by generating a test set and a training set from the available data.
 
 ```{r}
 train_tesla<-filter_index(.data=tesla,"2016 Q1"~"2021 Q4")
@@ -41,29 +65,40 @@ test_tesla<-filter_index(.data=tesla,"2022 Q1"~"2023 Q2")
 ```
 
 There is no fixed rule for determining the length of the train and test sets. In this example, it is important to allocate a sufficiently large portion of the dataset to the training set to capture the underlying patterns and trends of Tesla's deliveries. The sets are easily created using the `filter_index()` function and specifying the data set, and  the particular dates.
-
-## Models
-
 Four models will be estimated based on ETS. The first one is the Simple Exponential Smoothing model with additive errors, the Holt model that includes an additive trend, a dampened trend model and finally an algorithmic function that selects the best ETS model.
 
-Model selection will be done with cross validation. Recall, that the the `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The *.init* parameter sets the first eight observations to estimate our initial model. The cross validation is done four periods ahead and accuracy measures are created by comparing forecasts to the test set.
+Model selection will be done via cross validation. Recall, that the the `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The *.init* parameter sets the first eight observations to estimate our initial model. The cross validation is done four periods (a year) ahead and accuracy measures are created by comparing forecasts to the test set.
 
 ```{r message=FALSE, warning=FALSE}
 library(gt)
-tesla %>% stretch_tsibble(.init = 8) %>%
-  model(SES=ETS(deliveries ~ error("A") + trend("N") + season("N")),
-                                   HOLT=ETS(deliveries ~ error("A") + trend("A") + season("N")),
-                                   DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")),
+train_tesla %>% stretch_tsibble(.init = 8) %>%
+  model(
+    SES=ETS(deliveries ~ error("A") + trend("N") + season("N")),
+    HOLT=ETS(deliveries ~ error("A") + trend("A") + season("N")),
+    DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")),
+    DAMPEDS=ETS(deliveries ~ error("A") + trend("Ad") + season("A")),
 ALGO=ETS(deliveries))%>%
   forecast(h = 4) %>%
-  accuracy(tesla) %>% gt()
+  accuracy(tesla) %>% select(-"ACF1") %>% 
+  gt() %>% cols_align("center") %>% 
+  tab_header(title = 
+               md("**Cross Validation Models**")) %>% tab_style(locations =                                                    cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE),
+             decimals = 3) %>%
+  tab_style_body(
+    style = cell_fill(color="lightgreen"),
+    values = "DAMPED",
+    targets ="row")
 ```
 
-The accuracy measures reveal that the DAMPED and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPED model and assume that Tesla's growth will taper off into the future. Below, the DAMPED model is estimated and the parameters are revealed by using the `tidy()` function.
+The accuracy measures reveal that the DAMPED, DAMPEDS and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPEDS model and assume that Tesla's growth will taper off into the future and retain its seasonal pattern. Below, the DAMPEDS model is estimated and the parameters are revealed by using the `tidy()` function.
+
 ```{r}
 fit <- tesla %>%
   model(
-    DAMPED = ETS(deliveries ~ error("A") + trend("Ad") + season("N"))
+    DAMPEDS = ETS(deliveries ~ error("A") + trend("Ad") + season("A"))
   )
 
 tidy(fit)
@@ -74,17 +109,25 @@ Forecasts are created by using the *fit* object. We will forecast four quarters 
 ```{r message=FALSE}
 library(gt)
 fit %>%
-  forecast(h = 4) %>% gt()
+  forecast(h = 4) %>% select(-".model") %>% 
+  gt() %>%
+  cols_align("center") %>% 
+  tab_header(title = 
+               md("**ETS Forecast**")) %>% 
+  tab_style(locations =                                                    cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold")))
   
 ```
 
-The model predicts Tesla to continue continue it's trend and increase its deliveries every quarter. For the third quarter of 2023, Tesla is expected to deliver about 488,000 cars. The plot below nicely illustrates how the model expects Tesla to continue its upward trend.
+Forecasts for the four quarters are shown above, with the corresponding mean. In general, the ETS model predicts Tesla will continue its trend and increase its deliveries every quarter. For the third quarter of 2023, Tesla expects to deliver about $516,000$ cars on average with a standard deviation $854$ cars. If we recall the 68-95-99.7 rule, Tesla deliveries for Q3 of 2023 will likely be between $513000$ and $519000$. The increasing standard deviation for future periods reminds us that longer-period forecasts have even more uncertainty. The plot below illustrates how the model expects Tesla to continue its upward trend.
 ```{r}
 fit %>%
   forecast(h = 4) %>%
   autoplot(tesla, level=95)+
-  labs(x="Quarter", y="Deliveries",
-       title = "Tesla Car Deliveries") + theme_classic()
+  labs(x="Quarter", y="",
+       title = "Tesla Car Deliveries",
+       subtitle = "Q1 2017 to Q2 2023") + theme_classic()
 ```
 ## Readings
 
