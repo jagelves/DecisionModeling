@@ -6,7 +6,7 @@ We will first learn how to transform and manipulate our data using the `dplyr` p
 
 ## Chilango's Kitchen Wants You to Forecast Avocado Prices
 
-Chilango's Kitchen specializes in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of the restaurant's best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados daily, amounting to more than 44,000 pounds annually. Chilango's Kitchen wants you to provide insights on the price of avocados in California.
+Chilango's Kitchen specializes in tacos and burritos that are made to order in front of the customer. Guacamole is the perfect pairing to their delicious food and one of the restaurant's best sellers. Their guac uses just six ingredients: avocados, lime juice, cilantro, red onion, jalapeño, and kosher salt. Because of its popularity, each restaurant goes through approximately five cases of avocados daily, amounting to more than $44,000$ pounds annually. Chilango's Kitchen wants you to provide insights on the price of avocados in California.
 
 ## The Avocado Data Set {#sec-Avocado}
 
@@ -52,7 +52,7 @@ avocado %>% select(c(average_price,geography)) %>%
 
 There is a lot to explain in this line of code. Let's start with the functions used. The `select()` and `arrange()` functions are part of the `dplyr` package. As the name indicates, the `select()` function selects variables from a tibble or data frame. The `arrange()` function sorts the data in ascending order. The `desc()` function is used to sort in descending order.
 
-Let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (%\>%), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. The data frame is sorted in descending order so that the highest average avocado price is displayed first. Finally, the `head()` function is used to retrieve the top five entries.
+Let's focus on the entire code by reading it from left to right. *avocado* is the tibble that contains all of the data. Since it is to the left of the pipe (`%>%`), it passes as the first argument of the `select()` function. That is why you don't see *avocado* as the first argument listed in the `select()` function. The new data frame (i.e., the one with only the geography and the average price) then passes as the first argument of the `arrange()` function that follows the second pipe. The data frame is sorted in descending order so that the highest average avocado price is displayed first. Finally, the `head()` function is used to retrieve the top five entries.
 
 As noted in @sec-Avocado, there is an additional date in the data set that is between weeks (2018-01-01). We can remove this observation by using the `filter()` function.
 
@@ -112,7 +112,7 @@ avocadots %>% filter(geography=="California", type=="organic") %>%
 
 ## Time Series Decomposition
 
-As highlighted in @sec-Visual, the average price of avocados in California seems to have a trend and a seasonal pattern. There are methods available to tease out these components and make them more apparent. STL (Season Trend decomposition using LOESS) decomposes the series into a trend, seasonality, and an error (unexplained) component. It is easy to run this method in R by using the `fable` package.
+As highlighted in @sec-Visual, the average price of avocados in California seems to have a trend and a seasonal pattern. There are methods available to tease out these components and make them more apparent. STL (Season Trend decomposition using LOESS) decomposes the series into a trend, seasonality, and an error (unexplained) component. It is easy to run this method in R by using the [fable](https://fable.tidyverts.org) package.
 
 In practice, the decomposition is constructed in several steps. First, a moving average of the series is calculated to track the trend. The trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly) for the de-trended series. The error is the remaining fluctuation of the series that is not explained by the trend or the seasonal component ($Series-Trend-Seasonal=Error$). In the end, each component can be graphed and displayed, as illustrated below.
 

@@ -63,7 +63,9 @@ library(gt)
 coef(fit) %>% gt() %>% 
   cols_align("center") %>% 
   tab_header(title = 
-               md("**Model Coefficients For The Avocado Data**")) %>% tab_style(locations =                                                    cells_column_labels(columns = everything()),
+               md("**Model Coefficients For The Avocado Data**")) %>% 
+  tab_style(
+    locations =cells_column_labels(columns = everything()),
   style = list(cell_borders(sides = "bottom", weight = px(3)),
     cell_text(weight = "bold"))) %>% 
   fmt_number(columns =c(statistic,estimate,std.error,p.value),
@@ -162,8 +164,12 @@ cali %>%
   filter_index("2015-01-04"~"2018-12-02") -> calits
 ```
 
-```{r, warning=FALSE}
-accuracy(calits_fc, calits) %>% gt() %>%
+```{r results='hide', warning=FALSE}
+accuracy(calits_fc, calits_test)
+```
+
+```{r, warning=FALSE, echo=FALSE}
+accuracy(calits_fc, calits_test) %>% gt() %>%
   cols_align("center") %>% 
   tab_header(title = md("**Model Fit**")) %>% 
   tab_style(locations = cells_column_labels(columns = everything()),

@@ -107,17 +107,25 @@ fit <- tesla %>%
 ## Forecast
 
 Forecasts are created by using the *fit* object. We will forecast four quarters ahead using the  `forecast()` function. The code below generate a table with the forecasts. 
-```{r message=FALSE}
+
+```{r message=FALSE, results='hide'}
+library(gt)
+fit %>%
+  forecast(h = 4) %>% select(-".model")
+```
+
+```{r message=FALSE, echo=FALSE}
 library(gt)
 fit %>%
   forecast(h = 4) %>% select(-".model") %>% 
   gt() %>%
   cols_align("center") %>% 
-  tab_header(title = 
-               md("**ETS Forecast**")) %>% 
-  tab_style(locations =                                                    cells_column_labels(columns = everything()),
-  style = list(cell_borders(sides = "bottom", weight = px(3)),
-    cell_text(weight = "bold")))
+  tab_header(title = md("**ETS Forecast**")) %>%
+  tab_style(
+    locations = cells_column_labels(columns = everything()),
+    style = list(
+      cell_borders(sides = "bottom", weight = px(3)),
+      cell_text(weight = "bold")))
   
 ```
 
