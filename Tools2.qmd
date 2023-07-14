@@ -2,7 +2,7 @@
 
 In this module, we will be learning the tools that will allow us to analyze Time Series data. Before any forecasts are estimated, we should carefully inspect the data, address any mistakes that might be present, and take note of any general patterns. By following this procedure, we will ensure that the data is ready for analysis.
 
-We will first learn how to transform and manipulate our data using the `dplyr` package. We will also introduce a package called `lubridate`, which helps us parse dates which are essential in time series analysis. Next, we will plot the times series to identify trends, seasonality, or cyclical behavior. To do this, we will learn the `ggplot2`, and `fpp3` packages. This last package includes `fable` which is used to model time series data.
+We will first learn how to transform and manipulate our data using the `dplyr` package and the handy "piping" operator. We will also familiarize ourselves with the `lubridate` package, which helps us parse dates. Next, we will use the tsibble data structure to organize time series data. Finally, we plot the times series to identify trends, seasonality, or cyclical behavior using the `ggplot2`, and `fpp3` packages. This last package includes the `fable` package used to model time series data.
 
 ## Chilango's Kitchen Wants You to Forecast Avocado Prices
 
