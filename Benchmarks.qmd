@@ -42,9 +42,8 @@ Recall, that we can create a tsibble from the csv file by using the `as_tsibble(
 
 ```{r}
 cali %>%
-  as_tsibble(key=c(geography),
-             index=date, regular=T) %>%
-  filter_index("2015-01-04"~"2018-06-02")-> calits_train
+  as_tsibble(key=c(geography),index=date,regular=T) %>%
+  filter_index("2015-01-04"~"2018-06-02") -> calits_train
 ```
 
 Now we can use the `model()` function to run the benchmarks discussed in @sec-Bench. We have saved the models to an object called *fit*.
@@ -62,8 +61,7 @@ The *fit* object is saved as a mable (model table). The `model()`function specif
 library(gt)
 coef(fit) %>% gt() %>% 
   cols_align("center") %>% 
-  tab_header(title = 
-               md("**Model Coefficients For The Avocado Data**")) %>% 
+  tab_header(title = md("**Model Coefficients For The Avocado Data**")) %>% 
   tab_style(
     locations =cells_column_labels(columns = everything()),
   style = list(cell_borders(sides = "bottom", weight = px(3)),

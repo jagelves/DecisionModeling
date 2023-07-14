@@ -346,9 +346,8 @@ dbl (10): average_price, total_volume, 4046, 4225, 4770, total_bags, small_b...
 <p>The examples above highlight the use of <code>dplyr</code> functions to transform your data. There are plenty of other functions, but learning these are outside the scope of this book. To find out more, I recommend reading <span class="citation" data-cites="R4DS">Wickham (<a href="references.html#ref-R4DS" role="doc-biblioref">2017</a>)</span> Chapter 4. For now, we will use one more data transformation technique to retrieve California’s average price of organic avocados for 2015-2018.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>avocado <span class="sc">%&gt;%</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(geography<span class="sc">==</span><span class="st">"California"</span>, type<span class="sc">==</span><span class="st">"organic"</span>, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         year<span class="sc">&lt;=</span><span class="dv">2018</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, average_price, geography) <span class="ot">-&gt;</span> cali</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(geography<span class="sc">==</span><span class="st">"California"</span>, type<span class="sc">==</span><span class="st">"organic"</span>, year<span class="sc">&lt;=</span><span class="dv">2018</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, average_price, geography) <span class="ot">-&gt;</span> cali</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="sec-Visual" class="level2" data-number="4.5">

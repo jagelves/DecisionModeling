@@ -66,8 +66,7 @@ The examples above highlight the use of `dplyr` functions to transform your data
 
 ```{r}
 avocado %>% 
-  filter(geography=="California", type=="organic", 
-         year<=2018) %>%
+  filter(geography=="California", type=="organic", year<=2018) %>% 
   select(date, average_price, geography) -> cali
 ```
 
