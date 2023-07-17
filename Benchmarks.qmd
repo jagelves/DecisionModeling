@@ -1,6 +1,6 @@
 # Model Benchmarks
 
-This module will introduce the modeling procedure with four different benchmarks (Naive, Least Squares, Mean, and Drift). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with observed values. A good model will account for most of the series's systematic variation, leaving a small random error. Lastly, to avoid over-fitting the models, we will use a training set and test set along with cross validation.
+This module will introduce the modeling procedure with four different benchmarks (Naive, Drift, Mean, and Least Squares). The fit of these benchmarks will be assessed using accuracy measures such as the Mean Error, Mean Absolute Error, Root Mean Squared Error, among others. In general, these accuracy measures compare the fitted values with observed values. A good model will account for most of the series's systematic variation, leaving a small random error. Lastly, to avoid over-fitting the models, we will use a training set and test set along with cross validation.
 
 ## Benchmarks {#sec-Bench}
 
@@ -9,7 +9,7 @@ One of the most intuitive (but naive) predictions we can make about the future i
 <center>$\hat y_{T+h}=y_T$</center>\n
 \n
 
-where $hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural **drift** (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would "drift" the naive prediction upward. Mathematically we would write:
+where $\hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural **drift** (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would "drift" the naive prediction upward. Mathematically we would write:
 
 <center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$</center>\n
 \n
@@ -34,11 +34,11 @@ library(fpp3)
 cali<-read_csv("https://jagelves.github.io/Data/CaliforniaAvocado.csv")
 ```
 
-Recall, that we can create a tsibble from the csv file by using the `as_tsibble()` function. The index argument is set to the weekly *date* variable. The `filter_index()` function is used so that we can focus our analysis for the period of 2015-01-04\~2018-06-02.
+Recall that we can create a tsibble from the csv file using the `as_tsibble()` function. The index argument is set to the weekly *date* variable and the key argument to *geography*. The `filter_index()` function is used to focus our analysis for 2015-01-04\~2018-06-02 with 2018-06-02 not being included.
 
 ```{r}
 cali %>%
-  as_tsibble(key=c(geography),index=date,regular=T) %>%
+  as_tsibble(key=geography,index=date,regular=T) %>%
   filter_index("2015-01-04"~"2018-06-02") -> calits_train
 ```
 
@@ -55,7 +55,8 @@ The *fit* object is saved as a mable (model table). The `model()`function specif
 
 ```{r , echo=TRUE, warning=FALSE, message=FALSE}
 library(gt)
-coef(fit) %>% gt() %>% 
+coef(fit) %>% 
+  gt() %>% 
   cols_align("center") %>% 
   tab_header(title = md("**Model Coefficients For The Avocado Data**")) %>% 
   tab_style(
@@ -63,10 +64,10 @@ coef(fit) %>% gt() %>%
   style = list(cell_borders(sides = "bottom", weight = px(3)),
     cell_text(weight = "bold"))) %>% 
   fmt_number(columns =c(statistic,estimate,std.error,p.value),
-             decimals = 2)
+             decimals = 4)
 ```
 
-The table records the estimates for all the benchmarks discussed in @sec-Bench. The naive method has no entry, as the forecast is created by using the previous period's observed value. Below we illustrate the fit of the least squares model by the red line and the Naive model by the orange line.
+The table records the estimates and p-values for all the benchmarks discussed in @sec-Bench. The Naive model has no entry, as the forecast is created by using the previous period's observed value. Note as well that the Drift and LS models select a positive slope to account for the trend. Below we illustrate the fit of the Mean model by a dashed blue line, the Least Squares model by the red line and the Naive model by the orange line.
 
 ```{r, warning=FALSE}
 calits_train %>% autoplot(average_price) + theme_classic() + 
@@ -74,27 +75,27 @@ calits_train %>% autoplot(average_price) + theme_classic() +
             data = augment(fit) %>% filter(`.model`=="LS")) +
 geom_line(aes(y = .fitted), col="orange",
             data = augment(fit) %>% filter(`.model`=="Naive")) +
+  geom_line(aes(y = .fitted), col="blue", linetype="dashed",
+            data = augment(fit) %>% filter(`.model`=="mean")) +
   labs(y="", title= "California's Average Price Of Avocados",
-       subtitle = "2015-2018",
+       subtitle = "Jan 4, 2015 - May 27, 2018",
        x="")
 ```
 
-The graph illustrates how closely the Naive method follows the data. This might seem like a good model, but consider how the heuristic is making a mistake every period since average prices are constantly changing every week. Furthermore, consider how the Naive prediction does not explain the series governing process. The LS model, on the other hand, does provide some insight into a force that is influencing the data—mainly a rising trend. We can use characteristics such as a trend or seasonality to forecast a series.
+The graph illustrates how closely the Naive model follows the data. This might seem like a good model, but consider how the heuristic makes a mistake every period. Since average prices are constantly changing every week, predicting the previous value always results in an error. Critically, the Naive prediction does not explain the series governing process. The LS model, on the other hand, provides some insight into a force that is influencing the data—a rising trend. We can use characteristics such as a trend or seasonality to forecast a series effectively.
 
 ## Model Fit
 
-The model fit will be assessed by comparing the fitted values against actual values. In general, a good fit is determined by how far the fitted values are from the observed ones. If we square all of the distances between actual points and predicted values (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).
+The model fit will be assessed by comparing the fitted values against observed values. In general, a good fit is determined by how far the fitted values are from the observed ones. If we square all of the distances between actual points and predicted values (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).
 
 <center>$MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T}$</center>
 \n
-How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and again made the table more appealing using the `gt` library.
+How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but instead find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and made the table more appealing using the `gt` library.
 
-```{r, results='hide'}
-accuracy(fit)
-```
 
-```{r, echo=FALSE}
-accuracy(fit) %>% gt() %>%
+```{r}
+accuracy(fit) %>% 
+  gt() %>%
   cols_align("center") %>% 
   tab_header(title = md("**Model Fit**")) %>% 
   tab_style(locations = cells_column_labels(columns = everything()),
@@ -110,34 +111,37 @@ accuracy(fit) %>% gt() %>%
 
 ## Forecast
 
-The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) ahead we need to forecast. We can easily forecast 30 weeks of data in R with the code below.
+The forecast of the series is obtained by using the `forecast()` function and specifying the number of periods ($h$) ahead to forecast. Below we forecast $27$ weeks and save the result in an object called *calits_fc*.
 
 ```{r}
-calits_fc<- fit %>% forecast(h=30)
+calits_fc <- fit %>% forecast(h=27)
 ```
 
-The `autoplot()` and `autolayer()` functions are used below to create a graph with the forecasts and the training set.
+The `autoplot()` and `autolayer()` functions are used below to create a graph with the forecasts and the training set. The argument *level* is set to NULL to omit the prediction intervals.
 
-```{r, warning=FALSE}
+```{r}
 calits_fc %>% autoplot(level=NULL) + theme_classic() + 
-  autolayer(calits_train, average_price)
+  autolayer(calits_train, average_price) +
+  labs(y="", title= "California's Forecasted Average Price Of Avocados",
+       subtitle = "Jan 4, 2015 - Dec 2, 2018",
+       x="")
 ```
 
-Note how the Mean and Naive models predict that the series will continue without a trend. The LS model predicts that the series will continue its trend but, like all other methods, does not consider the seasonal pattern discussed in @sec-Visual. In future chapters, we will look at models that account for trend and seasonality.
+Note how the Mean and Naive models predict that the series will continue without a trend. The LS and Drift models predicts that the series will continue its trend but, like all other methods, do not consider the seasonal pattern discussed in @sec-Visual. In future chapters, we will look at models that account for both trend and seasonality.
 
 ## Over-Fitting
 
 Over-fitting can happen when a model is overly flexible. This can make the model fit to the random fluctuations or noise in the data, rather than the underlying pattern. This is a major failing in modeling as it ignores the systematic pattern that governs the time series.
 
-To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the **test set**. A model that "memorizes" the training data, will often perform poorly when forecasting the test set.
+To overcome this problem, we usually have a **training set** or subset of the data that we use to estimate the model's parameters. Once the model is estimated, we assess its performance on a new subset of the data that was not used in estimating the model. This second subset of data is called the **test set**. A model that over-fits to the training data, will often perform poorly when forecasting the test set.
 
 Recall that benchmarks were estimated for the period between 2015-01-04\~2018-06-02. We will call this our training set. For our test set, we'll use the 2018-06-02\~2018-12-02 period. The code below creates the test set using the `filter_index()` function.
 
 ```{r, results='hide'}
 cali %>%
-  as_tsibble(key=c(geography),
+  as_tsibble(key=geography,
              index=date, regular=T) %>%
-  filter_index("2018-06-02"~"2018-12-02")-> calits_test
+  filter_index("2018-06-02"~"2018-12-02") -> calits_test
 ```
 
 Now we can plot the training set, the forecast, and the test set by using the code below.
@@ -149,7 +153,7 @@ calits_fc %>% autoplot(level=NULL) +
   autolayer(calits_test, average_price)
 ```
 
-The graph shows how the LS method does well with the test data and a long forecast period. This can be confirmed by obtaining the accuracy measures against the test set. The code below uses the `accuracy()` function to generate the main table. Once again, the `gt` package is used to enhance the table visually.
+The graph shows how the LS method does well with the test data and a long forecast period. This can be confirmed by obtaining the accuracy measures against the test set. The code below uses the `accuracy()` function to generate the main table.
 
 ```{r, results='hide', echo=FALSE}
 cali %>%
@@ -158,11 +162,11 @@ cali %>%
   filter_index("2015-01-04"~"2018-12-02") -> calits
 ```
 
-```{r results='hide', warning=FALSE}
+```{r results='hide'}
 accuracy(calits_fc, calits_test)
 ```
 
-```{r, warning=FALSE, echo=FALSE}
+```{r, echo=FALSE}
 accuracy(calits_fc, calits_test) %>% gt() %>%
   cols_align("center") %>% 
   tab_header(title = md("**Model Fit**")) %>% 
@@ -177,14 +181,14 @@ accuracy(calits_fc, calits_test) %>% gt() %>%
     targets ="row")
 ```
 
-Interestingly, the Naive method is no longer the best model. This is partly because it chases the series fluctuations (along with the noise) and always makes the same forecast regardless of how many periods we forecast ahead. The LS model captures the trend, which seems to carry consistently throughout the entire series.
+Interestingly, the Naive method is no longer the best model since it will always predict the series' previous value regardless of how many periods we forecast. On the other hand, the LS model correctly uses the deterministic trend to forecast the future. Trends are useful in predicting time series.
 
 ## Cross Validation
 
-Instead of selecting a single training set and test set, we can create several. Specifically, we could take the first three observations and define them as the training set. We can then estimate a model and forecast the fourth observation. The forecast error is recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth observation. This procedure is repeated as many times as the data allows. Below we create a table that enables us to follow the **cross-validation** of our benchmarks.
+Instead of selecting a single training set and test set, we can create several. Specifically, we could take the first three observations of our time series and define them as the training set. We can then estimate a model and forecast the fourth (or nth) observation. The forecast error is recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth (or nth) observation. This procedure is repeated as many times as the data allows. Below we create a table that enables us to follow the **cross-validation** of our benchmarks.
 
 ```{r}
-avocado_cv <- calits_train %>% 
+avocado_cv <- calits %>% 
   select(-geography, -total_volume) %>% 
   stretch_tsibble(.init = 3, .step = 1)
 ```
@@ -194,18 +198,21 @@ avocado_cv <- calits_train %>%
 ```{r, echo=FALSE}
 head(avocado_cv,8) %>% gt() %>% 
   cols_align("center") %>% 
-  tab_header(title = md("**CV tsibble**"))
+  tab_header(title = md("**CV tsibble**")) %>% tab_style(locations = cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold")))
 ```
 
-Using this new tsibble, the benchmarks are estimated for each *id* and forecasts are generated for one period ahead ($h=1$). The accuracy is measured and averaged across all iterations for each model. Results are shown in the table below.
+Using this new tsibble, the benchmarks are estimated for each *id* and forecasts are generated for four periods ahead ($h=1$). The accuracy is measured and averaged across all iterations for each model. Results are shown in the table below.
 
-```{r}
+```{r, warning=FALSE}
 avocado_cv %>%
   model(Mean=MEAN(average_price),
         Naive=RW(average_price),
         Drift=RW(average_price ~ drift()),
         LS=TSLM(average_price~date)) %>%
-  forecast(h = 1) %>% accuracy(calits) %>% gt() %>%
+  forecast(h = 1) %>% accuracy(calits) %>% 
+  gt() %>%
   cols_align("center") %>% 
   tab_header(title = md("**Model Fit Cross Validation**")) %>% 
   tab_style(locations = cells_column_labels(columns = everything()),
@@ -219,11 +226,11 @@ avocado_cv %>%
     targets ="row")
 ```
 
-The Naive method once again performs well. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. You can confirm that this model would not be very viable if we are predicting 3 or four periods ahead. Additionally, there is no formal model telling us how data is generated or that explains the how the time series is generated.
+The Naive method performs the best when forecasting one period ahead. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. You can confirm that this model would lose its appeal when predicting three or four periods ahead. Most importantly, there is no formal model telling us how data is generated.
 
 ## Other Accuracy Measures
 
-AIC (Akaike Information Criterion), AICc (corrected AIC), and BIC (Bayesian Information Criterion) are commonly used measures of model accuracy or goodness of fit in statistical modeling. They are used to compare different models and select the one that best balances model complexity and fit to the data.
+AIC (Akaike Information Criterion), AICc (corrected AIC), and BIC (Bayesian Information Criterion) are commonly used measures of model accuracy or goodness of fit in statistical modeling. They are used to compare different models and select the one that best balances model complexity (number of parameters estimated) and fit.
 
 -   **AIC** is a measure that penalizes model complexity. It balances the trade-off between model fit and the number of parameters in the model. The AIC value is calculated using the formula:
 
@@ -231,7 +238,7 @@ AIC (Akaike Information Criterion), AICc (corrected AIC), and BIC (Bayesian Info
 
 \n
 
-In this formula, the log-likelihood represents how well the model fits the data, and the number of parameters ($k$) accounts for the complexity of the model. The lower the AIC value, the better the model is considered in terms of fit and complexity.
+In this formula, the log-likelihood represents how well the model fits the data, and the number of parameters ($k$) accounts for the complexity of the model. The lower the AIC value, the better the model.
 
 -   **AICc** is an adjustment to the AIC measure, particularly for smaller sample sizes. AIC tends to overestimate the complexity penalty when the number of data points is relatively small. AICc adds a correction factor to account for this and is calculated using the formula:
 <center>$AICc = AIC + (2 * k * (k + 1)) / (n - k - 1)$</center>
@@ -243,15 +250,23 @@ Here, $k$ represents the number of parameters, and $n$ is the sample size. AICc 
 
 In this formula, log-likelihood represents the model fit, $n$ is the sample size, and $k$ is the number of parameters. BIC puts a greater emphasis on simplicity compared to AIC.
 
-These measures can be easily calculated in R using the `report()` function. The code below estimates the ETS model (which we will learn in the next module) for illustration purposes. Recall that the the naive model is non-parametric and does not provide us with an AIC, AICc, or BIC.
+These measures can be easily calculated in R using the `report()` function. The code below estimates the ETS and ARIMA models (which we will learn in the upcoming modules) for illustration purposes since the Naive and Mean models are non-parametric and do not provide us with an AIC, AICc, or BIC.
 
-
-```{r warning=FALSE}
+```{r warning=FALSE, results='hide'}
 calits_train %>%
   model(LS=TSLM(average_price~trend()),
-        ETS=ETS(average_price)) %>% 
+        ETS=ETS(average_price),
+        LS2=ARIMA(average_price))%>% 
   report() %>%
-  filter(.model=='LS' | .model=='ETS') %>%
+  select('.model',"AIC","AICc","BIC")
+```
+
+```{r warning=FALSE, echo=FALSE}
+calits_train %>%
+  model(LS=TSLM(average_price~trend()),
+        ETS=ETS(average_price),
+        ARIMA=ARIMA(average_price)) %>% 
+  report()  %>%
   select('.model',"AIC","AICc","BIC") %>% 
   gt() %>%
   cols_align("center") %>% 
@@ -262,9 +277,11 @@ calits_train %>%
   tab_style_body(
     style = cell_fill(color="lightgreen"),
     values = "LS",
-    targets ="row")
+    targets ="row") %>% 
+  fmt_number(columns =c(AIC,AICc,BIC),
+             decimals = 2) 
 ```
-The model with the lowest AIC (AICc or BIC) is the simple Least Squares model. This indicates that this model outperforms the ETS model for the avocado data set. We should choose this model to forecast avocado prices for Chilango's. 
+The model with the lowest AIC (AICc or BIC) is the simple Least Squares model that only has two parameters to estimate (slope and intercept). These results indicate that LS provides a good fit relative to it's complexity. 
 
 ## Readings
 

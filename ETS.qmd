@@ -44,7 +44,7 @@ tesla %>% autoplot(.vars=deliveries) + theme_classic() +
   xlab("Quarter") + ylab(" ")
 ```
 
-The most striking aspect of Tesla's deliveries is the exponential increasing trend. There also seems to be a seasonal component, with relatively higher production in Q2 and Q3 versus the other quarters. These characteristics will be adopted by the ETS model to forecast the series. Below we can see the STL decomposition that confirm these characteristics.
+The most striking aspect of Tesla's deliveries is the exponential trend. There also seems to be a seasonal component, with relatively higher production in Q2 and Q3 versus the other quarters. These characteristics will be adopted by the ETS model to forecast the series. Below we can see the STL decomposition that confirm these characteristics.
 
 ```{r}
 tesla %>%
