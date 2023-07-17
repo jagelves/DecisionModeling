@@ -64,12 +64,26 @@ train_tesla<-filter_index(.data=tesla,"2016 Q1"~"2021 Q4")
 test_tesla<-filter_index(.data=tesla,"2022 Q1"~"2023 Q2")
 ```
 
-There is no fixed rule for determining the length of the train and test sets. In this example, it is important to allocate a sufficiently large portion of the dataset to the training set to capture the underlying patterns and trends of Tesla's deliveries. The sets are easily created using the `filter_index()` function and specifying the data set, and  the particular dates.
-Four models will be estimated based on ETS. The first one is the Simple Exponential Smoothing model with additive errors, the Holt model that includes an additive trend, a dampened trend model and finally an algorithmic function that selects the best ETS model.
+There is no fixed rule for determining the length of the train and test sets. In this example, it is important to allocate a sufficiently large portion of the data to the training set to capture the underlying patterns and trends of Tesla's deliveries. The sets are easily created using the `filter_index()` function and specifying the data set, and  the particular dates.
+Five models will be estimated based on ETS. The first one is the Simple Exponential Smoothing model with additive errors (SES), the Holt model that includes an additive trend (HOLT), a dampened trend model (DAMPED), a damped model with seasonality, and finally an algorithmic function that attempts to select the best ETS model (see @FPP3). Along with these five models two more models are set forth. The first one is a simple least squares model (LS) and the second one is a quadratic model with seasonality dummies (LSS).
 
-Model selection will be done via cross validation. Recall, that the the `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The *.init* parameter sets the first eight observations to estimate our initial model. The cross validation is done four periods (a year) ahead and accuracy measures are created by comparing forecasts to the test set.
+Model selection will be done via cross validation. Recall, that the the `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The *.init* parameter sets the first eight observations to estimate our initial model. The cross validation is done four periods ahead (a year) and accuracy measures are created by comparing forecasts to the test set.
+```{r results='hide', warning=FALSE, message=FALSE}
+library(gt)
+train_tesla %>% stretch_tsibble(.init = 8, .step=4) %>%
+  model(
+    SES=ETS(deliveries ~ error("A") + trend("N") + season("N")),
+    HOLT=ETS(deliveries ~ error("A") + trend("A") + season("N")),
+    DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")),
+    DAMPEDS=ETS(deliveries ~ error("A") + trend("Ad") + season("A")),
+ALGO=ETS(deliveries),
+LS = TSLM(deliveries ~ trend()+I(trend()^2)),
+LSS = TSLM(deliveries ~ trend()+I(trend()^2)+season()))%>%
+  forecast(h = 4) %>%
+  accuracy(tesla) %>% select(-"ACF1") 
+```
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, echo=FALSE}
 library(gt)
 train_tesla %>% stretch_tsibble(.init = 8) %>%
   model(
@@ -93,16 +107,31 @@ ALGO=ETS(deliveries))%>%
     targets ="row")
 ```
 
-The accuracy measures reveal that the DAMPED, DAMPEDS and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPEDS model and assume that Tesla's growth will taper off into the future and retain its seasonal pattern. Below, the DAMPEDS model is estimated and saved into an object called *fit*. 
+The accuracy measures reveal that the DAMPED, DAMPEDS and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPEDS model and assume that Tesla's growth will taper off into the future and retain its seasonal pattern. Below, the DAMPEDS and a quadratic LS model (with and without seasonality) are estimated and saved into an object called *fit*. 
 
 ```{r}
 fit <- tesla %>%
   model(
-    DAMPEDS = ETS(deliveries ~ error("A") + trend("Ad") + season("A"))
+    DAMPEDS = ETS(deliveries ~ error("A") + trend("Ad") + season("A")),
+    LS = TSLM(deliveries ~ trend()+I(trend()^2)),
+    LSS = TSLM(deliveries ~ trend()+I(trend()^2)+season())
   )
 ```
 
-*Note: to see the model's parameters you can use the `tidy()` function.*  
+*Note: to see the model's parameters you can use the `tidy()` function.*
+
+```{r}
+tidy(fit)
+```
+
+The plot show the fit of the models with the blue line representing the LS model and the red line the DAMPEDS model.
+```{r, warning=FALSE, message=FALSE}
+tesla %>% autoplot(deliveries) + theme_classic() + 
+  geom_line(aes(y = .fitted), col="blue",
+            data = augment(fit)  %>% filter(`.model`=="LSS")) +
+              geom_line(aes(y = .fitted), col="red",
+            data = augment(fit) %>% filter(`.model`=="DAMPEDS"))
+```
 
 ## Forecast
 
@@ -111,7 +140,8 @@ Forecasts are created by using the *fit* object. We will forecast four quarters 
 ```{r message=FALSE, results='hide'}
 library(gt)
 fit %>%
-  forecast(h = 4) %>% select(-".model")
+  forecast(h = 4) %>% select(-".model") -> deliveries_fc
+deliveries_fc
 ```
 
 ```{r message=FALSE, echo=FALSE}
@@ -125,7 +155,9 @@ fit %>%
     locations = cells_column_labels(columns = everything()),
     style = list(
       cell_borders(sides = "bottom", weight = px(3)),
-      cell_text(weight = "bold")))
+      cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(.mean),
+             decimals = 2)
   
 ```
 
