@@ -35,7 +35,7 @@ tesla<-tsibble(
 )
 ```
 
-As you can see the tsibble is created with the `tsibble()` function included in the `fpp3` package. A time variable must be included and then defined using the *index* parameter. The `yearquarter()` function from the `lubridate` package is used to coerce the data to a date. The code below creates the plot of Tesla's deliveries using the `autoplot()` function.
+As you can see the tsibble is created with the `tsibble()` function included in the `fpp3` package. The `yearquarter()` function from the `lubridate` package is used to coerce the period data to a date. The time variable is then specified via the *index* parameter.  The code below creates the plot of Tesla's deliveries using the `autoplot()` function.
 
 ```{r}
 tesla %>% autoplot(.vars=deliveries) + theme_classic() +
@@ -57,17 +57,18 @@ tesla %>%
 
 ## Models
 
-To model the data and create the appropriate forecasts, we start by generating a test set and a training set from the available data.
+To model the data and create the appropriate forecasts, we start by generating test and training sets from the available data.
 
 ```{r}
 train_tesla<-filter_index(.data=tesla,"2016 Q1"~"2021 Q4")
 test_tesla<-filter_index(.data=tesla,"2022 Q1"~"2023 Q2")
 ```
 
-There is no fixed rule for determining the length of the train and test sets. In this example, it is important to allocate a sufficiently large portion of the data to the training set to capture the underlying patterns and trends of Tesla's deliveries. The sets are easily created using the `filter_index()` function and specifying the data set, and  the particular dates.
-Five models will be estimated based on ETS. The first one is the Simple Exponential Smoothing model with additive errors (SES), the Holt model that includes an additive trend (HOLT), a dampened trend model (DAMPED), a damped model with seasonality, and finally an algorithmic function that attempts to select the best ETS model (see @FPP3). Along with these five models two more models are set forth. The first one is a simple least squares model (LS) and the second one is a quadratic model with seasonality dummies (LSS).
+There is no fixed rule for determining the length of the train and test sets. In this example, it is important to allocate a sufficiently large portion of the data to the training set to capture the underlying seasonality and trend of Tesla's deliveries. The sets are easily created using the `filter_index()` function.  
 
-Model selection will be done via cross validation. Recall, that the the `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The *.init* parameter sets the first eight observations to estimate our initial model. The cross validation is done four periods ahead (a year) and accuracy measures are created by comparing forecasts to the test set.
+Five models will be estimated based on ETS. The first one is the Simple Exponential Smoothing model with additive errors (SES), the Holt model that includes an additive trend (HOLT), a dampened trend model (DAMPED), a damped model with seasonality (DAMPEDS), and finally an algorithmic function that attempts to select the best ETS model (see @FPP3, Chapter 8). Along with these five models two more models are set forth. The first one is a simple least squares model (LS) and the second one is a quadratic model with seasonality dummies (LSS).
+
+Model selection will be done via cross validation. Recall, that the the `stretch_tsibble()` function reshapes the tsibble to accommodate for cross validation. The *.init* parameter sets the first eight observations to estimate our initial model and the *.step* argument increases the training set by four. Cross validation is done four periods ahead (a year) and accuracy measures are created by comparing forecasts to the test set.
 ```{r results='hide', warning=FALSE, message=FALSE}
 library(gt)
 train_tesla %>% stretch_tsibble(.init = 8, .step=4) %>%
@@ -91,7 +92,9 @@ train_tesla %>% stretch_tsibble(.init = 8) %>%
     HOLT=ETS(deliveries ~ error("A") + trend("A") + season("N")),
     DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")),
     DAMPEDS=ETS(deliveries ~ error("A") + trend("Ad") + season("A")),
-ALGO=ETS(deliveries))%>%
+ALGO=ETS(deliveries),
+LS = TSLM(deliveries ~ trend()+I(trend()^2)),
+LSS = TSLM(deliveries ~ trend()+I(trend()^2)+season()))%>%
   forecast(h = 4) %>%
   accuracy(tesla) %>% select(-"ACF1") %>% 
   gt() %>% cols_align("center") %>% 
@@ -103,39 +106,73 @@ ALGO=ETS(deliveries))%>%
              decimals = 3) %>%
   tab_style_body(
     style = cell_fill(color="lightgreen"),
-    values = "DAMPEDS",
+    values = c("DAMPEDS","LSS"),
     targets ="row")
 ```
 
-The accuracy measures reveal that the DAMPED, DAMPEDS and HOLT models perform best. If one believes that Tesla deliveries will continue to grow at about the same pace, the HOLT model would probably be the best choice. Below, we will continue with the DAMPEDS model and assume that Tesla's growth will taper off into the future and retain its seasonal pattern. Below, the DAMPEDS and a quadratic LS model (with and without seasonality) are estimated and saved into an object called *fit*. 
+The accuracy measures reveal that the DAMPEDS and LSS models perform consistently well. Below, we will continue with the DAMPEDS and LSS models as the trend seems to be exponential and there seems to be evidence of seasonality. These model are estimated and saved into an object called *fit* below. 
 
 ```{r}
 fit <- tesla %>%
   model(
     DAMPEDS = ETS(deliveries ~ error("A") + trend("Ad") + season("A")),
-    LS = TSLM(deliveries ~ trend()+I(trend()^2)),
     LSS = TSLM(deliveries ~ trend()+I(trend()^2)+season())
   )
 ```
 
-*Note: to see the model's parameters you can use the `tidy()` function.*
+If one is interested in retrieving the model coefficients, one can use the `tidy()` function as shown below:
 
 ```{r}
-tidy(fit)
+tidy(fit) %>% filter(.model=="LSS")
 ```
 
-The plot show the fit of the models with the blue line representing the LS model and the red line the DAMPEDS model.
+As revealed by the output above, all estimates in the LSS model are statistically significant. The plot below shows the fit of the models with the blue line representing the LS model and the red line the DAMPEDS model.
 ```{r, warning=FALSE, message=FALSE}
-tesla %>% autoplot(deliveries) + theme_classic() + 
+tesla %>% autoplot(deliveries, lwd=1.2, alpha=0.5) + theme_classic() + 
   geom_line(aes(y = .fitted), col="blue",
             data = augment(fit)  %>% filter(`.model`=="LSS")) +
               geom_line(aes(y = .fitted), col="red",
-            data = augment(fit) %>% filter(`.model`=="DAMPEDS"))
+            data = augment(fit) %>% filter(`.model`=="DAMPEDS")) + 
+  labs(title= "Tesla Car Deliveries Fitted Values", 
+       subtitle = "Q1 2017 to Q2 2023") +
+  xlab("Quarter") + ylab(" ")
 ```
 
-## Forecast
+## Information Criterion
 
-Forecasts are created by using the *fit* object. We will forecast four quarters ahead using the  `forecast()` function. The code below generate a table with the forecasts. 
+We can also attempt to select our models via the AIC, AICc, or BIC. The code below summarizes these measure for the models considered.
+
+```{r warning=FALSE}
+train_tesla %>%
+  model(
+    SES=ETS(deliveries ~ error("A") + trend("N") + season("N")),
+    HOLT=ETS(deliveries ~ error("A") + trend("A") + season("N")),
+    DAMPED=ETS(deliveries ~ error("A") + trend("Ad") + season("N")),
+    DAMPEDS=ETS(deliveries ~ error("A") + trend("Ad") + season("A")),
+ALGO=ETS(deliveries),
+LS = TSLM(deliveries ~ trend()+I(trend()^2)),
+LSS = TSLM(deliveries ~ trend()+I(trend()^2)+season())) %>% 
+  report()  %>%
+  select('.model',"AIC","AICc","BIC") %>% 
+  gt() %>%
+  cols_align("center") %>% 
+  tab_header(title = md("**Model Fit Information Criterion**")) %>% 
+  tab_style(locations = cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  tab_style_body(
+    style = cell_fill(color="lightgreen"),
+    values = "LSS",
+    targets ="row") %>% 
+  fmt_number(columns =c(AIC,AICc,BIC),
+             decimals = 2) 
+```
+
+Here, once again the LSS model seems to perform the best as it provides the lowest values. Among the ETS models, the ALGO model now stands out.
+
+## Forecasts
+
+Forecasts are created by using the *fit* object. We will forecast four quarters ahead using the  `forecast()` function. The code below generates a table with the forecasts. 
 
 ```{r message=FALSE, results='hide'}
 library(gt)
@@ -150,7 +187,7 @@ fit %>%
   forecast(h = 4) %>% select(-".model") %>% 
   gt() %>%
   cols_align("center") %>% 
-  tab_header(title = md("**ETS Forecast**")) %>%
+  tab_header(title = md("**Forecasts**")) %>%
   tab_style(
     locations = cells_column_labels(columns = everything()),
     style = list(
@@ -161,7 +198,7 @@ fit %>%
   
 ```
 
-Forecasts for the four quarters are shown above, with the corresponding mean. In general, the ETS model predicts Tesla will continue its trend and increase its deliveries every quarter. For the third quarter of 2023, Tesla expects to deliver about $516,000$ cars on average with a standard deviation $854$ cars. If we recall the 68-95-99.7 rule, Tesla deliveries for Q3 of 2023 will likely be between $513000$ and $519000$. The increasing standard deviation for future periods reminds us that longer-period forecasts have even more uncertainty. The plot below illustrates how the model expects Tesla to continue its upward trend.
+Forecasts for the four quarters are shown above, with the corresponding mean. In general, both models predict Tesla will continue its trend and increase its deliveries every quarter. According to the DAMPEDS model, Tesla is expected to deliver about $516,000$ cars on average with a standard deviation $854$ cars. If we recall the 68-95-99.7 rule, Tesla deliveries for Q3 of 2023 will likely be between $513000$ and $519000$. The increasing standard deviation for future periods reminds us that longer-period forecasts have even more uncertainty. The plot below illustrates the forecasts for both models along with the $95$% prediction intervals.
 ```{r}
 fit %>%
   forecast(h = 4) %>%
