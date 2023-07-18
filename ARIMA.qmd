@@ -1,6 +1,6 @@
 # ARIMA
 
-In this section we will be introducing important concepts and metrics for the analysis of time series. These concepts are important in understanding one of time series most recognized models. The ARIMA model. Concepts such as white noise, stationarity, autocorrelation and partial autocorrelation are all essential in understanding the implementation of the model. The section starts by introducing the concepts, and then follows with an application of the AR(1) model. The chapter ends with the introduction to model selection metrics.
+This section will introduce essential concepts and metrics to analyze time series further. These concepts are important in understanding one of time series most recognized models--the ARIMA model. Concepts such as white noise, stationarity, autocorrelation, and partial autocorrelation are all essential in understanding the implementation of the model. The section starts by introducing the concepts and then follows with an application of the AR(1) model. The chapter ends with an introduction to model selection metrics.
 
 ## Preliminaries
 
@@ -34,7 +34,7 @@ A time series is said to be **stationary** if its statistical properties do not 
 
 The main reason for making the time series stationary is that it is required in many time series models (including the ARIMA model). These models make predictions about future values of the time series based on past values, and the statistical properties of the past values are used to inform these predictions. If the statistical properties of the time series are changing over time, then the models may not work well, as the assumptions underlying them would not be met.
 
-In general, before modeling and forecasting, we will check whether the series is stationary (i.e., has no trend or homoskedasticity). To eliminate the trend in the series we will use the first difference of the series. We can do this in R by using the `difference()` function. For example consider Tesla's quarterly vehicle deliveries from 2016-2022.
+In general, before modeling and forecasting, we will check whether the series is stationary (i.e., has no trend and is homoskedastic). To eliminate the trend in the series we will use the first difference of the series. We can do this in R by using the `difference()` function. For example consider Tesla's quarterly vehicle deliveries from 2016-2022.
 
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 library(fpp3)
@@ -50,7 +50,7 @@ deliveries %>%
        subtitle="Q1 2016 - Q4 2022", y="", x="")
 ```
 
-Deliveries have mostly been in an upward trend, which makes sense as the company is currently scaling its production. This series seems to not be stationary since it crosses the mean (blue line) once and never revisits it. That is the mean is not constant and changes with time. It is possible to make the series stationary by finding differences. Below is the graph of the first difference of the series.
+Deliveries have mostly been in an upward trend, which makes sense as the company is currently scaling its production. This series seems to not be stationary since it crosses the mean (blue line) once and never revisits it. That is, the mean is not constant and changes with time. It is possible to make the series stationary by finding differences. Below is the graph of the first difference of the series.
 
 ```{r, warning=FALSE, message=FALSE}
 deliveries %>%
@@ -75,7 +75,7 @@ deliveries %>% as_tsibble(index=period, regular=T) %>%
        subtitle = "Q1 2016 - Q4 2022",x="",y="")
 ```
 
-The transformation has made the series a bit more homoskedastic (variance is more uniform) than the series without the transformation. Note also that both transformations can be undone by using an inverse function, so that we can return to the delivery of vehicles.
+The transformation has made the series a bit more homoskedastic (variance is more uniform) than the series without the transformation. Note also that both transformations (differencing and box-cox) can be undone by using an inverse function, so that we can return to the delivery of vehicles.
 
 A couple of statistical features to determine the stationarity of a series are the *unitroot_kpss* and *unitroot_ndiffs*. In general, a low p-value allows us to reject the null of hypothesis of stationarity.
 
@@ -96,7 +96,7 @@ deliveries %>% as_tsibble(index=period, regular=T) %>%
              decimals = 3)
 ```
 
-The test reports a p-value of 0.01 when it is below 0.01 and 0.1 when it is above 0.1. Hence, the p-value confirms that Tesla deliveries are non-stationary and that two differences are required to make the data stationary.
+The test reports a p-value of 0.01 when it is below 0.01 and 0.1 when it is above 0.1. Hence, the p-value confirms that Tesla deliveries are non-stationary and that two differences are required to make the data stationary. Two differences might be required as Tesla's deliveries seem to be growing exponentially.
 
 ### The autocorrelation function {.unnumbered}
 
