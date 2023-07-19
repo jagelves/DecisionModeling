@@ -227,8 +227,10 @@ div.csl-indent {
   <li><a href="#the-ar1-model" id="toc-the-ar1-model" class="nav-link" data-scroll-target="#the-ar1-model"><span class="header-section-number">7.2</span> The AR(1) model</a></li>
   <li><a href="#modeling-and-residuals" id="toc-modeling-and-residuals" class="nav-link" data-scroll-target="#modeling-and-residuals"><span class="header-section-number">7.3</span> Modeling and Residuals</a></li>
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection"><span class="header-section-number">7.4</span> Model Selection</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">7.5</span> Readings</a></li>
-  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">7.6</span> Leasons Learned</a></li>
+  <li><a href="#the-ma1-model" id="toc-the-ma1-model" class="nav-link" data-scroll-target="#the-ma1-model"><span class="header-section-number">7.5</span> The MA(1) model</a></li>
+  <li><a href="#arima" id="toc-arima" class="nav-link" data-scroll-target="#arima"><span class="header-section-number">7.6</span> ARIMA</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">7.7</span> Readings</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">7.8</span> Leasons Learned</a></li>
   </ul>
 </nav>
     </div>
@@ -252,12 +254,12 @@ div.csl-indent {
 
 </header>
 
-<p>This section will introduce essential concepts and metrics to analyze time series further. These concepts are important in understanding one of time series most recognized models–the ARIMA model. Concepts such as white noise, stationarity, autocorrelation, and partial autocorrelation are all essential in understanding the implementation of the model. The section starts by introducing the concepts and then follows with an application of the AR(1) model. The chapter ends with an introduction to model selection metrics.</p>
+<p>This section will introduce essential ideas and metrics to analyze time series further. Concepts such as white noise, stationarity, autocorrelation, and partial autocorrelation form the building blocks of one of time series most recognized models–the ARIMA model. The section then applies the AR(1), MA(1), and generalized ARIMA models.</p>
 <section id="preliminaries" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="preliminaries"><span class="header-section-number">7.1</span> Preliminaries</h2>
 <section id="white-noise" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="white-noise">White Noise</h3>
-<p>In time series, <strong>white noise</strong> refers to a sequence of random data points that have no correlation to each other. This process is used as a benchmark for other types of time series data that exhibit patterns or trends. By comparing a series with the white noise process, we can verify if the series has systematic components that can be modeled.<br>
+<p>In time series, <strong>white noise</strong> refers to a sequence of random data points that have no correlation to each other. This process is used as a benchmark for other types of time series data that exhibit patterns or trends. By comparing a series with the white noise process, we can verify if the series has systematic components that can be modeled (i.e., if there is any signal).<br>
 We can generate a white noise process by using the normal distribution with a mean of zero and a constant variance. Below we create a tsibble with the simulated data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
@@ -276,19 +278,19 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>A very ragged pattern is shown in the graph above. The series behaves erratically, but it always fluctuates around a mean of 0 and keeps a standard deviation of one. Such a series is unpredictable, so the best one can do is to describe it by its mean and standard deviation.</p>
+<p>A very unpredictable and ragged pattern is shown in the graph above. The series behaves erratically but fluctuates around a mean of zero and keeps a standard deviation of one. Given the unpredictability of the white noise process, the best one can do is to describe it by its mean and standard deviation.</p>
 </section>
 <section id="stationarity" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="stationarity">Stationarity</h3>
-<p>A time series is said to be <strong>stationary</strong> if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and auto-covariance, regardless of the time at which the series is observed.</p>
-<p>The main reason for making the time series stationary is that it is required in many time series models (including the ARIMA model). These models make predictions about future values of the time series based on past values, and the statistical properties of the past values are used to inform these predictions. If the statistical properties of the time series are changing over time, then the models may not work well, as the assumptions underlying them would not be met.</p>
-<p>In general, before modeling and forecasting, we will check whether the series is stationary (i.e., has no trend and is homoskedastic). To eliminate the trend in the series we will use the first difference of the series. We can do this in R by using the <code>difference()</code> function. For example consider Tesla’s quarterly vehicle deliveries from 2016-2022.</p>
+<p>A time series is said to be <strong>stationary</strong> if its statistical properties do not change over time. In other words, a stationary time series has a constant mean, variance, and auto-covariance, regardless of the time at which the series is observed. An example of a stationary process is the white noise process introduced above.</p>
+<p>Many time series models, including the ARIMA model, require a stationary time series. These models make predictions about future values based on past values, and the statistical properties of the past values are used to inform these predictions. If the time series’ statistical properties change over time, then the models may not work well, as the assumptions underlying them would not be met.</p>
+<p>In general, before modeling and forecasting, we will check whether the series is stationary (i.e., has no trend and is homoskedastic). To eliminate the trend in the series we will use the first difference of the series. We can do this in R by using the <code>difference()</code> function. For example consider Tesla’s quarterly vehicle deliveries.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Deliveries have mostly been in an upward trend, which makes sense as the company is currently scaling its production. This series seems to not be stationary since it crosses the mean (blue line) once and never revisits it. That is, the mean is not constant and changes with time. It is possible to make the series stationary by finding differences. Below is the graph of the first difference of the series.</p>
+<p>Deliveries have been on an upward trend as the company is currently scaling its production, and demand is strong. This series is not stationary since it crosses the mean (blue line) once and never revisits it. That is, the mean is not constant and changes with time. It is possible to make the series stationary by finding differences. Below is the graph of the first difference.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="fu">difference</span>(deliveries)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
@@ -299,8 +301,8 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The series now fluctuates closer to the mean, but unlike the white noise process behaves less erratic. You will notice that in some periods the change in deliveries from quarter to quarter is high. For example, following the lows at the beginning of the year, deliveries seem to increase sharply. There seems to be correlations between the quarters or time dependencies. We will explore this more once we look at autocorrelations, partial autocorrelations, and seasonality.</p>
-<p>The series exhibits heteroskedasticity (increasing variance), as the variance of the series seems to be low from the period of 2016-2018 while significantly higher for the period after. To normalize the variance of the series we can conduct a Box-Cox transformation.</p>
+<p>The series now fluctuates closer to the mean, but unlike the white noise process behaves less erratic. You will notice that in some periods the change in deliveries from quarter to quarter is high. For example, following the lows at the beginning of the year, deliveries seem to increase sharply. There seems to be correlations between the quarters (time dependencies).</p>
+<p>Aonother pattern shown in the graph above is heteroskedasticity (increasing variance), The variance of the series seems to be low from the period of 2016-2018 while significantly higher for the period after. To normalize the variance of the series we can conduct a Box-Cox transformation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> deliveries <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(deliveries, <span class="at">features =</span> guerrero) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(lambda_guerrero) </span>
@@ -314,18 +316,13 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The transformation has made the series a bit more homoskedastic (variance is more uniform) than the series without the transformation. Note also that both transformations (differencing and box-cox) can be undone by using an inverse function, so that we can return to the delivery of vehicles.</p>
-<p>A couple of statistical features to determine the stationarity of a series are the <em>unitroot_kpss</em> and <em>unitroot_ndiffs</em>. In general, a low p-value allows us to reject the null of hypothesis of stationarity.</p>
+<p>The transformation has made the series a bit more homoskedastic (variance is more uniform) than the series without the transformation. It is important to note that both transformations (differencing and box-cox) can be undone by using an inverse function. We can always return the series to its original form.</p>
+<p>A couple of statistical features used to determine the stationarity of a series are the <em>unitroot_kpss</em> and <em>unitroot_ndiffs</em>. In general, a low p-value allows us to reject the null of hypothesis of stationarity. Below, we test the features with the non-stationary Tesla deliveries.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>deliveries <span class="sc">%&gt;%</span> <span class="fu">as_tsibble</span>(<span class="at">index=</span>period, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(deliveries, <span class="at">features =</span> <span class="fu">c</span>(unitroot_kpss, unitroot_ndiffs)) <span class="sc">%&gt;%</span> <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="st">"center"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">md</span>(<span class="st">"**Stationarity Tests**"</span>)) <span class="sc">%&gt;%</span> <span class="fu">tab_style</span>(<span class="at">locations =</span>                                                    <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> <span class="fu">everything</span>()),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_borders</span>(<span class="at">sides =</span> <span class="st">"bottom"</span>, <span class="at">weight =</span> <span class="fu">px</span>(<span class="dv">3</span>)),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span><span class="fu">c</span>(kpss_stat,kpss_pvalue),</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">decimals =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(deliveries, <span class="at">features =</span> <span class="fu">c</span>(unitroot_kpss, unitroot_ndiffs)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
 
 <div id="qqlghnfucn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -799,7 +796,7 @@ We can generate a white noise process by using the normal distribution with a me
 <center>
 <span class="math inline">\(\rho_{y_t,y_{t-k}}=\frac{cov(y_t,y_{y-k})}{sd(y_t)sd(y_{t-k})}\)</span>
 </center>
-<p>We can use this metric to identify which periods are influential for our targeted forecast periods. We can also illustrate a function of a series and it’s correlation with its lags to identify/quantify crucial periods. This time let’s inspect personal income growth in the state of California. Below we load the data and create the train and test sets.</p>
+<p>Let’s illustrate the use of autocorrelations with an example. This time let’s inspect personal income growth in the state of California. Below we load the data and create the train and test sets.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -819,8 +816,8 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The plot shows that the correlation of the series with its first lag is strongest, and that there is continuous decay in the strength of the correlation as the lags get larger. The blue lines determine which autocorrelations are statistically different from zero (significant) at the 5% level. As you can see, lags 1-4 are positively correlated with the series and statistically significant.</p>
-<p>A white noise process on the other hand is expected to show no correlation with its lags since the series is constructed from independent draws from a normal distribution with constant variance. Below you can see the autocorrelation function of the white noise process.</p>
+<p>The plot shows that the correlation of the series with its first lag is strongest. That is, positive income growth in the previous period correlates with positive income growth in the current period. The plot also shows continuous decay in the strength of the correlation as the lags get larger. A positive income growth two or three periods ago still positively influences the current period’s income growth, but less than the immediate previous period. The blue lines determine which autocorrelations are statistically different from zero (significant) at the 5% level. As you can see, lags 1-4 are positively correlated with the series and are statistically significant.</p>
+<p>On the other hand, a white noise process is expected to show no correlation with its lags since the series is constructed from independent draws from a normal distribution with constant variance. Previous periods do not affect the current or future periods. Below you can see the autocorrelation function of the white noise process.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wn <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(x) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">"ACF"</span>) <span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF White Noise Process"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -852,7 +849,7 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>In sum, white noise processes are unpredictable and we can only describe them by their mean and standard deviation. Series that have patterns in their ACF or PACF can be modeled. Below we I illustrate how to model Personal Income in California with an AR(1) model.</p>
+<p>In sum, white noise processes are unpredictable and we can only describe them by their mean and standard deviation. Series that have patterns in their ACF or PACF can be modeled using ARIMA. Below we illustrate how to model Personal Income Growth in California with an AR(1) model.</p>
 </section>
 </section>
 <section id="the-ar1-model" class="level2" data-number="7.2">
@@ -880,18 +877,18 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note the resemblance of the ACF of the simulated variable to that of the personal income. Now let’s take a look at the PACF.</p>
+<p>Note the resemblance of the ACF of the simulated data to that of the personal income growth. A decaying ACF with a strong correlation of lag 1. Now let’s take a look at the PACF.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>,<span class="at">y=</span><span class="st">"PACF"</span>,                         <span class="at">title=</span><span class="st">"PACF For Simulated AR(1) phi=0.7, c=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Once again, if you compare the PACF to the one in personal income growth you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. This allows us to confirm that we can model personal consumption growth with an AR(1) process.</p>
+<p>Once again, if you compare the PACF to the one in personal income growth you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. This allows us to confirm that we can model personal income growth with an AR(1) process.</p>
 </section>
 <section id="modeling-and-residuals" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="modeling-and-residuals"><span class="header-section-number">7.3</span> Modeling and Residuals</h2>
-<p>Let’s model personal consumption using the AR(1) model. We’ll also estimate a Least Squares model to compare. Recall, that we can estimate these models by using the <code>model()</code> function and retrieve the coefficients with the <code>coef()</code> function.</p>
+<p>Let’s model personal income growth using the AR(1) model. We’ll also estimate a Least Squares model to compare. Recall, that we can estimate these models by using the <code>model()</code> function and retrieve the coefficients with the <code>coef()</code> function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>PI_fit<span class="ot">&lt;-</span>PI_train <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">AR1 =</span> <span class="fu">AR</span>(PI_Growth <span class="sc">~</span> <span class="fu">order</span>(<span class="dv">1</span>)),</span>
@@ -1406,11 +1403,11 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The PACF once again shows no pattern for the residuals of the AR(1) model and some significant lags for the LS model.</p>
+<p>The PACF once again shows no pattern for the residuals of the AR(1) model and some significant lags for the LS model. Once again, the AR(1) model correctly identifies the data generating process in the time series.</p>
 </section>
 <section id="model-selection" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="model-selection"><span class="header-section-number">7.4</span> Model Selection</h2>
-<p>We can further choose between these two models by looking at the AIC, AICc, or BIC.</p>
+<p>We can choose between these two models by looking at the AIC, AICc, or BIC.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(PI_fit) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(AICc) <span class="sc">%&gt;%</span> <span class="fu">select</span>(.model<span class="sc">:</span>BIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -2396,12 +2393,18 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </section>
-<section id="readings" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">7.5</span> Readings</h2>
+<section id="the-ma1-model" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="the-ma1-model"><span class="header-section-number">7.5</span> The MA(1) model</h2>
+</section>
+<section id="arima" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="arima"><span class="header-section-number">7.6</span> ARIMA</h2>
+</section>
+<section id="readings" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="readings"><span class="header-section-number">7.7</span> Readings</h2>
 <p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 9 (ARIMA Models).</p>
 </section>
-<section id="leasons-learned" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">7.6</span> Leasons Learned</h2>
+<section id="leasons-learned" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">7.8</span> Leasons Learned</h2>
 <p>In this module you have been introduced to ARIMA model. Particularly you have learned to:</p>
 <ul>
 <li><p>Use the autocorrelations and partial autocorrelations to analyze time series.</p></li>
