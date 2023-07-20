@@ -378,8 +378,21 @@ fit <- model(calits_train,ETS=ETS(average_price),
 
 The coefficients for the models can be retrieved by using the `tidy()` or `coef()` functions.
 
-```{r}
+```{r, results='hide'}
 fit %>% coef()
+```
+
+```{r, echo=FALSE}
+fit %>% coef() %>%
+gt() %>% 
+  cols_align("center") %>% 
+  tab_header(title = md("**Model Coefficients For The Avocado Data**")) %>% 
+  tab_style(
+    locations =cells_column_labels(columns = everything()),
+  style = list(cell_borders(sides = "bottom", weight = px(3)),
+    cell_text(weight = "bold"))) %>% 
+  fmt_number(columns =c(statistic,estimate,std.error,p.value),
+             decimals = 4)
 ```
 
 The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about $0.65$. As for the ARIMA model, an ARIMA(2,0,2) process is suggested. Below we plot the ACF and the PACF of the average price of avocados.

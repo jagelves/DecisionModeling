@@ -2504,54 +2504,6 @@ We can generate a white noise process by using the normal distribution with a me
 <p>The coefficients for the models can be retrieved by using the <code>tidy()</code> or <code>coef()</code> functions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">coef</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 7
-   geography  .model term        estimate std.error statistic   p.value
-   &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
- 1 California ETS    alpha        0.646   NA            NA    NA       
- 2 California ETS    l[0]         1.21    NA            NA    NA       
- 3 California ARIMA  ar1          0.922    0.110         8.40  1.38e-14
- 4 California ARIMA  ar2         -0.736    0.114        -6.49  8.46e-10
- 5 California ARIMA  ma1         -1.15     0.0807      -14.2   4.35e-31
- 6 California ARIMA  ma2          0.849    0.0966        8.79  1.29e-15
- 7 California AR     constant     0.214    0.0605        3.54  5.21e- 4
- 8 California AR     ar1          0.874    0.0354       24.7   4.63e-59
- 9 California LS     (Intercept)  1.49     0.0391       38.0   8.76e-87
-10 California LS     trend()      0.00222  0.000379      5.87  2.12e- 8</code></pre>
-</div>
-</div>
-<p>The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about <span class="math inline">\(0.65\)</span>. As for the ARIMA model, an ARIMA(2,0,2) process is suggested. Below we plot the ACF and the PACF of the average price of avocados.</p>
-<div>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max=</span><span class="dv">12</span>, average_price) <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF For Avocado Average Price"</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max=</span><span class="dv">12</span>, average_price) <span class="sc">%&gt;%</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"PACF For Avocado Average Price"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell quarto-layout-panel">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid"></p>
-</div>
-<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-31-2.png" class="img-fluid"></p>
-</div>
-</div>
-</div>
-</div>
-<p>The patterns shown are textbook AR(1). Hence, the inclusion of the model in the set of candidates. The code below forecasts the series 27 periods ahead and plots.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="cn">NULL</span>) <span class="sc">+</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(cali, average_price) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="ARIMA_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>Interestingly, it seems like the AR(1) and the LS model perform the best. Let’s confirm by checking the accuracy measures against the test set.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(cali)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -2993,6 +2945,576 @@ We can generate a white noise process by using the normal distribution with a me
 }
 
 #hteoemoica .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Model Coefficients For The Avocado Data</strong></td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="geography">geography</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".model">.model</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="term">term</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="estimate">estimate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="std.error">std.error</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="statistic">statistic</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="p.value">p.value</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">ETS</td>
+<td headers="term" class="gt_row gt_center">alpha</td>
+<td headers="estimate" class="gt_row gt_center">0.6461</td>
+<td headers="std.error" class="gt_row gt_center">NA</td>
+<td headers="statistic" class="gt_row gt_center">NA</td>
+<td headers="p.value" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">ETS</td>
+<td headers="term" class="gt_row gt_center">l[0]</td>
+<td headers="estimate" class="gt_row gt_center">1.2082</td>
+<td headers="std.error" class="gt_row gt_center">NA</td>
+<td headers="statistic" class="gt_row gt_center">NA</td>
+<td headers="p.value" class="gt_row gt_center">NA</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">ARIMA</td>
+<td headers="term" class="gt_row gt_center">ar1</td>
+<td headers="estimate" class="gt_row gt_center">0.9220</td>
+<td headers="std.error" class="gt_row gt_center">0.1097</td>
+<td headers="statistic" class="gt_row gt_center">8.4033</td>
+<td headers="p.value" class="gt_row gt_center">0.0000</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">ARIMA</td>
+<td headers="term" class="gt_row gt_center">ar2</td>
+<td headers="estimate" class="gt_row gt_center">−0.7364</td>
+<td headers="std.error" class="gt_row gt_center">0.1135</td>
+<td headers="statistic" class="gt_row gt_center">−6.4873</td>
+<td headers="p.value" class="gt_row gt_center">0.0000</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">ARIMA</td>
+<td headers="term" class="gt_row gt_center">ma1</td>
+<td headers="estimate" class="gt_row gt_center">−1.1478</td>
+<td headers="std.error" class="gt_row gt_center">0.0807</td>
+<td headers="statistic" class="gt_row gt_center">−14.2160</td>
+<td headers="p.value" class="gt_row gt_center">0.0000</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">ARIMA</td>
+<td headers="term" class="gt_row gt_center">ma2</td>
+<td headers="estimate" class="gt_row gt_center">0.8490</td>
+<td headers="std.error" class="gt_row gt_center">0.0966</td>
+<td headers="statistic" class="gt_row gt_center">8.7888</td>
+<td headers="p.value" class="gt_row gt_center">0.0000</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">AR</td>
+<td headers="term" class="gt_row gt_center">constant</td>
+<td headers="estimate" class="gt_row gt_center">0.2139</td>
+<td headers="std.error" class="gt_row gt_center">0.0605</td>
+<td headers="statistic" class="gt_row gt_center">3.5351</td>
+<td headers="p.value" class="gt_row gt_center">0.0005</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">AR</td>
+<td headers="term" class="gt_row gt_center">ar1</td>
+<td headers="estimate" class="gt_row gt_center">0.8743</td>
+<td headers="std.error" class="gt_row gt_center">0.0354</td>
+<td headers="statistic" class="gt_row gt_center">24.6880</td>
+<td headers="p.value" class="gt_row gt_center">0.0000</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">LS</td>
+<td headers="term" class="gt_row gt_center">(Intercept)</td>
+<td headers="estimate" class="gt_row gt_center">1.4856</td>
+<td headers="std.error" class="gt_row gt_center">0.0391</td>
+<td headers="statistic" class="gt_row gt_center">38.0158</td>
+<td headers="p.value" class="gt_row gt_center">0.0000</td></tr>
+    <tr><td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".model" class="gt_row gt_center">LS</td>
+<td headers="term" class="gt_row gt_center">trend()</td>
+<td headers="estimate" class="gt_row gt_center">0.0022</td>
+<td headers="std.error" class="gt_row gt_center">0.0004</td>
+<td headers="statistic" class="gt_row gt_center">5.8702</td>
+<td headers="p.value" class="gt_row gt_center">0.0000</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
+<p>The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about <span class="math inline">\(0.65\)</span>. As for the ARIMA model, an ARIMA(2,0,2) process is suggested. Below we plot the ACF and the PACF of the average price of avocados.</p>
+<div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max=</span><span class="dv">12</span>, average_price) <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF For Avocado Average Price"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max=</span><span class="dv">12</span>, average_price) <span class="sc">%&gt;%</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"PACF For Avocado Average Price"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid"></p>
+</div>
+<div class="cell-output-display quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-32-2.png" class="img-fluid"></p>
+</div>
+</div>
+</div>
+</div>
+<p>The patterns shown are textbook AR(1). Hence, the inclusion of the model in the set of candidates. The code below forecasts the series 27 periods ahead and plots.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(cali, average_price) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Interestingly, it seems like the AR(1) and the LS model perform the best. Let’s confirm by checking the accuracy measures against the test set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(cali)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="ipdumhutkr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ipdumhutkr table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ipdumhutkr thead, #ipdumhutkr tbody, #ipdumhutkr tfoot, #ipdumhutkr tr, #ipdumhutkr td, #ipdumhutkr th {
+  border-style: none;
+}
+
+#ipdumhutkr p {
+  margin: 0;
+  padding: 0;
+}
+
+#ipdumhutkr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ipdumhutkr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ipdumhutkr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ipdumhutkr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ipdumhutkr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ipdumhutkr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ipdumhutkr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ipdumhutkr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ipdumhutkr .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ipdumhutkr .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ipdumhutkr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ipdumhutkr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ipdumhutkr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ipdumhutkr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ipdumhutkr .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ipdumhutkr .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ipdumhutkr .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ipdumhutkr .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ipdumhutkr .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ipdumhutkr .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ipdumhutkr .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ipdumhutkr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ipdumhutkr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ipdumhutkr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ipdumhutkr .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ipdumhutkr .gt_left {
+  text-align: left;
+}
+
+#ipdumhutkr .gt_center {
+  text-align: center;
+}
+
+#ipdumhutkr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ipdumhutkr .gt_font_normal {
+  font-weight: normal;
+}
+
+#ipdumhutkr .gt_font_bold {
+  font-weight: bold;
+}
+
+#ipdumhutkr .gt_font_italic {
+  font-style: italic;
+}
+
+#ipdumhutkr .gt_super {
+  font-size: 65%;
+}
+
+#ipdumhutkr .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ipdumhutkr .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ipdumhutkr .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ipdumhutkr .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ipdumhutkr .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ipdumhutkr .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ipdumhutkr .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
