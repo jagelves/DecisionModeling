@@ -224,14 +224,18 @@ div.csl-indent {
   <li><a href="#the-autocorrelation-function" id="toc-the-autocorrelation-function" class="nav-link" data-scroll-target="#the-autocorrelation-function">The autocorrelation function</a></li>
   <li><a href="#the-partial-autocorrelation-function" id="toc-the-partial-autocorrelation-function" class="nav-link" data-scroll-target="#the-partial-autocorrelation-function">The partial autocorrelation function</a></li>
   </ul></li>
-  <li><a href="#the-ar1-model" id="toc-the-ar1-model" class="nav-link" data-scroll-target="#the-ar1-model"><span class="header-section-number">7.2</span> The AR(1) model</a></li>
-  <li><a href="#modeling-and-residuals" id="toc-modeling-and-residuals" class="nav-link" data-scroll-target="#modeling-and-residuals"><span class="header-section-number">7.3</span> Modeling and Residuals</a></li>
-  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection"><span class="header-section-number">7.4</span> Model Selection</a></li>
-  <li><a href="#the-ma1-model" id="toc-the-ma1-model" class="nav-link" data-scroll-target="#the-ma1-model"><span class="header-section-number">7.5</span> The MA(1) model</a></li>
-  <li><a href="#arima" id="toc-arima" class="nav-link" data-scroll-target="#arima"><span class="header-section-number">7.6</span> ARIMA</a></li>
-  <li><a href="#revisiting-chilangos-restaurant" id="toc-revisiting-chilangos-restaurant" class="nav-link" data-scroll-target="#revisiting-chilangos-restaurant"><span class="header-section-number">7.7</span> Revisiting Chilango’s Restaurant</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">7.8</span> Readings</a></li>
-  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">7.9</span> Leasons Learned</a></li>
+  <li><a href="#the-ar1-model" id="toc-the-ar1-model" class="nav-link" data-scroll-target="#the-ar1-model"><span class="header-section-number">7.2</span> The AR(1) model</a>
+  <ul class="collapse">
+  <li><a href="#modeling-and-residuals" id="toc-modeling-and-residuals" class="nav-link" data-scroll-target="#modeling-and-residuals">Modeling and Residuals</a></li>
+  <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model Selection</a></li>
+  </ul></li>
+  <li><a href="#the-ma1-model" id="toc-the-ma1-model" class="nav-link" data-scroll-target="#the-ma1-model"><span class="header-section-number">7.3</span> The MA(1) model</a></li>
+  <li><a href="#arima" id="toc-arima" class="nav-link" data-scroll-target="#arima"><span class="header-section-number">7.4</span> ARIMA</a>
+  <ul class="collapse">
+  <li><a href="#revisiting-chilangos-restaurant" id="toc-revisiting-chilangos-restaurant" class="nav-link" data-scroll-target="#revisiting-chilangos-restaurant">Revisiting Chilango’s Restaurant</a></li>
+  </ul></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">7.5</span> Readings</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">7.6</span> Leasons Learned</a></li>
   </ul>
 </nav>
     </div>
@@ -855,11 +859,11 @@ We can generate a white noise process by using the normal distribution with a me
 </section>
 <section id="the-ar1-model" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="the-ar1-model"><span class="header-section-number">7.2</span> The AR(1) model</h2>
-<p>In the previous section, we identified the growth of personal income in California to have a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, an AR(1) model is of the form:</p>
+<p>In the previous section, we established that growth of personal income in California has a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, the AR(1) model is of the form:</p>
 <center>
 <span class="math inline">\(y_t=c+\phi y_{t-1}+ \epsilon_t\)</span>
 </center>
-<p>Note that this model uses the first lag of the series as the single independent variable. We can easily simulate some data based on this model using R.</p>
+<p>where <span class="math inline">\(c\)</span> is a constant, <span class="math inline">\(\phi\)</span> is thw lag coefficient, <span class="math inline">\(y_{t-1}\)</span> is the first lag of <span class="math inline">\(y\)</span>, and <span class="math inline">\(\epsilon\)</span> is random error. Note that this model uses the first lag of the series as the single independent variable. The AR model can be extended to include more lags of <span class="math inline">\(y\)</span>, and in general, it would be called an <span class="math inline">\(AR(p)\)</span> model, where <span class="math inline">\(p\)</span> is the largest lag included. Since, we include only the first lag of the <span class="math inline">\(y\)</span> variable in the specification above, we refer to the model as an AR(1). Below we simulate some data based on the AR(1) model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>phi<span class="ot">&lt;-</span><span class="fl">0.7</span></span>
@@ -870,7 +874,7 @@ We can generate a white noise process by using the normal distribution with a me
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>y[i]<span class="ot">=</span>const<span class="sc">+</span>phi<span class="sc">*</span>y[i<span class="dv">-1</span>]<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we can use the data to see what the ACF looks like for a AR(1) process.</p>
+<p>Now we can use the data generated to see what the ACF looks like for a AR(1) process. This will allow us to visually identify the AR(1).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF For Simulated AR(1) phi=0.7, c=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -878,22 +882,22 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note the resemblance of the ACF of the simulated data to that of the personal income growth. A decaying ACF with a strong correlation of lag 1. Now let’s take a look at the PACF.</p>
+<p>Note the resemblance of the ACF of the simulated data to that of the personal income growth. There is a decaying ACF with a strong correlation of lag one and subsequent lower correlations as the lag gets larger. Now let’s take a look at the PACF.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>,<span class="at">y=</span><span class="st">"PACF"</span>,                         <span class="at">title=</span><span class="st">"PACF For Simulated AR(1) phi=0.7, c=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Once again, if you compare the PACF to the one in personal income growth you can see the resemblance in that there is one significant spike and all other partial autocorrelations are not statistically different from zero. This allows us to confirm that we can model personal income growth with an AR(1) process.</p>
-</section>
-<section id="modeling-and-residuals" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="modeling-and-residuals"><span class="header-section-number">7.3</span> Modeling and Residuals</h2>
-<p>Let’s model personal income growth using the AR(1) model. We’ll also estimate a Least Squares model to compare. Recall, that we can estimate these models by using the <code>model()</code> function and retrieve the coefficients with the <code>coef()</code> function.</p>
+<p>Once again, we can see the resemblance if we compare the PACF to the one in personal income growth. Specifically, there is one significant spike at lag one, and all other partial autocorrelations are not statistically different from zero. The patterns in the ACF and PACF confirm that we can model personal income growth with an AR(1) process.</p>
+<section id="modeling-and-residuals" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="modeling-and-residuals">Modeling and Residuals</h3>
+<p>Let’s model personal income growth using the AR(1) model. We’ll also estimate a Least Squares model to compare. Recall, that we can estimate these models by using the <code>model()</code> function and retrieve the coefficients with the <code>coef()</code> function. We will use the <code>AR()</code> function along with the <code>order()</code> function set to one, to model the AR(1) process.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>PI_fit<span class="ot">&lt;-</span>PI_train <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">AR1 =</span> <span class="fu">AR</span>(PI_Growth <span class="sc">~</span> <span class="fu">order</span>(<span class="dv">1</span>)),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">LS =</span> <span class="fu">TSLM</span>(PI_Growth <span class="sc">~</span> <span class="fu">trend</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">LS =</span> <span class="fu">TSLM</span>(PI_Growth <span class="sc">~</span> <span class="fu">trend</span>()))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(PI_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -1385,8 +1389,8 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>Note how the estimated coefficient for the AR1 process resembles the one in our simulation. However, the estimation of this model suggest a constant of 1.8. If we changed the constant to 1.8, the simulation would resemble the PI growth data better.</p>
-<p>If the AR(1) process correctly describes the series, the errors should behave like white noise. To inspect the errors we can use the <code>augment()</code> function. The ACF is displayed below.</p>
+<p>The estimated coefficient (<span class="math inline">\(\phi=0.7\)</span>) for the AR(1) process is equal the one used in our simulation. However, the estimated constant is 1.8. If we changed the constant to 1.8, the simulation would resemble the PI growth data better. That is, the AR model selects the constant and lag coefficient (<span class="math inline">\(\phi\)</span>) such that it fits the data.</p>
+<p>If the AR(1) process correctly describes the series, the errors should behave like white noise. That is because the model should pick up all of the systemic variation, and leave only random error. To inspect the errors we can use the <code>augment()</code> function. The ACF of the error is displayed below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>errors_PI<span class="ot">&lt;-</span><span class="fu">augment</span>(PI_fit)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1396,7 +1400,7 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note how the errors of the AR(1) model resemble white noise. This suggests that we have identified the systematic component of the series as being an AR(1) process. In other words, there is nothing left to model since the errors are completely random. This is not the case for the LS model, since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.</p>
+<p>Note how the ACF of the errors from the AR(1) model resemble white noise. This suggests that we have identified the systematic component of the series as being an AR(1) process. In other words, there is nothing left to model since the errors are entirely random. This is not the case for the LS model since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>errors_PI <span class="sc">%&gt;%</span> <span class="fu">select</span>(.resid) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(.resid) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1406,8 +1410,8 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 <p>The PACF once again shows no pattern for the residuals of the AR(1) model and some significant lags for the LS model. Once again, the AR(1) model correctly identifies the data generating process in the time series.</p>
 </section>
-<section id="model-selection" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="model-selection"><span class="header-section-number">7.4</span> Model Selection</h2>
+<section id="model-selection" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="model-selection">Model Selection</h3>
 <p>We can choose between these two models by looking at the AIC, AICc, or BIC.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(PI_fit) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(AICc) <span class="sc">%&gt;%</span> <span class="fu">select</span>(.model<span class="sc">:</span>BIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2394,13 +2398,14 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </section>
-<section id="the-ma1-model" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="the-ma1-model"><span class="header-section-number">7.5</span> The MA(1) model</h2>
+</section>
+<section id="the-ma1-model" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="the-ma1-model"><span class="header-section-number">7.3</span> The MA(1) model</h2>
 <p>The moving average (MA) process models time series by using past errors (random shocks). Formally,</p>
 <center>
-<span class="math inline">\(y_t=\mu + \theta \epsilon_{t-1} + \theta \epsilon_{t-2} + \theta \epsilon_{t-3} +...\)</span>
+<span class="math inline">\(y_t=\mu + \theta \epsilon_{t-1}\)</span>
 </center>
-<p>where <span class="math inline">\(\mu\)</span> is the mean of the time series, and <span class="math inline">\(\epsilon\)</span> is the error term. In general, the MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.</p>
+<p>where <span class="math inline">\(\mu\)</span> is the mean of the time series, and <span class="math inline">\(\epsilon\)</span> is the error term. As with the AR model, further error term lags could be included in the MA. An MA process with highest lag of <span class="math inline">\(q\)</span> is called an MA(q) process. The MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.</p>
 <div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">13</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>e_t<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">300</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
@@ -2437,7 +2442,7 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Interestingly, the graph above looks like white noise. A very ragged and unpredictable pattern that fluctuates around a mean of approximately zero. However, let’s take a look at the ACF and PACF.</p>
+<p>Interestingly, the graph above looks like white noise. A very ragged and unpredictable pattern that fluctuates around a mean of approximately zero. Let’s take a look at the ACF and PACF.</p>
 <div>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tsibble</span>(treasury, <span class="at">index =</span> period) <span class="sc">%&gt;%</span> </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, changetreasury) <span class="sc">%&gt;%</span> </span>
@@ -2459,21 +2464,20 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>When comparing to the simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero. The PACF doesn’t exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. As with the MA(1) process, we can model the series, check that the errors are white noise and then use the model to forecast.</p>
+<p>When comparing with the MA(1) simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero in the ACF. The PACF doesn’t exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. These correlations additionally alternate in sign. As with did with the AR(1) process, we can estimate the model, check that the errors are white noise, and then forecast.</p>
 </section>
-<section id="arima" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="arima"><span class="header-section-number">7.6</span> ARIMA</h2>
+<section id="arima" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="arima"><span class="header-section-number">7.4</span> ARIMA</h2>
 <p>The ARIMA model is based on the notion of stationarity and the AR and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.</p>
 <ul>
 <li>AutoRegressive (AR): The “AR” part means that the future values of a time series depend on its own past values. If today’s value is high, tomorrow’s value is likely to be high too.</li>
 <li>Integrated (I): The “I” part is about making the time series stationary. It means we take the differences between consecutive observations to remove trends or seasonality.</li>
 <li>Moving Average (MA): The “MA” part means that the future values also depend on the past prediction errors (residuals). If the model predicted a value that was too high or too low in the past, it will try to correct that in the future predictions.</li>
 </ul>
-<p>ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions.</p>
-</section>
-<section id="revisiting-chilangos-restaurant" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="revisiting-chilangos-restaurant"><span class="header-section-number">7.7</span> Revisiting Chilango’s Restaurant</h2>
-<p>Let’s apply the models we have learned so far to the avocado data and see if we can provide better forecasts. The code below loads the data and creates the training and test set.</p>
+<p>ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions. In terms of notation, an ARIMA(1,1,2), will find the first difference of the series, and estimate the model with an AR(1) and MA(2) component. Below we estimate the ARIMA model.</p>
+<section id="revisiting-chilangos-restaurant" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="revisiting-chilangos-restaurant">Revisiting Chilango’s Restaurant</h3>
+<p>Let’s apply the ARIMA model to the avocado data. The code below loads the data and creates the training and test set.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cali<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/CaliforniaAvocado.csv"</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2490,14 +2494,14 @@ We can generate a white noise process by using the normal distribution with a me
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">index=</span>date, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">"2018-06-02"</span><span class="sc">~</span><span class="st">"2018-12-02"</span>) <span class="ot">-&gt;</span> calits_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Next, we will estimate the LS, ETS and ARIMA models. We will allow an algorithm to specify the parameters of both the ETS and ARIMA models by using the <code>ETS()</code> and <code>ARIMA()</code> functions.</p>
+<p>Next, we will estimate the LS, ETS, AR, and ARIMA models. We will allow an algorithm to specify the parameters of both the ETS and ARIMA models by using the <code>ETS()</code> and <code>ARIMA()</code> functions and omitting arguments. Within the <code>ARIMA()</code> function we will set the <em>approximation</em> argument to FALSE so that the search for the best ARIMA model is exhaustive.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">model</span>(calits_train,<span class="at">ETS=</span><span class="fu">ETS</span>(average_price),</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">ARIMA=</span><span class="fu">ARIMA</span>(average_price,<span class="at">approximation =</span> F),</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">AR=</span><span class="fu">AR</span>(average_price<span class="sc">~</span><span class="fu">order</span>(<span class="dv">1</span>)),</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span><span class="fu">trend</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The coefficients for the ARIMA model can be easily retrieved by using the <code>tidy()</code> or <code>coef()</code> functions.</p>
+<p>The coefficients for the models can be retrieved by using the <code>tidy()</code> or <code>coef()</code> functions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">coef</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2516,7 +2520,7 @@ We can generate a white noise process by using the normal distribution with a me
 10 California LS     trend()      0.00222  0.000379      5.87  2.12e- 8</code></pre>
 </div>
 </div>
-<p>The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about <span class="math inline">\(0.65\)</span>. As for the ARIMA model, an MA(1) process is suggested with an estimate of <span class="math inline">\(-0.28\)</span>. Given this result we would expect one spike on the ACF and decaying PACF. Below are the graphs.</p>
+<p>The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about <span class="math inline">\(0.65\)</span>. As for the ARIMA model, an ARIMA(2,0,2) process is suggested. Below we plot the ACF and the PACF of the average price of avocados.</p>
 <div>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max=</span><span class="dv">12</span>, average_price) <span class="sc">%&gt;%</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
@@ -2536,7 +2540,7 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>These patterns look more like a AR(1). We’ll put this model forth as well.</p>
+<p>The patterns shown are textbook AR(1). Hence, the inclusion of the model in the set of candidates. The code below forecasts the series 27 periods ahead and plots.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="cn">NULL</span>) <span class="sc">+</span> </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
@@ -2545,30 +2549,538 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Let’s look at the accuracy vs.&nbsp;the test set.</p>
+<p>Interestingly, it seems like the AR(1) and the LS model perform the best. Let’s confirm by checking the accuracy measures against the test set.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(cali)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 11
-  .model geography  .type      ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
-  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 AR     California Test   0.135  0.182 0.141  7.07  7.40  1.40  1.32 0.510
-2 ARIMA  California Test   0.156  0.201 0.156  8.20  8.20  1.55  1.46 0.512
-3 ETS    California Test   0.196  0.233 0.196 10.4  10.4   1.95  1.69 0.502
-4 LS     California Test  -0.0983 0.158 0.138 -5.88  7.78  1.37  1.14 0.520</code></pre>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="hteoemoica" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hteoemoica table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hteoemoica thead, #hteoemoica tbody, #hteoemoica tfoot, #hteoemoica tr, #hteoemoica td, #hteoemoica th {
+  border-style: none;
+}
+
+#hteoemoica p {
+  margin: 0;
+  padding: 0;
+}
+
+#hteoemoica .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hteoemoica .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#hteoemoica .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hteoemoica .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hteoemoica .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hteoemoica .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hteoemoica .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hteoemoica .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hteoemoica .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hteoemoica .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hteoemoica .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hteoemoica .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hteoemoica .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#hteoemoica .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#hteoemoica .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hteoemoica .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#hteoemoica .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#hteoemoica .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hteoemoica .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hteoemoica .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hteoemoica .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hteoemoica .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#hteoemoica .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hteoemoica .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#hteoemoica .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hteoemoica .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hteoemoica .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hteoemoica .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hteoemoica .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hteoemoica .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hteoemoica .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hteoemoica .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hteoemoica .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hteoemoica .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hteoemoica .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hteoemoica .gt_left {
+  text-align: left;
+}
+
+#hteoemoica .gt_center {
+  text-align: center;
+}
+
+#hteoemoica .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hteoemoica .gt_font_normal {
+  font-weight: normal;
+}
+
+#hteoemoica .gt_font_bold {
+  font-weight: bold;
+}
+
+#hteoemoica .gt_font_italic {
+  font-style: italic;
+}
+
+#hteoemoica .gt_super {
+  font-size: 65%;
+}
+
+#hteoemoica .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#hteoemoica .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hteoemoica .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#hteoemoica .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#hteoemoica .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#hteoemoica .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#hteoemoica .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="11" class="gt_heading gt_title gt_font_normal gt_bottom_border" style=""><strong>Model Fit</strong></td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".model">.model</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="geography">geography</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id=".type">.type</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="ME">ME</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="RMSE">RMSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MAE">MAE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MPE">MPE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MAPE">MAPE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="MASE">MASE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="RMSSE">RMSSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-weight: bold;" scope="col" id="ACF1">ACF1</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers=".model" class="gt_row gt_center">AR</td>
+<td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".type" class="gt_row gt_center">Test</td>
+<td headers="ME" class="gt_row gt_center">0.14</td>
+<td headers="RMSE" class="gt_row gt_center">0.18</td>
+<td headers="MAE" class="gt_row gt_center">0.14</td>
+<td headers="MPE" class="gt_row gt_center">7.07</td>
+<td headers="MAPE" class="gt_row gt_center">7.40</td>
+<td headers="MASE" class="gt_row gt_center">1.40</td>
+<td headers="RMSSE" class="gt_row gt_center">1.32</td>
+<td headers="ACF1" class="gt_row gt_center">0.51</td></tr>
+    <tr><td headers=".model" class="gt_row gt_center">ARIMA</td>
+<td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".type" class="gt_row gt_center">Test</td>
+<td headers="ME" class="gt_row gt_center">0.16</td>
+<td headers="RMSE" class="gt_row gt_center">0.20</td>
+<td headers="MAE" class="gt_row gt_center">0.16</td>
+<td headers="MPE" class="gt_row gt_center">8.20</td>
+<td headers="MAPE" class="gt_row gt_center">8.20</td>
+<td headers="MASE" class="gt_row gt_center">1.55</td>
+<td headers="RMSSE" class="gt_row gt_center">1.46</td>
+<td headers="ACF1" class="gt_row gt_center">0.51</td></tr>
+    <tr><td headers=".model" class="gt_row gt_center">ETS</td>
+<td headers="geography" class="gt_row gt_center">California</td>
+<td headers=".type" class="gt_row gt_center">Test</td>
+<td headers="ME" class="gt_row gt_center">0.20</td>
+<td headers="RMSE" class="gt_row gt_center">0.23</td>
+<td headers="MAE" class="gt_row gt_center">0.20</td>
+<td headers="MPE" class="gt_row gt_center">10.39</td>
+<td headers="MAPE" class="gt_row gt_center">10.39</td>
+<td headers="MASE" class="gt_row gt_center">1.95</td>
+<td headers="RMSSE" class="gt_row gt_center">1.69</td>
+<td headers="ACF1" class="gt_row gt_center">0.50</td></tr>
+    <tr><td headers=".model" class="gt_row gt_center" style="background-color: #90EE90;">LS</td>
+<td headers="geography" class="gt_row gt_center" style="background-color: #90EE90;">California</td>
+<td headers=".type" class="gt_row gt_center" style="background-color: #90EE90;">Test</td>
+<td headers="ME" class="gt_row gt_center" style="background-color: #90EE90;">−0.10</td>
+<td headers="RMSE" class="gt_row gt_center" style="background-color: #90EE90;">0.16</td>
+<td headers="MAE" class="gt_row gt_center" style="background-color: #90EE90;">0.14</td>
+<td headers="MPE" class="gt_row gt_center" style="background-color: #90EE90;">−5.88</td>
+<td headers="MAPE" class="gt_row gt_center" style="background-color: #90EE90;">7.78</td>
+<td headers="MASE" class="gt_row gt_center" style="background-color: #90EE90;">1.37</td>
+<td headers="RMSSE" class="gt_row gt_center" style="background-color: #90EE90;">1.14</td>
+<td headers="ACF1" class="gt_row gt_center" style="background-color: #90EE90;">0.52</td></tr>
+  </tbody>
+  
+  
+</table>
 </div>
 </div>
+</div>
+<p>The AR(1) and LS models seems to be the best models. Interestingly, one could imagining combining the forecasts of these models to obtain an even better forecast of the data.</p>
 </section>
-<section id="readings" class="level2" data-number="7.8">
-<h2 data-number="7.8" class="anchored" data-anchor-id="readings"><span class="header-section-number">7.8</span> Readings</h2>
+</section>
+<section id="readings" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="readings"><span class="header-section-number">7.5</span> Readings</h2>
 <p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 9 (ARIMA Models).</p>
 </section>
-<section id="leasons-learned" class="level2" data-number="7.9">
-<h2 data-number="7.9" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">7.9</span> Leasons Learned</h2>
+<section id="leasons-learned" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">7.6</span> Leasons Learned</h2>
 <p>In this module you have been introduced to ARIMA model. Particularly you have learned to:</p>
 <ul>
-<li><p>Use the autocorrelations and partial autocorrelations to analyze time series.</p></li>
-<li><p>Identify the AR(1) process using autocorrelations.</p></li>
+<li><p>Apply autocorrelations, partial autocorrelations, stationarity and white noise to model time series.</p></li>
+<li><p>Identify the AR(1) and MA(1) processes using the ACF and PACF.</p></li>
 <li><p>Model the ARIMA process using the <code>ARIMA()</code> function.</p></li>
 <li><p>Provide forecasts of the ARIMA process in R.</p></li>
 </ul>
