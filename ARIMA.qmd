@@ -17,7 +17,7 @@ wn<-tsibble(x=rnorm(100),period=seq(1:100),index=period)
 
 We can now use the `autoplot()` function to observe the white noise process.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 wn %>% autoplot(x) + theme_classic() + 
   labs(title="White Noise Process",
        subtitle="Mean=0 and Standard Deviation=1",
@@ -284,18 +284,18 @@ The moving average (MA) process models time series by using past errors (random 
 
 <center> $y_t=\mu + \theta \epsilon_{t-1} + \theta \epsilon_{t-2} + \theta \epsilon_{t-3} +...$ </center>
 
-where $\mu$ is the mean of the time series, and $\epsilon$ is the error term. In general, the MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA process.
+where $\mu$ is the mean of the time series, and $\epsilon$ is the error term. In general, the MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.
 
-```{r}
+```{r, fig.show='hold', out.width='50%'}
+#| layout-ncol: 2
+
 set.seed(13)
 e_t<-rnorm(300,0,0.5)
 y_t=2+0.95*dplyr::lag(e_t)+e_t
 
 tsibble(y=y_t,period=seq(1,length(y_t)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_bw()+
 labs(x="", y="", title="ACF For Simulated MA(1)")
-```
 
-```{r}
 tsibble(y=y_t,period=seq(1,length(y_t)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_bw()+
 labs(x="", y="", title="PACF For Simulated MA(1)")
 
@@ -318,7 +318,8 @@ as_tsibble(treasury, index = period) %>%
 
 Interestingly, the graph above looks like white noise. A very ragged and unpredictable pattern that fluctuates around a mean of approximately zero. However, let's take a look at the ACF and PACF.
 
-```{r fig.show='hold'}
+```{r, fig.show='hold',out.width = '50%'}
+#| layout-ncol: 2
 
 as_tsibble(treasury, index = period) %>% 
   ACF(lag_max = 12, changetreasury) %>% 
@@ -330,6 +331,7 @@ as_tsibble(treasury, index = period) %>%
   autoplot()+ theme_bw() +
 labs(x="", y="", title="PACF for TCM5Y")
 ```
+
 When comparing to the simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero. The PACF doesn't exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. As with the MA(1) process, we can model the series, check that the errors are white noise and then use the model to forecast. 
 
 ## ARIMA
@@ -380,13 +382,13 @@ fit %>% coef()
 
 The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about $0.65$. As for the ARIMA model, an MA(1) process is suggested with an estimate of $-0.28$. Given this result we would expect one spike on the ACF and decaying PACF. Below are the graphs.
 
-```{r}
+```{r, fig.show='hold',out.width = '50%'}
+#| layout-ncol: 2
+
 calits_train %>% ACF(lag_max=12, average_price) %>%
 autoplot()+theme_bw()+
 labs(x="", y="", title="ACF For Avocado Average Price")
-```
 
-```{r}
 calits_train %>% PACF(lag_max=12, average_price) %>%
 autoplot()+theme_bw()+
 labs(x="", y="", title="PACF For Avocado Average Price")
