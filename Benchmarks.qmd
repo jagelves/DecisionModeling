@@ -6,23 +6,33 @@ This module will introduce the modeling procedure with four different benchmarks
 
 One of the most intuitive (but naive) predictions we can make about the future is to expect that the value of a variable will behave as it did in the past. A **naive prediction** sets the prediction of a future period to the value of the preceding period. For example, if you consider the task of predicting your weight, a simple heuristic would be to think that your weight tomorrow be the same as the weight observed today. Mathematically we would write:
 
-<center>$\hat y_{T+h}=y_T$</center>\n
-\n
+<center>$\hat y_{T+h}=y_T$</center>
 
+```{=tex}
+\n
+\n
+```
 where $\hat y_{T+h}$ is the predicted value for $h$ periods ahead, and $y_T$ is the value observed at the current time period $T$. We can adjust the Naive prediction by accounting for some natural **drift** (an increase or decrease). Thinking about weight once again, we note that as kids grow, we expect their weight to be close to the previous measurement but slightly higher as we need to account for growth. We would "drift" the naive prediction upward. Mathematically we would write:
 
-<center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$</center>\n
-\n
+<center>$\hat y_{T+h}=y_T+h(\frac{y_t-y_1}{T-1})$</center>
 
+```{=tex}
+\n
+\n
+```
 where $h(\frac{y_t-y_1}{T-1})$ can be thought as the average increase of $y$ from period $1$ to the current period $T$. One could also predict weight by observing weight during a period and **averaging** the values. Every day the data recorded would be slightly different, but if diets, exercise, sleep, etc., remain relatively constant, the mean could be a good predictor of your future weight. Formally:
 
-<center>$\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$</center>\n
+<center>$\hat y_{T+h}=\frac{(y_1+y_2+...+y_T)}{T}$</center>
+
+\n
 
 \n
 
 Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of our diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward **trend** of our weight. Formally:
 
-<center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>\n
+<center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>
+
+\n
 
 ## Modeling the the Average Price of Avocados
 
@@ -82,16 +92,17 @@ geom_line(aes(y = .fitted), col="orange",
        x="")
 ```
 
-The graph illustrates how closely the Naive model follows the data. This might seem like a good model, but consider how the heuristic makes a mistake every period. Since average prices are constantly changing every week, predicting the previous value always results in an error. Critically, the Naive prediction does not explain the series governing process. The LS model, on the other hand, provides some insight into a force that is influencing the data—a rising trend. We can use characteristics such as a trend or seasonality to forecast a series effectively.
+The graph illustrates how closely the Naive model follows the data. This might seem like a good model, but consider how the heuristic makes a mistake every period. Since average prices are constantly changing every week, predicting the previous value always results in an error. Critically, the Naive prediction does not explain the series governing process. The LS model, on the other hand, provides some insight into a force that is influencing the data---a rising trend. We can use characteristics such as a trend or seasonality to forecast a series effectively.
 
 ## Model Fit
 
 The model fit will be assessed by comparing the fitted values against observed values. In general, a good fit is determined by how far the fitted values are from the observed ones. If we square all of the distances between actual points and predicted values (i.e., errors) and then average them, we calculate the Mean Squared Error (MSE).
 
 <center>$MSE = \frac{ \sum (\hat{y}_t-y_t)^2}{T}$</center>
-\n
-How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but instead find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and made the table more appealing using the `gt` library.
 
+\n
+
+How we decide to aggregate our errors will determine our measure of accuracy. For example, if we follow the same procedure as the one for MSE's but instead find the square root, we have calculated the RMSE. Below you will find a collection of accuracy measures for our benchmarks. You will notice that the Naive method provides the best results since all the accuracy metrics are the smallest. We highlighted these results and made the table more appealing using the `gt` library.
 
 ```{r}
 accuracy(fit) %>% 
@@ -241,12 +252,14 @@ AIC (Akaike Information Criterion), AICc (corrected AIC), and BIC (Bayesian Info
 In this formula, the log-likelihood represents how well the model fits the data, and the number of parameters ($k$) accounts for the complexity of the model. The lower the AIC value, the better the model.
 
 -   **AICc** is an adjustment to the AIC measure, particularly for smaller sample sizes. AIC tends to overestimate the complexity penalty when the number of data points is relatively small. AICc adds a correction factor to account for this and is calculated using the formula:
-<center>$AICc = AIC + (2 * k * (k + 1)) / (n - k - 1)$</center>
+
+    <center>$AICc = AIC + (2 * k * (k + 1)) / (n - k - 1)$</center>
 
 Here, $k$ represents the number of parameters, and $n$ is the sample size. AICc provides a more accurate measure of model fit in situations where the sample size is small. Similarly, lower AICc values indicate better model fit.
 
 -   **BIC**, also known as Schwarz Information Criterion (SIC), is another measure that penalizes model complexity. BIC is based on Bayesian principles and provides a stronger penalty for model complexity compared to AIC. The BIC value is calculated using the formula:
-<center>$BIC = -2 * log-likelihood + log(n) * k$</center>
+
+    <center>$BIC = -2 * log-likelihood + log(n) * k$</center>
 
 In this formula, log-likelihood represents the model fit, $n$ is the sample size, and $k$ is the number of parameters. BIC puts a greater emphasis on simplicity compared to AIC.
 
@@ -281,7 +294,8 @@ calits_train %>%
   fmt_number(columns =c(AIC,AICc,BIC),
              decimals = 2) 
 ```
-The model with the lowest AIC (AICc or BIC) is the simple Least Squares model that only has two parameters to estimate (slope and intercept). These results indicate that LS provides a good fit relative to it's complexity. 
+
+The model with the lowest AIC (AICc or BIC) is the simple Least Squares model that only has two parameters to estimate (slope and intercept). These results indicate that LS provides a good fit relative to it's complexity.
 
 ## Readings
 

@@ -229,8 +229,9 @@ div.csl-indent {
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection"><span class="header-section-number">7.4</span> Model Selection</a></li>
   <li><a href="#the-ma1-model" id="toc-the-ma1-model" class="nav-link" data-scroll-target="#the-ma1-model"><span class="header-section-number">7.5</span> The MA(1) model</a></li>
   <li><a href="#arima" id="toc-arima" class="nav-link" data-scroll-target="#arima"><span class="header-section-number">7.6</span> ARIMA</a></li>
-  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">7.7</span> Readings</a></li>
-  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">7.8</span> Leasons Learned</a></li>
+  <li><a href="#revisiting-chilangos-restaurant" id="toc-revisiting-chilangos-restaurant" class="nav-link" data-scroll-target="#revisiting-chilangos-restaurant"><span class="header-section-number">7.7</span> Revisiting Chilango’s Restaurant</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings"><span class="header-section-number">7.8</span> Readings</a></li>
+  <li><a href="#leasons-learned" id="toc-leasons-learned" class="nav-link" data-scroll-target="#leasons-learned"><span class="header-section-number">7.9</span> Leasons Learned</a></li>
   </ul>
 </nav>
     </div>
@@ -2395,16 +2396,165 @@ We can generate a white noise process by using the normal distribution with a me
 </section>
 <section id="the-ma1-model" class="level2" data-number="7.5">
 <h2 data-number="7.5" class="anchored" data-anchor-id="the-ma1-model"><span class="header-section-number">7.5</span> The MA(1) model</h2>
+<p>The moving average (MA) process models time series by using past errors (random shocks). Formally,</p>
+<center>
+<span class="math inline">\(y_t=\mu + \theta \epsilon_{t-1} + \theta \epsilon_{t-2} + \theta \epsilon_{t-3} +...\)</span>
+</center>
+<p>where <span class="math inline">\(\mu\)</span> is the mean of the time series, and <span class="math inline">\(\epsilon\)</span> is the error term. In general, the MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA process.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">13</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>e_t<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">300</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>y_t<span class="ot">=</span><span class="dv">2</span><span class="fl">+0.95</span><span class="sc">*</span>dplyr<span class="sc">::</span><span class="fu">lag</span>(e_t)<span class="sc">+</span>e_t</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y_t,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y_t)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF For Simulated MA(1)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y_t,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y_t)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"PACF For Simulated MA(1)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The pattern shown in the ACF is one significant spike in the first lag, and a decaying PACF as lags get larger. This is the opposite of the AR(1) process where we had a decaying ACF and one spike in the PACF. We can use the MA(1) process to model series that exhibit this pattern.</p>
+<p>Consider the percent monthly change the yield of U.S. treasury securities (TCM5Y). Below is the plot of the series.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>treasury<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/treasury.csv"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>treasury <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">period=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(OBS)) <span class="ot">-&gt;</span> treasury</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tsibble</span>(treasury, <span class="at">index =</span> period) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Percent Monthly Change the Yield of U.S. Treasury Securities"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle=</span><span class="st">"1953-2008"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Interestingly, the graph above looks like white noise. A very ragged and unpredictable pattern that fluctuates around a mean of approximately zero. However, let’s take a look at the ACF and PACF.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tsibble</span>(treasury, <span class="at">index =</span> period) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, changetreasury) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()<span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF for TCM5Y"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tsibble</span>(treasury, <span class="at">index =</span> period) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, changetreasury) <span class="sc">%&gt;%</span> </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()<span class="sc">+</span> <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"PACF for TCM5Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-28-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>When comparing to the simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero. The PACF doesn’t exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. As with the MA(1) process, we can model the series, check that the errors are white noise and then use the model to forecast.</p>
 </section>
 <section id="arima" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="arima"><span class="header-section-number">7.6</span> ARIMA</h2>
+<p>The ARIMA model is based on the notion of stationarity and the AR and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.</p>
+<ul>
+<li>AutoRegressive (AR): The “AR” part means that the future values of a time series depend on its own past values. If today’s value is high, tomorrow’s value is likely to be high too.</li>
+<li>Integrated (I): The “I” part is about making the time series stationary. It means we take the differences between consecutive observations to remove trends or seasonality.</li>
+<li>Moving Average (MA): The “MA” part means that the future values also depend on the past prediction errors (residuals). If the model predicted a value that was too high or too low in the past, it will try to correct that in the future predictions.</li>
+</ul>
+<p>ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions.</p>
 </section>
-<section id="readings" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="readings"><span class="header-section-number">7.7</span> Readings</h2>
+<section id="revisiting-chilangos-restaurant" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="revisiting-chilangos-restaurant"><span class="header-section-number">7.7</span> Revisiting Chilango’s Restaurant</h2>
+<p>Let’s apply the models we have learned so far to the avocado data and see if we can provide better forecasts. The code below loads the data and creates the training and test set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>cali<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/CaliforniaAvocado.csv"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span>geography,<span class="at">index=</span>date,<span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">"2015-01-04"</span><span class="sc">~</span><span class="st">"2018-12-02"</span>) <span class="ot">-&gt;</span> cali</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span>geography,<span class="at">index=</span>date,<span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">"2015-01-04"</span><span class="sc">~</span><span class="st">"2018-06-02"</span>) <span class="ot">-&gt;</span> calits_train</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>cali <span class="sc">%&gt;%</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">key=</span>geography,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">index=</span>date, <span class="at">regular=</span>T) <span class="sc">%&gt;%</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_index</span>(<span class="st">"2018-06-02"</span><span class="sc">~</span><span class="st">"2018-12-02"</span>) <span class="ot">-&gt;</span> calits_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we will estimate the LS, ETS and ARIMA models. We will allow an algorithm to specify the parameters of both the ETS and ARIMA models by using the <code>ETS()</code> and <code>ARIMA()</code> functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">model</span>(calits_train,<span class="at">ETS=</span><span class="fu">ETS</span>(average_price),</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">ARIMA=</span><span class="fu">ARIMA</span>(average_price,<span class="at">approximation =</span> F),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">AR=</span><span class="fu">AR</span>(average_price<span class="sc">~</span><span class="fu">order</span>(<span class="dv">1</span>)),</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">LS=</span><span class="fu">TSLM</span>(average_price<span class="sc">~</span><span class="fu">trend</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The coefficients for the ARIMA model can be easily retrieved by using the <code>tidy()</code> or <code>coef()</code> functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">coef</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 7
+   geography  .model term        estimate std.error statistic   p.value
+   &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1 California ETS    alpha        0.646   NA            NA    NA       
+ 2 California ETS    l[0]         1.21    NA            NA    NA       
+ 3 California ARIMA  ar1          0.922    0.110         8.40  1.38e-14
+ 4 California ARIMA  ar2         -0.736    0.114        -6.49  8.46e-10
+ 5 California ARIMA  ma1         -1.15     0.0807      -14.2   4.35e-31
+ 6 California ARIMA  ma2          0.849    0.0966        8.79  1.29e-15
+ 7 California AR     constant     0.214    0.0605        3.54  5.21e- 4
+ 8 California AR     ar1          0.874    0.0354       24.7   4.63e-59
+ 9 California LS     (Intercept)  1.49     0.0391       38.0   8.76e-87
+10 California LS     trend()      0.00222  0.000379      5.87  2.12e- 8</code></pre>
+</div>
+</div>
+<p>The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about <span class="math inline">\(0.65\)</span>. As for the ARIMA model, an MA(1) process is suggested with an estimate of <span class="math inline">\(-0.28\)</span>. Given this result we would expect one spike on the ACF and decaying PACF. Below are the graphs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max=</span><span class="dv">12</span>, average_price) <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF For Avocado Average Price"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>calits_train <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max=</span><span class="dv">12</span>, average_price) <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"PACF For Avocado Average Price"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These patterns look more like a AR(1). We’ll put this model forth as well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="cn">NULL</span>) <span class="sc">+</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(cali, average_price) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ARIMA_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s look at the accuracy vs.&nbsp;the test set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(cali)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 11
+  .model geography  .type      ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
+  &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 AR     California Test   0.135  0.182 0.141  7.07  7.40  1.40  1.32 0.510
+2 ARIMA  California Test   0.156  0.201 0.156  8.20  8.20  1.55  1.46 0.512
+3 ETS    California Test   0.196  0.233 0.196 10.4  10.4   1.95  1.69 0.502
+4 LS     California Test  -0.0983 0.158 0.138 -5.88  7.78  1.37  1.14 0.520</code></pre>
+</div>
+</div>
+</section>
+<section id="readings" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="readings"><span class="header-section-number">7.8</span> Readings</h2>
 <p><span class="citation" data-cites="FPP3">Hyndman (<a href="references.html#ref-FPP3" role="doc-biblioref">2021</a>)</span> Chapter 9 (ARIMA Models).</p>
 </section>
-<section id="leasons-learned" class="level2" data-number="7.8">
-<h2 data-number="7.8" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">7.8</span> Leasons Learned</h2>
+<section id="leasons-learned" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="leasons-learned"><span class="header-section-number">7.9</span> Leasons Learned</h2>
 <p>In this module you have been introduced to ARIMA model. Particularly you have learned to:</p>
 <ul>
 <li><p>Use the autocorrelations and partial autocorrelations to analyze time series.</p></li>

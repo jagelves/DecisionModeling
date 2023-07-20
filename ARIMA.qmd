@@ -280,8 +280,131 @@ subtitle="1970-2021", y="",x="")
 
 ## The MA(1) model
 
+The moving average (MA) process models time series by using past errors (random shocks). Formally,
+
+<center> $y_t=\mu + \theta \epsilon_{t-1} + \theta \epsilon_{t-2} + \theta \epsilon_{t-3} +...$ </center>
+
+where $\mu$ is the mean of the time series, and $\epsilon$ is the error term. In general, the MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA process.
+
+```{r}
+set.seed(13)
+e_t<-rnorm(300,0,0.5)
+y_t=2+0.95*dplyr::lag(e_t)+e_t
+
+tsibble(y=y_t,period=seq(1,length(y_t)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_bw()+
+labs(x="", y="", title="ACF For Simulated MA(1)")
+```
+
+```{r}
+tsibble(y=y_t,period=seq(1,length(y_t)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_bw()+
+labs(x="", y="", title="PACF For Simulated MA(1)")
+
+```
+
+The pattern shown in the ACF is one significant spike in the first lag, and a decaying PACF as lags get larger. This is the opposite of the AR(1) process where we had a decaying ACF and one spike in the PACF. We can use the MA(1) process to model series that exhibit this pattern.
+
+Consider the percent monthly change the yield of U.S. treasury securities (TCM5Y). Below is the plot of the series.
+
+```{r warning=FALSE, message=FALSE}
+treasury<-read_csv("https://jagelves.github.io/Data/treasury.csv")
+
+treasury %>% mutate(period=1:length(OBS)) -> treasury
+as_tsibble(treasury, index = period) %>%
+  autoplot() + theme_classic() + 
+  labs(title="Percent Monthly Change the Yield of U.S. Treasury Securities",
+       subtitle="1953-2008",
+       x="", y="")
+```
+
+Interestingly, the graph above looks like white noise. A very ragged and unpredictable pattern that fluctuates around a mean of approximately zero. However, let's take a look at the ACF and PACF.
+
+```{r fig.show='hold'}
+
+as_tsibble(treasury, index = period) %>% 
+  ACF(lag_max = 12, changetreasury) %>% 
+  autoplot()+ theme_bw() +
+labs(x="", y="", title="ACF for TCM5Y")
+
+as_tsibble(treasury, index = period) %>% 
+  PACF(lag_max = 12, changetreasury) %>% 
+  autoplot()+ theme_bw() +
+labs(x="", y="", title="PACF for TCM5Y")
+```
+When comparing to the simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero. The PACF doesn't exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. As with the MA(1) process, we can model the series, check that the errors are white noise and then use the model to forecast. 
 
 ## ARIMA
+
+The ARIMA model is based on the notion of stationarity and the AR and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.
+
+-   AutoRegressive (AR): The "AR" part means that the future values of a time series depend on its own past values. If today's value is high, tomorrow's value is likely to be high too.
+-   Integrated (I): The "I" part is about making the time series stationary. It means we take the differences between consecutive observations to remove trends or seasonality.
+-   Moving Average (MA): The "MA" part means that the future values also depend on the past prediction errors (residuals). If the model predicted a value that was too high or too low in the past, it will try to correct that in the future predictions.
+
+ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions.
+
+## Revisiting Chilango's Restaurant
+
+Let's apply the models we have learned so far to the avocado data and see if we can provide better forecasts. The code below loads the data and creates the training and test set.
+
+```{r message=FALSE}
+cali<-read_csv("https://jagelves.github.io/Data/CaliforniaAvocado.csv")
+
+cali %>%
+  as_tsibble(key=geography,index=date,regular=T) %>%
+  filter_index("2015-01-04"~"2018-12-02") -> cali
+
+cali %>%
+  as_tsibble(key=geography,index=date,regular=T) %>%
+  filter_index("2015-01-04"~"2018-06-02") -> calits_train
+
+cali %>%
+  as_tsibble(key=geography,
+             index=date, regular=T) %>%
+  filter_index("2018-06-02"~"2018-12-02") -> calits_test
+```
+
+Next, we will estimate the LS, ETS and ARIMA models. We will allow an algorithm to specify the parameters of both the ETS and ARIMA models by using the `ETS()` and `ARIMA()` functions.
+
+```{r}
+fit <- model(calits_train,ETS=ETS(average_price),
+              ARIMA=ARIMA(average_price,approximation = F),
+              AR=AR(average_price~order(1)),
+              LS=TSLM(average_price~trend()))
+```
+
+The coefficients for the ARIMA model can be easily retrieved by using the `tidy()` or `coef()` functions.
+
+```{r}
+fit %>% coef()
+```
+
+The models suggested by the algorithms are fairly simple. The ETS model suggested is a SES with a smoothing parameter of about $0.65$. As for the ARIMA model, an MA(1) process is suggested with an estimate of $-0.28$. Given this result we would expect one spike on the ACF and decaying PACF. Below are the graphs.
+
+```{r}
+calits_train %>% ACF(lag_max=12, average_price) %>%
+autoplot()+theme_bw()+
+labs(x="", y="", title="ACF For Avocado Average Price")
+```
+
+```{r}
+calits_train %>% PACF(lag_max=12, average_price) %>%
+autoplot()+theme_bw()+
+labs(x="", y="", title="PACF For Avocado Average Price")
+```
+
+These patterns look more like a AR(1). We'll put this model forth as well.
+
+```{r}
+fit %>% forecast(h=27) %>% autoplot(level=NULL) + 
+  theme_classic() + 
+  autolayer(cali, average_price) 
+```
+
+Let's look at the accuracy vs. the test set.
+```{r}
+fit %>% forecast(h=27) %>% accuracy(cali)
+```
+
 ## Readings
 
 @FPP3 Chapter 9 (ARIMA Models).
