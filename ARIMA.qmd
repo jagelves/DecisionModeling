@@ -443,7 +443,11 @@ What is not shown in the metrics is how the forecast's errors are created. The L
 
 ## Readings
 
+Chapter 9 of @FPP3 deals with ARIMA models. The readings are not very technical and omit explaining the model selection process. For readers wanting even more mathematical details as well as a deep dive into the model selection process I recommend reading @GGR.
+
 @FPP3 Chapter 9 (ARIMA Models).
+
+@GGR Chapter 6 (MA models), Chapter 7 (AR models), Chapter 8 (Forecasting Practice I)
 
 ## Leasons Learned
 
