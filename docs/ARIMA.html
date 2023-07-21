@@ -229,7 +229,10 @@ div.csl-indent {
   <li><a href="#modeling-and-residuals" id="toc-modeling-and-residuals" class="nav-link" data-scroll-target="#modeling-and-residuals">Modeling and Residuals</a></li>
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model Selection</a></li>
   </ul></li>
-  <li><a href="#the-ma1-model" id="toc-the-ma1-model" class="nav-link" data-scroll-target="#the-ma1-model"><span class="header-section-number">7.3</span> The MA(1) model</a></li>
+  <li><a href="#the-ma1-model" id="toc-the-ma1-model" class="nav-link" data-scroll-target="#the-ma1-model"><span class="header-section-number">7.3</span> The MA(1) model</a>
+  <ul class="collapse">
+  <li><a href="#u.s.-treasury-example" id="toc-u.s.-treasury-example" class="nav-link" data-scroll-target="#u.s.-treasury-example">U.S. Treasury Example</a></li>
+  </ul></li>
   <li><a href="#arima" id="toc-arima" class="nav-link" data-scroll-target="#arima"><span class="header-section-number">7.4</span> ARIMA</a>
   <ul class="collapse">
   <li><a href="#revisiting-chilangos-restaurant" id="toc-revisiting-chilangos-restaurant" class="nav-link" data-scroll-target="#revisiting-chilangos-restaurant">Revisiting Chilango’s Restaurant</a></li>
@@ -859,11 +862,11 @@ We can generate a white noise process by using the normal distribution with a me
 </section>
 <section id="the-ar1-model" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="the-ar1-model"><span class="header-section-number">7.2</span> The AR(1) model</h2>
-<p>In the previous section, we established that growth of personal income in California has a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, the AR(1) model is of the form:</p>
+<p>In the previous section, we established that the growth of personal income in California has a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, the AR(1) model is of the form:</p>
 <center>
 <span class="math inline">\(y_t=c+\phi y_{t-1}+ \epsilon_t\)</span>
 </center>
-<p>where <span class="math inline">\(c\)</span> is a constant, <span class="math inline">\(\phi\)</span> is thw lag coefficient, <span class="math inline">\(y_{t-1}\)</span> is the first lag of <span class="math inline">\(y\)</span>, and <span class="math inline">\(\epsilon\)</span> is random error. Note that this model uses the first lag of the series as the single independent variable. The AR model can be extended to include more lags of <span class="math inline">\(y\)</span>, and in general, it would be called an <span class="math inline">\(AR(p)\)</span> model, where <span class="math inline">\(p\)</span> is the largest lag included. Since, we include only the first lag of the <span class="math inline">\(y\)</span> variable in the specification above, we refer to the model as an AR(1). Below we simulate some data based on the AR(1) model.</p>
+<p>where <span class="math inline">\(c\)</span> is a constant, <span class="math inline">\(\phi\)</span> is the lag coefficient, <span class="math inline">\(y_{t-1}\)</span> is the first lag of <span class="math inline">\(y\)</span>, and <span class="math inline">\(\epsilon\)</span> is random error. Since this model uses only the first lag of the series as the independent variable, it is known as AR(1). The AR model can be extended to include more lags of <span class="math inline">\(y\)</span>, and in general, it would be called an <span class="math inline">\(AR(p)\)</span> model, where <span class="math inline">\(p\)</span> is the largest lag included. Below we simulate some data based on the AR(1) model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>phi<span class="ot">&lt;-</span><span class="fl">0.7</span></span>
@@ -874,7 +877,7 @@ We can generate a white noise process by using the normal distribution with a me
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>y[i]<span class="ot">=</span>const<span class="sc">+</span>phi<span class="sc">*</span>y[i<span class="dv">-1</span>]<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we can use the data generated to see what the ACF looks like for a AR(1) process. This will allow us to visually identify the AR(1).</p>
+<p>Now we can use the data generated to see what the ACF looks like for a AR(1) process. This will allow us to visually identify the process.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">ACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span><span class="st">""</span>, <span class="at">title=</span><span class="st">"ACF For Simulated AR(1) phi=0.7, c=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -882,7 +885,7 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note the resemblance of the ACF of the simulated data to that of the personal income growth. There is a decaying ACF with a strong correlation of lag one and subsequent lower correlations as the lag gets larger. Now let’s take a look at the PACF.</p>
+<p>Note the resemblance of the ACF of the simulated data to that of the personal income growth. There is a decaying ACF described by a strong correlation of lag one and subsequent lower correlations as the lags get larger. Now let’s take a look at the PACF.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tsibble</span>(<span class="at">y=</span>y,<span class="at">period=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="fu">length</span>(y)),<span class="at">index=</span>period) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(<span class="at">lag_max =</span> <span class="dv">12</span>, y) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>()<span class="sc">+</span><span class="fu">theme_bw</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>,<span class="at">y=</span><span class="st">"PACF"</span>,                         <span class="at">title=</span><span class="st">"PACF For Simulated AR(1) phi=0.7, c=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1389,8 +1392,8 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>The estimated coefficient (<span class="math inline">\(\phi=0.7\)</span>) for the AR(1) process is equal the one used in our simulation. However, the estimated constant is 1.8. If we changed the constant to 1.8, the simulation would resemble the PI growth data better. That is, the AR model selects the constant and lag coefficient (<span class="math inline">\(\phi\)</span>) such that it fits the data.</p>
-<p>If the AR(1) process correctly describes the series, the errors should behave like white noise. That is because the model should pick up all of the systemic variation, and leave only random error. To inspect the errors we can use the <code>augment()</code> function. The ACF of the error is displayed below.</p>
+<p>The estimated coefficient (<span class="math inline">\(\phi=0.7\)</span>) for the AR(1) process is equal the one used in our simulation. However, the estimated constant is 1.8. If we changed the constant to 1.8, the simulation would resemble the personal income growth data better. That is, the AR model selects the constant and lag coefficient (<span class="math inline">\(\phi\)</span>) such that it fits the data.</p>
+<p>If the AR(1) process correctly describes the series, the errors should behave like white noise. If the model picks up all of the systemic variation, only random error should be left. To inspect the errors we can use the <code>augment()</code> function along with the object that contains the model (<em>PI_fit</em>). The ACF of the error is displayed below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>errors_PI<span class="ot">&lt;-</span><span class="fu">augment</span>(PI_fit)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1400,7 +1403,7 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note how the ACF of the errors from the AR(1) model resemble white noise. This suggests that we have identified the systematic component of the series as being an AR(1) process. In other words, there is nothing left to model since the errors are entirely random. This is not the case for the LS model since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.</p>
+<p>The ACF of the errors from the AR(1) model resemble white noise. This suggests that we have correctly identified the systematic component of the series. In other words, there is nothing left to model since the errors are entirely random. This is not the case for the LS model since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>errors_PI <span class="sc">%&gt;%</span> <span class="fu">select</span>(.resid) <span class="sc">%&gt;%</span> <span class="fu">PACF</span>(.resid) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1408,11 +1411,11 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The PACF once again shows no pattern for the residuals of the AR(1) model and some significant lags for the LS model. Once again, the AR(1) model correctly identifies the data generating process in the time series.</p>
+<p>The PACF once again shows no pattern for the residuals of the AR(1) model and some significant lags for the LS model. This further confirms that the AR(1) model correctly identifies the data generating process in the time series.</p>
 </section>
 <section id="model-selection" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="model-selection">Model Selection</h3>
-<p>We can choose between these two models by looking at the AIC, AICc, or BIC.</p>
+<p>We can choose between these choose between the LS and AR(1) models by looking at the AIC, AICc, or BIC.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(PI_fit) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(AICc) <span class="sc">%&gt;%</span> <span class="fu">select</span>(.model<span class="sc">:</span>BIC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -2388,7 +2391,7 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 <p>The graph below shows the test set along with the forecast of the AR(1) model. Prediction confidence intervals are shown to highlight the uncertainty of the prediction. The blue line indicates the mean of the predictions which are assumed to follow a normal distribution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>PI_fc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">"AR1"</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>PI_fc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(.model<span class="sc">==</span><span class="st">"AR1"</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="dv">95</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(PI_train, PI_Growth) <span class="sc">+</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(PI_test, PI_Growth) <span class="sc">+</span> </span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Personal Income Growth AR(1) Forecast Accuracy"</span>,</span>
@@ -2403,9 +2406,9 @@ We can generate a white noise process by using the normal distribution with a me
 <h2 data-number="7.3" class="anchored" data-anchor-id="the-ma1-model"><span class="header-section-number">7.3</span> The MA(1) model</h2>
 <p>The moving average (MA) process models time series by using past errors (random shocks). Formally,</p>
 <center>
-<span class="math inline">\(y_t=\mu + \theta \epsilon_{t-1}\)</span>
+<span class="math inline">\(y_t=\mu + \theta \epsilon_{t-1} +\epsilon_{t}\)</span>
 </center>
-<p>where <span class="math inline">\(\mu\)</span> is the mean of the time series, and <span class="math inline">\(\epsilon\)</span> is the error term. As with the AR model, further error term lags could be included in the MA. An MA process with highest lag of <span class="math inline">\(q\)</span> is called an MA(q) process. The MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.</p>
+<p>where <span class="math inline">\(\mu\)</span> is the mean of the time series, and <span class="math inline">\(\epsilon\)</span> is the error term. As with the AR model, further error term lags could be included in the MA. An MA process with highest lag of <span class="math inline">\(q\)</span> is called an MA(q) process. The MA process assumes that the current observation of a time series is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.</p>
 <div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">13</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>e_t<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">300</span>,<span class="dv">0</span>,<span class="fl">0.5</span>)</span>
@@ -2427,7 +2430,9 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>The pattern shown in the ACF is one significant spike in the first lag, and a decaying PACF as lags get larger. This is the opposite of the AR(1) process where we had a decaying ACF and one spike in the PACF. We can use the MA(1) process to model series that exhibit this pattern.</p>
+<p>The pattern shown is one significant spike in the first lag of the ACF, and a decaying PACF as lags get larger. This is the opposite of the AR(1) process where we had a decaying ACF and one spike in the PACF.</p>
+<section id="u.s.-treasury-example" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="u.s.-treasury-example">U.S. Treasury Example</h3>
 <p>Consider the percent monthly change the yield of U.S. treasury securities (TCM5Y). Below is the plot of the series.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>treasury<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"https://jagelves.github.io/Data/treasury.csv"</span>)</span>
@@ -2464,11 +2469,12 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>When comparing with the MA(1) simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero in the ACF. The PACF doesn’t exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. These correlations additionally alternate in sign. As with did with the AR(1) process, we can estimate the model, check that the errors are white noise, and then forecast.</p>
+<p>When comparing with the MA(1) simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero in the ACF. The PACF doesn’t exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. These correlations additionally alternate in sign. As with the AR(1) process, we can estimate the model, check that the errors are white noise, and then forecast.</p>
+</section>
 </section>
 <section id="arima" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="arima"><span class="header-section-number">7.4</span> ARIMA</h2>
-<p>The ARIMA model is based on the notion of stationarity and the AR and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.</p>
+<p>The ARIMA model is based on stationary, AR, and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.</p>
 <ul>
 <li>AutoRegressive (AR): The “AR” part means that the future values of a time series depend on its own past values. If today’s value is high, tomorrow’s value is likely to be high too.</li>
 <li>Integrated (I): The “I” part is about making the time series stationary. It means we take the differences between consecutive observations to remove trends or seasonality.</li>
@@ -3062,7 +3068,7 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>The patterns shown are textbook AR(1). Hence, the inclusion of the model in the set of candidates. The code below forecasts the series 27 periods ahead and plots.</p>
+<p>The patterns shown in the plots above are textbook AR(1). Hence, the inclusion of the model in the set of candidates. The code below forecasts the series 27 periods ahead and plots.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">autoplot</span>(<span class="at">level=</span><span class="cn">NULL</span>) <span class="sc">+</span> </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
@@ -3590,7 +3596,7 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>The AR(1) and LS models seems to be the best models. Interestingly, one could imagining combining the forecasts of these models to obtain an even better forecast of the data.</p>
+<p>What is not shown in the metrics is how the forecast’s errors are created. The LS model overestimates the test data, while the AR(1) underestimates it. One could imagine combining the forecasts of these models to obtain an even better data forecast. We can create an <strong>ensemble</strong> by calculating a simple average of the two predictions.</p>
 </section>
 </section>
 <section id="readings" class="level2" data-number="7.5">

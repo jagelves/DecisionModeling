@@ -162,11 +162,11 @@ In sum, white noise processes are unpredictable and we can only describe them by
 
 ## The AR(1) model
 
-In the previous section, we established that growth of personal income in California has a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, the AR(1) model is of the form:
+In the previous section, we established that the growth of personal income in California has a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, the AR(1) model is of the form:
 
 <center>$y_t=c+\phi y_{t-1}+ \epsilon_t$</center>
 
-where $c$ is a constant, $\phi$ is thw lag coefficient, $y_{t-1}$ is the first lag of $y$, and $\epsilon$ is random error. Note that this model uses the first lag of the series as the single independent variable. The AR model can be extended to include more lags of $y$, and in general, it would be called an $AR(p)$ model, where $p$ is the largest lag included. Since, we include only the first lag of the $y$ variable in the specification above, we refer to the model as an AR(1). Below we simulate some data based on the AR(1) model.
+where $c$ is a constant, $\phi$ is the lag coefficient, $y_{t-1}$ is the first lag of $y$, and $\epsilon$ is random error. Since this model uses only the first lag of the series as the independent variable, it is known as AR(1). The AR model can be extended to include more lags of $y$, and in general, it would be called an $AR(p)$ model, where $p$ is the largest lag included. Below we simulate some data based on the AR(1) model.
 
 ```{r}
 y<-c(0)
@@ -179,14 +179,14 @@ y[i]=const+phi*y[i-1]+rnorm(1,0,0.5)
 }
 ```
 
-Now we can use the data generated to see what the ACF looks like for a AR(1) process. This will allow us to visually identify the AR(1).
+Now we can use the data generated to see what the ACF looks like for a AR(1) process. This will allow us to visually identify the process.
 
 ```{r}
 tsibble(y=y,period=seq(1,length(y)),index=period) %>% ACF(lag_max = 12, y) %>% autoplot()+theme_bw()+
 labs(x="", y="", title="ACF For Simulated AR(1) phi=0.7, c=1")
 ```
 
-Note the resemblance of the ACF of the simulated data to that of the personal income growth. There is a decaying ACF with a strong correlation of lag one and subsequent lower correlations as the lag gets larger. Now let's take a look at the PACF.
+Note the resemblance of the ACF of the simulated data to that of the personal income growth. There is a decaying ACF described by a strong correlation of lag one and subsequent lower correlations as the lags get larger. Now let's take a look at the PACF.
 
 ```{r}
 tsibble(y=y,period=seq(1,length(y)),index=period) %>% PACF(lag_max = 12, y) %>% autoplot()+theme_bw()+labs(x="",y="PACF",                         title="PACF For Simulated AR(1) phi=0.7, c=1")
@@ -216,9 +216,9 @@ coef(PI_fit) %>% gt() %>%
              decimals = 2)
 ```
 
-The estimated coefficient ($\phi=0.7$) for the AR(1) process is equal the one used in our simulation. However, the estimated constant is 1.8. If we changed the constant to 1.8, the simulation would resemble the PI growth data better. That is, the AR model selects the constant and lag coefficient ($\phi$) such that it fits the data.
+The estimated coefficient ($\phi=0.7$) for the AR(1) process is equal the one used in our simulation. However, the estimated constant is 1.8. If we changed the constant to 1.8, the simulation would resemble the personal income growth data better. That is, the AR model selects the constant and lag coefficient ($\phi$) such that it fits the data.
 
-If the AR(1) process correctly describes the series, the errors should behave like white noise. That is because the model should pick up all of the systemic variation, and leave only random error. To inspect the errors we can use the `augment()` function. The ACF of the error is displayed below.
+If the AR(1) process correctly describes the series, the errors should behave like white noise. If the model picks up all of the systemic variation, only random error should be left. To inspect the errors we can use the `augment()` function along with the object that contains the model (*PI_fit*). The ACF of the error is displayed below.
 
 ```{r}
 errors_PI<-augment(PI_fit)
@@ -227,18 +227,18 @@ errors_PI %>% select(.resid) %>% ACF(.resid) %>%
   autoplot() + theme_bw()
 ```
 
-Note how the ACF of the errors from the AR(1) model resemble white noise. This suggests that we have identified the systematic component of the series as being an AR(1) process. In other words, there is nothing left to model since the errors are entirely random. This is not the case for the LS model since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.
+The ACF of the errors from the AR(1) model resemble white noise. This suggests that we have correctly identified the systematic component of the series. In other words, there is nothing left to model since the errors are entirely random. This is not the case for the LS model since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.
 
 ```{r}
 errors_PI %>% select(.resid) %>% PACF(.resid) %>% 
   autoplot() + theme_bw()
 ```
 
-The PACF once again shows no pattern for the residuals of the AR(1) model and some significant lags for the LS model. Once again, the AR(1) model correctly identifies the data generating process in the time series.
+The PACF once again shows no pattern for the residuals of the AR(1) model and some significant lags for the LS model. This further confirms that the AR(1) model correctly identifies the data generating process in the time series.
 
 ### Model Selection {.unnumbered}
 
-We can choose between these two models by looking at the AIC, AICc, or BIC.
+We can choose between these choose between the LS and AR(1) models by looking at the AIC, AICc, or BIC.
 
 ```{r, results='hide'}
 glance(PI_fit) %>% arrange(AICc) %>% select(.model:BIC)
@@ -273,7 +273,7 @@ PI_fc  %>% accuracy(PI_test) %>% gt() %>% cols_align("center")  %>% tab_header(t
 The graph below shows the test set along with the forecast of the AR(1) model. Prediction confidence intervals are shown to highlight the uncertainty of the prediction. The blue line indicates the mean of the predictions which are assumed to follow a normal distribution.
 
 ```{r, warning=FALSE, message=FALSE}
-PI_fc %>% filter(.model=="AR1") %>% autoplot() + theme_classic() +
+PI_fc %>% filter(.model=="AR1") %>% autoplot(level=95) + theme_classic() +
   autolayer(PI_train, PI_Growth) +
   autolayer(PI_test, PI_Growth) + 
   labs(title="Personal Income Growth AR(1) Forecast Accuracy",
@@ -284,9 +284,9 @@ subtitle="1970-2021", y="",x="")
 
 The moving average (MA) process models time series by using past errors (random shocks). Formally,
 
-<center>$y_t=\mu + \theta \epsilon_{t-1}$</center>
+<center>$y_t=\mu + \theta \epsilon_{t-1} +\epsilon_{t}$</center>
 
-where $\mu$ is the mean of the time series, and $\epsilon$ is the error term. As with the AR model, further error term lags could be included in the MA. An MA process with highest lag of $q$ is called an MA(q) process. The MA process assumes that the current observation is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.
+where $\mu$ is the mean of the time series, and $\epsilon$ is the error term. As with the AR model, further error term lags could be included in the MA. An MA process with highest lag of $q$ is called an MA(q) process. The MA process assumes that the current observation of a time series is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.
 
 ```{r, fig.show='hold', out.width='50%'}
 #| layout-ncol: 2
@@ -303,8 +303,9 @@ labs(x="", y="", title="PACF For Simulated MA(1)")
 
 ```
 
-The pattern shown in the ACF is one significant spike in the first lag, and a decaying PACF as lags get larger. This is the opposite of the AR(1) process where we had a decaying ACF and one spike in the PACF. We can use the MA(1) process to model series that exhibit this pattern.
+The pattern shown is one significant spike in the first lag of the ACF, and a decaying PACF as lags get larger. This is the opposite of the AR(1) process where we had a decaying ACF and one spike in the PACF.
 
+### U.S. Treasury Example {.unnumbered}
 Consider the percent monthly change the yield of U.S. treasury securities (TCM5Y). Below is the plot of the series.
 
 ```{r warning=FALSE, message=FALSE}
@@ -334,11 +335,11 @@ as_tsibble(treasury, index = period) %>%
 labs(x="", y="", title="PACF for TCM5Y")
 ```
 
-When comparing with the MA(1) simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero in the ACF. The PACF doesn't exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. These correlations additionally alternate in sign. As with did with the AR(1) process, we can estimate the model, check that the errors are white noise, and then forecast.
+When comparing with the MA(1) simulated values, the ACF of TCM5Y reflects the same pattern. One spike, and all other lags not significantly different from zero in the ACF. The PACF doesn't exactly replicate the one from the simulation, but the pattern created is the same. Mainly, there is a decaying PACF, a large lag 1 partial autocorrelation, followed by smaller ones until they all are insignificant. These correlations additionally alternate in sign. As with the AR(1) process, we can estimate the model, check that the errors are white noise, and then forecast.
 
 ## ARIMA
 
-The ARIMA model is based on the notion of stationarity and the AR and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.
+The ARIMA model is based on stationary, AR, and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.
 
 -   AutoRegressive (AR): The "AR" part means that the future values of a time series depend on its own past values. If today's value is high, tomorrow's value is likely to be high too.
 -   Integrated (I): The "I" part is about making the time series stationary. It means we take the differences between consecutive observations to remove trends or seasonality.
@@ -409,7 +410,7 @@ autoplot()+theme_bw()+
 labs(x="", y="", title="PACF For Avocado Average Price")
 ```
 
-The patterns shown are textbook AR(1). Hence, the inclusion of the model in the set of candidates. The code below forecasts the series 27 periods ahead and plots.
+The patterns shown in the plots above are textbook AR(1). Hence, the inclusion of the model in the set of candidates. The code below forecasts the series 27 periods ahead and plots.
 
 ```{r}
 fit %>% forecast(h=27) %>% autoplot(level=NULL) + 
@@ -438,7 +439,7 @@ fit %>% forecast(new_data = calits_test) %>%
     values = "LS",
     targets ="row")
 ```
-The AR(1) and LS models seems to be the best models. Interestingly, one could imagining combining the forecasts of these models to obtain an even better forecast of the data.
+What is not shown in the metrics is how the forecast's errors are created. The LS model overestimates the test data, while the AR(1) underestimates it. One could imagine combining the forecasts of these models to obtain an even better data forecast. We can create an **ensemble** by calculating a simple average of the two predictions.
 
 ## Readings
 
