@@ -224,7 +224,9 @@ If the AR(1) process correctly describes the series, the errors should behave li
 errors_PI<-augment(PI_fit)
 
 errors_PI %>% select(.resid) %>% ACF(.resid) %>% 
-  autoplot() + theme_bw()
+  autoplot() + theme_bw() +
+  labs(title="ACF for Model Errors of AR(1) and LS",
+       x="")
 ```
 
 The ACF of the errors from the AR(1) model resemble white noise. This suggests that we have correctly identified the systematic component of the series. In other words, there is nothing left to model since the errors are entirely random. This is not the case for the LS model since we still observe some significant spikes (lag 1 and lag 13) in the ACF function.
@@ -415,7 +417,10 @@ The patterns shown in the plots above are textbook AR(1). Hence, the inclusion o
 ```{r}
 fit %>% forecast(h=27) %>% autoplot(level=NULL) + 
   theme_classic() + 
-  autolayer(cali, average_price) 
+  autolayer(cali, average_price) + 
+  labs(y="", title= "California's Forecasted Average Price Of Avocados",
+       subtitle = "Jan 4, 2015 - Dec 2, 2018",
+       x="")
 ```
 
 Interestingly, it seems like the AR(1) and the LS model perform the best. Let's confirm by checking the accuracy measures against the test set.
