@@ -341,13 +341,13 @@ When comparing with the MA(1) simulated values, the ACF of TCM5Y reflects the sa
 
 ## ARIMA
 
-The ARIMA model is based on stationary, AR, and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.
+The ARIMA model is based on stationary, AR, and MA processes. ARIMA stands for **AutoRegressive Integrated Moving Average**.
 
 -   AutoRegressive (AR): The "AR" part means that the future values of a time series depend on its own past values. If today's value is high, tomorrow's value is likely to be high too.
 -   Integrated (I): The "I" part is about making the time series stationary. It means we take the differences between consecutive observations to remove trends or seasonality.
 -   Moving Average (MA): The "MA" part means that the future values also depend on the past prediction errors (residuals). If the model predicted a value that was too high or too low in the past, it will try to correct that in the future predictions.
 
-ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions. In terms of notation, an ARIMA(1,1,2), will find the first difference of the series, and estimate the model with an AR(1) and MA(2) component. Below we estimate the ARIMA model.
+ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions. In terms of notation, an ARIMA(1,1,2), will perform the first difference of the series, and estimate the model with an AR(1) and MA(2) component. Below we estimate the ARIMA model.
 
 ### Revisiting Chilango's Restaurant {.unnumbered}
 
@@ -423,7 +423,7 @@ fit %>% forecast(h=27) %>% autoplot(level=NULL) +
        x="")
 ```
 
-Interestingly, it seems like the AR(1) and the LS model perform the best. Let's confirm by checking the accuracy measures against the test set.
+Interestingly, the AR(1) and the LS model perform the best. The LS model overestimates the test data, while the AR(1) underestimates it. One could imagine combining the forecasts of these models to obtain a better one. Lastly, let's confirm the accuracy of these two models by comparing forecasts to the test set.
 
 ```{r, results='hide'}
 fit %>% forecast(h=27) %>% accuracy(cali)
@@ -444,7 +444,7 @@ fit %>% forecast(new_data = calits_test) %>%
     values = "LS",
     targets ="row")
 ```
-What is not shown in the metrics is how the forecast's errors are created. The LS model overestimates the test data, while the AR(1) underestimates it. One could imagine combining the forecasts of these models to obtain an even better data forecast. We can create an **ensemble** by calculating a simple average of the two predictions.
+
 
 ## Readings
 

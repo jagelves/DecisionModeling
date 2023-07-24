@@ -2476,13 +2476,13 @@ We can generate a white noise process by using the normal distribution with a me
 </section>
 <section id="arima" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="arima"><span class="header-section-number">7.4</span> ARIMA</h2>
-<p>The ARIMA model is based on stationary, AR, and MA processes. ARIMA stands for AutoRegressive Integrated Moving Average.</p>
+<p>The ARIMA model is based on stationary, AR, and MA processes. ARIMA stands for <strong>AutoRegressive Integrated Moving Average</strong>.</p>
 <ul>
 <li>AutoRegressive (AR): The “AR” part means that the future values of a time series depend on its own past values. If today’s value is high, tomorrow’s value is likely to be high too.</li>
 <li>Integrated (I): The “I” part is about making the time series stationary. It means we take the differences between consecutive observations to remove trends or seasonality.</li>
 <li>Moving Average (MA): The “MA” part means that the future values also depend on the past prediction errors (residuals). If the model predicted a value that was too high or too low in the past, it will try to correct that in the future predictions.</li>
 </ul>
-<p>ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions. In terms of notation, an ARIMA(1,1,2), will find the first difference of the series, and estimate the model with an AR(1) and MA(2) component. Below we estimate the ARIMA model.</p>
+<p>ARIMA combines these three components to forecast future values in a time series by considering its own past, removing trends, and accounting for past errors in predictions. In terms of notation, an ARIMA(1,1,2), will perform the first difference of the series, and estimate the model with an AR(1) and MA(2) component. Below we estimate the ARIMA model.</p>
 <section id="revisiting-chilangos-restaurant" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="revisiting-chilangos-restaurant">Revisiting Chilango’s Restaurant</h3>
 <p>Let’s apply the ARIMA model to the avocado data. The code below loads the data and creates the training and test set.</p>
@@ -3082,7 +3082,7 @@ We can generate a white noise process by using the normal distribution with a me
 <p><img src="ARIMA_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Interestingly, it seems like the AR(1) and the LS model perform the best. Let’s confirm by checking the accuracy measures against the test set.</p>
+<p>Interestingly, the AR(1) and the LS model perform the best. The LS model overestimates the test data, while the AR(1) underestimates it. One could imagine combining the forecasts of these models to obtain a better one. Lastly, let’s confirm the accuracy of these two models by comparing forecasts to the test set.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">27</span>) <span class="sc">%&gt;%</span> <span class="fu">accuracy</span>(cali)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -3601,7 +3601,6 @@ We can generate a white noise process by using the normal distribution with a me
 </div>
 </div>
 </div>
-<p>What is not shown in the metrics is how the forecast’s errors are created. The LS model overestimates the test data, while the AR(1) underestimates it. One could imagine combining the forecasts of these models to obtain an even better data forecast. We can create an <strong>ensemble</strong> by calculating a simple average of the two predictions.</p>
 </section>
 </section>
 <section id="readings" class="level2" data-number="7.5">
