@@ -329,7 +329,7 @@ div.csl-indent {
 </section>
 <section id="bayes-theorem" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="bayes-theorem"><span class="header-section-number">1.6</span> Bayes’ Theorem</h2>
-<p>Now we can use Bayes’ Theorem to update our probabilities given the recommendation from the consulting team. Recall that <strong>Bayes’ Theorem</strong> is a concept in probability that helps us update our beliefs or make better predictions when we get new information. Mathematically, Bayes’ Theorem states:</p>
+<p>Now we can use Bayes’ Theorem to update our probabilities given the recommendation from the consulting team. Recall that <strong>Bayes’ Theorem</strong> is a concept in probability that helps us update our beliefs when given new information. Mathematically, Bayes’ Theorem states:</p>
 <div class="pull-right-50 text-center">
 <p><span class="math inline">\(p(A|B)=\frac{p(B|A)p(A)}{p(B)}\)</span></p>
 </div>
@@ -384,7 +384,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line (<span class="math inline">\(3.94\)</span>) is greater than the loss of not introducing the product line (<span class="math inline">\(-0.5\)</span>). Similarly, if the recommendation is negative, the EMV from the introduction (<span class="math inline">\(-2.86\)</span>) is less than the loss of not introducing the product line (<span class="math inline">\(-0.5\)</span>). As a consequence, the recommendation is aligned with the CEO’s best decision.</p>
+<p>It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line (<span class="math inline">\(3.94\)</span>) is greater than the loss of not introducing the product line (<span class="math inline">\(-0.5\)</span>). Similarly, if the recommendation is negative, the EMV from the introduction (<span class="math inline">\(-2.86\)</span>) is less than the EMV of not introducing the product line (<span class="math inline">\(-0.5\)</span>). As a consequence, the recommendation is aligned with the CEO’s best decision.</p>
 </section>
 <section id="the-value-of-information" class="level2" data-number="1.8">
 <h2 data-number="1.8" class="anchored" data-anchor-id="the-value-of-information"><span class="header-section-number">1.8</span> The Value of Information</h2>
@@ -393,15 +393,15 @@ div.csl-indent {
 <p><span class="math inline">\(EMV=0.63(3.94)+0.37(-0.5)\)</span> </p>
 <p><span class="math inline">\(EMV=2.3\)</span> </p>
 </div>
-<p>This EMV is higher than the EMV of making the decision without the consultants (1.8 million). This highlights that the information provided by the consulting team is valuable to the CEO. Moreover, the CEO should be willing to pay up to $1,000,000 for the consulting service.</p>
+<p>This EMV is higher than the EMV of making the decision without the consultants (1.8 million). This highlights that the information provided by the consulting team is valuable to the CEO. Moreover, the CEO should be willing to pay up to $1,000,000 (EMV with free information - EMV without information) for the consulting service.</p>
 </section>
 <section id="readings" class="level2" data-number="1.9">
 <h2 data-number="1.9" class="anchored" data-anchor-id="readings"><span class="header-section-number">1.9</span> Readings</h2>
-<p>Readings for this chapter are mainly from <span class="citation" data-cites="PMS">Winston and Albright (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span>. Chapter 9 provides a good introduction to decision models with a couple of solved problems using excel. I would recommend using R to make calculations since we will be mainly using R. To construct decision trees in R you can use <a href="https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid">mermaid</a>.<br>
+<p>The readings for this chapter are mainly from <span class="citation" data-cites="PMS">Winston and Albright (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span>. Chapter 9 provides a good introduction to decision models with a couple of solved problems using excel. I would recommend using R as a calculator since we will be mainly using R in this book. To construct decision trees in R you can use <a href="https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid">mermaid</a>.<br>
 Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes’ theorem. These concepts are not explained in depth in the readings, so reviewing them beforehand could be helpful.</p>
 <ul>
 <li><p><span class="citation" data-cites="PMS">Winston and Albright (<a href="references.html#ref-PMS" role="doc-biblioref">2019</a>)</span> Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).</p></li>
-<li><p><span class="citation" data-cites="JK">Jaggia and Kelly (<a href="references.html#ref-JK" role="doc-biblioref">2022</a>)</span> Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes’ Theorem)</p></li>
+<li><p><span class="citation" data-cites="JK">Jaggia and Kelly (<a href="references.html#ref-JK" role="doc-biblioref">2022</a>)</span> Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes’ Theorem).</p></li>
 <li><p>Mermaid in Quarto Document: <a href="https://quarto.org/docs/authoring/diagrams.html" class="uri">https://quarto.org/docs/authoring/diagrams.html</a></p></li>
 <li><p>Mermaid in R Script: <a href="https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid" class="uri">https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid</a></p></li>
 </ul>
@@ -409,10 +409,10 @@ Some concepts are important to review before you start reading the chapter. In p
 <section id="lessons-learned-in-this-chapter" class="level2" data-number="1.10">
 <h2 data-number="1.10" class="anchored" data-anchor-id="lessons-learned-in-this-chapter"><span class="header-section-number">1.10</span> Lessons Learned In This Chapter</h2>
 <ul>
-<li><p>Use the concept of Expected Monetary Value.</p></li>
+<li><p>Use the concept of Expected Monetary Value to rank decisions involving uncertainty.</p></li>
 <li><p>Use Decision Trees to map the business decision process.</p></li>
-<li><p>Apply the backward induction method to solve decision problems.</p></li>
-<li><p>Apply Bayes’ Theorem to update probabilities given new information.</p></li>
+<li><p>Apply backward induction to solve decision problems.</p></li>
+<li><p>Apply the Law of Total Probability and Bayes’ Theorem to update probabilities.</p></li>
 <li><p>Determine the price of information.</p></li>
 </ul>
 

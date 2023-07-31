@@ -122,7 +122,7 @@ graph LR
 
 ## Bayes' Theorem
 
-Now we can use Bayes' Theorem to update our probabilities given the recommendation from the consulting team. Recall that **Bayes' Theorem** is a concept in probability that helps us update our beliefs or make better predictions when we get new information. Mathematically, Bayes' Theorem states:
+Now we can use Bayes' Theorem to update our probabilities given the recommendation from the consulting team. Recall that **Bayes' Theorem** is a concept in probability that helps us update our beliefs when given new information. Mathematically, Bayes' Theorem states:
 
 ::: {.pull-right-50 .text-center}
 $p(A|B)=\frac{p(B|A)p(A)}{p(B)}$
@@ -174,7 +174,7 @@ graph LR
     H --> J(EMV=-2.86)
 ```
 
-It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line ($3.94$) is greater than the loss of not introducing the product line ($-0.5$). Similarly, if the recommendation is negative, the EMV from the introduction ($-2.86$) is less than the loss of not introducing the product line ($-0.5$). As a consequence, the recommendation is aligned with the CEO's best decision. 
+It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line ($3.94$) is greater than the loss of not introducing the product line ($-0.5$). Similarly, if the recommendation is negative, the EMV from the introduction ($-2.86$) is less than the EMV of not introducing the product line ($-0.5$). As a consequence, the recommendation is aligned with the CEO's best decision.
 
 ## The Value of Information
 
@@ -186,30 +186,29 @@ $EMV=0.63(3.94)+0.37(-0.5)$ \n
 $EMV=2.3$ \n
 :::
 
-This EMV is higher than the EMV of making the decision without the consultants (1.8 million). This highlights that the information provided by the consulting team is valuable to the CEO. Moreover, the CEO should be willing to pay up to \$1,000,000 for the consulting service.
+This EMV is higher than the EMV of making the decision without the consultants (1.8 million). This highlights that the information provided by the consulting team is valuable to the CEO. Moreover, the CEO should be willing to pay up to \$1,000,000 (EMV with free information - EMV without information) for the consulting service.
 
 ## Readings
 
-Readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems using excel. I would recommend using R to make calculations since we will be mainly using R. To construct decision trees in R you can use [mermaid](https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid).\
+The readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems using excel. I would recommend using R as a calculator since we will be mainly using R in this book. To construct decision trees in R you can use [mermaid](https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid).\
 Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes' theorem. These concepts are not explained in depth in the readings, so reviewing them beforehand could be helpful.
 
 -   @PMS Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).
 
--   @JK Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes' Theorem)
+-   @JK Chapter 4.1 (Fundamental Probability Concepts), 4.2 (Rules of Probability), 4.3 (Contingency Tables and Probabilities), and 4.4 (The Total Probability Rule and Bayes' Theorem).
 
 -   Mermaid in Quarto Document: <https://quarto.org/docs/authoring/diagrams.html>
 
--   Mermaid in R Script:
-<https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid>
+-   Mermaid in R Script: <https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid>
 
 ## Lessons Learned In This Chapter
 
--   Use the concept of Expected Monetary Value.
+-   Use the concept of Expected Monetary Value to rank decisions involving uncertainty.
 
 -   Use Decision Trees to map the business decision process.
 
--   Apply the backward induction method to solve decision problems.
+-   Apply backward induction to solve decision problems.
 
--   Apply Bayes' Theorem to update probabilities given new information.
+-   Apply the Law of Total Probability and Bayes' Theorem to update probabilities.
 
 -   Determine the price of information.
