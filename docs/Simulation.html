@@ -297,7 +297,7 @@ div.csl-indent {
 <section id="law-of-large-numbers" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="law-of-large-numbers"><span class="header-section-number">3.4</span> Law of Large Numbers</h2>
 <p>Before we answer the question of how much fish to order, we must realize a couple of flaws of the model we have created. Mainly, we have run the simulation once and it is unlikely (although possible) that the attendance will be exactly the single value simulated by the <code>rtriang()</code> function (<span class="math inline">\(44\)</span>). Instead, we want to provide the restaurant with a set of eventualities. Worst case scenarios (low attendance), best case scenarios (high attendance), and most likely outcome for their decision. This is only possible if we generate several attendance numbers, and see how the profit (output) behaves.</p>
-<p>An additional problem is that if we tell the restaurant that the expected profit of ordering <span class="math inline">\(x\)</span> amount of fish <span class="math inline">\(y\)</span>, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more accurate. This is known as the <strong>Law of Large Numbers</strong>.</p>
+<p>An additional problem is that if we tell the restaurant that the expected profit of ordering <span class="math inline">\(x\)</span> amount of fish is <span class="math inline">\(y\)</span>, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more accurate. This is known as the <strong>Law of Large Numbers</strong>.</p>
 <p>The code below repeats the simulation several times, allowing for different attendance scenarios to arise. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 10,000 times for illustration purposes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">10000</span></span>
@@ -338,7 +338,7 @@ div.csl-indent {
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Price_Fish_Oz<span class="ot">&lt;-</span><span class="dv">9</span><span class="sc">/</span><span class="dv">16</span> <span class="co"># Input</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Price_Miso<span class="ot">&lt;-</span><span class="dv">300</span> <span class="co"># Input</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Entry_Fee<span class="ot">&lt;-</span><span class="dv">20</span> <span class="co"># Input</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Fish_Entitled_Oz<span class="ot">&lt;-</span><span class="dv">7</span> <span class="co">#Input</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Fish_Entitled_Oz<span class="ot">&lt;-</span><span class="dv">5</span> <span class="co">#Input</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>Profits<span class="ot">&lt;-</span><span class="fu">c</span>()</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -361,31 +361,31 @@ div.csl-indent {
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>(results<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">Order=</span>Order_Oz,<span class="at">Profits=</span>Profits))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Order   Profits
-1    160  66.62511
-2    170  88.31331
-3    180 108.85803
-4    190 127.86271
-5    200 144.83914
-6    210 159.74060
-7    220 171.74180
-8    230 181.43777
-9    240 188.65657
-10   250 193.78714
-11   260 196.97014
-12   270 198.27451
-13   280 198.15580
-14   290 196.51037
-15   300 193.80880</code></pre>
+<pre><code>   Order  Profits
+1    160 212.0358
+2    170 225.7342
+3    180 235.1670
+4    190 240.7776
+5    200 243.1558
+6    210 242.8690
+7    220 240.4326
+8    230 236.4392
+9    240 231.4190
+10   250 225.8776
+11   260 220.2526
+12   270 214.6276
+13   280 209.0026
+14   290 203.3776
+15   300 197.7526</code></pre>
 </div>
 </div>
-<p>This table suggests that ordering <span class="math inline">\(160\)</span> ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that <span class="math inline">\(210\)</span> ounces of fish should be ordered (this feeds about <span class="math inline">\(42\)</span> people) to maximize the expected profits (<span class="math inline">\(242\)</span> dollars).</p>
+<p>This table suggests that ordering <span class="math inline">\(160\)</span> ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that <span class="math inline">\(200\)</span> ounces of fish should be ordered (this feeds <span class="math inline">\(40\)</span> people) to maximize the expected profits (<span class="math inline">\(243\)</span> dollars).</p>
 </section>
 <section id="sensitivity-analysis" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">3.7</span> Sensitivity Analysis</h2>
 <p>What if the price of yellow-tail increases unexpectedly? What if the restaurant wishes to provide each guest with six ounces of fish instead of five? The model we have created above can accommodate these changes easily by just changing the input values. We can additionally, inform the restaurant how sensitive the results are to changes in key inputs or assumptions. This is the idea behind sensitivity analysis.</p>
 <p><strong>Sensitivity analysis</strong> assesses the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables.</p>
-<p>Let’s consider providing each guest with six or seven ounces of fish. How does this change our recommendation? When running our model with different amounts of fish provided, you’ll notice that when each guest gets six ounces of fish, the restaurant should order $240$ ounces yielding an expected profit of $220$ dollars. When each guest gets seven ounces of fish, the restaurant should order $270$ ounces which generates an expected profit of $198$ dollars. Perhaps providing each guest with more fish is a bad idea as profits are highly sensitive to every ounce increase.</p>
+<p>Let’s consider providing each guest with six or seven ounces of fish. How does this change our recommendation? When running our model with different amounts of fish provided, you’ll notice that when each guest gets six ounces of fish, the restaurant should order <span class="math inline">\(240\)</span> ounces yielding an expected profit of <span class="math inline">\(220\)</span> dollars. When each guest gets seven ounces of fish, the restaurant should order <span class="math inline">\(270\)</span> ounces which generates an expected profit of <span class="math inline">\(198\)</span> dollars. Perhaps providing each guest with more fish is a bad idea as profits are highly sensitive to every ounce increase.</p>
 </section>
 <section id="readings" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="readings"><span class="header-section-number">3.8</span> Readings</h2>

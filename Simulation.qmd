@@ -63,7 +63,7 @@ The problem illustrated above is called the news vendor problem. The **news vend
 
 Before we answer the question of how much fish to order, we must realize a couple of flaws of the model we have created. Mainly, we have run the simulation once and it is unlikely (although possible) that the attendance will be exactly the single value simulated by the `rtriang()` function ($44$). Instead, we want to provide the restaurant with a set of eventualities. Worst case scenarios (low attendance), best case scenarios (high attendance), and most likely outcome for their decision. This is only possible if we generate several attendance numbers, and see how the profit (output) behaves.
 
-An additional problem is that if we tell the restaurant that the expected profit of ordering $x$ amount of fish $y$, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more accurate. This is known as the **Law of Large Numbers**.
+An additional problem is that if we tell the restaurant that the expected profit of ordering $x$ amount of fish is $y$, we want to make sure that the average is not biased. Recall that as the sample size of a study increases, the average of the sample will converge towards the true population mean. In other words, as the number of simulations in our model increases, the estimate of the expected profit becomes more accurate. This is known as the **Law of Large Numbers**.
 
 The code below repeats the simulation several times, allowing for different attendance scenarios to arise. Although, there is not a set number of times one should run a simulation to get a good estimate of the mean (or distribution), computers are powerful enough to run thousands if not millions of simulations. Below we run the simulation 10,000 times for illustration purposes.
 
@@ -109,7 +109,7 @@ Order_Oz=seq(160,300,10)
 Price_Fish_Oz<-9/16 # Input
 Price_Miso<-300 # Input
 Entry_Fee<-20 # Input
-Fish_Entitled_Oz<-7 #Input
+Fish_Entitled_Oz<-5 #Input
 
 Profits<-c()
 
@@ -133,7 +133,7 @@ Profits<-c(Profits,mean(V_Profit))
 (results<-data.frame(Order=Order_Oz,Profits=Profits))
 ```
 
-This table suggests that ordering $160$ ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that $210$ ounces of fish should be ordered (this feeds about $42$ people) to maximize the expected profits ($242$ dollars).
+This table suggests that ordering $160$ ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that $200$ ounces of fish should be ordered (this feeds $40$ people) to maximize the expected profits ($243$ dollars).
 
 ## Sensitivity Analysis
 
@@ -141,7 +141,7 @@ What if the price of yellow-tail increases unexpectedly? What if the restaurant 
 
 **Sensitivity analysis** assesses the robustness of a model or decision by evaluating the impact of changes in certain key input variables on the output of the model or decision. Sensitivity analysis helps to identify which variables are most important and how sensitive the output is to changes in those variables.
 
-Let's consider providing each guest with six or seven ounces of fish. How does this change our recommendation? When running our model with different amounts of fish provided, you'll notice that when each guest gets six ounces of fish, the restaurant should order \$240\$ ounces yielding an expected profit of \$220\$ dollars. When each guest gets seven ounces of fish, the restaurant should order \$270\$ ounces which generates an expected profit of \$198\$ dollars. Perhaps providing each guest with more fish is a bad idea as profits are highly sensitive to every ounce increase.
+Let's consider providing each guest with six or seven ounces of fish. How does this change our recommendation? When running our model with different amounts of fish provided, you'll notice that when each guest gets six ounces of fish, the restaurant should order $240$ ounces yielding an expected profit of $220$ dollars. When each guest gets seven ounces of fish, the restaurant should order $270$ ounces which generates an expected profit of $198$ dollars. Perhaps providing each guest with more fish is a bad idea as profits are highly sensitive to every ounce increase.
 
 ## Readings
 
