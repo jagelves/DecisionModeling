@@ -247,14 +247,14 @@ Here, $k$ represents the number of parameters, and $n$ is the sample size. AICc 
 <br>
 In this formula, log-likelihood represents the model fit, $n$ is the sample size, and $k$ is the number of parameters. BIC puts a greater emphasis on simplicity compared to AIC.
 
-These measures can be easily calculated in R using the `report()` function. The code below estimates the ETS and ARIMA models (which we will learn in the upcoming modules) for illustration purposes since the Naive and Mean models are non-parametric and do not provide us with an AIC, AICc, or BIC.
+These measures can be easily calculated in R using the `glance()` function. The code below estimates the ETS and ARIMA models (which we will learn in the upcoming modules) for illustration purposes since the Naive and Mean models are non-parametric and do not provide us with an AIC, AICc, or BIC.
 
 ```{r warning=FALSE, results='hide'}
 calits_train %>%
   model(LS=TSLM(average_price~trend()),
         ETS=ETS(average_price),
-        LS2=ARIMA(average_price))%>% 
-  report() %>%
+        ARIMA=ARIMA(average_price))%>% 
+  glance() %>%
   select('.model',"AIC","AICc","BIC")
 ```
 
