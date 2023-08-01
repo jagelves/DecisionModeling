@@ -44,7 +44,7 @@ Now we can use the `model()` function to run the benchmarks discussed in @sec-Be
 fit <- model(calits_train,mean=MEAN(average_price),
               Naive=NAIVE(average_price),
               Drift=RW(average_price~drift()),
-              LS=TSLM(average_price~date))
+              LS=TSLM(average_price~trend()))
 ```
 
 The *fit* object is saved as a mable (model table). The `model()`function specifies the four models to be estimated using their respective functions (i.e., `MEAN()`, `NAIVE()`, `RW()`, and `TSLM()`). To explore the coefficients of the models estimated, we use the `coef()` function with *fit* as its single argument. The output table has been enhanced visually by using the [`gt`](https://gt.rstudio.com) package.
@@ -158,17 +158,19 @@ cali %>%
 ```
 
 ```{r results='hide'}
-accuracy(calits_fc, calits_test)
+accuracy(calits_fc, calits_test) %>% select(-ACF1, RMSSE, MASE)
 ```
 
 ```{r, echo=FALSE}
-accuracy(calits_fc, calits_test) %>% gt() %>%
+accuracy(calits_fc, calits_test) %>% 
+  select(-ACF1, -RMSSE, -MASE) %>% 
+  gt() %>%
   cols_align("center") %>% 
   tab_header(title = md("**Model Fit**")) %>% 
   tab_style(locations = cells_column_labels(columns = everything()),
   style = list(cell_borders(sides = "bottom", weight = px(3)),
     cell_text(weight = "bold"))) %>% 
-  fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE,MASE,RMSSE,ACF1),
+  fmt_number(columns =c(ME,RMSE,MAE,MPE,MAPE),
              decimals = 2) %>% 
   tab_style_body(
     style = cell_fill(color="lightgreen"),
@@ -183,7 +185,7 @@ Interestingly, the Naive method is no longer the best model since it will always
 Instead of selecting a single training set and test set, we can create several. Specifically, we could take the first three observations of our time series and define them as the training set. We can then estimate a model and forecast the fourth (or nth) observation. The forecast error is recorded and the training set is changed so that now the first four observations are used to estimate the model and forecast the fifth (or nth) observation. This procedure is repeated as many times as the data allows. Below we create a table that enables us to follow the **cross-validation** of our benchmarks.
 
 ```{r}
-avocado_cv <- calits %>% 
+avocado_cv <- calits_train %>% 
   select(-geography, -total_volume) %>% 
   stretch_tsibble(.init = 3, .step = 1)
 ```
@@ -198,7 +200,7 @@ head(avocado_cv,8) %>% gt() %>%
     cell_text(weight = "bold")))
 ```
 
-Using this new tsibble, the benchmarks are estimated for each *id* and forecasts are generated for four periods ahead ($h=1$). The accuracy is measured and averaged across all iterations for each model. Results are shown in the table below.
+Using this new tsibble, the benchmarks are estimated for each *id* and forecasts are generated for one period ahead ($h=1$). The accuracy is measured and averaged across all iterations for each model. Results are shown in the table below.
 
 ```{r, warning=FALSE}
 avocado_cv %>%
@@ -221,7 +223,7 @@ avocado_cv %>%
     targets ="row")
 ```
 
-The Naive method performs the best when forecasting one period ahead. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. You can confirm that this model would lose its appeal when predicting three or four periods ahead. Most importantly, there is no formal model telling us how data is generated.
+The Naive method performs the best when forecasting one period ahead. However, we note once again that the Naive method will provide the same forecast for one, two, three or more periods ahead. You can confirm that this model would lose its appeal when predicting several periods ahead. Most importantly, there is no formal model telling us how data is generated.
 
 ## Other Accuracy Measures
 
