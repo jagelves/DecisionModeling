@@ -19,7 +19,7 @@ where $h(\frac{y_t-y_1}{T-1})$ can be thought as the average increase of $y$ fro
 Lastly, we can use the weight data collected from a period and observe if there is any trend. If we find ourselves motivated to lose weight we can start recording our weight every day. Ideally, we will start seeing the effect of our diet, exercise and healthy sleep in the data. We can predict tomorrows weight by taking into account the downward **trend** of our weight. Formally:
 
 <center>$\hat y_{T+h}=b_0+b_1(T+h)$</center>
-<br>
+
 ## Modeling the the Average Price of Avocados
 
 Let's apply these four models to forecast the average price of avocados in California. We'll start by loading the `tidyverse` and `fpp3` packages and importing the data.
