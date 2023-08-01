@@ -105,7 +105,7 @@ Now to answer the main question, what should be the amount ordered of fish? To a
 
 ```{r}
 
-Order_Oz=seq(160,300,10)
+Order_Oz=seq(160,240,10)
 Price_Fish_Oz<-9/16 # Input
 Price_Miso<-300 # Input
 Entry_Fee<-20 # Input

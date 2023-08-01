@@ -334,7 +334,7 @@ div.csl-indent {
 <h2 data-number="3.6" class="anchored" data-anchor-id="optimal-order-amount"><span class="header-section-number">3.6</span> Optimal Order Amount</h2>
 <p>Now to answer the main question, what should be the amount ordered of fish? To answer this question we will substitute several possible order options into our model and then retrieve the one that gives us the highest expected profit. We can easily do this in R with a for loop. Below is the code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Order_Oz<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">160</span>,<span class="dv">300</span>,<span class="dv">10</span>)</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Order_Oz<span class="ot">=</span><span class="fu">seq</span>(<span class="dv">160</span>,<span class="dv">240</span>,<span class="dv">10</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Price_Fish_Oz<span class="ot">&lt;-</span><span class="dv">9</span><span class="sc">/</span><span class="dv">16</span> <span class="co"># Input</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Price_Miso<span class="ot">&lt;-</span><span class="dv">300</span> <span class="co"># Input</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Entry_Fee<span class="ot">&lt;-</span><span class="dv">20</span> <span class="co"># Input</span></span>
@@ -361,22 +361,16 @@ div.csl-indent {
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>(results<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">Order=</span>Order_Oz,<span class="at">Profits=</span>Profits))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   Order  Profits
-1    160 212.0358
-2    170 225.7342
-3    180 235.1670
-4    190 240.7776
-5    200 243.1558
-6    210 242.8690
-7    220 240.4326
-8    230 236.4392
-9    240 231.4190
-10   250 225.8776
-11   260 220.2526
-12   270 214.6276
-13   280 209.0026
-14   290 203.3776
-15   300 197.7526</code></pre>
+<pre><code>  Order  Profits
+1   160 212.0358
+2   170 225.7342
+3   180 235.1670
+4   190 240.7776
+5   200 243.1558
+6   210 242.8690
+7   220 240.4326
+8   230 236.4392
+9   240 231.4190</code></pre>
 </div>
 </div>
 <p>This table suggests that ordering <span class="math inline">\(160\)</span> ounces is not optimal. Once again highlighting that the average attendance is not a good estimate of how much fish we should order. Instead, we can see that <span class="math inline">\(200\)</span> ounces of fish should be ordered (this feeds <span class="math inline">\(40\)</span> people) to maximize the expected profits (<span class="math inline">\(243\)</span> dollars).</p>
