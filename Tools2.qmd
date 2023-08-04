@@ -111,7 +111,7 @@ avocadots %>% filter(geography=="California", type=="organic") %>%
 
 ## Time Series Decomposition
 
-As highlighted in @ sec-Visual, the average price of avocados in California has a trend and a seasonal pattern. There are methods available to tease these components and make them more apparent. STL (Season Trend decomposition using LOESS) decomposes the series into a trend, seasonality, and an error (unexplained) component. It is easy to run this method in R using the [fable](https://fable.tidyverts.org) package.
+As highlighted in @sec-Visual, the average price of avocados in California has a trend and a seasonal pattern. There are methods available to tease these components and make them more apparent. STL (Season Trend decomposition using LOESS) decomposes the series into a trend, seasonality, and an error (unexplained) component. It is easy to run this method in R using the [fable](https://fable.tidyverts.org) package.
 
 In practice, the decomposition is constructed in several steps. First, a moving average of the series is calculated to track the trend. The trend is then subtracted from the series to obtain a de-trended series. The seasonal component is calculated by averaging the values based on the window provided (52 weeks or yearly) for the de-trended series. The error is the remaining series fluctuation that is not explained by the trend or the seasonal component ($Series-Trend-Seasonal=Error$). In the end, each component can be graphed and displayed, as illustrated below.
 
