@@ -291,7 +291,7 @@
     "href": "Simulation.html#readings",
     "title": "3  Simulation in R",
     "section": "3.8 Readings",
-    "text": "3.8 Readings\nThe readings for this chapter will introduce the application of simulation models to business. Winston and Albright (2019) mainly shows the technical application of the models using Excel. It is recommended that you follow in R instead. Kwak and Ingall (2007) motivates the use of Monte Carlo simulation for managing project risks and uncertainties.\n\nWinston and Albright (2019) Chapter 10.3 (Simulation and the Flaw of Averages), and 10.4 (Simulation with Built-In Excel Tools). Example 10.4 (Additional Uncertainty at Walton Bookstore) It is recommended you follow along using R instead of Excel.\nKwak and Ingall (2007)"
+    "text": "3.8 Readings\nThe readings for this chapter will introduce the application of simulation models to business. Winston and Albright (2019) highlight the technical application of the models using Excel. It is recommended that you follow in R instead. Kwak and Ingall (2007) motivates the use of Monte Carlo simulation for managing project risks and uncertainties.\n\nWinston and Albright (2019) Chapter 10.3 (Simulation and the Flaw of Averages), and 10.4 (Simulation with Built-In Excel Tools). Example 10.4 (Additional Uncertainty at Walton Bookstore) It is recommended you follow along using R instead of Excel.\nKwak and Ingall (2007)"
   },
   {
     "objectID": "Tools2.html#visualizing-the-data",
