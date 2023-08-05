@@ -129,17 +129,17 @@ As shown above, the trend is increasing, and the seasonal component confirms low
 
 ## Readings
 
-Readings get you familiar with the techniques used in time series analysis. @FPP3 is the main reading here. It provides a good introduction to forecasting, plotting time series and decomposition. The book makes use of [fable](https://fable.tidyverts.org) to conduct STL decomposition and [tsibbles](https://tsibble.tidyverts.org) to capture the data. Most of time series analysis is made easier in R by using `tidyverse`. @R4DS provides an excellent introduction to some of the packages included in `tidyverse` such as `dplyr`, `ggplot`, and `lubridate`.
+Readings get you familiar with the techniques used in time series analysis. @FPP3 is the main reading here. It provides a good introduction to forecasting, plotting time series and decomposition. The book makes use of [fable](https://fable.tidyverts.org) to conduct STL decomposition and [tsibbles](https://tsibble.tidyverts.org) to capture the data. Most of time series analysis is made easier in R by using [tidyverse](https://tidyverse.tidyverse.org). @R4DS provides an excellent introduction to some of the packages included in `tidyverse` such as `dplyr`, `ggplot`, and `lubridate`.
 
-@FPP3 Chapter 1 (Getting Started), and Chapter 2 (Time Series Graphics), and Chapter 3 (Time Series Decomposition).
+-   @FPP3 Chapter 1 (Getting Started), and Chapter 2 (Time Series Graphics), and Chapter 3 (Time Series Decomposition).
 
-@R4DS Chapter 2 (Data Visualization), Chapter 4 (Data Transformation), and Chapter 18 (Dates and Times).
+-   @R4DS Chapter 2 (Data Visualization), Chapter 4 (Data Transformation), and Chapter 18 (Dates and Times).
 
-tsibble: <https://tsibble.tidyverts.org>
+-   tsibble: <https://tsibble.tidyverts.org>
 
-fable: <https://fable.tidyverts.org>
+-   fable: <https://fable.tidyverts.org>
 
-tidyverse: <https://tidyverse.tidyverse.org>
+-   tidyverse: <https://tidyverse.tidyverse.org>
 
 ## Lessons Learned in This Chapter
 
