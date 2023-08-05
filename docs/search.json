@@ -46,7 +46,7 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Gelves, J. Alejandro. 2022. “Business Statistics.” https://jagelves.github.io/BusinessStats/.\n\n\nGonzalez, Gloria. 2013. “Forecasting for Economics and\nBusiness.”\n\n\nGrolemund, Garret. 2014. “Hands-on Programming with r.” https://jjallaire.github.io/hopr/#license.\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.”\nhttps://otexts.com/fpp3/.\n\n\nJaggia, Sanjiv, and Allison Kelly. 2022. “Business\nStatistics.”\n\n\nKwak, Young, and Lisa Ingall. 2007. “Exploring Monte Carlo\nSimulation Applications for Project Management.”\n\n\nWickham, Hadley. 2017. “R for Data Science.” https://r4ds.hadley.nz.\n\n\nWinston, Wayne, and Christian Albright. 2019. “Practical\nManagement Science.”"
+    "text": "Gelves, J. Alejandro. 2022. Business Statistics. Bookdown. https://jagelves.github.io/BusinessStats/.\n\n\nGonzalez, Gloria. 2013. Forecasting for Economics and Business.\nPearson.\n\n\nGrolemund, Garret. 2014. Hands-on Programming with r. O’Reilly.\nhttps://jjallaire.github.io/hopr/#license.\n\n\nHank, Christoph. 2023. Introduction to Econometrics with r.\nUniversity of Duisburg-Essen. https://www.econometrics-with-r.org/index.html.\n\n\nHyndman, Rob. 2021. Forecasting Principles and Practice.\nOtexts. https://otexts.com/fpp3/.\n\n\nJaggia, Sanjiv, and Allison Kelly. 2022. Business Statistics.\nMcGraw Hill.\n\n\nKwak, Young, and Lisa Ingall. 2007. “Exploring Monte Carlo\nSimulation Applications for Project Management.”\n\n\nSvetunkov, Ivan. 2023. Forecasting and Analytics with the Augmented\nDynamic Adaptive Model (ADAM). Chapman; Hall/CRC. https://doi.org/10.1201/9781003452652.\n\n\nWickham, Hadley. 2017. R for Data Science. O’Reilly. https://r4ds.hadley.nz.\n\n\nWinston, Wayne, and Christian Albright. 2019. Practical Management\nScience. Cengage."
   },
   {
     "objectID": "Benchmarks.html#benchmarks",
@@ -564,14 +564,14 @@
     "href": "ARIMA.html#readings",
     "title": "7  ARIMA",
     "section": "7.5 Readings",
-    "text": "7.5 Readings\nChapter 9 of Hyndman (2021) deals with ARIMA models. The readings are not very technical and omit explaining the model selection process. For readers wanting even more mathematical details as well as a deep dive into the model selection process I recommend reading Gonzalez (2013).\nHyndman (2021) Chapter 9 (ARIMA Models).\nGonzalez (2013) Chapter 6 (MA models), Chapter 7 (AR models), Chapter 8 (Forecasting Practice I)"
+    "text": "7.5 Readings\nChapter 9 of Hyndman (2021) deals with ARIMA models. The readings are not very technical and omit explaining the model selection process. For readers wanting even more mathematical details as well as a deep dive into the model selection process I recommend reading Gonzalez (2013). For those looking for an alternative to Hyndman (2021) you can try Svetunkov (2023) or Hank (2023).\n\nHyndman (2021) Chapter 9 (ARIMA Models).\nGonzalez (2013) Chapter 6 (MA models), Chapter 7 (AR models), Chapter 8 (Forecasting Practice I)\nSvetunkov (2023)\nHank (2023)"
   },
   {
     "objectID": "ARIMA.html#leasons-learned",
     "href": "ARIMA.html#leasons-learned",
     "title": "7  ARIMA",
     "section": "7.6 Leasons Learned",
-    "text": "7.6 Leasons Learned\nIn this module you have been introduced to ARIMA model. Particularly you have learned to:\n\nApply autocorrelations, partial autocorrelations, stationarity and white noise to model time series.\nIdentify the AR(1) and MA(1) processes using the ACF and PACF.\nModel the ARIMA process using the ARIMA() function.\nProvide forecasts of the ARIMA process in R.\n\n\n\n\n\nGonzalez, Gloria. 2013. “Forecasting for Economics and Business.”\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
+    "text": "7.6 Leasons Learned\nIn this module you have been introduced to ARIMA model. Particularly you have learned to:\n\nApply autocorrelations, partial autocorrelations, stationarity and white noise to model time series.\nIdentify the AR(1) and MA(1) processes using the ACF and PACF.\nModel the ARIMA process using the ARIMA() function.\nProvide forecasts of the ARIMA process in R.\n\n\n\n\n\nGonzalez, Gloria. 2013. Forecasting for Economics and Business. Pearson.\n\n\nHank, Christoph. 2023. Introduction to Econometrics with r. University of Duisburg-Essen. https://www.econometrics-with-r.org/index.html.\n\n\nHyndman, Rob. 2021. Forecasting Principles and Practice. Otexts. https://otexts.com/fpp3/.\n\n\nSvetunkov, Ivan. 2023. Forecasting and Analytics with the Augmented Dynamic Adaptive Model (ADAM). Chapman; Hall/CRC. https://doi.org/10.1201/9781003452652."
   },
   {
     "objectID": "ETS.html#readings",

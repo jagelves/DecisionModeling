@@ -448,11 +448,15 @@ fit %>% forecast(new_data = calits_test) %>%
 
 ## Readings
 
-Chapter 9 of @FPP3 deals with ARIMA models. The readings are not very technical and omit explaining the model selection process. For readers wanting even more mathematical details as well as a deep dive into the model selection process I recommend reading @GGR.
+Chapter 9 of @FPP3 deals with ARIMA models. The readings are not very technical and omit explaining the model selection process. For readers wanting even more mathematical details as well as a deep dive into the model selection process I recommend reading @GGR. For those looking for an alternative to @FPP3 you can try @ADAM or @IER.
 
-@FPP3 Chapter 9 (ARIMA Models).
+-   @FPP3 Chapter 9 (ARIMA Models).
 
-@GGR Chapter 6 (MA models), Chapter 7 (AR models), Chapter 8 (Forecasting Practice I)
+-   @GGR Chapter 6 (MA models), Chapter 7 (AR models), Chapter 8 (Forecasting Practice I)
+
+-   @ADAM
+
+-   @IER
 
 ## Leasons Learned
 
