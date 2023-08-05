@@ -283,9 +283,13 @@ The model with the lowest AIC (AICc or BIC) is the simple Least Squares model th
 
 ## Readings
 
-@FPP3 Chapter 5 (The Forecaster's Toolbox).
+The primary reading for this chapter comes from @FPP3. Topics include the forecasting process, accuracy measures, and time series analysis using simple regression. For a basic introduction to regression and time series with Excel, the @PMS reading is recommended.
 
-gt package: <https://gt.rstudio.com>
+-   @FPP3 Chapter 5 (The Forecaster's Toolbox), Chapter 7 (Time Series Regression Models).
+
+-   @PMS Chapter 13.1 (Introduction), 13.2 (Overview of Regression Models), 13.3 (Simple Regression Models).
+
+-   gt package: <https://gt.rstudio.com>
 
 ## Leasons Learned
 

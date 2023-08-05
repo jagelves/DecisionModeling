@@ -67,14 +67,14 @@
     "href": "Benchmarks.html#leasons-learned",
     "title": "5  Model Benchmarks",
     "section": "5.9 Leasons Learned",
-    "text": "5.9 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series. Particularly you have learned to:\n\nCreate forecasts with simple heuristics.\nAssess the fit of the model with accuracy measures.\nCreate a test set and train set to avoid over-fitting.\nPerform cross validation.\nSelect models with the AIC, AICc or BIC.\n\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/."
+    "text": "5.9 Leasons Learned\nIn this module you have been introduced to the general procedure in forecasting time series. Particularly you have learned to:\n\nCreate forecasts with simple heuristics.\nAssess the fit of the model with accuracy measures.\nCreate a test set and train set to avoid over-fitting.\nPerform cross validation.\nSelect models with the AIC, AICc or BIC.\n\n\n\n\n\nHyndman, Rob. 2021. “Forecasting Principles and Practice.” https://otexts.com/fpp3/.\n\n\nWinston, Wayne, and Christian Albright. 2019. “Practical Management Science.”"
   },
   {
     "objectID": "Benchmarks.html#readings",
     "href": "Benchmarks.html#readings",
     "title": "5  Model Benchmarks",
     "section": "5.8 Readings",
-    "text": "5.8 Readings\nHyndman (2021) Chapter 5 (The Forecaster’s Toolbox).\ngt package: https://gt.rstudio.com"
+    "text": "5.8 Readings\nThe primary reading for this chapter comes from Hyndman (2021). Topics include the forecasting process, accuracy measures, and time series analysis using simple regression. For a basic introduction to regression and time series with Excel, the Winston and Albright (2019) reading is recommended.\n\nHyndman (2021) Chapter 5 (The Forecaster’s Toolbox), Chapter 7 (Time Series Regression Models).\nWinston and Albright (2019) Chapter 13.1 (Introduction), 13.2 (Overview of Regression Models), 13.3 (Simple Regression Models).\ngt package: https://gt.rstudio.com"
   },
   {
     "objectID": "Tools.html#r-basics",
