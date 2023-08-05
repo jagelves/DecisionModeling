@@ -43,7 +43,6 @@ Several functions are available in R that can be used to **generate random numbe
 |  Exponential   | Continuous |   Base R   |  `rexp()`   |
 |    Triangle    | Continuous | extraDistr | `rtriang()` |
 
-
 Recall that the **binomial distribution** illustrates the probability of *x* successes from an experiment with *n* trials. We can use the distribution to generate random numbers by providing the *p* (probability of success) and *n* (number of trials) parameters. Similarly, the **uniform distribution** shows the probability of a random variable within a *minimum* and *maximum* limit. Hence, we can generate random numbers from the distribution by providing the *minimum* and the *maximum*.
 
 ## Nightmare Reads Simulates Demand
@@ -58,13 +57,13 @@ Nightmare Reads bookstore wishes to determine how many customers will buy their 
            Demand=rbinom(5,100,0.7)))
 ```
 
-The demand for the book is generated using the `rbinom()` function. The first input of the `rbinom()` function specifies how many random numbers are needed ($5$), the second one specifies the number of trials in the experiment ($100$), and the last one specifies the probability of success ($0.7$). The bookstore can now assess the Monster Series's revenues with these demands. 
+The demand for the book is generated using the `rbinom()` function. The first input of the `rbinom()` function specifies how many random numbers are needed ($5$), the second one specifies the number of trials in the experiment ($100$), and the last one specifies the probability of success ($0.7$). The bookstore can now assess the Monster Series's revenues with these demands.
 
 ## Using Loops in R
 
 **Loops** and **conditionals** are extremely useful when creating our simulation models. Among the many benefits, they will allow us to quickly generate new variables for our model or test different variations of our parameters to see how the model behaves.
 
-A **loop** is a programming construct that allows you to repeat a block of code a specified number of times or until a specific condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a particular condition is true. Let us illustrate the syntax of the **for loop** by simulating demand for each book Monster Classics series and calculating the total revenue. 
+A **loop** is a programming construct that allows you to repeat a block of code a specified number of times or until a specific condition is met. There are several types of loops in R, including for loops, which execute a block of code for a fixed number of iterations, and while loops, which execute a block of code as long as a particular condition is true. Let us illustrate the syntax of the **for loop** by simulating demand for each book Monster Classics series and calculating the total revenue.
 
 ```{r}
 Revenue<-c()
@@ -99,7 +98,6 @@ print(demand)
 
 In the code above, the inner conditional checks whether the titles are either Frankenstein or Dracula. If so, the random binomial number is drawn with the probability $0.9$. If not, it is drawn with probability $0.7$. The for loop, goes through all the books in the series and adds a simulated demand. You can quickly realize that this becomes very efficient if the bookstore has an extensive collection of books. Below is our data frame with the new simulated values.
 
-
 ```{r}
 (MS<-data.frame(Books=c("Frankenstein","Dracula",
                      "Moby Dick",
@@ -128,9 +126,9 @@ What distribution would you use to simulate weekdays (Mon-Fri)? Would you simula
 
 ## Readings
 
-These reading will help you review the concepts and theory necessary for completing this module. @HOP reviews the R basics needed to perform computer simulation, @JK introduces probability distributions, @GelvesBS has several applied problems (with solutions) in R to review the probability distributions, while @PMS provides an application of the distributions to business simulation.
+These reading will help you review the concepts and theory necessary for completing this chapter. @HOP reviews the R basics needed to perform computer simulation, @JK introduces probability distributions, @GelvesBS has several applied probability problems (with solutions), while @PMS provides an application of the distributions to business simulation.
 
--   @HOP Chapter 1 (The Very Basics), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).
+-   @HOP Chapter 1 (The Very Basics), Chapter 2 (Packages and Help Pages), Chapter 3 (R Objects), Chapter 7.2, 7.3 (Conditional Statements), Chapter 9.3, 9.4, 9.5 (Loops).
 
 -   @JK Chapter 5 (Discrete Probability Distributions) and Chapter 6 (Continuous Probability Distributions).
 

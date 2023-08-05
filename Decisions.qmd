@@ -55,8 +55,8 @@ graph LR
     C -->|Success p=0.6| D( 5 )
     C -->|Failure p=0.4| E( -3 )
 ```
-<br>
-Decision trees are read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *Introduce* or *Not Introduce* the new production line. If you *Introduce*, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure at the probabilities given. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.
+
+<br> Decision trees are read from left to right. Notice that there are two main branches stemming from the first decision node (i.e., the first square to the left). You can decide to *Introduce* or *Not Introduce* the new production line. If you *Introduce*, you reach a probability node (i.e., the circle that leads to the success and failure branches) where chance determines success or failure at the probabilities given. In the end, your choice of introducing the new product line yields an expected monetary value of 1.8 million, whereas not introducing the line yields no payoff.
 
 To solve decision trees and find the optimal decision use **backward induction**. Starting from the right of the decision tree and working back to the left at each probability node calculate the EMV. At each decision node, take the maximum of EMV's to identify the optimal decision. Applying this procedure to our simple example, we would start with the probability node that leads to the success and failure branches and calculate the EMV of 1.8 million (refer to @sec-EMV). Moving back to our initial decision, we now have the choice to *Introduce* or *Not Introduce*. In this case we should *Introduce*, since the resulting EMV (1.8) is higher than *Not Introduce* (0).
 
@@ -190,8 +190,7 @@ This EMV is higher than the EMV of making the decision without the consultants (
 
 ## Readings
 
-The readings for this chapter are mainly from @PMS. Chapter 9 provides a good introduction to decision models with a couple of solved problems using excel. I would recommend using R as a calculator since we will be mainly using R in this book. To construct decision trees in R you can use [mermaid](https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid) diagrams which can be easily rendered using [Quarto](https://Quarto.org).
-Some concepts are important to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes' theorem. These concepts are not explained in depth in the readings, so reviewing them beforehand could be helpful.
+The readings for this chapter are mainly from @PMS. Chapter 9 provides an excellent introduction to decision models with a couple of solved problems using Excel. I recommend using R (as a calculator) instead of Excel, as this book mainly uses R. To construct decision trees in R, you can use [mermaid](https://www.rdocumentation.org/packages/DiagrammeR/versions/1.0.10/topics/mermaid) along with [Quarto](https://Quarto.org). Some probability concepts are essential to review before you start reading the chapter. In particular, discrete random variables, expected value, conditional probability, probability rules, and Bayes' theorem.
 
 -   @PMS Chapters 9.1 (Introduction), 9.2 (Elements of Decision Analysis), 9.3 (Single-Stage Decision Problems) and 9.5 (Multistage Decision Problems). It is recommended you follow along in R as opposed to Excel (or Precision Tree Add-In).
 
