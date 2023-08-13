@@ -62,9 +62,8 @@ The most striking aspect of Tesla's deliveries is the exponential trend. There a
 
 ```{r}
 tesla %>%
-  model(STL(deliveries~trend()+
-              season(), robust=TRUE)) %>%
-  components() %>% autoplot()+ theme_classic()
+  model(STL(deliveries~trend() + season())) %>%
+  components() %>% autoplot() + theme_classic()
 ```
 
 ## Models
