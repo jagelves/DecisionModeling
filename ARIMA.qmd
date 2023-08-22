@@ -165,6 +165,7 @@ In sum, white noise processes are unpredictable and we can only describe them by
 In the previous section, we established that the growth of personal income in California has a decaying ACF and a single significant spike (at lag 1) in the PACF. These patterns can be generated with an AR(1) model. Specifically, the AR(1) model is of the form:
 
 <center>$y_t=c+\phi y_{t-1}+ \epsilon_t$</center>
+<br>
 
 where $c$ is a constant, $\phi$ is the lag coefficient, $y_{t-1}$ is the first lag of $y$, and $\epsilon$ is random error. Since this model uses only the first lag of the series as the independent variable, it is known as AR(1). The AR model can be extended to include more lags of $y$, and in general, it would be called an $AR(p)$ model, where $p$ is the largest lag included. Below we simulate some data based on the AR(1) model.
 
@@ -287,6 +288,7 @@ subtitle="1970-2021", y="",x="")
 The moving average (MA) process models time series by using past errors (random shocks). Formally,
 
 <center>$y_t=\mu + \theta \epsilon_{t-1} +\epsilon_{t}$</center>
+<br>
 
 where $\mu$ is the mean of the time series, and $\epsilon$ is the error term. As with the AR model, further error term lags could be included in the MA. An MA process with highest lag of $q$ is called an MA(q) process. The MA process assumes that the current observation of a time series is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.
 
@@ -308,6 +310,7 @@ labs(x="", y="", title="PACF For Simulated MA(1)")
 The pattern shown is one significant spike in the first lag of the ACF, and a decaying PACF as lags get larger. This is the opposite of the AR(1) process where we had a decaying ACF and one spike in the PACF.
 
 ### U.S. Treasury Example {.unnumbered}
+
 Consider the percent monthly change the yield of U.S. treasury securities (TCM5Y). Below is the plot of the series.
 
 ```{r warning=FALSE, message=FALSE}
@@ -428,6 +431,7 @@ Interestingly, the AR(1) and the LS model perform the best. The LS model overest
 ```{r, results='hide'}
 fit %>% forecast(h=27) %>% accuracy(cali)
 ```
+
 ```{r, echo=FALSE}
 fit %>% forecast(new_data = calits_test) %>% 
   accuracy(cali) %>%
@@ -444,7 +448,6 @@ fit %>% forecast(new_data = calits_test) %>%
     values = "LS",
     targets ="row")
 ```
-
 
 ## Readings
 

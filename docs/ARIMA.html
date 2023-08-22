@@ -786,7 +786,7 @@ We can generate a white noise process by using the normal distribution with a me
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td headers="kpss_stat" class="gt_row gt_center">0.947</td>
+    <tr><td headers="kpss_stat" class="gt_row gt_center">0.991</td>
 <td headers="kpss_pvalue" class="gt_row gt_center">0.010</td>
 <td headers="ndiffs" class="gt_row gt_center">2</td></tr>
   </tbody>
@@ -866,6 +866,7 @@ We can generate a white noise process by using the normal distribution with a me
 <center>
 <span class="math inline">\(y_t=c+\phi y_{t-1}+ \epsilon_t\)</span>
 </center>
+<p><br></p>
 <p>where <span class="math inline">\(c\)</span> is a constant, <span class="math inline">\(\phi\)</span> is the lag coefficient, <span class="math inline">\(y_{t-1}\)</span> is the first lag of <span class="math inline">\(y\)</span>, and <span class="math inline">\(\epsilon\)</span> is random error. Since this model uses only the first lag of the series as the independent variable, it is known as AR(1). The AR model can be extended to include more lags of <span class="math inline">\(y\)</span>, and in general, it would be called an <span class="math inline">\(AR(p)\)</span> model, where <span class="math inline">\(p\)</span> is the largest lag included. Below we simulate some data based on the AR(1) model.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">0</span>)</span>
@@ -2410,6 +2411,7 @@ We can generate a white noise process by using the normal distribution with a me
 <center>
 <span class="math inline">\(y_t=\mu + \theta \epsilon_{t-1} +\epsilon_{t}\)</span>
 </center>
+<p><br></p>
 <p>where <span class="math inline">\(\mu\)</span> is the mean of the time series, and <span class="math inline">\(\epsilon\)</span> is the error term. As with the AR model, further error term lags could be included in the MA. An MA process with highest lag of <span class="math inline">\(q\)</span> is called an MA(q) process. The MA process assumes that the current observation of a time series is a linear combination of the weighted sum of past error terms. The error terms capture the unpredictable and random fluctuations in the time series that are not accounted for by the AR model. Below we simulate an MA(1) process and generate the ACF and PACF plots.</p>
 <div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">13</span>)</span>
