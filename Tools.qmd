@@ -6,7 +6,7 @@ We will be using R to conduct business simulation. However, before building our 
 
 ## Storing Our Data in R
 
-Objects, vectors, and data frames are all critical in the R programming language. They are helpful when storing and manipulating data in R. An **object** is often stored in a variable. It can be as simple as a single integer or as informative as the output in regression analysis. The code below creates an object *x* that stores the number $5$.
+Objects, vectors, and data frames are all critical in the R programming language. They are helpful when storing and manipulating data in R. An **object** is a container for storing data and computations in R. It can store something as simple as a single integer or as informative as the output in regression analysis. The code below creates an object *x* that stores the number $5$.
 
 ```{r}
 x<-5

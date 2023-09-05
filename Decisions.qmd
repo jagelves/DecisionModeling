@@ -174,7 +174,7 @@ graph LR
     H --> J(EMV=-2.86)
 ```
 
-It is important to notice here that if the CEO hires the consultants, he/she should follow the recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line ($3.94$) is greater than the loss of not introducing the product line ($-0.5$). Similarly, if the recommendation is negative, the EMV from the introduction ($-2.86$) is less than the EMV of not introducing the product line ($-0.5$). As a consequence, the recommendation is aligned with the CEO's best decision.
+Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line ($3.94$) is greater than the loss of not introducing the product line ($-0.5$). Similarly, if the recommendation is negative, the EMV from the introduction ($-2.86$) is less than the EMV of not introducing the product line ($-0.5$). As a consequence, the recommendation is aligned with the CEO's best decision.
 
 ## The Value of Information
 
