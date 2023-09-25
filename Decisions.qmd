@@ -146,8 +146,8 @@ graph LR
     F(( ))--> |Positive p=0.63| A[ ]
     A[ ] -->|Introduce Production Line| C(( )) 
     A[ ] -->|Don't Introduce| B( -0.5 )
-    C -->|Success p=0.93| D( 4.5 )
-    C -->|Failure p=0.07| E( -3.5 )
+    C -->|Success p=0.90| D( 4.5 )
+    C -->|Failure p=0.10| E( -3.5 )
     
     F(( ))--> |Negative p=0.37| G[ ]
     G[ ] -->|Introduce Production Line| H(( )) 
@@ -166,7 +166,7 @@ graph LR
     F(( ))--> |Positive p=0.63| A[ ]
     A[ ] -->|Introduce Production Line| C(( ))
     A[ ] -->|Don't Introduce| B( -0.5 )
-    C --> D(EMV=3.94)
+    C --> D(EMV=3.70)
     
     F(( ))--> |Negative p=0.37| G[ ]
     G[ ] -->|Introduce Production Line| H(( )) 
@@ -174,19 +174,19 @@ graph LR
     H --> J(EMV=-2.86)
 ```
 
-Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line ($3.94$) is greater than the loss of not introducing the product line ($-0.5$). Similarly, if the recommendation is negative, the EMV from the introduction ($-2.86$) is less than the EMV of not introducing the product line ($-0.5$). As a consequence, the recommendation is aligned with the CEO's best decision.
+Note that even though the consultants might recommend not introducing the production line, the CEO can still decide to go against their recommendation. If the recommendation is positive, then the EMV resulting from introduction of the product line ($3.70$) is greater than the loss of not introducing the product line ($-0.5$). Similarly, if the recommendation is negative, the EMV from the introduction ($-2.86$) is less than the EMV of not introducing the product line ($-0.5$). As a consequence, the recommendation is aligned with the CEO's best decision.
 
 ## The Value of Information
 
 We are now faced with an important question. What is the value of the information provided by the consulting team? In other words, should the CEO hire the consultants? To answer this question, let's start by calculating expected monetary value of the tree in @sec-Optimal:
 
 ::: {.pull-right-50 .text-center}
-$EMV=0.63(3.94)+0.37(-0.5)$ \n
+$EMV=0.63(3.70)+0.37(-0.5)$ \n
 
-$EMV=2.3$ \n
+$EMV=2.146$ \n
 :::
 
-This EMV is higher than the EMV of making the decision without the consultants (1.8 million). This highlights that the information provided by the consulting team is valuable to the CEO. Moreover, the CEO should be willing to pay up to \$1,000,000 (EMV with free information - EMV without information) for the consulting service.
+This EMV is higher than the EMV of making the decision without the consultants (1.8 million). This highlights that the information provided by the consulting team is valuable to the CEO. Moreover, the CEO should be willing to pay up to \$846,000 (EMV with free information - EMV without information) for the consulting service.
 
 ## Readings
 
