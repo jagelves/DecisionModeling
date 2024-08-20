@@ -226,7 +226,7 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
 <details>
   <summary>Suggested Answer</summary>
-  This is the hidden text that will be revealed when the user clicks on the dropdown. You can add as much content as you want here, including **formatted text**, lists, code, or even images.
+  We can use expected values to guide our recommendation to Tesla. The expected value of each option is as follows: constructing a new plant is 45,000, expanding plant is 47,500, and doing nothing is 8,500. Following these results we could **recommend Tesla to expand its existing plant**, as this option would give the company the highest expected profit.
 </details>
 
 2. Frontier Airlines is considering purchasing a new airplane from an aircraft manufacturer. The manufacturer offers the airplane for $50 million. The airline estimates that, if the airplane is purchased, it could generate an additional revenue of 120 million over its operational lifetime. However, this is contingent on the condition that the airline industry remains stable and demand for flights remains high, which the airline estimates has a 70% probability of occurring.
