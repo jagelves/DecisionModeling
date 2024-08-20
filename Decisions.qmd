@@ -216,5 +216,11 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
 ## Exercises.
 
-1. Tesla, a U.S. EV car manufacturer, is considering expanding production to meet potential increases in the demand for one of its cars. Tesla’s alternatives are to construct a new plant, expand the existing plant, or do nothing in the short run. Analysts within Tesla expect the market for their EV’s may expand, remain stable, or contract, with probabilities of 0.35, 0.35, and 0.30, respectively. What would you recommend Tesla to do to meet demand?
+1. Tesla, a U.S. EV car manufacturer, is considering expanding production to meet potential increases in the demand for one of its cars. Tesla’s alternatives are to construct a new plant, expand the existing plant, or do nothing in the short run. Analysts within Tesla expect the market for their EV’s may expand, remain stable, or contract, with probabilities of 0.35, 0.35, and 0.30, respectively. The table below contains the profit generated under each scenario. What is your recommendation to Tesla?
+
+||Expand|Stable|Contract|
+|:-:|:-:|:-:|:-:|
+|New Plant|400,000|-100,000|-200,000|
+|Expand Plant|250,000|-50,000|-75,000|
+|Do Nothing|50,000|0|-30,000|
 
