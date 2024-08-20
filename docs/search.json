@@ -566,7 +566,7 @@
     "href": "Decisions.html#lessons-learned-in-this-chapter",
     "title": "1  Decisions Under Uncertainty",
     "section": "1.10 Lessons Learned In This Chapter",
-    "text": "1.10 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value to rank decisions involving uncertainty.\nUse Decision Trees to map the business decision process.\nApply backward induction to solve decision problems.\nApply the Law of Total Probability and Bayes’ Theorem to update probabilities.\nDetermine the price of information.\n\n\n\n\n\nJaggia, Sanjiv, and Allison Kelly. 2022. Business Statistics. McGraw Hill.\n\n\nWinston, Wayne, and Christian Albright. 2019. Practical Management Science. Cengage.",
+    "text": "1.10 Lessons Learned In This Chapter\n\nUse the concept of Expected Monetary Value to rank decisions involving uncertainty.\nUse Decision Trees to map the business decision process.\nApply backward induction to solve decision problems.\nApply the Law of Total Probability and Bayes’ Theorem to update probabilities.\nDetermine the price of information.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Decisions Under Uncertainty</span>"
     ]
@@ -805,6 +805,16 @@
     "title": "1  Decisions Under Uncertainty",
     "section": "",
     "text": "1.1 Shopaholic Retail Company\nImagine you are the CEO of the Shopaholic Retail Company, and you are considering whether to launch a new product line. You have conducted market research and have estimated two possible outcomes based on customer demand and competition.\nIn this decision, you face uncertainty regarding customer preferences, market conditions, and competitive dynamics. The new product line’s success or failure will determine your company’s financial outcome. Determining how to adequately assess the risks involved in this decision and the potential outcomes is of importance.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Decisions Under Uncertainty</span>"
+    ]
+  },
+  {
+    "objectID": "Decisions.html#exercises.",
+    "href": "Decisions.html#exercises.",
+    "title": "1  Decisions Under Uncertainty",
+    "section": "1.11 Exercises.",
+    "text": "1.11 Exercises.\n\nTesla, a U.S. EV car manufacturer, is considering expanding production to meet potential increases in the demand for one of its cars. Tesla’s alternatives are to construct a new plant, expand the existing plant, or do nothing in the short run. Analysts within Tesla expect the market for their EV’s may expand, remain stable, or contract, with probabilities of 0.35, 0.35, and 0.30, respectively. What would you recommend Tesla to do to meet demand?\n\n\n\n\n\nJaggia, Sanjiv, and Allison Kelly. 2022. Business Statistics. McGraw Hill.\n\n\nWinston, Wayne, and Christian Albright. 2019. Practical Management Science. Cengage.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Decisions Under Uncertainty</span>"
     ]

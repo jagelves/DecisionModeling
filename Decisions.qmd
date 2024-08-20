@@ -213,3 +213,8 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 -   Apply the Law of Total Probability and Bayes' Theorem to update probabilities.
 
 -   Determine the price of information.
+
+## Exercises.
+
+1. Tesla, a U.S. EV car manufacturer, is considering expanding production to meet potential increases in the demand for one of its cars. Tesla’s alternatives are to construct a new plant, expand the existing plant, or do nothing in the short run. Analysts within Tesla expect the market for their EV’s may expand, remain stable, or contract, with probabilities of 0.35, 0.35, and 0.30, respectively. What would you recommend Tesla to do to meet demand?
+
