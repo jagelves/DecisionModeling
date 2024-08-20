@@ -229,4 +229,14 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
     If the industry faces a downturn (a 30% probability), the airline estimates it will only be able to generate $30 million in revenue from the airplane over its lifetime.
 
     Alternatively, the airline has the option to lease an older model airplane for 10 million. The older airplane would generate $40 million in revenue over its lifetime, regardless of industry conditions.
+    
+    Should the airline purchase the new airplane or lease the older model?
+    
+3. PharmaCo is a pharmaceutical company considering whether to launch a new drug called "CureFast". The success of CureFast in the market depends on the drug's effectiveness in treating a particular condition. PharmaCo estimates that there is a 40% chance that the drug will be highly effective and thus successful in the market. If CureFast is successful, the company will earn a profit of 50 million. However, if the drug is not effective, PharmaCo will incur a loss of 20 million due to production, marketing, and other sunk costs.
+
+    Before deciding to launch the drug, PharmaCo can conduct a clinical trial at a cost of $5 million. The clinical trial is not perfect and has the following characteristics:
+
+    If the drug is truly effective, there is a 90% chance that the clinical trial will show positive results. If the drug is not effective, there is a 15% chance that the clinical trial will still show positive results.
+
+    Should PharmaCo conduct the clinical trial before deciding whether to launch CureFast, and how should they use the results of the trial to make their decision?
 
