@@ -247,11 +247,11 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
     Before deciding to launch the drug, PharmaCo can conduct a clinical trial at a cost of $5 million. The clinical trial is not perfect and has the following characteristics:
 
-    If the drug is truly effective, there is a 90% chance that the clinical trial will show positive results. If the drug is not effective, there is a 15% chance that the clinical trial will still show positive results.
+   - If the drug is truly effective, there is a 90% chance that the clinical trial will show positive results. If the drug is not effective, there is a 15% chance that the clinical trial will still show positive results.
 
     Should PharmaCo conduct the clinical trial before deciding whether to launch CureFast, and how should they use the results of the trial to make their decision?
 
 <details>
   <summary>Answer</summary>
-  This is the hidden text that will be revealed when the user clicks on the dropdown. You can add as much content as you want here, including **formatted text**, lists, code, or even images.
+  Since the expected value after conducting the trial is higher, **PharmaCo should conduct the clinical trial and use the results to inform their decision on whether to launch CureFast.** If the trial results are positive, launching the drug is the best option.
 </details>
