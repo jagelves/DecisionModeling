@@ -226,7 +226,7 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
 <details>
   <summary>Suggested Answer</summary>
-  We can use expected values to guide our recommendation to Tesla. The expected value of each option is as follows: constructing a new plant is 45,000, expanding plant is 47,500, and doing nothing is 8,500. Following these results we could **recommend Tesla to expand its existing plant**, as this option would give the company the highest expected profit.
+*We can use expected values to guide our recommendation to Tesla. The expected value of each option is as follows: constructing a new plant is 45,000, expanding plant is 47,500, and doing nothing is 8,500. Following these results we could **recommend Tesla to expand its existing plant**, as this option would give the company the highest expected profit.*
 </details>
 
 2. Frontier Airlines is considering purchasing a new airplane from an aircraft manufacturer. The manufacturer offers the airplane for 50 million. The airline estimates that, if the airplane is purchased, it could generate an additional revenue of 120 million over its operational lifetime. However, this is contingent on the condition that the airline industry remains stable and demand for flights remains high, which the airline estimates has a 70% probability of occurring.
@@ -239,7 +239,7 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
 <details>
   <summary>Suggested Answer</summary>
-  Once again we can use the expected value in this problem. The option of buying the airplane yields an expected profit of 43 million dollars, whereas the option of leasing the airplane yields a profit of 30 million. Given this result, we should **recommend Frontier airlines to buy the airplane.**
+*Once again we can use the expected value in this problem. The option of buying the airplane yields an expected profit of 43 million dollars, whereas the option of leasing the airplane yields a profit of 30 million. Given this result, we should **recommend Frontier airlines to buy the airplane**.*
 
 </details>
 
@@ -253,5 +253,5 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
 <details>
   <summary>Suggested Answer</summary>
-  The expected value when not launching the clinical trial is 8 million. Since the expected value after conducting the trial is higher (11.2 million), **PharmaCo should conduct the clinical trial and use the results to inform their decision on whether to launch CureFast.PharmaCo should pay at most 8.2 million for the clinical trial.**
+*The expected value when not launching the clinical trial is 8 million. Since the expected value after conducting the trial is higher (11.2 million), **PharmaCo should conduct the clinical trial and use the results to inform their decision on whether to launch CureFast.PharmaCo should pay at most 8.2 million for the clinical trial**.*
 </details>
