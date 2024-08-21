@@ -252,6 +252,6 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
     Should PharmaCo conduct the clinical trial before deciding whether to launch CureFast, and what is the maximum amount they should pay for the trial?
 
 <details>
-  <summary>Answer</summary>
+  <summary>Suggested Answer</summary>
   The expected value when not launching the clinical trial is 8 million. Since the expected value after conducting the trial is higher (11.2 million), **PharmaCo should conduct the clinical trial and use the results to inform their decision on whether to launch CureFast.PharmaCo should pay at most 8.2 million for the clinical trial.**
 </details>
