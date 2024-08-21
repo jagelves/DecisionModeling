@@ -214,7 +214,7 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
 -   Determine the price of information.
 
-## Exercises.
+## Exercises
 
 1. Tesla, a U.S. EV car manufacturer, is considering expanding production to meet potential increases in the demand for one of its cars. Tesla’s alternatives are to construct a new plant, expand the existing plant, or do nothing in the short run. Analysts within Tesla expect the market for their EV’s may expand, remain stable, or contract, with probabilities of 0.35, 0.35, and 0.30, respectively. The table below contains the profit generated under each scenario. What is your recommendation to Tesla?
 
