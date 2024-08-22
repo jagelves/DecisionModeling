@@ -243,3 +243,29 @@ entry_status<-ifelse(ages>=21,"Access Granted","Access Denied")
 
 Lastly, we can report the percentage of underage people that are attempting to enter the bar is `r round(sum(entry_status=="Access Denied")/length(entry_status),2)*100`%
 </details>
+
+3. Franklin and Templeton wants you to generate 4 simulated returns for the SPY (an ETF that tracks the S&P 500). They provide you with the following data and histogram:
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+data<-read_csv("https://jagelves.github.io/Data/returns.csv")
+data %>% filter(Stock=="SPY") %>% ggplot() +
+  geom_histogram(aes(x=Return), bg="grey",col="black") +
+  theme_classic()
+```
+
+    What distribution would you use to simulate the data? What parameters would you use?
+
+<details>
+  <summary>Suggested Answer</summary>
+The distribution of returns looks normal. We can use the mean and the standard deviation of the sample provided as inputs in the `rnorm()` function. 
+
+```{r, message=FALSE, warning=FALSE}
+data %>% filter(Stock=="SPY") %>% ggplot() +
+  geom_histogram(aes(x=Return), bg="grey",col="black") +
+  geom_histogram(aes(x=rnorm(length(Return),mean(Return),
+                             sd(Return))), bg="blue",
+                 alpha=0.5) +
+  theme_classic()
+```
+</details>
