@@ -268,5 +268,5 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
     
 <details>
   <summary>Suggested Answer</summary>
-*Without the test, the expected value is 10,200,000. With the test the expected value is 9,354,000. We would **recommend Arsenal to go without the test and sign the player**. If the club can decrease the price of the test to at most 2,154,000*
+*Without the test, the expected value is 10,200,000. With the test, the expected value is 9,354,000. We **recommend Arsenal go without the test and sign the player**. If the club can decrease the price of the test to at most 2,154,000 they should perform the test and proceed with the signing of João, if the test indicates that he is healthy.*
 </details>
