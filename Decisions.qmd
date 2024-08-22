@@ -260,13 +260,13 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 
     If João is successful, Arsenal stands to make £18 million in profits through merchandise sales, increased ticket revenue, and potential transfer fees. However, if João fails to live up to expectations (which has a 30% chance), it could cost the club £8 million (wasted wages, and negative press).
 
-    Given the risk of signing the player, the club can conduct a thorough physical exam on João to ensure he’s healthy and injury-free. The cost of this physical test is £3 million.
+    Given the risk of signing the player, the club can conduct a thorough physical exam on João to ensure he’s healthy and injury-free (this is an additional test than that required for all signed players). The cost of this physical test is £3 million.
 
     Based on historical data, if João is a success, there’s a 99% chance that the physical test will show he’s in perfect health. On the other hand, if João is likely to be a flop, there’s still a 5% chance that the test will incorrectly indicate he’s healthy.
 
-    Should Arsenal conduct the physical test and then decide whether to sign João “Golden Toes” Silva, or should they take a chance and sign him without the test? Should they try to find ways to lower the price of the test?
+    Should Arsenal conduct the physical test? Would your recommendation change if the price of the test could be bargained down?
     
 <details>
   <summary>Suggested Answer</summary>
-*Without the test, the expected value is 10,200,000. With the test the expected value is 9,350,000. We would **recommend Arsenal to go without the test and sign the player**. If the club can decrease the value of the test, then it should*
+*Without the test, the expected value is 10,200,000. With the test the expected value is 9,354,000. We would **recommend Arsenal to go without the test and sign the player**. If the club can decrease the price of the test to at most 2,154,000*
 </details>
