@@ -277,7 +277,7 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 - Purchase a futures contract for 25 Bitcoins now and purchase 25     Bitcoins in six months at market price.
 - Purchase all 50 Bitcoins needed in six months at the market price.
 
-    The price of Bitcoin bought now for delivery in six months is 30,000 dollars per Bitcoin. The transaction cost for 25-Bitcoin and 50-Bitcoin future contracts are 1,500 and 2,800 dollars, respectively. Finally, the company has assessed the probability distribution for the possible Bitcoin prices six months from now in dollars per Bitcoin. The table contains the possible prices and the corresponding probabilities.
+    The price of Bitcoin bought now for delivery in six months is 30,000 dollars per Bitcoin. The transaction cost for 25-Bitcoin and 50-Bitcoin future contracts are 1,500 and 2,800 dollars, respectively. Finally, the company has assessed the probability distribution for the possible Bitcoin prices six months from now in dollars per Bitcoin. The table below contains the possible prices and the corresponding probabilities. Which investment strategy should Crypto Gains pursue to minimize risk and potential costs while securing the necessary Bitcoins?
 
 |Price|	Probability|
 |:---:|:----------:|
@@ -286,8 +286,6 @@ The readings for this chapter are mainly from @PMS. Chapter 9 provides an excell
 |$31,000|	0.35|
 |$32,500|	0.15|
 |$34,000|	0.10|
-
-    Which investment strategy should Crypto Gains pursue to minimize risk and potential costs while securing the necessary Bitcoins? How robust is the decision to changes in the future contracts price?
 
 <details>
   <summary>Suggested Answer</summary>
