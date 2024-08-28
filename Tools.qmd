@@ -251,6 +251,7 @@ round(sum(entry_status=="Access Denied")/length(entry_status),2)
 
 <details>
   <summary>Suggested Answer</summary>
+  Below is code that implements both a for loop and a conditional to simulate the roullete.
 ```{r}
 # Set up the roulette wheel
 wheel <- c(rep("red", 18), rep("black", 18), rep("green", 2))
@@ -259,6 +260,7 @@ wheel <- c(rep("red", 18), rep("black", 18), rep("green", 2))
 total_winnings <- 0
 
 # Simulate the bets using the sample function
+set.seed(10)
 for (i in 1:100) {
   # Spin the roulette wheel
   spin_result <- sample(wheel, 1)
@@ -273,7 +275,7 @@ for (i in 1:100) {
 
 ```
 
-For this simulation, the player wins a total of `r total_winnings` dollars. The "house edge" biases the odds in favor of the casino.
+For this particular simulation (seed set at 10), the player wins/losses a total of `r total_winnings` dollars. The "house edge" biases the odds in favor of the casino.
 
 </details>
 
