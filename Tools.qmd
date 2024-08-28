@@ -283,3 +283,38 @@ Lastly, we can now use the mean and the standard deviation of SPY to simulate fo
 rnorm(4,0.00173,0.025667)
 ```
 </details>
+
+
+4. XYZ Call Center, a popular customer service provider, wants you to simulate the daily number of calls their agents receive. The company has provided you with each employees call volume for a day and the histogram for the data. Analyze the data to determine the appropriate distribution that can be used to model the number of daily calls. You can determine the parameters for the distribution based on the historical data. Generate four simulated values representing the possible daily call volumes using the chosen distribution and parameters. What distribution would you use to simulate the daily call volumes for XYZ Call Center? What are the parameters of the chosen distribution? What are the four simulated daily call volumes?
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+data<-read_csv("https://jagelves.github.io/Data/CallCenter.csv")
+data %>% ggplot() +
+  geom_histogram(aes(x=Calls), bg="grey",col="black") +
+  theme_classic()
+```
+
+<details>
+  <summary>Suggested Answer</summary>
+  
+  Given the context of the problem and data, we can think about using the Poisson distribution. The data shows us number of calls per day for each employee (i.e. number of successes in a given time interval). The mean number of call is `r mean(data$Calls, na.rm=TRUE)` per day. We can use this parameter to generate simulated data as shown below.
+  
+
+```{r, message=FALSE, warning=FALSE}
+data %>% ggplot() +
+  geom_histogram(aes(x=Calls), bg="grey",col="black") +
+  geom_histogram(aes(x=rpois(length(Calls),mean(Calls,na.rm=TRUE))),
+                 bg="blue",
+                 alpha=0.5) +
+  theme_classic()
+```
+
+
+The simulated data seems to resemble the call center data. Now we can generate four simulated number of calls in a day by using the `rpois()` function and the estimated mean number of calls in a day.
+
+```{r}
+rpois(4,mean(data$Calls,na.rm=TRUE))
+```
+
+</details>
