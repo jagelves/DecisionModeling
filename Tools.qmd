@@ -247,7 +247,37 @@ round(sum(entry_status=="Access Denied")/length(entry_status),2)
 ```
 </details>
 
-3. Franklin and Templeton wants you to generate 4 simulated returns for the SPY (an ETF that tracks the S&P 500). They provide you with the data and histogram shown below. What distribution would you use to simulate the data? What parameters would you use?
+3. The Bellagio Casino in Las Vegas wants you to create a simulation of their roullete wheel, where players bet on whether the outcome will be red or black. In a standard roulette wheel, there are 18 red slots, 18 black slots, and 2 green slots (0 and 00) out of a total of 38 slots. Your task is to simulate a player betting on red for 100 spins of the roulette wheel by using a for loop and a conditional statement. If the ball lands on a red slot, the player wins and earns 1 dollar. If the ball lands on a black or green slot, the player loses 1 dollar. What is the player’s total winnings or losses after 100 spins? How does the "house edge" (the presence of the green slots) affect the player's outcome over many spins?
+
+<details>
+  <summary>Suggested Answer</summary>
+```{r}
+# Set up the roulette wheel
+wheel <- c(rep("red", 18), rep("black", 18), rep("green", 2))
+
+# Initialize the player's total winnings
+total_winnings <- 0
+
+# Simulate the bets using the sample function
+for (i in 1:100) {
+  # Spin the roulette wheel
+  spin_result <- sample(wheel, 1)
+  
+  # Use Conditional to determine if the player wins or loses
+  if (spin_result == "red") {
+    total_winnings <- total_winnings + 1  # Player wins $1
+  } else {
+    total_winnings <- total_winnings - 1  # Player loses $1
+  }
+}
+
+```
+
+For this simulation, the player wins a total of `r total_winnings` dollars. The "house edge" biases the odds in favor of the casino.
+
+</details>
+
+4. Franklin and Templeton wants you to generate 4 simulated returns for the SPY (an ETF that tracks the S&P 500). They provide you with the data and histogram shown below. What distribution would you use to simulate the data? What parameters would you use?
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -285,7 +315,7 @@ rnorm(4,0.00173,0.025667)
 </details>
 
 
-4. XYZ Call Center, a popular customer service provider, wants you to simulate the daily number of calls their agents receive. The company has provided you with each employees call volume for a day and the histogram for the data. Analyze the data to determine the appropriate distribution that can be used to model the number of daily calls. You can determine the parameters for the distribution based on the historical data. Generate four simulated values representing the possible daily call volumes using the chosen distribution and parameters. What distribution would you use to simulate the daily call volumes for XYZ Call Center? What are the parameters of the chosen distribution? What are the four simulated daily call volumes?
+5. XYZ Call Center, a popular customer service provider, wants you to simulate the daily number of calls their agents receive. The company has provided you with each employees call volume for a day and the histogram for the data. Analyze the data to determine the appropriate distribution that can be used to model the number of daily calls. You can determine the parameters for the distribution based on the historical data. Generate four simulated values representing the possible daily call volumes using the chosen distribution and parameters. What distribution would you use to simulate the daily call volumes for XYZ Call Center? What are the parameters of the chosen distribution? What are the four simulated daily call volumes?
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
