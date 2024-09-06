@@ -3,23 +3,12 @@ project:
   output-dir: docs
 
 book:
-  title: "Decision Modeling"
+  title: "Cardano Drep"
   author: "J. Alejandro Gelves"
-  date: "12/22/2022"
-  cover-image: cover.png
+  date: "09/6/2024"
+  cover-image: cardano.png
   chapters:
     - index.qmd
-    - Decisions.qmd
-    - Tools.qmd
-    - Simulation.qmd
-    - Tools2.qmd
-    - Benchmarks.qmd
-    - ETS.qmd
-    - ARIMA.qmd
-    - references.qmd
-
-bibliography: references.bib
-
 format:
   html:
     theme: cosmo
